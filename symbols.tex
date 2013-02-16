@@ -1,0 +1,55 @@
+% state
+
+\newcommand \density \rho
+\newcommand \queue \ell
+\newcommand \flux f
+
+
+% fd
+
+\newcommand \vfd v
+\newcommand \wfd w
+\newcommand \pcfd {\density^c}
+\newcommand \pmfd {\density^{\max}}
+\newcommand \fmfd {\flux^{\max}}
+
+% adjoint variables
+
+% density
+% queue
+\newcommand \demand \delta
+\newcommand \supply \sigma
+\newcommand \rampDemand d
+\newcommand \fIn {\flux^{\text{in}}}
+\newcommand \fOut {\flux^{\text{out}}}
+\newcommand \fRamp r
+
+% partial stuff
+
+\newcommand \pFrac[2] {\frac{\partial #1}{\partial #2}}
+\newcommand \sysMat H
+\newcommand \costMat J
+\newcommand \state x
+\newcommand \control u
+
+\newcommand \dhdx {\pFrac{\sysMat}{\state}}
+\newcommand \djdx {\pFrac{\costMat}{\state}}
+\newcommand \dhdu {\pFrac{\sysMat}{\control}}
+\newcommand \djdu {\pFrac{\costMat}{\control}}
+
+
+% network stuff
+
+% more parameters
+
+\newcommand \splitRatio \beta
+\newcommand \priority p
+
+% bcs ics
+
+\newcommand \rampBC D
+\newcommand \initial[1] {#1^0}
+\newcommand \po {\initial{\density}}
+\newcommand \lo {\initial{\queue}}
+
+

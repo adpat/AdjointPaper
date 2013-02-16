@@ -1,0 +1,64 @@
+%!TEX root =article.tex
+\documentclass{article}
+
+\input{libraries}
+
+\input{commands}
+
+\begin{document}
+
+\title{Efficient methods for coordinated ramp metering using the discrete adjoint method}
+
+\input{authors}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+\input{keywords}
+
+\section{Introduction}\label{sec:introduction}
+\input{introduction}
+
+\section{Model} % (fold)
+\label{sec:model}
+\input{model}
+
+% section model (end)
+
+\section{Minimzing total travel time} % (fold)
+\label{sec:minimzing_total_travel_time}
+\input{objective}
+% section minimzing_total_travel_time (end)
+
+\section{Solving the discrete adjoint system} % (fold)
+\label{sec:solving_the_discrete_adjoint_system}
+\input{adjoint}
+
+% section solving_the_adjoint_system (end)
+
+\section{Numerical methods} % (fold)
+\label{sec:numerical_methods}
+\input{numerical}
+
+% section numerical_results (end)
+
+\section{Evaluation}\label{sec:evaluation}
+\input{evaluation}
+
+\section{Conclusions}\label{sec:conclusions}
+\input{conclusions}
+
+%ACKNOWLEDGMENTS are optional
+% \section{Acknowledgments}
+% ack
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\input{appendix}
+% \balancecolumns
+% That's all folks!
+\end{document}

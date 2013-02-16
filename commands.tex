@@ -1,0 +1,14 @@
+
+% comments
+\setlength{\fboxrule}{.05cm}
+\definecolor{innerboxcolor}{rgb}{.9,.95,1}
+\definecolor{outerlinecolor}{rgb}{.6,0,.2}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+\newcommand{\jdrcomment}[1]{\fcolorbox{outerlinecolor}{innerboxcolor}{
+    \begin{minipage}{.9\columnwidth}
+      \red{\bf JDR Comment:} {#1}
+  \end{minipage}} \\
+}
+
+\input{symbols}

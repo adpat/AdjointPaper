@@ -1,0 +1,12 @@
+*.aux
+*.fdb_latexmk
+article.pdf
+*.bbl
+*.fls
+*.synctex.gz
+*.blg
+*.log
+.DS_Store
+adjointPaper.pdf
+*~
+.gitignore~
