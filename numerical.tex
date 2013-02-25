@@ -1,0 +1,10 @@
+%!TEX root =article.tex
+An array of issues that must be considered for this particular problem
+
+\begin{itemize}
+    \item Given affine nature, control parameter must always be `pushed back` into the active region
+    \item Projection must be done to account for geometric constraints in adjoint. For our case, we must take care to assure non-zero control parameters
+    \item Barrier functions effective, but introduce tuning parameters
+    \item Non-linear solvers can also be used which can take advantage of gradient information.
+    \item Maybe look into what BFGS can handle.
+\end{itemize}

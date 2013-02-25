@@ -1,0 +1,37 @@
+%!TEX root =article.tex
+\subsection{Solving for gradient in deterministic systems} % (fold)
+\label{sub:solving_for_gradient_in_deterministic_systems}
+
+go through the usually paces of taking derivatives and applying the chain rule: crib from Alex's air traffic paper a bit here
+
+% subsection solving_for_gradient_in_deterministic_systems (end)
+
+\subsection{Adjoint system} % (fold)
+\label{sub:adjoint_system}
+
+go through the transformation, and talk about efficiencies
+
+\begin{itemize}
+    \item solve system for vector rather than matrix, gain in efficiencies
+    \item information on senstivity reported from adjoint vector
+\end{itemize}
+
+% subsection adjoint_system (end)
+
+\jdrcomment{can probably put the full derivation in an appendix of some sort, really dry}
+
+\subsection{Constructing triangular system} % (fold)
+\label{sub:constructing_triangular_system}
+
+Show the one figure which shows the topological dependencies of the variables, based on forward sim analysis.
+
+% subsection constructing_triangular_system (end)
+
+\subsection{Efficient solution of system via depth-first-search system solution} % (fold)
+\label{sub:efficient_solution_of_system_via_depth_first_search_system_solution}
+
+by doing some graph theory on the $\dhdx$ matrix, then you can get really efficient solutions, which take advantage of sparsity.
+
+The running time of the system solution is then $O\left(k\right)$, where $k$ is the number of non-zero elements.
+
+% subsection efficient_solution_of_system_via_depth_first_search_system_solution (end)

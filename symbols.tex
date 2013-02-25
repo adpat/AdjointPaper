@@ -1,3 +1,4 @@
+%!TEX root =article.tex
 % state
 
 \newcommand \density \rho
@@ -12,6 +13,8 @@
 \newcommand \pcfd {\density^c}
 \newcommand \pmfd {\density^{\max}}
 \newcommand \fmfd {\flux^{\max}}
+\newcommand \length L
+
 
 % adjoint variables
 
@@ -24,6 +27,7 @@
 \newcommand \fOut {\flux^{\text{out}}}
 \newcommand \fRamp r
 
+\newcommand \rampMax {\fRamp^{\max}}
 % partial stuff
 
 \newcommand \pFrac[2] {\frac{\partial #1}{\partial #2}}
@@ -52,4 +56,24 @@
 \newcommand \po {\initial{\density}}
 \newcommand \lo {\initial{\queue}}
 
+
+% network
+
+\newcommand \junctions {\mathcal{J}}
+\newcommand \junction {J}
+\newcommand \jn \junction
+\newcommand \jnidx j
+
+\newcommand \links {\mathcal{I}}
+\newcommand \link {I}
+
+% sim
+
+\newcommand \horizon T
+\newcommand \nlinks N
+
+\newcommand \dt {\triangle t}
+
+% formatting
+\newcommand \idx[3]{#1_{#2,#3}}
 

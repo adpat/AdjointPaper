@@ -1,14 +1,36 @@
-
+%!TEX root =article.tex
 % comments
 \setlength{\fboxrule}{.05cm}
 \definecolor{innerboxcolor}{rgb}{.9,.95,1}
 \definecolor{outerlinecolor}{rgb}{.6,0,.2}
+\definecolor{todocolor}{rgb}{.2,.8,.2}
+
+\newif\ifcomment
+\newif\iftodo
+
+\commenttrue
+\todotrue
+
+
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 
 \newcommand{\jdrcomment}[1]{\fcolorbox{outerlinecolor}{innerboxcolor}{
+\ifcomment
     \begin{minipage}{.9\columnwidth}
       \red{\bf JDR Comment:} {#1}
   \end{minipage}} \\
+  \fi
 }
+\newcommand{\todo}[1]{\fcolorbox{outerlinecolor}{todocolor}{
+\iftodo
+    \begin{minipage}{.9\columnwidth}
+      \red{\bf Todo:} {#1}
+  \end{minipage}} \\
+  \fi
+}
+
+% shorthand
+
+\newcommand{\seq}[2]{\left[#1_{#2}\right]_{#2}}
 
 \input{symbols}

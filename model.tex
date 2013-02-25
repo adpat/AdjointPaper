@@ -1,0 +1,86 @@
+%!TEX root =article.tex
+\subsection{Network model} % (fold)
+\label{sub:network_model}
+
+% go over the sequential links, onramp, offramp assumptions.
+
+% introduce in a continuous fashion, starting with PDE work to show that it's a rigorous reduction from PDE stuff.
+
+We model a freeway stretch as a sequence of junctions $\junctions=\seq{\jn}{\jnidx},\jnidx=\left[0,\ldots,\nlinks -1\right]$.
+Furthermore, each junction $\jn_{\jnidx}$ has an onramp with 
+a maximum out flux $\rampMax_{\jnidx}$
+and a merging priority $\priority_{\jnidx}$, and an offramp with
+a throughput split ratio $\splitRatio_{\jnidx}$\footnote{The network parameters can all be time-dependent in the general case, but are presented as constant for simplicity.}. Connecting junctions $\jn_{\jnidx}$ and $\jn_{\jnidx+1}$ is road link $\link_{\jnidx}\in\links$, which has length $\length_\jnidx$, and the triangular fundamental diagram parameters~\cite{daganzo1994cell}: 
+free-flow speed $\vfd_{\jnidx}$, 
+congestion wave speed $\wfd_{\jnidx}$, 
+critical density $\pcfd_{\jnidx}$, 
+max density $\pmfd_{\jnidx}$, and
+max flux $\fmfd_{\jnidx}$. Figure~\ref{fig:freeway-network} summarizes the network topology and parameters.
+
+\begin{figure}
+\centering
+\includegraphics[width=.25\columnwidth]{figures/placeholder}
+\caption{Freeway stretch network and parameters}
+\label{fig:freeway-network}
+\end{figure}
+
+\subsection{Dynamics} % (fold)
+\label{sub:dynamics}
+
+Since we wish to have numerical stability in our model dynamics, we use a macroscopic traffic-flow model, derived from partial differential equations.
+We use a first-order LWR \cite{lighthill1955kinematic,richards1956shock} network model suitable for freeway control developed in~\cite{Monache2013}, based on the model developed in~\cite{garavello2006traffic}. The model in~\cite{Monache2013} is employed for its strong boundary conditions on the onramps to ensure all flux demand passes through the network~\cite{strub2006weak} and ability to accurately model $2\times2$ junctions without blocking onramp flux.
+
+In order to simulate the model or use it within an optimization framework, we first discretize the model using the Godunov discretization scheme~\cite{godunov1959}, as detailed in~\cite{Monache2013}. The system of equations for the discretized system is given in Equation~\eqref{eqn:system-of-equations}, for a particular link $i \in \left[0,\ldots,\horizon\right]$ and time step $k \in \left[0,\ldots,\horizon\right]$:
+
+\begin{equation}
+\begin{aligned}
+\label{eqn:system-of-equations}
+% density
+\idx{\density}{i}{k} & = & 
+\idx{\density}{i}{k-1} + \frac{\dt}{\length_i} \left(\idx{\fIn}{i}{k-1} - \idx{\fOut}{i}{k-1}\right)
+\\
+% queue
+\idx{\queue}{i}{k} & = & 
+\idx{\queue}{i}{k-1} + \dt \left(\idx{\rampBC}{i}{k-1} - \idx{\fRamp}{i}{k-1}\right) \\
+% demand
+\idx{\demand}{i}{k} & = & 
+\min\left( \fmfd_i, \vfd_i \idx{\density}{i}{k} \right)
+\\
+% supply
+\idx{\supply}{i}{k} & = & 
+\min\left(\fmfd_i, \wfd \left( \pmfd_i - \idx{\density}{i}{k} \right)\right)
+\\
+% ramp demand
+\footnote{This is a simplification of~\cite{Monache2013} for the case when the ramp empties on a time step, with minimal effect on numerical results.}
+\idx{\rampDemand}{i}{k} & = & 
+\min\left( \rampMax_i, \idx{\queue}{i}{k} / \dt \right)
+\\
+% flux in
+\idx{\fIn}{i}{k} & = & 
+\min\left( \splitRatio_{i-1} \idx{\demand}{i-1}{k} + \idx{\rampDemand}{i}{k}, \idx{\supply}{i}{k} \right)
+\\
+% flux out
+\idx{\fOut}{i}{k} & = & 
+\idx{\density}{i}{k-1} + \frac{\dt}{\length_i} \left(\idx{\fIn}{i}{k-1} - \idx{\fOut}{i}{k-1}\right) \\
+% ramp flux
+\idx{\fRamp}{i}{k} & = & 
+\idx{\fIn}{i}{k} - \splitRatio_{i} \idx{\fOut}{i-1}{k}
+\end{aligned}
+\end{equation}
+
+\todo{fill in correctly the f out, grab sheet from citris}
+\todo{footnote not working right now for some reason}
+
+% Introduce some of the CTM concepts \cite{daganzo1994cell}
+
+% Go over some of the junction issues considered in \cite{Monache2010}.
+
+% \begin{itemize}
+%     \item Buffer onramps
+%     \item maximize outflow in order to obey priority and have unique solution
+% \end{itemize}
+
+
+% subsection dynamics (end)
+
+% subsection network_model (end)
