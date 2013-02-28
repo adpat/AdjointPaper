@@ -10,7 +10,7 @@ We model a freeway stretch as a sequence of junctions $\junctions=\seq{\jn}{\jni
 Furthermore, each junction $\jn_{\jnidx}$ has an onramp with 
 a maximum out flux $\rampMax_{\jnidx}$
 and a merging priority $\priority_{\jnidx}$, and an offramp with
-a throughput split ratio $\splitRatio_{\jnidx}$\footnote{The network parameters can all be time-dependent in the general case, but are presented as constant for simplicity.}. Connecting junctions $\jn_{\jnidx}$ and $\jn_{\jnidx+1}$ is road link $\link_{\jnidx}\in\links$, which has length $\length_\jnidx$, and the triangular fundamental diagram parameters~\cite{daganzo1994cell}: 
+a throughput split ratio $\splitRatio_{\jnidx}$\footnote{The network parameters can all be time-dependent in the general case, but are presented as constant for simplicity.}. Connecting junctions $\jn_{\jnidx}$ and $\jn_{\jnidx+1}$ is road link $\link_{\jnidx}\in\links$, which has length $\length_\jnidx$, and the triangular fundamental diagram parameters:
 free-flow speed $\vfd_{\jnidx}$, 
 congestion wave speed $\wfd_{\jnidx}$, 
 critical density $\pcfd_{\jnidx}$, 
@@ -28,9 +28,11 @@ max flux $\fmfd_{\jnidx}$. Figure~\ref{fig:freeway-network} summarizes the netwo
 \label{sub:dynamics}
 
 Since we wish to have numerical stability in our model dynamics, we use a macroscopic traffic-flow model, derived from partial differential equations.
-We use a first-order LWR \cite{lighthill1955kinematic,richards1956shock} network model suitable for freeway control developed in~\cite{Monache2013}, based on the model developed in~\cite{garavello2006traffic}. The model in~\cite{Monache2013} is employed for its strong boundary conditions on the onramps to ensure all flux demand passes through the network~\cite{strub2006weak} and ability to accurately model $2\times2$ junctions without blocking onramp flux.
+We use a first-order LWR \cite{lighthill1955kinematic,richards1956shock} network model developed in~\cite{Monache2013}, which is particularly suitable for freeway control and can be seen as an extension of the model in~\cite{garavello2006traffic}. The model in~\cite{Monache2013} is employed for its strong boundary conditions on the onramps to ensure all flux demand passes through the network~\cite{strub2006weak} and ability to accurately model $2\times2$ junctions without blocking onramp flux.
 
-In order to simulate the model or use it within an optimization framework, we first discretize the model using the Godunov discretization scheme~\cite{godunov1959}, as detailed in~\cite{Monache2013}. The system of equations for the discretized system is given in Equation~\eqref{eqn:system-of-equations}, for a particular link $i \in \left[0,\ldots,\horizon\right]$ and time step $k \in \left[0,\ldots,\horizon\right]$:
+In order to simulate the model or use it within an optimization framework, we first discretize the model using the Godunov scheme~\cite{godunov1959}, as detailed in~\cite{Monache2013}. The initial conditions of the model are set by specifying an initial density $\po$ (vehicles per unit length) for all links and an initial queue length $\lo$ (vehicles) for all onramps. The boundary conditions are specified as ramp flux demands $\rampBC$ for all ramps and all time steps, noting that the upstream mainline source is modeled as an onramp.
+
+The system of equations for the discretized system is given in Equation~\eqref{eqn:system-of-equations}, for a given link $i \in \left[0,\ldots,\horizon\right]$ and time step $k \in \left[0,\ldots,\horizon\right]$.
 
 \begin{equation}
 \begin{aligned}
@@ -51,7 +53,7 @@ In order to simulate the model or use it within an optimization framework, we fi
 \min\left(\fmfd_i, \wfd \left( \pmfd_i - \idx{\density}{i}{k} \right)\right)
 \\
 % ramp demand
-\footnote{This is a simplification of~\cite{Monache2013} for the case when the ramp empties on a time step, with minimal effect on numerical results.}
+\footnotemark
 \idx{\rampDemand}{i}{k} & = & 
 \min\left( \rampMax_i, \idx{\queue}{i}{k} / \dt \right)
 \\
@@ -60,16 +62,30 @@ In order to simulate the model or use it within an optimization framework, we fi
 \min\left( \splitRatio_{i-1} \idx{\demand}{i-1}{k} + \idx{\rampDemand}{i}{k}, \idx{\supply}{i}{k} \right)
 \\
 % flux out
-\idx{\fOut}{i}{k} & = & 
-\idx{\density}{i}{k-1} + \frac{\dt}{\length_i} \left(\idx{\fIn}{i}{k-1} - \idx{\fOut}{i}{k-1}\right) \\
+\idx{\fOut}{i}{k} & = &
+\begin{cases}
+% case 1
+\idx{\demand}{i}{k} & 
+\frac{\idx{\supply}{i+1}{k}\priority_{i+1}}{1 + \priority_{i+1}} \ge \idx{\demand}{i}{k}\splitRatio_{i+1}{k} \\
+% case 2
+\left(\idx{\fIn}{i+1}{k} - \idx{\rampDemand}{i_1}{k}\right) / \splitRatio_{i +1} & 
+\frac{\idx{\supply}{i+1}{k}}{1 + \priority_{i+1}} \ge \idx{\rampDemand}{i}{k} \\
+% case 3
+\frac{\idx{\supply}{i+1}{k}\priority_{i+1}}{\left(1 + \priority_{i+1}\right)\splitRatio_{i+1}{k}} &
+\text{otherwise}
+\end{cases}
+\\
 % ramp flux
 \idx{\fRamp}{i}{k} & = & 
 \idx{\fIn}{i}{k} - \splitRatio_{i} \idx{\fOut}{i-1}{k}
 \end{aligned}
 \end{equation}
 
-\todo{fill in correctly the f out, grab sheet from citris}
-\todo{footnote not working right now for some reason}
+\footnotetext{This is a simplification of~\cite{Monache2013} for the case when the ramp empties on a time step, with minimal effect on numerical results.}
+
+The intermediate variables (those used to calculate the states variables, $\density$ and $\queue$) represent the following values; $\demand$, the demand, is the amount of flux that a link can send downstream in a time step; $\supply$, the supply, is the amount of flux that a link can receive; $\rampDemand$, the ramp demand, is the amount of flux that an onramp can send; $\fIn/\fOut$ is the flux that enters/exits upstream/downstream of a link; $\fRamp$ is the flux that exits an onramp.
+
+By taking the system in Equation~\eqref{eqn:system-of-equations},the initial and boundary conditions, and subtracting the right hand side of each equation in the system, then we can construct the system $\sysMat \left( \state \right) = 0$, where $x$ is the entire state vector, ordered first by time step, then by variable type (e.g. $\density, \queue, \demand,$ etc), and finally by link. More details about the ordering and its effect on the efficiency of gradient computation is given in Section~\ref{sub:efficient_solution_of_system_via_depth_first_search_system_solution}. The system of equations can be solved in linear time via forward-substitution, similar to other first-order network models such as the cell transmission model~\cite{daganzo1995cell}.
 
 % Introduce some of the CTM concepts \cite{daganzo1994cell}
 
