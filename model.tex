@@ -38,34 +38,34 @@ The system of equations for the discretized system is given in Equation~\eqref{e
 \begin{aligned}
 \label{eqn:system-of-equations}
 % density
-\idx{\density}{i}{k} & = & 
+\idx{\density}{i}{k} & = & &
 \idx{\density}{i}{k-1} + \frac{\dt}{\length_i} \left(\idx{\fIn}{i}{k-1} - \idx{\fOut}{i}{k-1}\right)
 \\
 % queue
-\idx{\queue}{i}{k} & = & 
+\idx{\queue}{i}{k} & = & &
 \idx{\queue}{i}{k-1} + \dt \left(\idx{\rampBC}{i}{k-1} - \idx{\fRamp}{i}{k-1}\right) \\
 % demand
-\idx{\demand}{i}{k} & = & 
+\idx{\demand}{i}{k} & = & &
 \min\left( \fmfd_i, \vfd_i \idx{\density}{i}{k} \right)
 \\
 % supply
-\idx{\supply}{i}{k} & = & 
+\idx{\supply}{i}{k} & = & &
 \min\left(\fmfd_i, \wfd \left( \pmfd_i - \idx{\density}{i}{k} \right)\right)
 \\
 % ramp demand
-\footnotemark
-\idx{\rampDemand}{i}{k} & = & 
+\idx{\rampDemand}{i}{k} & = & &
 \min\left( \rampMax_i, \idx{\queue}{i}{k} / \dt \right)
 \\
 % flux in
-\idx{\fIn}{i}{k} & = & 
+\footnotemark
+\idx{\fIn}{i}{k} & = & &
 \min\left( \splitRatio_{i-1} \idx{\demand}{i-1}{k} + \idx{\rampDemand}{i}{k}, \idx{\supply}{i}{k} \right)
 \\
 % flux out
-\idx{\fOut}{i}{k} & = &
+\idx{\fOut}{i}{k} & = & &
 \begin{cases}
 % case 1
-\idx{\demand}{i}{k} & 
+\idx{\demand}{i}{k} &
 \frac{\idx{\supply}{i+1}{k}\priority_{i+1}}{1 + \priority_{i+1}} \ge \idx{\demand}{i}{k}\splitRatio_{i+1}{k} \\
 % case 2
 \left(\idx{\fIn}{i+1}{k} - \idx{\rampDemand}{i_1}{k}\right) / \splitRatio_{i +1} & 
@@ -76,7 +76,7 @@ The system of equations for the discretized system is given in Equation~\eqref{e
 \end{cases}
 \\
 % ramp flux
-\idx{\fRamp}{i}{k} & = & 
+\idx{\fRamp}{i}{k} & = & &
 \idx{\fIn}{i}{k} - \splitRatio_{i} \idx{\fOut}{i-1}{k}
 \end{aligned}
 \end{equation}
@@ -85,17 +85,20 @@ The system of equations for the discretized system is given in Equation~\eqref{e
 
 The intermediate variables (those used to calculate the states variables, $\density$ and $\queue$) represent the following values; $\demand$, the demand, is the amount of flux that a link can send downstream in a time step; $\supply$, the supply, is the amount of flux that a link can receive; $\rampDemand$, the ramp demand, is the amount of flux that an onramp can send; $\fIn/\fOut$ is the flux that enters/exits upstream/downstream of a link; $\fRamp$ is the flux that exits an onramp.
 
-By taking the system in Equation~\eqref{eqn:system-of-equations},the initial and boundary conditions, and subtracting the right hand side of each equation in the system, then we can construct the system $\sysMat \left( \state \right) = 0$, where $x$ is the entire state vector, ordered first by time step, then by variable type (e.g. $\density, \queue, \demand,$ etc), and finally by link. More details about the ordering and its effect on the efficiency of gradient computation is given in Section~\ref{sub:efficient_solution_of_system_via_depth_first_search_system_solution}. The system of equations can be solved in linear time via forward-substitution, similar to other first-order network models such as the cell transmission model~\cite{daganzo1995cell}.
+By taking the system in Equation~\eqref{eqn:system-of-equations}, the initial and boundary conditions, and subtracting the right hand side of each equation in the system, then we can construct the system $\sysMat \left( \state \right) = 0$, where $x$ is the entire state vector, ordered first by time step, then by variable type (e.g. $\density, \queue, \demand,$ etc), and finally by link. More details about the ordering and its effect on the efficiency of gradient computation is given in Section~\ref{sub:efficient_solution_of_system_via_depth_first_search_system_solution}. The system of equations can be solved in linear time via forward-substitution, similar to other first-order network models such as the cell transmission model~\cite{daganzo1995cell}.
 
-% Introduce some of the CTM concepts \cite{daganzo1994cell}
+\subsection{Control parameters for ramp metering} % (fold)
+\label{sub:control_parameters_for_ramp_metering}
 
-% Go over some of the junction issues considered in \cite{Monache2010}.
+The $\sysMat$ system in Section~\ref{sub:dynamics} expresses the relationships of all state variables, which can be solved to give a forward simulation of the system. In order to effect the system externally, we must introduce some control parameters. We denote control parameters with $u\in\Rbb^{|u|}$, and state parameters with $x\in\Rbb^{|x|}$. One method of control, known as variable speed limits~\cite{Muralidharan2009}, would set the free-flow velocity of the fundamental diagrams as control parameters. State estimation problems can be posed in this fashion by letting initial conditions become control parameters, and searching for an initial condition that drifts to a known state~\cite{Jacquet}. For this article, we study ramp metering, which can be modeled as a control parameter that limits the outflow of ramps. Thus, we say $\idx{\control}{i}{k}$ sets an upper limit on the flux out of onramp $i$ at time $k$. We modify the $\rampDemand$ equation in~\eqref{eqn:system-of-equations} to account for this new parameter:
 
-% \begin{itemize}
-%     \item Buffer onramps
-%     \item maximize outflow in order to obey priority and have unique solution
-% \end{itemize}
+\begin{equation}
+\label{eqn:modified-ramp-demand}
+\idx{\rampDemand}{i}{k} = 
+\min\left( \idx{\control}{i}{k}, \rampMax_i, \idx{\queue}{i}{k} / \dt \right)
+\end{equation}
 
+% subsection control_parameters_for_ramp_metering (end)
 
 % subsection dynamics (end)
 
