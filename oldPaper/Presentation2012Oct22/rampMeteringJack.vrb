@@ -1,0 +1,6 @@
+\frametitle{Properties of the $\Riem$ III}
+\begin{itemize}
+\item If the solution at time $t_0$ lies on a limiting side then the solution at time $t_0+$ will lie there too.
+\vspace*{3mm}
+\item The limiting side does not change.\\ At time $t_0+$ the non limiting side can only increase while the limiting side's feasible set remains the same.
+\end{itemize}

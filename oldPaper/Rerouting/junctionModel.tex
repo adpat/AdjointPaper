@@ -1,0 +1,378 @@
+% !TEX root = SO-DTA with partial compliance.tex
+
+\subsection{Junction models and solvers}
+\label{sec:junctionModel}
+The multi-commodity junction problem is essentially equivalent to the source destination model (SDM) in Piccoli~\cite{piccoli}. The SDM contains a commodity per source destination pair in the network. Similarly, in our problem there are two commodities for each source destination pair. One corresponding to compliant flow and another corresponding to non-compliant flow. As in the single commodity model and the SDM, a priority vector is needed when the number of incoming links at the junction is greater than the number of outgoing links. 
+
+The junction solution should satisfy the following properties:
+\begin{enumerate}
+\item The solution must satisfy the FIFO principle. That is to say, for any incoming link $i$, the distribution of its flow out across the different commodities must be in proportion the the ratio of vehicles of each commodity at the link. 
+	\[
+	\flowoutmc{i}{k}{c_i} = \flowout{i}{k} \frac{\densitymc{i}{k}{c_i}}{\sum_{j=1}^{C} \densitymc{i}{k}{c_j}}
+	\]
+\item Flow maximization across the junction subject to split ratio and priority constraints. 
+\item Satisfy split ratios and inflow priority constraints. 
+\begin{itemize}
+	\item The priority constraint can be a soft constraint in certain cases. 
+\end{itemize}
+\end{enumerate}
+
+
+\begin{table}[t]
+\label{tab:juncModelComp} \centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+Model type & Flow & Priority & Blocking \\\hline
+\hline
+$1 \times n$ diverge & max & N/A & no\\
+\hline
+$m \times 1$ merge & max & soft & no\\
+\hline
+$n \times M$ with max flow & max & no & yes\\
+\hline
+$n \times M$ with exact priority& subject to P & hard & no\\
+\hline
+$n \times M$ with soft priority& multi objective & soft & no\\
+\hline
+\end{tabular}
+\caption{Comparison of the different junction models}
+\end{table}
+ 
+
+\subsubsection{Diverge solver} 
+\label{sec:divergeSolver}
+We consider a diverging junction with one incoming link $i$ and $m$ outgoing links. There are $C$ commodities that flow through the network each with their own time-varying split ratio $\splitratio{i}{j}{k}{c}$. 	
+
+\begin{itemize}
+\item The first step is to compute the aggregate split ratio from $i$ to each outgoing link $j$:
+	\begin{align*}
+	\aggsplitratio{i}{j}{k} &= \sum_{c=1}^C \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\splitratio{i}{j}{k}{c}\\
+							&=  \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c}
+	\end{align*} 
+
+	TODO: Explain why this is correct.
+
+\item Once the aggregate split ratio is found we can solve for the total junction flow as follows:
+	\begin{align*}
+	&\max \flowout{i}{k} \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \aggsplitratio{i}{j}{k} \flowout{i}{k} \le{\cellsupply{j}{k}} \ \ \ \ \ \forall{j:(i,j)\in A}\\
+	&\ \ \ \ \ \flowout{i}{k} \le{\celldemand{i}{k}}
+	\end{align*}
+	Or equivalently by solving the feasibility problem:
+	\begin{align*}
+	&\max 1 \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \flowout{i}{k} = \min\left(\frac{\cellsupply{j}{k}}{\aggsplitratio{i}{j}{k}} \ \ \forall{j:(i,j)\in A}, \celldemand{i}{k}\right)
+	\end{align*}
+
+\item The total outflow $\flowout{i}{k}$ for each incoming link $i$ is then divided among the commodities according to the FIFO law.
+	\begin{align*}
+	\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\\
+	\end{align*} 
+	The commodity flows are split among the outgoing links according to the split ratios.
+	\begin{align*}
+	\flowinmc{j}{k}{c} &= \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\\
+	\end{align*} 
+
+\end{itemize}
+
+\textbf{Existance and uniqueness of solution}
+A non-zero solution exists if the none of the constraints of the optimization/feasibility problem impose a zero flow. In other words, as long as the demand is non-zero and none of the outgoing links with positive demand ($\aggsplitratio{i}{j}{k} > 0$) have non-zero supply, the non-zero solution will exist. Since, the solution to the maximum junction flow is the flow out of the incoming link (unique maximum of a scalar value), and the outflows are uniquely determined by the split ratios, the solution is unique.
+ 
+\subsubsection{Merge solver} 
+\label{sec:mergeSolver}
+We consider a merging junction with $n$ incoming links and one outgoing link $j$ exiting it. There are $C$ commodities on each link. A priority vector $P$ (s.t. $\sum p_i = 1$) prescribes the priorities at which the outgoing link accepts flows from the $n$ incoming links when the junction is supply constrained.
+
+\begin{itemize}
+\item If the problem is demand constrained (i.e. $\sum_{i:(i,j)\in A} \celldemand{i}{k} \leq{\cellsupply{j}{k}})$, then the solution is given by:
+	\begin{align*}
+	\flowout{i}{k} = \celldemand{i}{k} \ \ \forall{i:(i,j)\in A}\\
+	\end{align*}
+\item If the problem is supply constrained, then the solution to the junction problem is given by solving the following quadratic optimization problem that finds the flow maximizing solution with the smallest violation of the priority vector, where the violation is measured using the $L2$ distance:
+	\begin{align*}
+	&\min_{t,\flowout{i}{k} \ \forall{i:(i,j)\in A}}{\sum_{i:(i,j)\in A}\left(\flowout{i}{k} - t\cdot p_i\right)^2} \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \sum_{i:(i,j)\in A} \flowout{i}{k} = \cellsupply{i}{k} \\
+	&\ \ \ \ \ \flowout{i}{k} \le{\celldemand{i}{k}}
+	\end{align*} 
+
+\item The total outflow $\flowout{i}{k}$ for each incoming link $i$ is then divided among the commodities according to the FIFO law.
+	\begin{align*}
+	\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\\
+	\end{align*} 
+
+\end{itemize}
+
+\begin{remark}
+The priorities are satisfied exactly when the intersection of the maximum flow isoline and the priority constraint are feasible. When this point is outside the feasible set, the flow maximizing feasible point that is closest to the priority constraint (in euclidean distance) is chosen.
+\end{remark}
+
+\begin{remark}
+The solution violates the priority rule only in the case where the demand for one or more of the incoming links is less than what its flow maximizing allocation is based on the priority vector. In other words, the priority rule is only violated when an incoming link doesn't have enough flow to satisfy it's priority based allocation. It is reasonable in the physical sense to maximize flow and only violate the priority when it's a lack of demand that causes the violation. The model is not denying any vehicles with priority the ability to pass through the junction. This is an important property to note, because it avoids having to solve a multi-objective optimization problem to come up with a physically meaningful set of flows through the junction. This is in contrast to the junction model we will consider in a general $n\times m$ junction. 
+\end{remark}
+
+\textbf{Existence and uniqueness of solution}
+
+\begin{itemize}
+	\item \textit{Demand constrained case}: In the demand constrained case, existence and uniqueness is trivial. 
+
+	\item \textit{General case}: In the general case, we are minimizing the euclidean distance from the solution (a point) to the priority vector (a line) subject to the solution being in the feasible set that is defined by the intersection of a $n$ dimensional hyperplane (supply constraint: $\sum_{i: (i,j)\in A} \flowout{i}{k} \leq \cellsupply{i}{k}$) with a $n$ dimensional hyperrectangle (demand constraints: $\flowout{i}{k}~\leq~{\celldemand{i}{k}}$).
+	\begin{itemize}
+		\item  A solution exists when the feasible set is non-empty and the feasible set will always be non-empty if the supply constraint is greater than zero. This proves the existence of a solution in all non-degenerate (zero supply) cases. 
+
+		\item The supply constraint hyperplane intersects each coordinate axis at $x_i = \cellsupply{i}{k}$ and therefore can not be parallel to the priority constraint $P$ which is a link that goes through the origin. Furthermore, the feasible set is the intersection of a $n$ dimensional hyperplane (supply constraint) with a $n$ dimensional hyperrectangle (demand constraints), which is a $n-1$ dimensional convex set. Since this is a subset of the supply constraint set, this is also not parallel to $P$. Finally, the point on a convex set with the minimum euclidean distance to a line that is not parallel to the set is unique. This concludes the proof. 
+	\end{itemize}
+\end{itemize}
+
+
+\subsubsection{Merge and diverge solver with $n \leq{m}$ (Flow Maximizing Model)} 
+
+We consider a junction with $n$ incoming links and $m$ outgoing links where $n \leq{m}$. There are $C$ commodities on each link.
+
+\begin{remark}
+The Piccoli model maximizes flow, but has the limitation that some incoming links might have zero flux when the junction is supply limited and the other incoming links allow for more flux through the junction due to their split ratios.\\
+
+\noindent TODO: Give a simple example.
+\end{remark}
+
+Let $J^{in}$ and $J^{out}$ be the sets of incoming and outgoing links at the junction.
+
+\begin{itemize}
+\item The first step is to compute the aggregate split ratio from each incoming link $i$ to each outgoing link $j$:
+	\begin{align*}
+	\aggsplitratio{i}{j}{k} &= \sum_{c=1}^C \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\splitratio{i}{j}{k}{c}\\
+							&=  \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c}
+	\end{align*} 
+
+\item Once the aggregate split ratio is found we can solve for the total junction flow as follows:
+	\begin{align*}
+	&\max \sum_{i \in J^{in}}\flowout{i}{k} \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \sum_{i \in J^{in}}\aggsplitratio{i}{j}{k} \flowout{i}{k} \le{\cellsupply{j}{k}} \ \ \ \ \ \forall{j\in J^{out}}\\
+	&\ \ \ \ \ \flowout{i}{k} \le{\celldemand{i}{k}} \ \ \ \ \ \forall{i\in J^{in}}
+	\end{align*}
+
+\item The total outflow $\flowout{i}{k}$ for each incoming link $i$ is then divided among the commodities according to the FIFO law.
+	\begin{align*}
+	\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\\
+	\end{align*} 
+	The commodity flows are split among the outgoing links according to the split ratios.
+	\begin{align*}
+	\flowinmc{j}{k}{c} &= \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\\
+	\end{align*} 
+\end{itemize}
+
+\textbf{Existence and uniqueness of solution}
+
+\subsubsection{Merge and diverge solver with $n \leq{m}$ (Soft Priority Model)} 
+
+We consider a junction with $n$ incoming links and $m$ outgoing links where $n \leq{m}$. There are $C$ commodities on each link. Let the incoming links be indexed by $\{1, \dots, n\}$ and the outgoing links be indexed by $\{n+1, \dots, n+m\}$ A priority vector $P$ prescribes the priorities at which the $m$ outgoing links accept flows from the $n$ incoming links. $P_{ij}$ is the priority allocation for flow from incoming link $i$ to outgoing link $j$ such that $\sum_{j\in \{n+1, \dots, n+m\}} p_{ij} = 1 \ \ \forall i\in \{1, \dots, n\}$. A multi-objective optimization problem is used with the cost function weighing the two objectives of flow maximization and satisfying the priority vector with the scaling terms $R1$, $R2$.
+
+\begin{remark}
+The Piccoli model maximizes flow at the expense of possibly blocking out certain incoming links completely, and the exact priority model satisfies priorities at the expense of unsatisfied supply. The Piccoli model can entirely block out some incoming flows, which is physically unrealistic in merges where each merging road has dedicated merge lanes. The priority model is more realistic, since the priorities are generally picked based on physical properties such as the number of dedicated merging lanes associated with each incoming link. However, we might want to consider junctions where the priority law can be violated. 
+\end{remark}
+
+\textit{\textbf{Note:}} The physical argument seems to suggest that fixed priority is the correct approach. We need to explore this more. \\
+
+\begin{remark}
+This model doesn't have the nice property from section~\ref{sec:mergeSolver} where the priority rule is only violated when the incoming link doesn't have enough demand to satisfy the priority allocation. 
+\end{remark}
+
+
+Let $J^{in}$ and $J^{out}$ be the sets of incoming and outgoing links at the junction.
+
+\begin{itemize}
+\item The first step is to compute the aggregate split ratio from each incoming link $i$ to each outgoing link $j$:
+	\begin{align*}
+	\aggsplitratio{i}{j}{k} &= \sum_{c=1}^C \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\splitratio{i}{j}{k}{c}\\
+							&=  \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c}
+	\end{align*} 
+
+\item Once the aggregate split ratio is found we can solve for the total junction flow as follows:
+	\begin{align*}
+	&\max_{t,\flowout{i}{k} \ \forall{i:(i,j)\in A}}{R1 \left(\sum_{i \in J^{in}}\flowout{i}{k}\right) - R2\left(\sum_{i:(i,j)\in A}\left(\flowout{i}{k} - t\cdot p_i\right)^2\right)} \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \sum_{i \in J^{in}}\aggsplitratio{i}{j}{k} \flowout{i}{k} \le{\cellsupply{j}{k}} \ \ \ \ \ \forall{j\in J^{out}}\\
+	&\ \ \ \ \ \flowout{i}{k} \le{\celldemand{i}{k}} \ \ \ \ \ \forall{i\in J^{in}}
+	\end{align*}
+
+\item The total outflow $\flowout{i}{k}$ for each incoming link $i$ is then divided among the commodities according to the FIFO law.
+	\begin{align*}
+	\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\\
+	\end{align*} 
+	The commodity flows are split among the outgoing links according to the split ratios.
+	\begin{align*}
+	\flowinmc{j}{k}{c} &= \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\\
+	\end{align*} 
+
+
+\end{itemize}
+
+
+
+\textbf{Existence and uniqueness of solution}
+
+\subsubsection{Merge and diverge solver with $n > m$} 
+
+\textbf{Existence and uniqueness of solution}
+
+\subsubsection{Merge and diverge solver with $n \leq{m}$ (Exact Priority Model)} 
+
+We consider a junction with $n$ incoming links and $m$ outgoing links where $n \leq{m}$. There are $C$ commodities on each link. Let the incoming links be indexed by $J^{in} = \{1, \dots, n\}$ and the outgoing links be indexed by $J^{out} = \{n+1, \dots, n+m\}$ A priority vector $P$ prescribes the priorities at which the $m$ outgoing links accept flows from the $n$ incoming links. $P_{ij}$ is the priority allocation for flow from incoming link $i$ to outgoing link $j$ such that $\sum_{i\in J^{in}} p_{ij} = 1 \ \ \forall j\in J^{out}$.
+
+\begin{remark}
+The exact priority model finds the flow allocation that exactly satisfies the priority vector and maximizes flow subject to this constraint. \\
+
+\noindent TODO: Give a simple example.
+\end{remark}
+
+\begin{remark}
+We assume for now that the priority vectors for all outgoing links are identical. The notation allows for different priority vectors, but the analysis will ignore that for now. Different priorities can make the exact priority model infeasible in most cases.
+\end{remark}
+
+Let $J^{in}$ and $J^{out}$ be the sets of incoming and outgoing links at the junction.
+
+\begin{itemize}
+\item The first step is to compute the aggregate split ratio from each incoming link $i$ to each outgoing link $j$:
+	\begin{align*}
+	\aggsplitratio{i}{j}{k} &= \sum_{c=1}^C \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\splitratio{i}{j}{k}{c}\\
+							&=  \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c}
+	\end{align*} 
+
+\item Once the aggregate split ratio is found we can solve for the total junction flow as follows:
+	\begin{align*}
+	&\max \sum_{i \in J^{in}}\flowout{i}{k} \\
+	&\text{subject to} \\
+	&\ \ \ \ \ \sum_{i \in J^{in}}\aggsplitratio{i}{j}{k} \flowout{i}{k} \le{\cellsupply{j}{k}} \ \ \ \ \ \forall{j\in J^{out}}\\
+	&\ \ \ \ \ \flowout{i}{k} \le{\celldemand{i}{k}} \ \ \ \ \ \forall{i\in J^{in}}\\
+	&\ \ \ \ \ \aggsplitratio{i}{j}{k}\flowout{i}{k} = \prioritym{i}{j}\flowin{j}{k} \ \ \ \ \ \forall{(i,j): i\in J^{in}, j\in J^{out}}
+	\end{align*}
+
+\item The total outflow $\flowout{i}{k}$ for each incoming link $i$ is then divided among the commodities according to the FIFO law.
+	\begin{align*}
+	\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\\
+	\end{align*} 
+	The commodity flows are split among the outgoing links according to the split ratios.
+	\begin{align*}
+	\flowinmc{j}{k}{c} &= \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\\
+	\end{align*} 
+
+
+\end{itemize}
+
+\textbf{Existence and uniqueness of solution}
+
+\subsection{Junction model and solver used in the optimization problem}
+\label{sec:junctionModelForOpt}
+We first describe the system equations for the $1 \times 2$ diverge solver(based on the general diverge solver from \ref{sec:divergeSolver}) and then a $2 \times 1$ merge solver(based on the general merge solver from \ref{sec:mergeSolver}) before presenting the equations governing the $2 \times 2$ solver we will use. The models and solvers presented in section~\ref{sec:junctionModel} can be generalized to a $n \times m$ junction, but we restrict our solver to $2 \times 2$ junctions. The flows can be determined by first computing the demand functions (equation~$\H{3}{\itime}{\icell}$) and the supply functions (equation~$\H{4}{\itime}{\icell}$). \\
+
+\textbf{($1 \times 2$) diverge}\\
+\\  \indent Let $i$ be the incoming link and $j \in J^{out}$ be the outgoing links.\\
+\\	\indent \indent Aggregate split ratio:
+	\[\aggsplitratio{i}{j}{k} = \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c}\]
+	\indent \indent  Flow out of incoming link:
+	\[\flowout{i}{k} = \min\left(\frac{\cellsupply{j}{k}}{\aggsplitratio{i}{j}{k}} \ \forall{j\in J^{out}}, \celldemand{i}{k}\right) \] 
+	\indent \indent  Flow out of incoming link by commodity:
+	\[\flowoutmc{i}{k}{c} = \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\]
+	\indent \indent  Flow in to outgoing links by commodity:
+	\[\flowinmc{j}{k}{c} = \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\]
+
+
+\textbf{($2 \times 1$) merge}\\
+\\  \indent Let $i_1$ be one incoming link, $i_2$ be the other incoming link and $j$ be the outgoing link.\\
+\begin{subequations}
+\\
+\indent \indent  Flow in to outgoing link:
+\begin{align*}
+\flowin{j}{\itime} & = \min\left(\celldemand{i_1}{\itime} + \celldemand{i_2}{\itime}, \cellsupply{j}{\itime}\right)
+\end{align*}
+\indent \indent  Flow in to outgoing link by commodity:
+\begin{align*}
+\flowinmc{j}{k}{c} &= \frac{\densitymc{j}{k}{c}}{\density{j}{k}}\flowin{j}{k}\\
+\end{align*}
+\indent \indent  Flow out of incoming links:
+\[
+\flowout{\icell_1}{\itime}=\begin{cases}
+\celldemand{\icell_1}{\itime} 
+& \text{if } \frac{\priority{\icell_1}}{1-\priority{\icell_1}} > \frac{\celldemand{\icell_1}{\itime}}{\flowin{j}{\itime} - \celldemand{\icell_1}{\itime}}
+\\
+\flowin{j}{\itime}-\celldemand{\icell_2}{\itime}
+& \text{if } \frac{\priority{\icell_1}}{1-\priority{\icell_1}} < \frac{\flowin{j}{\itime}-\celldemand{\icell_2}{\itime}}{\celldemand{\icell_2}{\itime}}
+\\
+\priority{\icell_1}\flowin{j}{\itime} & \text{otherwise }
+\end{cases}
+\]
+\[
+\flowout{\icell_2}{k} = \flowin{j}{k} - \flowout{\icell_1}{k}
+\]
+\indent \indent  Flow out by commodity:
+\begin{align*}
+\flowoutmc{i}{k}{c} &= \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}  \ \ \ \ \forall{i \in \{\icell_1, \icell_2}\}\\
+\end{align*}
+\end{subequations}
+
+\textbf{($2 \times 2$) merge and diverge}\\
+\\  \indent Let $\icell_1, \icell_2$ be the incoming links and $j_1, j_2$ be the outgoing links. The priority vectors for outgoing links $j_1$ and $j_2$ are assumed to be identical as described in section~\ref{sec:junctionModel}. \\
+\\To simplify the notation, we use the following shorthand:
+\begin{itemize}
+\item drop the time index $k$
+\item $\celldemandnt{1}{\itime} = \celldemandnt{\icell_1}{\itime}$,
+$\celldemandnt{2}{\itime} = \celldemandnt{\icell_2}{\itime}$
+\item $\cellsupplynt{1}{\itime} = \cellsupplynt{j_1}{\itime}$, 
+$\cellsupplynt{1}{\itime} = \cellsupplynt{j_2}{\itime}$
+\item $\priority{1} = \priority{\icell_1}$, 
+$\priority{2} = \priority{\icell_2}$
+\end{itemize}
+	\indent \indent \indent Aggregate split ratio:
+	\[
+	\aggsplitratio{i}{j}{k} = \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c} \ \ \ \ \forall{(i,j)\in{\{1, 2\}\times\{1,2\}}}
+	\]
+	\indent \indent  Flow out of incoming links:
+	\[
+	\flowoutnt{1}{\itime}=\begin{cases}
+	\celldemandnt{1}{\itime} 
+	& \text{if } \frac{1-\priority{1}}{\priority{1}} < \frac{ \min\left( \celldemandnt{2}{\itime}, {\frac{\cellsupplynt{1}{\itime} - \aggsplitrationt{1}{1}{k}\celldemandnt{1}{\itime}}{\aggsplitrationt{2}{1}{k}}},{\frac{\cellsupplynt{2}{\itime} - \aggsplitrationt{1}{2}{k}\celldemandnt{1}{\itime}}{\aggsplitrationt{2}{2}{k}}}\right)}
+	{\celldemand{1}{\itime}}
+	\\
+\min\left( \celldemandnt{1}{\itime}, {\frac{\cellsupplynt{1}{\itime} - \aggsplitrationt{2}{1}{k}\celldemandnt{2}{\itime}}{\aggsplitrationt{1}{1}{k}}},{\frac{\cellsupplynt{2}{\itime} - \aggsplitrationt{2}{2}{k}\celldemandnt{2}{\itime}}{\aggsplitrationt{1}{2}{k}}}\right)	& \text{if } \frac{1-\priority{1}}{\priority{1}} > \frac{{\celldemandnt{2}{\itime}}}{\min\left( \celldemandnt{1}{\itime}, {\frac{\cellsupplynt{1}{\itime} - \aggsplitrationt{2}{1}{k}\celldemandnt{2}{\itime}}{\aggsplitrationt{1}{1}{k}}},{\frac{\cellsupplynt{2}{\itime} - \aggsplitrationt{2}{2}{k}\celldemandnt{2}{\itime}}{\aggsplitrationt{1}{2}{k}}}\right)}
+	\\
+	\priority{1}\min\left( \celldemandnt{1}{\itime}, {\frac{\priority{1}\cellsupplynt{1}{\itime}}{\priority{1}\aggsplitrationt{1}{1}{k} + \left(1-\priority{1}\right)\aggsplitrationt{2}{1}{k}}},{\frac{\priority{1}\cellsupplynt{2}{\itime}}{\priority{1}\aggsplitrationt{1}{2}{k} + \left(1-\priority{1}\right)\aggsplitrationt{2}{2}{k}}}\right) & \text{otherwise }
+	\end{cases}
+	\]
+	\indent \indent  Flow out of incoming links by commodity:
+	\[
+	\flowoutmcnt{i}{k}{c} = \frac{\densitymcnt{i}{k}{c}}{\densitynt{i}{k}}\flowoutnt{i}{k} \ \ \ \ \forall{i\in\{1,2\}, c\in C}
+	\]
+	\indent \indent  Flow in to outgoing links by commodity:
+	\[
+	\flowinmcnt{j}{k}{c} = \sum_{i:(i,j)\in A} \splitrationt{i}{j}{k}{c} \flowoutmcnt{i}{k}{c} \ \ \ \ \forall{j\in\{1,2\}, c\in C}
+	\]
+
+
+
+% 	\indent \indent Aggregate split ratio:
+% 	\[
+% 	\aggsplitratio{i}{j}{k} = \frac{1}{\density{i}{k}} \sum_{c=1}^C \densitymc{i}{k}{c}\splitratio{i}{j}{k}{c} \ \ \ \ \forall{(i,j)\in{\{1, 2\}\times\{1,2\}}}
+% 	\]
+% 	\indent \indent  Flow out:
+% 	\[
+% 	\flowout{1}{\itime}=\begin{cases}
+% 	\celldemand{1}{\itime} 
+% 	& \text{if } \frac{1-\priority{1}}{\priority{1}} < \frac{ \min\left( \celldemand{2}{\itime}, {\frac{\cellsupply{1}{\itime} - \aggsplitratio{1}{1}{k}\celldemand{1}{\itime}}{\aggsplitratio{2}{1}{k}}},{\frac{\cellsupply{2}{\itime} - \aggsplitratio{1}{2}{k}\celldemand{1}{\itime}}{\aggsplitratio{2}{2}{k}}}\right)}
+% 	{\celldemand{1}{\itime}}
+% 	\\
+% \min\left( \celldemand{1}{\itime}, {\frac{\cellsupply{1}{\itime} - \aggsplitratio{2}{1}{k}\celldemand{2}{\itime}}{\aggsplitratio{1}{1}{k}}},{\frac{\cellsupply{2}{\itime} - \aggsplitratio{2}{2}{k}\celldemand{2}{\itime}}{\aggsplitratio{1}{2}{k}}}\right)	& \text{if } \frac{1-\priority{1}}{\priority{1}} > \frac{{\celldemand{2}{\itime}}}{\min\left( \celldemand{1}{\itime}, {\frac{\cellsupply{1}{\itime} - \aggsplitratio{2}{1}{k}\celldemand{2}{\itime}}{\aggsplitratio{1}{1}{k}}},{\frac{\cellsupply{2}{\itime} - \aggsplitratio{2}{2}{k}\celldemand{2}{\itime}}{\aggsplitratio{1}{2}{k}}}\right)}
+% 	\\
+% 	\priority{1}\min\left( \celldemand{1}{\itime}, {\frac{\priority{1}\cellsupply{1}{\itime}}{\priority{1}\aggsplitratio{1}{1}{k} + \left(1-\priority{1}\right)\aggsplitratio{2}{1}{k}}},{\frac{\priority{1}\cellsupply{2}{\itime}}{\priority{1}\aggsplitratio{1}{2}{k} + \left(1-\priority{1}\right)\aggsplitratio{2}{2}{k}}}\right) & \text{otherwise }
+% 	\end{cases}
+% 	\]
+% 	\indent \indent  Flow out by commodity:
+% 	\[\flowoutmc{i}{k}{c} = \frac{\densitymc{i}{k}{c}}{\density{i}{k}}\flowout{i}{k}\]
+% 	\indent \indent  Flow in by commodity:
+% 	\[\flowinmc{j}{k}{c} = \sum_{i:(i,j)\in A} \splitratio{i}{j}{k}{c} \flowoutmc{i}{k}{c}\]
+
+
+
+
+

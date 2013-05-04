@@ -1,0 +1,30 @@
+\begin{align*}
+\frac{dH}{du} = 0 
+&\Leftrightarrow \frac{\partial H}{\partial x}\frac{dx}{du} + \frac{\partial H}{\partial u} = 0 \\
+&\Leftrightarrow  \frac{\partial H}{\partial x}\frac{dx}{du} = - \frac{\partial H}{\partial u} \\
+&\Leftrightarrow \frac{dx}{du} = \left(\frac{\partial H}{\partial x}\right)^{-1}\left(-\frac{\partial H}{\partial u}\right)
+ \end{align*}
+ 
+Plugging this back into equation~\eqref{eq:gradient1} we have
+\begin{equation}
+\frac{dL}{du} = \frac{\partial J}{\partial u} - \frac{\partial J}{\partial x}\left(-\frac{\partial H}{\partial x}\right)^{-1} \frac{\partial H}{\partial u}
+\label{eq:lambda1}
+\end{equation}
+
+
+Instead of solving for the gradient directly, we will now solve the adjoint system. Let,
+\[
+\lambda = \left[ \frac{\partial J}{\partial x} \left(\frac{\partial H}{\partial x}\right)^{-1} \right]^{T}
+\]
+
+Now, we can plug this into equation \ref{eq:lambda} and solve for $\lambda$. 
+\begin{equation}
+\left(\frac{\partial H}{\partial x}\right)^{T}\lambda = \left( \frac{\partial J}{\partial x} \right)^{T} 
+\label{eq:lambda2}
+\end{equation}
+
+Once $\lambda$ is obtained, we can find the gradient of the original problem by computing the following:
+\begin{equation}
+\nabla_u L = \frac{dL}{du} = \frac{\partial J}{\partial u} - \lambda^{T}\frac{\partial H}{\partial u} 
+\label{eq:gradient2}
+\end{equation}

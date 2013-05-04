@@ -1,0 +1,32 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+
+Constants
+\begin{longtable}{ll}
+$\deltat,\deltax$ & Time, space discretization size\tabularnewline
+$\ffspeed{\icell}$ & Free flow speed on cell $\icell$\tabularnewline
+$\congspeed{\icell}$ & Congestion wave speed on cell $\icell$\tabularnewline
+$\jamdensity{\icell}$ & Jam density on cell $\icell$\tabularnewline
+$\fmax{\icell}$ & Max flow leaving mainline of cell $\icell$\tabularnewline
+$\priority{\icell}$ & Priority factor for cell $\icell$\tabularnewline
+\end{longtable}
+
+Inputs
+\begin{longtable}{ll}
+$\densityinit{\icell}$ & Initial density on cell $\icell$\tabularnewline
+$\rampqueueinit{\icell}$ & Initial queue length for onramp entering cell $\icell$\tabularnewline
+$\inputflux{\icell}{\itime}$ & Input flow on cell $\icell$, time step $\itime$\tabularnewline
+$\offrampratio{\icell}{\itime}$ & Offramp split ratio on cell $\icell$, time step $\itime$\tabularnewline
+\end{longtable}
+
+Variables
+\begin{longtable}{ll}
+$\flowin{\icell}{\itime}$ & Flow into cell $\icell $ from mainline, time step $\itime$\tabularnewline
+$\flowout{\icell}{\itime}$ & Flow out of cell $\icell$ onto mainline, time step $\itime$\tabularnewline
+$\density{\icell}{\itime}$ & Density on cell $\icell$, time step $\itime$\tabularnewline
+$\rampflow{\icell}{\itime}$ & Flow from onramp entering cell $\icell$, time step $\itime$\tabularnewline
+$\rampqueue{\icell}{\itime}$ & Queue length for onramp entering cell $\icell$, time step $\itime$\tabularnewline
+$\rampcontrol{\icell}{\itime}$ & Max flow from onramp entering cell $\icell$, time step $\itime$\tabularnewline
+$\cellsupply{\icell}{\itime}$ & Supply on cell $\icell$, time step $\itime$\tabularnewline
+$\celldemand{\icell}{\itime}$ & Demand on cell $\icell$, time step $\itime$\tabularnewline
+$\rampdemand{\icell}{\itime}$ & Onramp demand entering cell $\icell$, time step $\itime$\tabularnewline
+\end{longtable}

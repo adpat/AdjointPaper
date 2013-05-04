@@ -1,0 +1,49 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Introduction to using the adjoint method in highway control}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{General highway control problem}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Overview of how to use the adjoint method Duffy2009}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{A Lagrangian approach}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{A second derivation}{subsection.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Continuous approach and discrete approach}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{A continuous model of traffic on a highway with ramp flow control}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Introduction}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Ramp model}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Junction solver}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Highway ramp metering using the adjoint method on the discretized system}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{Nomenclature}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{System description}{section.4}% 14
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Choosing the correct space and time discretization}{subsection.4.2}% 15
+\BOOKMARK [2][-]{subsection.4.3}{System equations}{section.4}% 16
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Modified Piccoli model}{subsection.4.3}% 17
+\BOOKMARK [2][-]{subsection.4.4}{Ordering of state vector and constraints}{section.4}% 18
+\BOOKMARK [2][-]{subsection.4.5}{Forward simulation}{section.4}% 19
+\BOOKMARK [2][-]{subsection.4.6}{Objective function}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.7}{Adjoint system}{section.4}% 21
+\BOOKMARK [3][-]{subsubsection.4.7.1}{Adjoint equations}{subsection.4.7}% 22
+\BOOKMARK [3][-]{subsubsection.4.7.2}{Changes for the modified Piccoli model}{subsection.4.7}% 23
+\BOOKMARK [2][-]{subsection.4.8}{Computing the gradient}{section.4}% 24
+\BOOKMARK [1][-]{section.5}{Triangular system formulation for forward and backward problem}{}% 25
+\BOOKMARK [1][-]{section.6}{Gradient descent methods for the ramp metering problem}{}% 26
+\BOOKMARK [2][-]{subsection.6.1}{Avoiding local minima when the control parameter ui\(k\) > li\(k\)}{section.6}% 27
+\BOOKMARK [1][-]{section.7}{Implementation details}{}% 28
+\BOOKMARK [2][-]{subsection.7.1}{Variable dimensions}{section.7}% 29
+\BOOKMARK [2][-]{subsection.7.2}{Example 1: one on-ramp and no off-ramps}{section.7}% 30
+\BOOKMARK [1][-]{section.8}{Adjoint framework for general junction problem}{}% 31
+\BOOKMARK [2][-]{subsection.8.1}{Forward system}{section.8}% 32
+\BOOKMARK [2][-]{subsection.8.2}{Objective}{section.8}% 33
+\BOOKMARK [2][-]{subsection.8.3}{Adjoint system}{section.8}% 34
+\BOOKMARK [1][-]{section.9}{Continuous model with onramp buffer}{}% 35
+\BOOKMARK [2][-]{subsection.9.1}{Weak boundary conditions and ramp flux demands}{section.9}% 36
+\BOOKMARK [2][-]{subsection.9.2}{Buffer model for ramps}{section.9}% 37
+\BOOKMARK [2][-]{subsection.9.3}{Unique and self-similar solutions for the continuous model}{section.9}% 38
+\BOOKMARK [2][-]{subsection.9.4}{Junction model}{section.9}% 39
+\BOOKMARK [2][-]{subsection.9.5}{Riemann problem}{section.9}% 40
+\BOOKMARK [2][-]{subsection.9.6}{Self-similar solution}{section.9}% 41
+\BOOKMARK [3][-]{subsubsection.9.6.1}{Initially empty buffer}{subsection.9.6}% 42
+\BOOKMARK [3][-]{subsubsection.9.6.2}{Initially non-empty buffer}{subsection.9.6}% 43
+\BOOKMARK [2][-]{subsection.9.7}{Combined Section}{section.9}% 44
+\BOOKMARK [1][-]{section.10}{Behavior of buffer after emptying}{}% 45
+\BOOKMARK [2][-]{subsection.10.1}{Buffer remains empty after emptying}{section.10}% 46
+\BOOKMARK [2][-]{subsection.10.2}{Difference between discrete and continuous model}{section.10}% 47
+\BOOKMARK [2][-]{subsection.10.3}{Godunov solution of case when buffer empties}{section.10}% 48
+\BOOKMARK [1][-]{appendix.A}{Partial derivatives with respect to x}{}% 49

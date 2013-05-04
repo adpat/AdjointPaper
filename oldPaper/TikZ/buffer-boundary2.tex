@@ -1,0 +1,34 @@
+% !TEX root = ../rampMeteringViaTheAdjoint.tex
+\def \scale{1.5}
+\begin{tikzpicture}[scale=\scale,domain=0:1]
+
+\def \rampDem{1.7}
+\def \rampDemPlus{2.0}
+\def \dem{2.2}
+\def \priorityRat{0.9}
+\def \splitRat{0.4}
+\def \totalFlow{2.2}
+
+\coordinate (Z) at (0,0);
+\coordinate (I1) at (\rampDem, 0);
+\coordinate (I1') at (\rampDemPlus, 0);
+\coordinate (I2) at (0, \dem);
+\coordinate (I3) at (\rampDem, \dem);
+\coordinate (I3') at (\rampDemPlus, \dem);
+\coordinate (A) at (0, {\totalFlow/(1-\splitRat)});
+\coordinate (B) at (\totalFlow, 0);
+\coordinate (C) at ({(1-\priorityRat)/\priorityRat*\dem}, \dem);
+\coordinate (D) at (intersection of A--B and Z--C);
+
+
+\draw[->] (Z) -- (3.5,0) node[below right]{$r_i$};
+\draw[->] (Z) -- (0,4) node[left]{$f^{\text{out}}_i$};
+
+\draw[dashed] (I3) -- (I1) node[below left]{$d_i(t_0)$};
+\draw (I3') -- (I1') node[below right]{$d_i(t_0^+)$};
+\draw (I3') -- (I2) node[above left]{$\delta_i(t_0)$} node[below left]{$\delta_i(t_0^+)$};
+\draw (A) -- (B) node[yshift=1cm, xshift=0cm]{};
+\draw (Z) -- (D) node[midway, xshift=1cm]{};
+\draw (intersection of A--B and I3--I2) circle (1pt) node[above right]{$(r_i(t_0^+), f_i^{\text{out}}(t_0^+))$};
+
+\end{tikzpicture}

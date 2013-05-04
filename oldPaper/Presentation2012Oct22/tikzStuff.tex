@@ -1,0 +1,8 @@
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,decorations.pathreplacing, calc}
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+  \tikz@scan@one@point\pgfutil@firstofone#1\relax
+  \edef#2{\the\pgf@x}%
+  \edef#3{\the\pgf@y}%
+}

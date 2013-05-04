@@ -1,0 +1,72 @@
+%!TEX root = rampMeteringJack.tex
+\section{Motivation}
+\frame{
+  \setbeamercovered{transparent}
+	\frametitle{Why ramp metering?}
+  \begin{itemize}
+    \item<1-> High level goal: develop a general optimization framework for many highway problems
+    \begin{itemize}
+			\item Partial Rerouting
+			\item Variable Speed Limit
+			\item State estimation~\cite{Jacquet1974}
+			\item \textbf{Ramp Metering (current application)}
+		\end{itemize}
+    \item<2> Consistent physical model
+    \begin{itemize}
+			\item Each control scheme uses same forward simulator
+			\item All control schemes can be modules in the simulation engine
+		\end{itemize}
+  \end{itemize}
+}
+
+
+\frame{
+  \setbeamercovered{transparent}
+	\frametitle{Why a continuous model?}
+  \begin{itemize}
+  		\item<1-> Uses well-known, established LWR model. Discretized version proven to converge to physically meaningful model in limit.~\cite{garavello2006traffic}
+		\begin{itemize}
+			\item Allows for discrete models to incorporate mid-timestep events, such as a queue emptying (next week).
+		\end{itemize}
+  		\item<2-> Analytical properties, such as uniqueness/existence, shockwave solutions, derived from continuous model
+    \item<3-> Prioritize model accuracy over linearity/simplicity of discretized formulation.
+    \item<4> Why \textbf{yet another} continuous model?
+    \begin{itemize}
+	    	\item Addresses specific shortcomings for our control needs (discussed in Section~\ref{sec:modified})
+		\end{itemize}
+  \end{itemize}
+}
+
+
+\frame{
+  \setbeamercovered{transparent}
+	\frametitle{Why the Adjoint Method (more next week)?}
+  \begin{itemize}
+    \item<1-> Decomposes discrete-time problems to make solving systems tractable for large systems~\cite{Giles2000}
+    \begin{itemize}
+			\item Similar to back-propagation of errors (sum-product, neural-networks)
+		\end{itemize}
+    \item<2-> Allows for arbitrary, non-linear constraints to be solved
+    \item<3-> Gradient obtained with partial derivatives, rather than complicated full derivatives
+    \begin{itemize}
+			\item decouples effect of control and state
+		\end{itemize}
+  \end{itemize}
+}
+
+
+\frame{
+  \setbeamercovered{transparent}
+	\frametitle{Why \textbf{NOT} the Adjoint Method (more next week)?}
+  \begin{itemize}
+    \item<1-> Only first order approach
+    \item<2-> "Black-box" approach, does not address non-linearities at all.
+    \item<3-> Currently in open-loop formulation, which loses usefulness as input data becomes noisier
+    \item<4> Geometric constraints are difficult~\cite{Giles2000}
+    \begin{itemize}
+			\item handles equality constraints well, but not inequality constraints
+			\item barrier functions
+			\item projected-gradient descent
+		\end{itemize}
+  \end{itemize}
+}

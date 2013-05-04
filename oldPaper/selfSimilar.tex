@@ -1,0 +1,108 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+\label{sec:contBufferModel}
+\subsection{Weak boundary conditions and ramp flux demands}
+
+One condition we wish our continuous model to possess is mass-conservation
+on the ramp demands. In other words, for a ramp at cell $\icell$,
+we want the demand at the ramp to apply to the system in a \emph{strong}
+sense. For horizontal queues with density having a spacial and temporal
+dependency, backwards-moving shocks could cause a density boundary
+condition to not apply, thus \emph{weak} boundary conditions are considered
+for these models. Then, the flux at such a boundary condition would
+be determined from the solution of a junction problem at the weak boundary
+condition. Let $\totalrampflow{\icell}t$ be the boundary flow specification,
+and let $\actualrampflow{\icell}t$ be the actual boundary flux. Then
+our condition amounts to:
+
+\begin{equation}
+\int_{t=0}^{\ntime}\totalrampflow{\icell}tdt=\int_{t=0}^{\ntime}\actualrampflow{\icell}tdt\label{eq:condition1}
+\end{equation}
+
+
+For the horizontal queueing model, we have:
+
+\[
+\actualrampflow{\icell}t=f_{i}(\hat{\densitysymbol}\left(f_{\icell}^{-1,\text{ff}}\left(\totalrampflow{\icell}t\right),\density{\icell}{a_{i},t}\right)\le\totalrampflow{\icell}t
+\]
+
+
+where $f\left(\cdot\right)$ is the flux function mapping density
+to flux, $f_{\icell}^{-1,\text{ff}}\left(\totalrampflow{\icell}t\right)$
+is the inverse mapping of flux to the corresponding free-flow density,
+$\densitysymbol_{\icell}\left(a_{i},t\right)$ is the density at the
+beginning of cell $\icell$ at time $t$, and $\hat{\densitysymbol}$
+is the solution of the Riemann problem at the boundary. The solution
+of $\hat{\densitysymbol}$ admits fluxes that can be strictly less
+than $\totalrampflow{\icell}t$, but never greater than $\totalrampflow{\icell}t$.
+If this limiting flux condition occurs over a time period $\left[t_{1},t_{2}\right]$,
+then Equation~(\ref{eq:condition1}) becomes:
+
+\begin{eqnarray}
+\int_{t=\bar{t_{1}}}^{\bar{t_{2}}}\actualrampflow{\icell}tdt & \le\int_{t=\bar{t_{1}}}^{\bar{t_{2}}}\totalrampflow{\icell}t & \forall\mbox{\ensuremath{\bar{t_{1}}\le\bar{t_{2}}}},\\
+\int_{t=t_{1}}^{t_{2}}\actualrampflow{\icell}tdt & <\int_{t=t_{1}}^{t_{2}}\totalrampflow{\icell}tdt & \implies\\
+\int_{t=0}^{T}\actualrampflow{\icell}tdt & <\int_{t=0}^{T}\totalrampflow{\icell}tdt
+\end{eqnarray}
+
+
+This shows that having a horizontal queue model for the onramp will
+not guarantee a strong application of flux boundary conditions.
+
+
+\subsection{Buffer model for ramps\label{sub:Buffer-model-for}}
+
+To overcome this shortcoming on ramps, we propose to use a \emph{buffer}
+ODE for the ramp model, and have the ODE interact with the larger
+PDE system via the junction model. For a ramp at cell $\icell$, let
+the ODE of queue length $\rampqueue{\icell}t$ be:
+
+\begin{equation}
+\frac{d\rampqueue{\icell}t}{dt}=\totalrampflow{\icell}t-\rampflux{\icell}t\label{eq:rampode}
+\end{equation}
+
+
+where $\gamma$ denotes the outgoing flux from the ramp. It is obvious from this model
+that the inflow into the ramp will be equal to the condition specified
+in Equation~(\ref{eq:condition1}).
+
+For the junction model, we solve for the fluxes across junctions by
+maximizing the flow across a junction given the demands of the incoming
+links and the supplies of the outgoing links. The mainline links determine
+their demands and supplies as done in~\cite{garavello2006traffic}. The
+onramp demand is given by the following equation:
+
+\[
+\rampdemand{\icell}t=\begin{cases}
+\maxrampflux{\icell} & \rampqueue{\icell}t>0\\
+\totalrampflow{\icell}t & \text{otherwise}
+\end{cases}
+\]
+
+
+which permits the physically allowable flux out of the ramp when there
+is a queue, and the current input flux of the buffer otherwise. Finally,
+the offramp should be considered to have infinite supply.
+
+The linear program will solve for three relevant fluxes: $\flux{\icell}t,\rampflux{\icell}t,$
+and $\flux{\icell+1}t$ which represent the flux from the current
+cell into the junction, the flux out of the ramp, and the flux out
+of the junction into the downstream cell respectively. The boundary
+densities, $\hat{\densitysymbol}$, for the mainlines would be determined
+as in \cite{garavello2006traffic}. The following system would constitute
+a full solution of the junction problem, and would also determine
+the ramp flux $\rampflux{\icell}t$ necessary to virtualSelfthe ramp virtualSelfSimilarE
+in Equation~(\ref{eq:rampode}).
+
+
+\subsection{Unique and self-similar solutions for the continuous model}
+
+
+% \subsubsection{Virtual Junction Problem Approach}\label{sub:bestselfsimilar}
+% \input{virtualSelfSimilar}
+
+% \subsubsection{Old Approach}\label{sub:oldapproach}
+% \input{oldContinuousApproach}
+
+\input{selfSimilar-JunctionBuffer.tex}
+
+\subsection{Combined Section}\label{sub:bestselfsimilar}
+\input{combinedContBuff}

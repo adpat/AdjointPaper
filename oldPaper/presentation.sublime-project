@@ -1,0 +1,16 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/jdr/Documents/School/Presentations/CC-Adjoint"
+		}
+	],
+	"settings":
+	{
+		"rope_autoimport_modules":
+		[
+		"latexslides.*",
+		"latexslides"
+		]
+	}
+}

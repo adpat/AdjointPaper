@@ -1,0 +1,101 @@
+
+What is left to show is the model above has a unique solution, and
+that the Riemann solver at the junction is self-similar, i.e.
+
+\[
+RS_{\icell}\left(\density{\icell}{b_{i},t},\rampqueue{\icell}t,\density{\icell+1}{a_{\icell+1},t}\right)=RS_{\icell}\left(RS_{\icell}\left(\density{\icell}{b_{i},t},\rampqueue{\icell}t,\density{\icell+1}{a_{\icell+1},t}\right)\right)
+\]
+
+
+The uniqueness is guaranteed from the fact that there is a unique
+mapping from our problem's demand/supply formulation to the flux maximization problem of the model in~\cite{garavello2006traffic} which guarantees a unique
+flux solution. The model also guarantees a unique mapping from initial
+density and flux solution to final boundary densities, $\hat{\densitysymbol}$.
+Therefore, we have a uniqueness guarantee from the Garavello model.
+
+We demonstrate that the solution is self-similar by enumerating the
+different flux conditions. We note that the condition of the existence
+of an offramp ($\offrampratio{\icell}t>0$) leads to the assumption
+that the priority constant $P=1$.
+
+For the case when the flux is \emph{demand-constrained} (there is
+more supply than demand), then the flux solution will be:
+
+\begin{eqnarray*}
+\flux{\icell}t & = & \celldemand{\icell}t\\
+\rampflux{\icell}t & = & \rampdemand{\icell}t\\
+\flux{\icell+1}t & = & \celldemand{\icell}t\left(1-\offrampratio{\icell}t\right)+\rampdemand{\icell}t
+\end{eqnarray*}
+
+
+and the density solutions will be:
+
+\begin{eqnarray*}
+\hat{\density{\icell}t} & = & \density{\icell}t\\
+\hat{\density{\icell+1}t} & = & \tau\left(\celldemand{\icell}t\left(1-\offrampratio{\icell}t\right)+\rampdemand{\icell}t,\density{\icell+1}t\right)<\density{\icell+1}t
+\end{eqnarray*}
+
+
+It is clear that the Riemann solution of this new condition will have
+the same demand and a supply larger than the demand, which gives a
+self-similar solution.
+
+For the case when the flux is \emph{supply-constrained}, we consider
+two cases: when both the mainline and ramp have fluxes below their
+demands, and the case when exactly one of the mainline or the ramp
+have flux equal to demand. It is not possible to have both demands
+satisfied at once, otherwise it would be demand-constrained.
+
+For the first case, the flux values are determined by the intersection
+of the equation $\rampflux{\icell}t=\cellsupply{\icell+1}t-\left(1-\offrampratio{\icell}t\right)\flux{\icell}t$
+and $\rampflux{\icell}t=\frac{1-P}{P}\flux{\icell}t$, where we have
+assumed the intersection occurs within feasible flow region of mainline
+and ramp. The supply of the Riemann solution will not change ($\hat{\density{\icell+1}t}=\density{\icell+1}t$).
+The new demands will be greater than or equal to the previous demands.
+The function to determine the new intersection point (to solve for
+fluxes) has the same supply term and therefore is identical to the
+previous function. Therefore the intersection point is the same as
+the previous. Furthermore, this point must as well be inside the feasible
+region of the incoming fluxes, since the feasible region has only
+grown. We have shown that the flux solution to the Riemann solution
+is identical to the original flux solution, and will therefore lead
+a self-similar solution.
+
+For the second case, the important intersection point is with the
+supply constraint and the demand constraint which is tight. The demand
+constraint becomes tight with the supply constraint and the priority
+constraint lead to an infeasible flux solution. Let us first assume
+that the mainline has the tight demand constraint, then the flux solutions
+are:
+
+\begin{eqnarray*}
+\flux{\icell}t & = & \celldemand{\icell}t\\
+\rampflux{\icell}t & = & \cellsupply{\icell+1}t-\left(1-\offrampratio{\icell}t\right)\celldemand{\icell}t\\
+\flux{\icell+1}t & = & \cellsupply{\icell+1}t
+\end{eqnarray*}
+
+
+which leads to solution densities identical to the initial densities.
+This is clearly a self-similar solution.
+
+Now assume that the ramp demand constraint is tight. The fluxes are
+now:
+
+\begin{eqnarray*}
+\flux{\icell}t & = & \left(\cellsupply{\icell+1}t-\rampdemand{\icell}t\right)/\left(1-\offrampratio{\icell}t\right)\\
+\rampflux{\icell}t & = & \rampdemand{\icell}t\\
+\flux{\icell+1}t & = & \cellsupply{\icell+1}t
+\end{eqnarray*}
+
+
+where now the solution density on mainline $\icell$ leads to an increased
+demand, while the demand on the ramp does not ever change. Since the
+ramp demand is the same, the intersection point that determined the
+first fluxes will be identical for the Riemann solution. Additionally,
+the feasible region only increases, meaning the fluxes of the Riemann
+system will be the same as the initial problem.
+
+Since all cases have been enumerated, we have demonstrated the self-similar
+property of the buffer ramp junction problem.
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------

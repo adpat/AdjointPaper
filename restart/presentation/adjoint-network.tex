@@ -1,0 +1,125 @@
+%!TEX root =presentation.tex
+\section[network adjoint]{Adjoint method applied to PDE networks} % (fold)
+\label{sec:adjoint_method_applied_to_pde_networks}
+
+
+
+
+\begin{frame}[t]\frametitle{PDE with control}
+
+Modify formulation to include
+
+\begin{itemize}
+    \item state vector $\mathbf{x}\in\mathbb{R}^{|\links|T}$
+    \item control vector $\mathbf{\control}\in\mathbb{R}^{N_{\control}T}$
+    \begin{itemize}
+        \item $\mathbf{\control}_{\jn,k}\subseteq\mathbf{\control}_{k}$ modifies Riemann problem at $\jn$ for time $k$.
+        \begin{align}
+            \RS:&\mathbb{R}^{m+n}\times\mathbb{R}^{|\mathbf{\control}_{\jn,k}|}&\rightarrow\mathbb{R}^{m+n}\\&\left(\mathbf{x}_{\jn,k},\mathbf{\control}_{\jn,k}\right)&\mapsto\RS\left(\mathbf{x}_{\jn,k},\mathbf{\control}_{\jn,k}\right)=\hat{\mathbf{\dvar}}_{\jn,k}
+        \end{align}
+        \item $N_{\control}$ are the number of control parameters at each time-step.
+    \end{itemize}
+\end{itemize}
+
+Updated discrete state equations:
+
+\begin{align}
+h_{\link,1}(\mathbf{x},\mathbf{v})&=x_{\link,1}-\dvar_{\link}=0\\
+h_{\link,k}(\mathbf{x},\mathbf{v})&=x_{\link,k}-x_{\link,k-1}+\\
+&\frac{\triangle t}{L_{\link}}(\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Down}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Down}},k-1})-\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Up}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Up}},k-1}))\\
+&=0\forall k\in\left[2,\ldots,T\right]
+\end{align}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Optimization problem}
+    
+
+\begin{block}{Optimization Problem}
+\begin{align}
+\underset{\mathbf{\control}}{\min}&J\left(\mathbf{x},\mathbf{\control}\right)&\\\text{subject to:}&H\left(\mathbf{x},\mathbf{\control}\right)=0&
+\end{align}
+\end{block}
+
+\begin{block}{Review: adjoint method}
+\begin{align}
+\nabla J & = \lambda^T H_{\control} + J_{\control} \\
+H_{x}^T \lambda & = -J_{x}
+\end{align}
+
+
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}
+
+
+Assume initial $\mathbf{\control}_0$ and state $H(\mathbf{x}_0, \mathbf{\control}_0)=0$.
+\begin{block}{What needs to be computed for adjoint method?}
+\begin{itemize}
+    \item $\pfrac{J(\mathbf{x}_0, \mathbf{\control}_0)}{\mathbf{\control}}, \pfrac{J(\mathbf{x}_0, \mathbf{\control}_0)}{\mathbf{x}}$: Problem specific, no sparsity assumptions.
+    \item $\pfrac{H(\mathbf{x}_0, \mathbf{\control}_0)}{\mathbf{\control}}, \pfrac{H(\mathbf{x}_0, \mathbf{\control}_0)}{\mathbf{x}}$: can analyze properties of PDE networks and Godunov scheme to:
+    \begin{itemize}
+        \item derive partial derivative expressions
+        \item understand sparsity
+    \end{itemize}
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Partial derivates of state equations}
+
+\begin{block}{$H_x$}
+By chain rule:
+\begin{align*}
+\pfrac{h_{\link,k}}x=-\pfrac{x_{\link,k-1}}x+\\
+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)    
+\end{align*}
+
+\begin{itemize}
+    \item Only require $f'$ and partial derivatives on Riemann solvers.
+    \item $\pfrac{h_{i,k}}{x_{j,l}} = 0$ unless $l = k - 1$.
+    \item $\pfrac{x_{i,k-1}}{x_{j,l}} = 0$ unless $i = j$.
+    \item $\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{i}^{\text{Down}},k}\right\}_{i}}{x_{j,l}} = 0$ unless $j \in \jn_{i}^{\text{Down}}$ (same for $\jn_{i}^{\text{Up}}$).
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Partial derivates of state equations}
+
+\begin{block}{$H_x$}
+\begin{itemize}
+    \item Only require $f'$ and partial derivatives on Riemann solvers.
+    \item $\pfrac{h_{i,k}}{x_{j,l}} = 0$ unless $l = k - 1$.
+    \item $\pfrac{x_{i,k-1}}{x_{j,l}} = 0$ unless $i = j$.
+    \item $\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{i}^{\text{Down}},k}\right\}_{i}}{x_{j,l}} = 0$ unless $j \in \jn_{i}^{\text{Down}}$ (same for $\jn_{i}^{\text{Up}}$).
+\end{itemize}
+Thus each partial term is zero unless variable is from previous time-step and adjacent to constraint link.
+\end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Partial derivates of state equations}
+
+\begin{block}{$H_v$}
+By chain rule:
+\begin{align*}
+\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)
+\end{align*}
+Similar arguments to $H_x$ give us that each partial term is zero unless variable is from same time-step and $v\in \mathbf{v}_J^{\text{Down}}\cup\mathbf{v}_J^{\text{Up}}$.
+\end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Example for linear flux function}
+
+\begin{example}
+On board...
+\end{example}
+
+\end{frame}
+
+
+
+% section adjoint_method_applied_to_pde_networks (end)

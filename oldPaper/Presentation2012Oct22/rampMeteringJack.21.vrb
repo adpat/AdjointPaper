@@ -1,0 +1,28 @@
+\frametitle{Riemann Solver IV}
+Given $\rho_i(0,\cdot), \rho_j(0,\cdot) \; \text{for every}\; i,j$ there exists a $n+m$-tuple $(\hat{\rho}_i ,\hat{\rho}_j)\in[0,1]^{n+m}$ such that
+\begin{equation}
+\hat{\rho}_i\in\left\{
+\begin{array}{ll}
+\{\rho_{i,0}\}\cup]\tau(\rho_{i,0}),1] &\hbox{if}~0 \leq \rho_{i,0}\leq\rho^{cr} ,\\
+\left[\rho^{cr},1\right] &\hbox{if}~\rho^{cr} \leq \rho_{i,0}\leq 1;
+\end{array}
+\right.
+\label{eq:rho_i}
+\hyperlink{drawing}{\beamerbutton{...}}
+\end{equation}
+and
+\begin{equation}
+\hat{\rho}_j\in\left\{
+\begin{array}{ll}
+\left[0,\rho^{cr}\right] &\hbox{if}~0 \leq \rho_{j,0}\leq\rho^{cr} ,\\
+\{\rho_{j,0}\}\cup[0,\tau(\rho_{j,0})[ &\hbox{if}~\rho^{cr} \leq \rho_{j,0}\leq 1;
+\end{array}
+\right.
+\label{eq:rho_j}
+\hyperlink{drawingO}{\beamerbutton{...}}
+\end{equation}
+and for the incoming roads the solutions are given by the waves $(\rho_{i,0},\hat{\rho}_i)$, while for the outgoing road the solutions are given by the waves $(\hat{\rho}_j,\rho_{j,0})$ for every $i,j$.\\
+
+\begin{flushright}
+\hyperlink{Theorem}{\beamerbutton{Theorem}}
+\end{flushright}

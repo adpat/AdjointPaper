@@ -1,0 +1,8 @@
+\beamer@slide {sub:optimization_algorithm_using_adjoint}{17}
+\beamer@slide {sec:network_of_pde_s}{24}
+\beamer@slide {sec:godunov_discretization}{34}
+\beamer@slide {sub:discretizing_single_system}{34}
+\beamer@slide {sub:discretizing_pde_network}{38}
+\beamer@slide {sec:adjoint_method_applied_to_pde_networks}{45}
+\beamer@slide {sec:complexity_analysis_of_adjoint_method}{52}
+\beamer@slide {sec:demo_ramp_metering}{56}

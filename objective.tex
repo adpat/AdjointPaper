@@ -10,13 +10,14 @@
 % \end{itemize}
 
 
-Given a network of junctions $\jns$ and links $\links$, a dynamical system $\sysMat$, and a set of control parameters $\control$, we wish to find an control parameter $\control^*$ that minimizes some cost function $\costMat$. For instance, in the state estimation problem discussed in Section~\ref{sub:control_parameters_for_ramp_metering}, an appropriate cost function would penalize for the difference between a known final density state $\bar{\density}$ and the final estimated density $\density'$.
+Given a network of junctions $\jns$ and links $\links$, a dynamical system $\sysMat$, and a set of control parameters $\control$, we wish to find an control parameter $\control^*$ that minimizes some cost function $\cost\left(\state,\control\right)$ subject to the physical system's constraints in $\sysMat$. For instance, in the state estimation problem discussed in Section~\ref{sub:control_parameters}, an appropriate cost function would penalize for the difference between a known final density state $\bar{\density}$ and the final estimated density $\density'$.
+For ramp metering, we would seek to reduce congestion on a freeway/ramp system caused by excess ramp flow. One metric that captures congestion is \emph{total travel time}, or the total time spent on the network by every vehicle that enters the network.
 
-For the problem of ramp metering, we seek to reduce congestion on a freeway/ramp system caused by excess ramp flow. One metric that captures congestion is \emph{total travel time}, or the total time spent on the network by every vehicle that enters the network. We define the cost function for total travel time:
-
+\jdrcomment{again, this can be moved to later section}
+We define the cost function for total travel time:
 \begin{equation}
     \label{eqn:total-travel-time}
-    \cost\left(\state,\control\right) = \sum_i,k \idx{\density}{i}{k}\length_i + \idx{\queue}{i}{k}
+    \cost_{\text{ramp}}\left(\state,\control\right) = \sum_{i,k} \idx{\density}{i}{k}\length_i + \idx{\queue}{i}{k}
 \end{equation}
 
 Given some initial and boundary conditions that specify a time horizon over which to optimize, then this problem can be phrased as a constrained, finite-horizon optimal control problem:
@@ -24,9 +25,9 @@ Given some initial and boundary conditions that specify a time horizon over whic
 \begin{aligned}
 \label{eqn:optimal-control-problem}
 \underset{u}{\text{minimize}} & \quad \cost\left(\state,\control\right) \\
-\text{such that:} & \\
+\text{subject to:} & \\
 & \sysMat \left(\state, \control\right) = 0
 \end{aligned}
 \end{equation}
 
-The rest of the article details our solution methods and modifications of Problem~\eqref{eqn:optimal-control-problem}.
+The rest of the article details our solution methods and modifications of Problem~\eqref{eqn:optimal-control-problem} for discretized LWR PDE networks.

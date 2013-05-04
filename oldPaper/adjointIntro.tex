@@ -1,0 +1,103 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+
+
+
+\subsection{General highway control problem}
+
+Consider the following general optimization problem:
+\begin{equation}
+\begin{aligned}
+&\text{minimize}_{u \in \mathcal{U}} && J(x,u) \\
+&\text{subject to} &&H(x,u) = 0
+\end{aligned}
+\end{equation}
+where $x$ denotes the state variables and $u \in \mathcal{U}$ denotes the control variables,
+\begin{equation}
+\begin{aligned}
+J: \mathcal{X} \times \mathcal{U} & \rightarrow \mathbb{R}\\
+(x,u) & \mapsto J(x,u)
+\end{aligned}
+\end{equation}
+is the objective function and 
+\begin{equation}
+\begin{aligned}
+H: \mathcal{X} \times \mathcal{U} & \rightarrow \mathbb{R}^{n_H}\\
+(x,u) & \mapsto H(x,u)
+\end{aligned}
+\end{equation}
+are the system constraints, where $x \in \mathcal{X}$ is the state vector of the system, and $u \in \mathcal{U}$ is a control vector.
+
+In the traffic setting, $J(x,u)$ is typically the total travel time (TTT) or a combination of TTT and the total travel distance (TTD). More on this later. The system constraints $H(x,u)$ include the constraints that determine the dynamics of traffic flow, and the initial conditions. The control constraints can be encoded in the set $\mathcal{U}$ of admissible controls. In this work, the traffic dynamics will be based on a Godunov discretization of the LWR PDE  with a triangular fundamental diagram and the control constraints will the ramp metering rate at each on-ramp. 
+
+The system constraints that arise from the Godunov discretization are non-linear. One approach to solving this problem is to relax the non-linear constraints and solve the relaxed problem. In certain cases, it can be shown that the resulting relaxation gap is zero. This is not the case in the ramp metering problem that we consider. Therefore, we propose using the adjoint method to compute the gradient and solve this non-linear optimization problem using gradient descent.
+
+\subsection{Overview of how to use the adjoint method~\cite{Duffy2009}}
+
+The adjoint method is a technique to compute the gradient $\nabla_u J(x, u) = \frac{d J}{d u}$ of the objective function without fully computing $\nabla_u x = \frac{d x}{d u}$. The gradient is then used to do gradient-decent based optimization. 
+
+\subsubsection{A Lagrangian approach}
+
+Under equality constraints $H(x, u) = 0$, the Lagrangian
+\[
+L(x,u, \lambda) = J(x, u) + \lambda^T H(x, u)
+\]
+coincides with the objective function for any feasible point $(x, u)$. The problem is then equivalent to computing the gradient of the Lagrangian:
+\begin{align*}
+\nabla_u L (x, u, \lambda)
+&= \frac{\partial J}{\partial u} + \frac{\partial J}{\partial x}\frac{d x}{d u} + \lambda^T \left( \frac{\partial H}{\partial u} + \frac{\partial H}{\partial x}\frac{d x}{d u} \right) \\
+&= \frac{\partial J}{\partial u} + \lambda^T \frac{\partial H}{\partial u} + \left( \frac{\partial J}{\partial x} + \lambda^T\frac{\partial H}{\partial x}\right) \frac{d x}{d u}
+\label{eq:gradient1}
+\end{align*}
+
+In particular, if $\lambda$ satisfies the adjoint equation
+\begin{equation}\label{eq:adjointEquation}
+\frac{\partial J}{\partial x} + \lambda^T\frac{\partial H}{\partial x} = 0
+\end{equation}
+
+(TODO: justify existence of a solution $\lambda$)
+
+The gradient becomes
+\begin{equation}
+\nabla_u L (x, u)
+= \frac{\partial J}{\partial u} + \lambda^T \frac{\partial H}{\partial u}
+\label{eq:gradient2}
+\end{equation}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsubsection{A second derivation}
+
+Since the Lagrangian coincides with the objective function on the feasible set, the gradient of the Lagrangian on the feasible set is given by
+\[
+\nabla_u L (x, u, \lambda) = \nabla_u J (x, u) = \frac{\partial J}{\partial u} + \frac{\partial J}{\partial x}\frac{d x}{d u} 
+\]
+
+From the system constraints, $\frac{dx}{du}$ satisfies the following condition
+\begin{align*}
+\frac{dH}{du} = 0 
+&\Leftrightarrow \frac{\partial H}{\partial x}\frac{dx}{du} + \frac{\partial H}{\partial u} = 0 \\
+&\Leftrightarrow  \frac{\partial H}{\partial x}\frac{dx}{du} = - \frac{\partial H}{\partial u}
+\end{align*}
+%
+therefore for all $\lambda \in \mathbb{R}^{n_H}$
+%
+\[
+\lambda^T  \frac{\partial H}{\partial x}\frac{dx}{du} = - \lambda^T\frac{\partial H}{\partial u}
+\]
+in particular, for $\lambda$ solution to the adjoint equation
+\[
+\frac{\partial J}{\partial x} + \lambda^T\frac{\partial H}{\partial x} = 0
+\]
+we have
+\[
+\frac{\partial J}{\partial x}\frac{d x}{d u} = - \lambda^T\frac{\partial H}{\partial x}\frac{d x}{d u} = \lambda^T\frac{\partial H}{\partial u}
+\]
+and the gradient becomes simply
+\[
+\nabla_u L (x, u, \lambda)
+= \frac{\partial J}{\partial u} + \lambda^T \frac{\partial H}{\partial u}
+\label{eq:adjointGradient}
+\]
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Continuous approach and discrete approach}

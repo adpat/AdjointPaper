@@ -1,0 +1,26 @@
+\frametitle{Riemann Solver V}
+For the outgoing roads
+\begin{columns}
+\column{0.5 \textwidth}
+\begin{figure}[ht]
+\centering
+{
+\resizebox{.9\columnwidth}{!}{
+\input{outgoing1}}
+%\caption{Solution of the Riemann Problem.}
+\label{fig:I1}}
+\end{figure}
+\column{0.5 \textwidth}
+\begin{figure}[ht]
+\centering
+{
+\resizebox{.9\columnwidth}{!}{
+\input{outgoing2}}
+%\caption{Solution of the Riemann Problem.}
+\label{fig:O2}}
+\end{figure}
+\end{columns}
+\begin{flushright}
+\hyperlink{Solution}{\beamerbutton{Back}}
+\end{flushright}
+

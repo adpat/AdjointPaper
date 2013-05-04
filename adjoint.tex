@@ -1,37 +1,179 @@
 %!TEX root =article.tex
-\subsection{Solving for gradient in deterministic systems} % (fold)
+\subsection{Solving for gradient} % (fold)
 \label{sub:solving_for_gradient_in_deterministic_systems}
 
-go through the usually paces of taking derivatives and applying the chain rule: crib from Alex's air traffic paper a bit here
+Since the LWR PDE is in general nonlinear, gradient-based methods will not give any guarantees of convergence to globally optimal values, nonlinear optimization methods still benefit from gradient information because we seek at least a local optimum.
+Thus, we seek an efficient method for computing the gradient $\del \cost_{\control}$for an arbitrary cost function $\cost$ with respect to the control parameter, $\control$. The adjoint method is a way of eliminating intermediate calculations, which are explicitly computed by considering the standard, ``forward'' system, and reduces the complexity by a factor proportional to the number of control variables.
+
+\jdrcomment{need some reference here, and some more information supporting the above statement.}
 
 % subsection solving_for_gradient_in_deterministic_systems (end)
 
-\subsection{Adjoint system} % (fold)
-\label{sub:adjoint_system}
+\subsection{Adjoint derivation} % (fold)
+\label{sub:adjoint_derivation}
 
-go through the transformation, and talk about efficiencies
+To calculate the gradient at a particular control value $\control$, we must first perform a forward simulation step to obtain the corresponding state vector $\state$ by solving the system $\sysMat(\state,\control) = 0$. Recalling the problem formulation in \eqref{eqn:optimal-control-problem}, we can first apply the chain rule to obtain:
 
-\begin{itemize}
-    \item solve system for vector rather than matrix, gain in efficiencies
-    \item information on senstivity reported from adjoint vector
-\end{itemize}
+\begin{equation}
+    \label{eqn:chain-rule}
+    \del \cost_{\control} = \djdx \dFrac{\state}{\control} +\djdu
+\end{equation}
+
+where the $\dFrac{\state}{\control}$ term is difficult to compute due to the coupling equation $\sysMat(\state,\control)$. 
+
+We then note that since $\sysMat(\state,\control) = 0$, then its total derivative with respect to $\control$ must equal:
+\begin{equation}
+    \label{eqn:symat-deriv}
+    \frac{d\sysMat(\state,\control)}{d\control} = \dhdx\dFrac{\state}{\control} + \dhdu = 0
+\end{equation}
+
+The resulting expressions in the $\dhdx$ and $\dhdu$ matrices are evaluated at $(\state,\control)$ to obtain matrix values for both terms. Thus, solving for $\dFrac{\state}{\control}$ Directly solving this system for $\dFrac{\state}{\control}$ can be expensive, since $\dFrac{\state}{\control}$ is an $\nState\times\nControl$ matrix that must be solved for from the above system. This, in general, costs $O\left(\nState^3\nControl\right)$. Once $\dFrac{\state}{\control}$ is solved, then it can be directly substituted into Equation~\eqref{eqn:chain-rule}, and thus obtaining the gradient.
+
+We seek a more efficient solution by not solving for $\dFrac{\state}{\control}$ explicitly, but rather making the substitution:
+
+\begin{align}
+\label{eqn:inverse}
+\dFrac{\state}{\control} = \dhdx^{-1}\dhdu
+\end{align}
+
+
+Since our system in lower triangular, the partial derivative with respect to $\state$ will also be lower triangular, and will have ones on the diagonal. Thus, the inverse exists.
+
+Then we substitute this expression into Equation~\eqref{eqn:chain-rule}:
+
+\begin{align}
+\label{eqn:sub}
+    \del \cost_{\control} = \djdx \dhdx^{-1}\dhdu +\djdu
+\end{align}
+
+or if we take the transpose:
+
+\begin{align}
+\label{eqn:sub-transpose}
+    \del \cost_{\control}^T = \dhdu^T (\dhdx^{-1})^T \djdx^T +\djdu^T
+\end{align}
+
+
+We make the substitution $\lambda = (\dhdx^{-1})^T \djdx^T$, where $\lambda\in\Rbb^{\nState}$ is the solution of the following system of equations:
+
+\begin{equation}
+    \label{eqn:adjoint}
+    \dhdx^T \lambda = -\djdx^T
+\end{equation}
+
+Solving this system is now in general $O(\nState^3)$, since we only need to solve for one vector $\in \Rbb^{\nState}$ instead of a matrix $\in\Rbb^{\nState\nControl}$ in Equation~\eqref{eqn:symat-deriv}. In Section~\ref{sec:efficient_gradient_solutions}, we show how the cost can be reduced to $O(\State)$.
+
 
 % subsection adjoint_system (end)
 
-\jdrcomment{can probably put the full derivation in an appendix of some sort, really dry}
+\subsection{Adjoint system for LWR networks} % (fold)
+\label{sub:adjoint_system}
 
-\subsection{Constructing triangular system} % (fold)
-\label{sub:constructing_triangular_system}
+The adjoint system described in Equation~\eqref{eqn:adjoint} can be written explicitly by considering the expressions generated from the partial derivatives in $\dhdx$ and $\djdx$. One reason this system is interesting is its independence on the control method being applied. Thus, the derivations in this section generalize to control problems that use this discretized LWR network as the underlying physical model. Similarly, we keep the cost function $\cost$ general so that we may extend our results to arbitrary cost functions without effecting computational results in this section.
 
-Show the one figure which shows the topological dependencies of the variables, based on forward sim analysis.
+To keep the presentation generic enough to extend to different junction solvers 
 
-% subsection constructing_triangular_system (end)
+\jdrcomment{mention the LN-CTM, straight Piccoli}, we introduce a function $\F$, which takes a particular cell's previous density, the neighboring cells' previous densities, and the neighboring ramps previous queue sizes, and outputs the density at the next time step:
+\begin{equation}
+\begin{aligned}
+\label{eqn:forward-sim-function}
+\F: &\Rbb^5 && \rightarrow & \Rbb \\
+& (\idx{\density}{i}{k}, 
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i+1}{k}, 
+        \idx{\queue}{i}{k}, 
+        \idx{\queue}{i+1}{k}) && \mapsto  & \idx{\density}{i}{k+1}
+\end{aligned}
+\end{equation}
+
+Similarly, we introduce a function $\G$ which updates a queue's length:
+\begin{equation}
+\begin{aligned}
+\label{eqn:forward-sim-function-queue}
+\G: &\Rbb^3 && \rightarrow & \Rbb \\
+& (\idx{\queue}{i}{k}, 
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i}{k}) && \mapsto  & \idx{\queue}{i}{k+1}
+\end{aligned}
+\end{equation}
+\begin{remark}
+The $\F$ and $\G$ equations can be made equivalent to the $\sysMat$ system by introducing the intermediate variables given in Equation~\eqref{eqn:system-of-equations}, but we gain clarity by limiting the variables to the state variables (density and queue lengths), the sufficient information necessary for solving the forward simulation.
+\end{remark}
+
+\begin{remark}
+The upstream and downstream dependencies\footnote{In numerical methods, this is equivalent to having an upwind-downwind discretization scheme.} of the density update equation is a result of the Godunov discretization and the fact that traffic flow propagates information both forward and backward in space. The onramps only connect to the network on their downstream end, and thus only depend on the densities of the mainline links adjacent to the downstream end.
+\end{remark}
+
+\begin{remark}
+To handle possibly undefined variables at the boundaries of the network, we develop the convention that at the first link, the upstream density is taken to be zero, and similarly for the downstream density and queue length at the last link. This condition can be considered the mainline boundary conditions. Furthermore, densities and queue lengths at time $k=0$ are input into the system and considered initial conditions.
+\end{remark}
+
+Thus, we can recast our system to the following equivalent formulation:
+
+\begin{equation}
+\label{eqn:equivalent-forward-sim}
+\begin{aligned}
+\idx{\density}{i}{k+1} &-&& \F(\idx{\density}{i}{k}, 
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i+1}{k}, 
+        \idx{\queue}{i}{k}, 
+        \idx{\queue}{i+1}{k}) &=0 & 
+        \forall i\in\left[0,\ldots,\nlinks-1\right] ,
+        \forall k\in\left[0,\ldots,\horizon-1\right] \\
+\idx{\queue}{i}{k+1} &-&& \G(\idx{\queue}{i}{k}, 
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i}{k}) &=0& 
+        \forall i\in\left[0,\ldots,\nlinks-1\right] ,
+        \forall k\in\left[0,\ldots,\horizon-1\right]
+\end{aligned}
+\end{equation}
+
+Considering the adjoint system in Equation~\eqref{eqn:adjoint}, we introduce the notation for adjoint variables where $\adj{a}{i}{k}$ is the adjoint variable corresponding to the constraint in Equation~\eqref{eqn:equivalent-forward-sim} with the variable $\idx{a}{i}{k}$ on the far left ($a$ can beither either $\density$ or $\queue$ in our formulation). Then we can express the adjoint system in terms of partial derivatives.
+\begin{equation}
+\label{eqn:adj-density}
+\begin{aligned}
+\adj{\density}{i}{k} - \fFik{i-1}{k+1} - \fFik{i+1}{k+1} \\
+- \fFik{i}{k+1} - \fGik{i}{k+1} - \fGik{i-1}{k+1} = \pFrac{\cost}{\idx{\density}{i}{k}}
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\label{eqn:adj-queue}
+\begin{aligned}
+\adj{\queue}{i}{k} - \gFik{i-1}{k+1} - \gFik{i}{k+1} - \gGik{i}{k+1} = \pFrac{\cost}{\idx{\queue}{i}{k}}
+\end{aligned}
+\end{equation}
+
+for $i\in\left[0,\ldots,\nlinks-2\right]$, $ k\in\left[0,\ldots,\horizon-1\right]$, where we make the notational simplifications:
+\[
+\F_{i,k+1} = \F(\idx{\density}{i}{k}
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i+1}{k}, 
+        \idx{\queue}{i}{k}, 
+        \idx{\queue}{i+1}{k})
+\]
+\[\G_{i,k+1} = \G(\idx{\queue}{i}{k}, 
+        \idx{\density}{i-1}{k}, 
+        \idx{\density}{i}{k})
+\]
+The initial conditions for the adjoint system is:
+
+\[
+\adj{\density}{i}{T} - \pFrac{\cost}{\idx{\density}{i}{T}} \forall i\in\left[0,\ldots,\nlinks-1\right]
+\]
+\[
+\adj{\queue}{i}{T} - \pFrac{\cost}{\idx{\queue}{i}{T}} \forall i\in\left[0,\ldots,\nlinks-1\right]
+\]
+
+This is consistent with the notion that adjoint systems are solved ``backwards'' in time (a result of the transpose operation in Equation~\eqref{eqn:adjoint}), and thus have ``initial'' conditions at $k=\horizon$. We note that traditional boundary conditions are embedded in the ramp boundary conditions, and are considered ``strong'' boundary conditions due to its vertical queue model.
+
+Similar to the forward system, the adjoint system can be solved efficiently through back-substitution techniques if the proper ordering of the adjoint variables is taken. We discuss this ordering in the next subsection.
+
 
 \subsection{Efficient solution of system via depth-first-search system solution} % (fold)
 \label{sub:efficient_solution_of_system_via_depth_first_search_system_solution}
 
-by doing some graph theory on the $\dhdx$ matrix, then you can get really efficient solutions, which take advantage of sparsity.
-
+As noted in Section~\ref{sub:adjoint_derivation}, the adjoint approach reduces the complexity of solving for the adjoint from $O(\nControl\nState^3)$ to $O(\nState^3)$. But this complexity is for general matrices. Our specific
 The running time of the system solution is then $O\left(k\right)$, where $k$ is the number of non-zero elements.
 
 % subsection efficient_solution_of_system_via_depth_first_search_system_solution (end)

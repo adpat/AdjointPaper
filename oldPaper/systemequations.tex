@@ -1,0 +1,166 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+Let $x$ denote the state vector of the system and let $u$ denote the vector of control variables, $u = (u(0), \dots, u(\ntime))$, where at time $\itime$, $u(\itime)$ is given by
+\[
+u(\itime) = (\rampcontrol{1}{\itime}, \dots, \rampcontrol{\ncell-1}{\itime})
+\]
+The system equations are written formally in the form $H(x,u)=0$. The discretized system can be described using eight types of constraints, given by $\H{c}{\itime}{\icell} = 0$ for $c \in \{1, \dots, 8\}$, where we index each equality constraint by time index $\itime$, and cell index $\icell$. We now give the system equations.
+
+% Equation number stuff
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\newcounter{oldequation}
+\setcounter{oldequation}{\theequation}
+\setcounter{equation}{0}
+\renewcommand{\theequation}{H\arabic{equation}}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+The mass conservation equations are given by 
+\begin{subequations}
+\begin{align}
+\stdH{1}: && \density{\icell}{\itime} & =\density{\icell}{\itime-1}+\frac{\deltat}{\deltax}\left(\flowin{\icell}{\itime-1}-\flowout{\icell}{\itime-1}\right) & \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 1,\ldots,\ntime\right\}
+\label{eq:conservation1}
+\\
+\H{1}{\itime}{0}: && \density 0{\itime} & =\density 0{\itime-1}+\frac{\deltat}{\deltax}\left(\inputflux 0{\itime-1}-\flowout 0{\itime-1}\right) & \forall\itime\in\left\{ 1,\ldots,\ntime\right\}
+\label{eq:conservation2}
+\\
+\H{1}{\itime}{\ncell}: && \density{\ncell}{\itime} & =\density{\ncell}{\itime-1}+\frac{\deltat}{\deltax}\left(\mbox{\ensuremath{\flowin{\ncell}{\itime-1}}}-\celldemand{\ncell}{\itime-1}\right) & \forall\itime\in\left\{ 1,\ldots,\ntime\right\}
+\label{eq:conservation3}
+\end{align}
+\label{eq:conservation}
+\end{subequations}
+and initial condition 
+\begin{align}
+\H{0}{1}{\icell} : \density{\icell}0 =\densityinit{\icell} && \forall\icell\in\left\{ 0,\ldots,\ncell\right\}
+\tag{I1}
+\label{eq:densityInit}
+\end{align}
+
+
+The car count on ramp $i$ is given by 
+\begin{align}
+\H{2}{\itime}{\icell}: && \rampqueue{\icell}{\itime} & =\rampqueue{\icell}{\itime-1}+\deltat\left(\inputflux{\icell}{\itime-1}-\rampflow{\icell}{\itime-1}\right) & \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 1,\ldots,\ntime\right\}
+\label{eq:rampConservation}
+\\
+\H{2}{0}{\icell}: && \rampqueue{\icell}0 & =\rampqueueinit{\icell} & \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\}
+\tag{I2}\label{eq:rampInit}
+\end{align}
+
+
+At junctions, the flows are given by the solver described in section~\ref{sec:junction_solver}. The flows can be determined by first computing the demand function (equation~$\H{3}{\itime}{\icell}$) and the supply function (equation~$\H{4}{\itime}{\icell}$) for the mainline, the demand function for the ramp (equation~$\H{5}{\itime}{\icell}$), then the total flow through the junction (equation~$\H{6}{\itime}{\icell}$).
+\begin{align}
+\stdH{3}: && \celldemand{\icell}{\itime} & =\min\left(\fmax{\icell},\ffspeed{\icell}\density{\icell}{\itime}\right) & \forall\icell\in\left\{ 0,\ldots,\ncell\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionDemand} \\
+\stdH{4}: && \cellsupply{\icell}{\itime} & =\min\left(\fmax{\icell},\congspeed{\icell}\left(\jamdensity{\icell}-\density{\icell}{\itime}\right)\right) & \forall\icell\in\left\{ 1,\ldots,\ncell\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\label{eq:junctionSupply} \\
+\stdH{5}: && \rampdemand{\icell}{\itime} & =\min\left(\rampqueue{\icell}{\itime},\rampcontrol{\icell}{\itime}\right) & \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\label{eq:junctionRampDemand}
+\end{align}
+\begin{subequations}
+\begin{align}
+\stdH{6}: && \flowin{\icell}{\itime} & =\min\left(\celldemand{\icell-1}{\itime}\left(1-\offrampratio{\icell-1}{\itime}\right)+\rampdemand{\icell-1}{\itime},\cellsupply{\icell}{\itime}\right) & \forall\icell\in\left\{ 2,\ldots,\ncell\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionFlowMaximization} \\
+\H{6}{\itime}{1}: && \flowin{1}{\itime} & =\min\left(\celldemand{0}{\itime},\cellsupply{1}{\itime}\right) &
+\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionFlowConservationSpecial2}	
+\end{align}
+\label{eq:juncmaxgroup}
+\end{subequations}
+
+
+When there is an actual offramp at the junction (i.e. $\offrampratio{\icell}{\itime} > 0$), the flow is uniquely determined by flow maximization across the junction (see fig.~\ref{fig:junctionFlows2}). When the split ratio $\offrampratio{\icell}{\itime} = 0$ (equivalently, when there is no off-ramp), the solution of the junction problem may not be unique. In order to guarantee uniqueness of the solution, we use a fixed%
+\footnote{comment about fixed priority and proportional priority}
+priority vector~\cite{garavello2006traffic} given by $\priority{\icell}$ for
+junction~$i$. The unique solution is given for all cases (see Fig.~\ref{fig:junctionFlows})
+\begin{subequations}
+\begin{multline}
+\stdH{7}: 
+\flowout{\icell}{\itime}
+=\begin{cases}
+\flowin{\icell+1}{\itime}/\left(1-\offrampratio{\icell}{\itime}\right)
+& \text{if } (\R{1}{\itime}{\icell}) : \offrampratio{\icell}{\itime} > 0 \text{ and } \flowin{\icell+1}{\itime} < \left(1 - \offrampratio{\icell}{\itime}\right) \celldemand{\icell}{\itime}
+\\
+\celldemand{\icell}{\itime}
+& \text{if } (\R{2}{\itime}{\icell}) : \offrampratio{\icell}{\itime} > 0 \text{ and }\flowin{\icell+1}{\itime} \ge \left(1 - \offrampratio{\icell}{\itime}\right) \celldemand{\icell}{\itime}
+\\
+\celldemand{\icell}{\itime} 
+& \text{if } (\R{3}{\itime}{\icell}) : \offrampratio{\icell}{\itime} = 0 \text{ and } \frac{\priority{\icell}}{1-\priority{\icell}} > \frac{\celldemand{\icell}{\itime}}{\flowin{\icell+1}{\itime} - \celldemand{\icell}{\itime}}
+\\
+\flowin{\icell+1}{\itime}-\rampdemand{\icell}{\itime}
+& \text{if } (\R{4}{\itime}{\icell}) : \offrampratio{\icell}{\itime} = 0 \text{ and } \frac{\priority{\icell}}{1-\priority{\icell}} < \frac{\flowin{\icell+1}{\itime}-\rampdemand{\icell}{\itime}}{\rampdemand{\icell}{\itime}}
+\\
+\priority{\icell}\flowin{\icell+1}{\itime} & \text{otherwise } (\R{5}{\itime}{\icell})
+\end{cases} \\
+\forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionPriority}
+\end{multline}
+\begin{align}
+\H{7}{\itime}{0}: && \flowout{0}{\itime} & =\flowin{1}{\itime} &
+\forall \itime \in \left \{ 0, \dots, \ntime-1 \right\}
+\label{eq:junctionFlowConservationSpecial1}	
+\end{align}
+\end{subequations}
+where Equation~\eqref{eq:junctionFlowConservationSpecial1} is a special case for the flow out at the source dummy cell.
+Here we use $\R{1}{\itime}{\icell}, \dots, \R{5}{\itime}{\icell}$ to denote the sets of state vectors that satisfy the corresponding condition. They form a partition of $X$. This will be a useful notation in the adjoint system expression, where we will use the indicator function $1_{\R{1}{\itime}{\icell}}$, with implicit argument $x$, to denote the function
+\[
+\begin{aligned}
+1_{\R{1}{\itime}{\icell}} : X &\rightarrow \{0, 1\} \\
+x & \mapsto \begin{cases} 1 & \text{ if } x \in \R{1}{\itime}{\icell} \\ 0 & \text{ otherwise }\end{cases}
+\end{aligned}
+\]
+
+Finally, the ramp flow is simply given by the conservation of flows:
+\begin{align}
+\stdH{8}: && \rampflow{\icell}{\itime} & = \flowin{\icell+1}{\itime} - \flowout{\icell}{\itime}\left(1-\offrampratio{\icell}{\itime}\right)& \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionFlowConservation}
+\end{align}
+
+\setcounter{equation}{6}
+
+\subsubsection{Modified Piccoli model}
+\label{sec:newModel}
+We make two changes to the standard Piccoli 2x2 junction model to fix the two following issues:
+\begin{enumerate}
+\item \textbf{Loss of boundary flows}\\
+The boundary conditions at the sources are only satisfied in a weak sense. This means that backwards moving shock waves passing through the sources (i.e. congestion at the sources) can result in boundary inflows being lost at the sources. To fix this problem we introduce a infinite capacity buffer at each source link of the network. See section~\ref{sec:contBufferModel} for details on the continuous time model formulation. The discrete system equations above already incorporate this change.
+\item \textbf{Complete blocking of on-ramps when the mainline in congested at a 2x2 junction}\\
+A major modeling deficiency of the Piccoli model is that the flow maximization condition will completely block off the on-ramp at a junction with a congested downstream link. This is due to the fact that incoming flow from the on-ramp can only be distributed to the mainline, while incoming flow from the main can be distributed to both the mainline and the off-ramp. Thus, junction flow maximization dictates that all of the demand from the upstream mainline link should be satisfied before any of the on-ramp demand is satisfied. Moreover, in any situation where the junction is supply constrained and an off-ramp exists, the mainline demand is served first. This is a bad modeling choice, since the demand allocation in reality depends on the number of lanes available for each inflow. 
+To fix this problem, we modify the junction solver to maximize flow that leaves the junction on the mainline instead of maximizing the total flow out of the junction (which includes the off-ramp). This change makes the solution non-unique with regards to in which ratio the demands are allocated to the available supply in a supply constrained situation. Therefore, we reintroduce a inflow priority parameter even in the case where an off-ramp exists. Please see section~\ref{sec:contBufferModel} for an proof of the uniqueness, existence and self-similarity of the modified junction solver in the continuous case. The resulting new system equations for the junction in the discrete setting are given below: 
+\end{enumerate}
+
+
+\begin{subequations}
+\begin{multline}
+\stdH{7}: 
+\flowout{\icell}{\itime}
+=\begin{cases}
+\celldemand{\icell}{\itime} 
+& \text{if } (\R{1}{\itime}{\icell}) : \priority{\icell}\flowin{\icell+1}{\itime} > \left(1-\offrampratio{\icell}{\itime}\right)\celldemand{\icell}{\itime}
+\\
+\frac{\flowin{\icell+1}{\itime}-\rampdemand{\icell}{\itime}}{1-\offrampratio{\icell}{\itime}}
+& \text{if } (\R{2}{\itime}{\icell}) : \left(1-\priority{\icell}\right)\flowin{\icell+1}{\itime} > \rampdemand{\icell}{\itime}
+\\
+\frac{\priority{\icell}\flowin{\icell+1}{\itime}}{1-\offrampratio{\icell}{\itime}} & \text{otherwise } (\R{3}{\itime}{\icell})
+\end{cases} \\
+\forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} ,\itime\in\left\{ 0,\ldots,\ntime-1\right\}
+\label{eq:junctionPriority}
+\end{multline}
+\begin{align}
+\H{7}{\itime}{0}: && \flowout{0}{\itime} & =\flowin{1}{\itime} &
+\forall \itime \in \left \{ 0, \dots, \ntime-1 \right\}
+\label{eq:junctionFlowConservationSpecial1}	
+\end{align}
+\end{subequations}
+
+
+
+
+% \subsubsection{Uniqueness of junction flows}
+
+% Equation number stuff: resume normal numbering
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\setcounter{equation}{\theoldequation}
+\renewcommand{\theequation}{\arabic{equation}}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\input{junctionFlowsFigure}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------

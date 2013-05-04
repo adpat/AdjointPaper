@@ -1,0 +1,12 @@
+\BOOKMARK [2][]{Outline0.1}{Introduction to the adjoint method}{}% 1
+\BOOKMARK [3][]{Outline0.1.1.3}{Optimization of a PDE-constrained system}{Outline0.1}% 2
+\BOOKMARK [3][]{Outline0.1.2.5}{Example: linear system}{Outline0.1}% 3
+\BOOKMARK [3][]{Outline0.1.3.11}{Solving the original problem}{Outline0.1}% 4
+\BOOKMARK [2][]{Outline0.2}{Discretized system dynamics}{}% 5
+\BOOKMARK [3][]{Outline0.2.1.19}{Forward System}{Outline0.2}% 6
+\BOOKMARK [3][]{Outline0.2.2.33}{Lower triangular forward system}{Outline0.2}% 7
+\BOOKMARK [3][]{Outline0.2.3.38}{Exploiting system structure}{Outline0.2}% 8
+\BOOKMARK [2][]{Outline0.3}{Solving the optimization problem via the adjoint method}{}% 9
+\BOOKMARK [3][]{Outline0.3.1.41}{Overview of procedure}{Outline0.3}% 10
+\BOOKMARK [3][]{Outline0.3.2.45}{A few details}{Outline0.3}% 11
+\BOOKMARK [2][]{Outline0.4}{Numercial results}{}% 12

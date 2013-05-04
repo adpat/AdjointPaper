@@ -1,0 +1,3 @@
+% !TEX root = SO-DTA with partial compliance.tex
+
+We wish to minimize the total travel time of the system (system optimal) subject to the boundary conditions of the network, the flow propagation model constraints, junction model constraints and the partial controllability of vehicle route choice. A fixed percentage 

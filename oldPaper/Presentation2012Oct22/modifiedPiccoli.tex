@@ -1,0 +1,141 @@
+%!TEX root = rampMeteringJack.tex
+\section{Modified 2x2 Piccoli model with Buffers}\label{sec:modified}
+\subsection{Generalized mainline junction}
+\frame{
+  \setbeamercovered{transparent}
+	\frametitle{Generalized mainline junction}
+  \begin{itemize}
+    \item<1-> Two incoming links
+    \begin{itemize}
+			\item Upstream mainline
+			\item Onramp
+		\end{itemize}
+    \item<2-> Two outgoing links
+    \begin{itemize}
+			\item Downstream mainline
+			\item Offramp
+		\end{itemize}
+ \end{itemize}
+ 
+ \begin{figure}[ht]
+	\centering
+	{
+	\resizebox{\columnwidth}{!}{
+	\input{systemTikz}}
+	\caption{Mainline model with generalized $2\times 2$ junction.}
+	\label{fig:system}}
+ \end{figure}
+ 
+ 
+}
+
+
+
+\subsection{Conservation of demand at ramps}
+\begin{frame}
+	\frametitle{Weak boundary conditions}
+  \begin{itemize}
+    \item For continuous models, boundary conditions are typically specified as densities
+    \begin{itemize}
+			\item Theoretically, one can apply inverse flux map to obtain densities from flux demands.
+		\end{itemize}
+    \item Solved as $1 \times 1$ junctions.
+    \item Boundary condition \textbf{DOES NOT} always apply (see Figure~\ref{fig:weakBCShock}). Information from this time step is ``lost''. OK for estimation, but demand not satisfied for control schemes.
+ \end{itemize}
+ 
+ \begin{columns}
+	\column{0.5 \textwidth}
+	\begin{figure}[ht]
+\centering
+\input{weakBCDensitiesTikz}
+\caption{Riemann problem at boundary with low boundary density $\rho_{BC}$ and high network density $\rho_{N}$.}
+\label{fig:weakBCDensities}
+\end{figure}
+	\pause
+	\column{0.5 \textwidth}
+	\begin{figure}[ht]
+\centering
+\input{weakBCShockTikz}
+\caption{Boundary density condition does not enter network due to congestion.}
+\label{fig:weakBCShock}
+\end{figure}
+	\end{columns}
+\end{frame}
+
+\global\long\def\actualrampflowsymbol{D}
+\global\long\def\actualrampflow#1#2{\actualrampflowsymbol_{#1}\left(#2\right)}
+\global\long\def\totalrampflowsymbol{\bar{D}}
+\global\long\def\totalrampflow#1#2{\totalrampflowsymbol_{#1}\left(#2\right)}
+\global\long\def\fluxsymbol{\gamma}
+\global\long\def\flux#1#2{\fluxsymbol_{#1}\left(#2\right)}
+\global\long\def\rampfluxsymbol{\gamma^{\text{r}}}
+\global\long\def\rampflux#1#2{\rampfluxsymbol_{#1}\left(#2\right)}
+\global\long\def\maxrampfluxsymbol{\gamma^{\text{r,\ensuremath{\max}}}}
+\global\long\def\maxrampflux#1{\gamma_{#1}^{\text{r,\ensuremath{\max}}}}
+
+
+\begin{frame}
+
+\frametitle{Solution to demand conservation: Buffers}
+Introduce a point queue buffer, $d\rampqueue{\icell}t$, for cell $i$ at time $t$ as the model for onramps:
+\begin{equation}
+\frac{d\rampqueue{\icell}t}{dt} = \totalrampflow{\icell}t- r_{i}\left( t \right) \label{eq:rampode} 
+\end{equation}
+where the ramp's demand at the junction is given by:
+\begin{equation}
+\rampdemand{\icell}t = \begin{cases}
+r_{i}^{\max} & \rampqueue{\icell}t>0\\
+\min \left( r_{i}^{\max} , \totalrampflow{\icell}t \right) & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\begin{fact}
+Ramp demand is now conserved by definition
+\end{fact}
+
+\end{frame}
+
+
+\subsection{Max junction flux and ramp-metering model}
+\begin{frame}
+
+	\frametitle{Maximizing junction flux blocks onramp}
+	\begin{itemize}
+		\item<1-> Using standard Piccoli model, $2 \times 2$ junctions permit a unique solution \textbf{without} priorities.
+		\item<2-> Since turning ratio from onramp to offramp is $0$, mainline flux will reach capacity before onramp flux allowed. See Figure~\ref{fig:bad2by2}
+		\item<3-> \textbf{Poor model of reality, where physical priorities still exist}
+	\end{itemize}
+
+ \begin{figure}[ht]
+	\centering
+	{
+	\resizebox{.5 \columnwidth}{!}{
+	\input{bad2by2Tikz}}
+	\caption{Flux maximization across junction blocks flux from onramp.}
+	\label{fig:bad2by2}}
+ \end{figure}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Solution: Maximize flux into downstream mainline}
+	Instead of maximizing total flux across junction, $J = f_i + r_i$, we instead maximize the flux into just the downstream mainline,
+	\begin{equation}
+	J' = \left(1 - \beta \right) f_i + r_i
+	\end{equation}
+	This makes the supply line and objective lines parallel, thus necessitating the reintroduction of a priority parameter, $P$.
+
+	\textbf{Note:} The same could be accomplished with a multi-objective cost function that maximizes total flux while penalizing deviations from priority.
+	
+ \begin{figure}[ht]
+	\centering
+	{
+	\resizebox{.4 \columnwidth}{!}{
+	\input{good2by2Tikz}}
+	\caption{Reintroduction of priority vector to ``unblock'' ramp flux.}
+	\label{fig:good2by2}}
+ \end{figure}
+
+\end{frame}
+

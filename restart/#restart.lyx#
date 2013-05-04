@@ -1,0 +1,4583 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{fullpage}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Adjoint-based optimization on a network of discretized scalar conservation
+ law PDE's: application to coordinated ramp metering
+\end_layout
+
+\begin_layout Author
+Jack
+\end_layout
+
+\begin_layout Abstract
+The adjoint method provides a computationally efficient means of calculating
+ the gradient for applications in constrained optimization.
+ In this article, we consider a network of scalar conservation law PDE's
+ with general topology, whose behavior is modified by a set of control parameter
+s in order to minimize some objective.
+ After discretizing the PDE system via the Godunov scheme, we detail the
+ computation of the gradient of the discretized system with respect to the
+ control parameters.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "commands.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Introduction"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Control of PDE's with the adjoint method
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Control-of-PDE's"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Applications
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Optimization
+\end_layout
+
+\begin_layout Itemize
+Estimation
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Types
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Continuous
+\end_layout
+
+\begin_layout Itemize
+discrete
+\end_layout
+
+\begin_layout Itemize
+numerical differentiation
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Tradeoffs
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+compactness of formulation
+\end_layout
+
+\begin_layout Itemize
+well-posedness
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Applications
+\end_layout
+
+\begin_layout Itemize
+Shape op
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Alonso
+\end_layout
+
+\begin_layout Itemize
+Jameson
+\end_layout
+
+\begin_layout Itemize
+Pierce
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Optimization
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Pirroneau
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bardos2002"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Estimation
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Tomlin
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Raffard2008"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Traffic (air, vehicle)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bayen, Jacquet, Dengfeng
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Water
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Castaings2006"
+
+\end_inset
+
+Honnorat, Strub 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Strub2009"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+EnKF adjoint
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bewley 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Colburn2011"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Network of PDE's
+\end_layout
+
+\begin_layout Itemize
+work in discretized domain
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Godunov
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Optimal control difficult for D-PDE
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+nonlinear, complex, piecewise constraints
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Alternative approaches
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Relaxation of constraints
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Gomes, Ziliaskoupoulos
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+decoupled systems
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Frejo 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Frejo2011,Ramon2013"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+explicit perturbation
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+something like SPSA
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Paragraph
+Traffic
+\end_layout
+
+\begin_layout Itemize
+Problem and related Work
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Roberto, Lyapunov
+\end_layout
+
+\begin_layout Itemize
+Papageourgiou
+\end_layout
+
+\begin_layout Itemize
+Jacquet
+\end_layout
+
+\begin_layout Itemize
+all in community
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Contributions
+\end_layout
+
+\begin_layout Itemize
+Complexity analysis for generic discretized network of PDE's
+\end_layout
+
+\begin_layout Itemize
+Improvement to existing ramp metering work.
+\end_layout
+
+\begin_layout Paragraph
+Outline
+\end_layout
+
+\begin_layout Section
+Preliminaries
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Preliminaries"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Conservation law PDE's
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Hyperbolic-PDE's"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A conservation law for a single space dimension can written in the form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\pfrac{\cvar\left(t,x\right)}t+\pfrac{f\left(\cvar\left(t,x\right)\right)}x=0\label{eq:cons}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\cvar:\left[0,\infty\right]\times\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+ is the scalar 
+\begin_inset Quotes eld
+\end_inset
+
+conserved
+\begin_inset Quotes erd
+\end_inset
+
+ quantity
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cite piccoli
+\end_layout
+
+\end_inset
+
+, and 
+\begin_inset Formula $f:\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+ is the flux function.
+ We assume 
+\begin_inset Formula $f$
+\end_inset
+
+ to be smooth and rewrite Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons"
+
+\end_inset
+
+ as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\cvar_{t}+f\left(\cvar\right)_{x}=0\label{eq:cons-smooth}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We also assume the system is hyperbolic, which implies that 
+\begin_inset Formula $f_{x}$
+\end_inset
+
+ has real values everywhere.
+ Since we are considering a scalar system, this is automatically satisfied.
+\end_layout
+
+\begin_layout Standard
+For a particular initial condition 
+\begin_inset Formula $\cvar_{0}:\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+, we seek 
+\begin_inset Quotes eld
+\end_inset
+
+weak
+\begin_inset Quotes erd
+\end_inset
+
+ solutions of 
+\begin_inset Formula $\cvar$
+\end_inset
+
+ for the Cauchy problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{cases}
+\cvar_{t}+f\left(\cvar\right)_{x} & =0\\
+\cvar\left(0,x\right) & =\cvar_{0}\left(x\right)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Please see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garavello2006traffic"
+
+\end_inset
+
+ for more details on weak solutions to hyperbolic PDE's.
+ For all systems of the form in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+ that we consider, there exists a unique weak solution for all Cauchy problems.
+\end_layout
+
+\begin_layout Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "def:Riemann-Problem"
+
+\end_inset
+
+Riemann Problem
+\end_layout
+
+\begin_layout Definition
+A Riemann problem is a Cauchy problem with a piecewise-constant initial
+ condition that has one point of discontinuity, 
+\begin_inset Formula $x=\bar{x}$
+\end_inset
+
+.
+ Without loss of generality, we take 
+\begin_inset Formula $\bar{x}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Network of PDE's
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Network-of-PDE's"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A network of PDE's is defined as a set of links (
+\begin_inset Formula $\links$
+\end_inset
+
+) and junctions (
+\begin_inset Formula $\jns$
+\end_inset
+
+).
+ Each link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ has an associated space domain 
+\begin_inset Formula $\left]0,L_{\link}\right[$
+\end_inset
+
+ over which 
+\begin_inset Formula $\cvar_{\link}\left(t,x\right)$
+\end_inset
+
+ is defined and obeys the PDE in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+.
+ Each junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ is the union of two distinct subsets of links: 
+\begin_inset Formula $Inc\left(\jn\right)$
+\end_inset
+
+ being the links entering junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ and 
+\begin_inset Formula $Out\left(\jn\right)$
+\end_inset
+
+ being the links exiting.
+\end_layout
+
+\begin_layout Standard
+While the behavior each link 
+\begin_inset Formula $\cvar_{\link}\left(t,x\right)$
+\end_inset
+
+ is determined by the dynamics described in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+, the behavior of the links still needs to be defined when they meet at
+ junctions.
+\end_layout
+
+\begin_layout Definition
+Riemann problem at junctions
+\end_layout
+
+\begin_layout Standard
+Consider a junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+, with 
+\begin_inset Formula $m=\left|Inc\left(\jn\right)\right|$
+\end_inset
+
+ incoming links and 
+\begin_inset Formula $n=\left|Out\left(\jn\right)\right|$
+\end_inset
+
+ outgoing links.
+ All links 
+\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\end_inset
+
+ have a constant initial profile 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $\cvar_{\link}\left(0,x\right)=\cvar_{\link}^{0}$
+\end_inset
+
+ (called the Riemann data) with incoming links having an 
+\begin_inset Formula $x$
+\end_inset
+
+ domain 
+\begin_inset Formula $=\left]-\infty,0\right[$
+\end_inset
+
+ and outgoing links having an 
+\begin_inset Formula $x$
+\end_inset
+
+ domain 
+\begin_inset Formula $=\left]0,\infty\right[$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\vect{\cvar}_{\jn}^{0}$
+\end_inset
+
+, where 
+\begin_inset Formula $\left\{ \vect{\cvar}_{\jn}^{0}\right\} _{\link}=\cvar_{\link}^{0}$
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+If 
+\begin_inset Formula $\vect x$
+\end_inset
+
+ is a set, where each element 
+\begin_inset Formula $x_{i}\in\vect x$
+\end_inset
+
+ has a corresponding index 
+\begin_inset Formula $i$
+\end_inset
+
+ which is obvious from context, then we use notation 
+\begin_inset Formula $\left\{ \vect x\right\} _{i}$
+\end_inset
+
+ to denote the element 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+, be the union of all Riemann data.
+ The solution of 
+\begin_inset Formula $\cvar_{\link}\left(x,t\right)$
+\end_inset
+
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+for all links 
+\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $t\ge0$
+\end_inset
+
+ we define as the solution to the Riemann problem at junction 
+\begin_inset Formula $J$
+\end_inset
+
+ with initial data 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $\left\{ \vect{\cvar}_{\jn}^{0}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We define a Riemann solver:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\RS: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
+ & \vect{\cvar}_{\jn}^{0} & \mapsto\RS\left(\vect{\cvar}_{\jn}^{0}\right)=\hat{\vect{\cvar}}_{\jn}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\left\{ \hat{\vect{\cvar}}_{\jn}\right\} _{\link}=\hat{\cvar}_{\link}$
+\end_inset
+
+ provides the boundary condition for link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at the 
+\begin_inset Formula $x$
+\end_inset
+
+ position of the junction for all time 
+\begin_inset Formula $t\ge0$
+\end_inset
+
+.
+ Specifically, the solution 
+\begin_inset Formula $\cvar_{\link}\text{\left(t,x\right)}$
+\end_inset
+
+ for a link 
+\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\end_inset
+
+ to the Riemann problem at junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ is given by the solution over the domain 
+\begin_inset Formula $x<0$
+\end_inset
+
+ to the following Riemann problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{cases}
+\left(\cvar_{\link}\right)_{t}+f\left(\cvar_{\link}\right)_{x} & =0\\
+\cvar_{\link}\left(0,x\right) & =\begin{cases}
+\cvar_{\link}^{0} & x<0\\
+\hat{\cvar}_{\link} & x\ge0
+\end{cases}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Riemann problem for outgoing link is defined similarly, with the exception
+ that 
+\begin_inset Formula $\cvar_{\link}\left(0,x>0\right)=\cvar_{\link}^{0}$
+\end_inset
+
+.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Solution-of-boundary"
+
+\end_inset
+
+ gives a depiction of Riemann solution at a junction 
+\begin_inset Formula $J$
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename presentation/figs-gen/junctions-riemann-rs.pdf
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Solution of boundary conditions at junction.
+ The boundary conditions 
+\begin_inset Formula $\hat{\vect{\cvar}}^{0}$
+\end_inset
+
+ are produced from the initial conditions Riemann solution 
+\begin_inset Formula $\RS\left(\vect{\cvar}^{0}\right)$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Solution-of-boundary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following conditions are required for a valid Riemann solver as part
+ of the definition:
+\end_layout
+
+\begin_layout Itemize
+The Riemann solver must produce self-similar solutions, i.e.
+\begin_inset Formula 
+\[
+\RS\left(\vect{\cvar}_{\jn}\right)=\RS\left(\vect{\hat{\cvar}}_{\jn}\right)=\vect{\hat{\cvar}}_{\jn}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+All waves produced from the solution to Riemann problems on all links, generated
+ by the boundary conditions at a junction, must emanate out from the junction.
+ For example, the solution to the Riemann problem on an incoming link must
+ produce waves with negative speeds, while the solution on an outgoing link
+ must produce waves with positive speed.
+\end_layout
+
+\begin_layout Itemize
+The sum of all incoming fluxes must equal the sum of all outgoing fluxes,
+ i.e.
+ if 
+\begin_inset Formula $\hat{\vect{\cvar}}=\RS\left(\vect{\cvar}\right)$
+\end_inset
+
+, then
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{i\in Inc\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{i}\right)=\sum_{j\in Out\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The justification for these conditions can be found in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garavello2006traffic"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Godunov Discretization
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Godunov-Discretization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To approximate a hyperbolic PDE of the form in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cons-smooth"
+
+\end_inset
+
+ with a discretization in both space and time, we use Godunov's scheme
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "godunov1959"
+
+\end_inset
+
+, an upwind-downwind numerical method.
+ Given an initial condition that is piecewise-constant, Godunov's scheme
+ gives a procedure to advance the system one time-step forward.
+ This process can be repeated 
+\emph on
+ad infinum 
+\emph default
+by applying the scheme to the new condition generated from the previous
+ time-step.
+\end_layout
+
+\begin_layout Paragraph
+Godunov scheme for a single link
+\end_layout
+
+\begin_layout Standard
+Consider a hyperbolic PDE with space domain 
+\begin_inset Formula $\left]0,L\right[$
+\end_inset
+
+ that has a piecewise-constant initial condition 
+\begin_inset Formula $u\left(0,x\right)$
+\end_inset
+
+.
+ There are 
+\begin_inset Formula $c$
+\end_inset
+
+ discontinuities at locations 
+\begin_inset Formula $\left\{ x_{i}:i\in\left[1,\ldots,c\right]\right\} $
+\end_inset
+
+, taking the value 
+\begin_inset Formula $\dvar_{i}\in\mathbb{R}$
+\end_inset
+
+ over the range 
+\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
+\end_inset
+
+ for 
+\begin_inset Formula $i\in\left[1,\ldots,c-1\right]$
+\end_inset
+
+, 
+\begin_inset Formula $\dvar_{0}$
+\end_inset
+
+ over the range 
+\begin_inset Formula $\left]0,x_{1}\right[$
+\end_inset
+
+ and 
+\begin_inset Formula $\dvar_{c}$
+\end_inset
+
+ over the range 
+\begin_inset Formula $\left[x_{c},L\right[$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+ values can be considered the discrete-valued approximations of 
+\begin_inset Formula $u$
+\end_inset
+
+ over the range 
+\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
+\end_inset
+
+.
+ Then, at time 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+ and over the range 
+\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
+\end_inset
+
+, the 
+\emph on
+average
+\emph default
+ value of the system, 
+\begin_inset Formula $\bar{\dvar_{i}}$
+\end_inset
+
+, is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bar{\dvar}_{i}=\dvar_{i}-\frac{1}{x_{i+1}-x_{i}}\int_{0}^{\triangle t}\left(f\left(u\left(t,x_{i+1}\right)\right)-f\left(u\left(t,x_{i}\right)\right)\right)dt
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Instead of evaluating the time integral term 
+\begin_inset Formula $\int_{0}^{\triangle t}f\left(u\left(t,x_{i}\right)\right)dt$
+\end_inset
+
+, which requires a solution of the 
+\begin_inset Formula $\cvar$
+\end_inset
+
+ term forward in time, the Godunov scheme approximates the term with a function
+ 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ that depends on the constants 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\dvar_{i+1}$
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\int_{0}^{\triangle t}f\left(u\left(t,x_{i}\right)\right)dt\approx\triangle tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ function can be seen as either an approximation or an exact solution of
+ the flux across the discontinuity point of the Riemann problem with a left
+ initial datum 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+ and right initial datum 
+\begin_inset Formula $\dvar_{i+1}$
+\end_inset
+
+.
+ Therefore, the Godunov update step for 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+ is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bar{\dvar}_{i}=\dvar_{i}-\frac{\triangle t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)\label{eq:godunov}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Again, this process can be repeated to approximate the average values of
+ the system at the subsequent time-step by applying the Godunov scheme with
+ initial data 
+\begin_inset Formula $\bar{\dvar}_{i}$
+\end_inset
+
+ rather than 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+CFL condition for discretized hyperbolic PDE's
+\begin_inset CommandInset label
+LatexCommand label
+name "par:CFL-condition-for"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Courant–Friedrichs–Lewy (CFL) condition is a condition on the time and
+ space discretization size that guarantees that no two Riemann problems
+ interact with one another over the course of a single time-step.
+ This is a necessary condition for the convergence of the discrete solution
+ to the continuous solution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda^{\max}\le\frac{\triangle x}{2\triangle t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
+\end_inset
+
+ is the maximum absolute wave speed, and 
+\begin_inset Formula $\triangle x$
+\end_inset
+
+ and 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+ are the space and time discretization steps, respectively.
+ We assume for the rest of the paper that the time-step 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+ is fixed and that the discretization step-size 
+\begin_inset Formula $\triangle x_{i}=L_{i}=x_{i+1}-x_{i}$
+\end_inset
+
+ is chosen to not violate the CFL condition
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+For the purposes of the Godunov scheme, we only require that the solution
+ originating from one Riemann problem does not influence the flux across
+ the boundary of another Riemann problem.
+ This is equivalent to 
+\begin_inset Formula $\lambda^{\max}\le\frac{\triangle x}{\triangle t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Godunov scheme at junctions
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Godunov-scheme-at"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can view each discontinuity point 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ above as a junction with one incoming link and one outgoing link, which
+ gives us a Godunov scheme for the specific case of 1-to-1 junctions.
+ Given this view, it becomes more convenient to assume that a link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ has a constant initial profile 
+\begin_inset Formula $\cvar_{\link}\left(0,x\right)=\dvar_{\link}$
+\end_inset
+
+ over its entire domain 
+\begin_inset Formula $x\in\left]0,L_{\link}\right[$
+\end_inset
+
+ rather than a constant piecewise profile, since a constant piecewise profile
+ can be mapped to a series of individual links with 1-to-1 junctions.
+ We now generalize the approach to junctions with an arbitrary number of
+ input links and output links.
+\end_layout
+
+\begin_layout Standard
+Take a junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ with links 
+\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\end_inset
+
+ with Riemann data 
+\begin_inset Formula $\left\{ \vect{\cvar}\left(0,x\right)\right\} _{\link}=\left\{ \vect{\dvar}\right\} _{\link}$
+\end_inset
+
+.
+ Applying the Riemann solver to the Riemann data gives the boundary solution
+ 
+\begin_inset Formula $\left\{ \vect{\hat{\dvar}}\right\} _{\link}$
+\end_inset
+
+.
+ Then for 
+\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\end_inset
+
+, the downstream flux (
+\begin_inset Formula $x=L_{\link}$
+\end_inset
+
+) is determined by the solution of a Riemann problem with initial conditions
+ 
+\begin_inset Formula $\left(\dvar_{\link},\hat{\dvar}_{\link}\right)$
+\end_inset
+
+.
+ Furthermore, since all waves emanate 
+\emph on
+outwards
+\emph default
+ from a junction, the flux at the downstream boundary is equal to 
+\begin_inset Formula $f\left(\hat{\dvar}_{\link}\right)$
+\end_inset
+
+ for all 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ This leads to a natural choice for the approximate flux function 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ at the junction for link 
+\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g^{G}\left(\dvar_{\link},\hat{\dvar}_{\link}\right)=f\left(\hat{\dvar}_{\link}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A similar argument says that the approximate flux function at the junction
+ for outgoing links 
+\begin_inset Formula $\link\in Out\left(\jn\right)$
+\end_inset
+
+ is also the flux function 
+\begin_inset Formula $f$
+\end_inset
+
+ applied to the Riemann solution 
+\begin_inset Formula $\hat{\dvar}_{\link}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For junctions with no incoming or no outgoing links, a boundary condition
+ is required in order to specify a Riemann problem at the upstream and downstrea
+m junction of every link.
+ For the discretized problem, the boundary condition is taken to be constant
+ over each discrete time step.
+\end_layout
+
+\begin_layout Paragraph
+Composing the Riemann solver and flux function
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Composing-the-Riemann"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The equations are sometimes simplified if we allow ourselves to consider
+ the composition of the Riemann solver 
+\begin_inset Formula $\RS$
+\end_inset
+
+ and the approximate flux function 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ directly.
+ Using the same notation as defined for the Riemann solver, we define the
+ function 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+ as just this composition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\hat{F}: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
+ & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)\right\} 
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We illustrate the convenience with an example.
+ Take the flux function to be linear 
+\begin_inset Formula $f\left(\cvar\right)=\alpha\cvar,\alpha>0$
+\end_inset
+
+.
+ Then we can define the Riemann solver for a junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \RS\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
+\dvar_{\link} & \link\in Inc\left(\jn\right)\\
+f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right) & \link\in Out\left(\jn\right)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then to solve for the flux across the junction for an outgoing link 
+\begin_inset Formula $\link\in Out\left(\jn\right)$
+\end_inset
+
+, we again apply the flux function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g^{G}\left(\dvar_{\link},f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right)\right)=f\left(f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right)\right)=\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is clear that the intermediate step of solving for the boundary states
+ is unnecessary in this case for the Godunov scheme, since the scheme uses
+ 
+\emph on
+flux
+\emph default
+ values at boundaries rather than 
+\emph on
+state 
+\emph default
+values, and it is often the case (particularly for the linear flux function
+ considered above) that boundary states are determined by initially solving
+ for the fluxes.
+ Therefore, we can skip the intermediate step of applying the inverse flux
+ function and reapplying the same flux function by considering the composed
+ function 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \hat{F}\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
+f\left(\dvar_{\link}\right) & \link\in Inc\left(\jn\right)\\
+\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|} & \link\in Out\left(\jn\right)
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Full discrete solution method
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Full-solution-method"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume a discrete scalar hyperbolic network of PDE's with links 
+\begin_inset Formula $\links$
+\end_inset
+
+, junctions 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+, and initial conditions 
+\begin_inset Formula $\left\{ u_{\link}\left(0,x\right)=\dvar_{\link}:x\in\left]0,L_{\link}\right[,\link\in\links\right\} $
+\end_inset
+
+.
+ The solution method for advancing the discrete system forward one time-step
+ is given by:
+\end_layout
+
+\begin_layout Enumerate
+Begin with initial condition (
+\begin_inset Formula $t=0$
+\end_inset
+
+) 
+\begin_inset Formula $\left\{ \dvar_{\link}:\link\in\links\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For every junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Apply the Riemann solver to Riemann data to obtain the boundary condition
+ 
+\begin_inset Formula $\hat{\vect{\dvar}}_{\jn}=\RS\left(\vect{\dvar}_{\jn}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+For every link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Letting 
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$
+\end_inset
+
+, the discrete value over link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at time 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\dvar}_{\link}$
+\end_inset
+
+, is given by:
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\[
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+If we instead use the composed flux junction solver 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+, then the method simplifies to:
+\end_layout
+
+\begin_layout Enumerate
+Begin with initial condition (
+\begin_inset Formula $t=0$
+\end_inset
+
+) 
+\begin_inset Formula $\left\{ \dvar_{\link}:\link\in\links\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For every link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Letting 
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$
+\end_inset
+
+, the discrete value over link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at time 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\dvar}_{\link}$
+\end_inset
+
+, is given by:
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(\hat{F}_{\link}\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}}}\right)-\hat{F}_{\link}\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}}}\right)\right)\label{eq:fhat}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+State, control, and governing equations
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:State,-control,-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's assume we have a discrete system of the form in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Full-solution-method"
+
+\end_inset
+
+, and that there is some arbitrary ordering of the links 
+\begin_inset Formula $\links$
+\end_inset
+
+ such that we can uniquely associate an integer 
+\begin_inset Formula $i_{\link}\in\left[1,\ldots,|\links|\right]$
+\end_inset
+
+ to each link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+.
+ For simplicity, we assume 
+\begin_inset Formula $i_{\link}=\link$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $\link$
+\end_inset
+
+ also represents its own unique integer.
+ We wish to solve the system for 
+\begin_inset Formula $T$
+\end_inset
+
+ time-steps into the future, i.e.
+ we wish to determine the discrete state values 
+\begin_inset Formula $\dvar_{\link,k}$
+\end_inset
+
+ for all links 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ and all time-steps 
+\begin_inset Formula $k\in\left[1,\ldots,T\right]$
+\end_inset
+
+.
+ We represent the entire state of the solved system with the vector 
+\begin_inset Formula $\vect x\in\mathbb{R}^{|\links|T}$
+\end_inset
+
+, where for 
+\begin_inset Formula $\link\in\left[1,\ldots,|\links|\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $k\in\left[1,\ldots,T\right]$
+\end_inset
+
+, such that 
+\begin_inset Formula $x_{|\links|*(k-1)+\link}=\dvar_{\link,k}$
+\end_inset
+
+.
+ Furthermore, we assume some 
+\begin_inset Quotes eld
+\end_inset
+
+control
+\begin_inset Quotes erd
+\end_inset
+
+ variable 
+\begin_inset Formula $ $
+\end_inset
+
+
+\begin_inset Formula $\vect{\control}\in\mathbb{R}^{N_{\control}T}$
+\end_inset
+
+ that influences the solution of the Riemann problems, where 
+\begin_inset Formula $N_{\control}$
+\end_inset
+
+ is the number of controllable values at each time-step and each control
+ may be updated at each time-step.
+ Thus, it would be more accurate to represent the solution of the Riemann
+ problem at a junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ as a function of the current state of connecting links, 
+\begin_inset Formula $\vect x_{\jn,k}=\left\{ x_{\link,k}:\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)\right\} $
+\end_inset
+
+ and the current control parameters, 
+\begin_inset Formula $\vect{\control}_{k}=\left\{ v_{i}:i\in\left[(k-1)N_{v}+1,\ldots,(k)N_{\control}\right]\right\} $
+\end_inset
+
+.
+ More specifically, we let 
+\begin_inset Formula $\vect{\control}_{\jn,k}\subseteq\vect{\control}_{k}$
+\end_inset
+
+ be the set of control variables that the Riemann solver at junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ depends on at time 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Then using the same notation as before, we express the Riemann solver as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\vect{\control}_{\jn,k}|} & \rightarrow\mathbb{R}^{m+n}\\
+ & \left(\vect x_{\jn,k},\vect{\control}_{\jn,k}\right) & \mapsto\RS\left(\vect x_{\jn,k},\vect{\control}_{\jn,k}\right)=\hat{\vect{\dvar}}_{\jn,k}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additionally, for each variable, there is a corresponding update equation.
+ More specifically, the update equations for link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+h_{\link,1}\left(\vect x,\vect v\right)=x_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
+h_{\link,k}\left(\vect x,\vect v\right)=x_{\link,k}-x_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\hat{F}_{\link}\left(\vect x_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)-\hat{F}_{\link}\left(\vect x_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for all links 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+, where 
+\begin_inset Formula $\dvar_{\link}$
+\end_inset
+
+ is the initial condition for link 
+\begin_inset Formula $\link$
+\end_inset
+
+, where again 
+\begin_inset Formula $\hat{F}_{\link}\left(a,b\right)=f\left(\left\{ \RS\left(a,b\right)\right\} _{\link}\right)$
+\end_inset
+
+.
+ Thus, we can construct the system of 
+\begin_inset Formula $|\links|T$
+\end_inset
+
+ governing equations 
+\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\end_inset
+
+, where the 
+\begin_inset Formula $h_{\link,k}$
+\end_inset
+
+ is the equation in 
+\begin_inset Formula $H$
+\end_inset
+
+ at index 
+\begin_inset Formula $|\links|(k-1)+\link$
+\end_inset
+
+, identical to the ordering of the state vectors.
+\end_layout
+
+\begin_layout Section
+Adjoint method
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Adjoint-method"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Optimization Problem
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Optimization-Problem"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition to our governing equations 
+\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\end_inset
+
+, we also introduce a cost function 
+\begin_inset Formula $J$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+J: & \mathbb{R}^{|\links|T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
+ & \left(\vect x,\vect{\control}\right) & \mapsto J\left(\vect x,\vect{\control}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which returns a scalar that serves as a metric of performance of the state
+ and control values of the system.
+ We wish to minimize the quantity 
+\begin_inset Formula $J$
+\end_inset
+
+ over the set of control parameters 
+\begin_inset Formula $\vect v$
+\end_inset
+
+, while constraining the state of the system to satisfy the governing equations
+ 
+\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\end_inset
+
+.
+ We summarize this with the following optimization problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\underset{\vect{\control}}{\min} & J\left(\vect x,\vect{\control}\right)\nonumber \\
+\text{subject to:} & H\left(\vect x,\vect{\control}\right)=0\label{eq:op-problem}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Both the cost function and governing equations may be non-convex in this
+ problem.
+\end_layout
+
+\begin_layout Subsection
+Calculating the gradient
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Calculating-the-gradient"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We wish to use gradient information in order to find control values 
+\begin_inset Formula $\vect{\control}^{*}$
+\end_inset
+
+ that give small costs 
+\begin_inset Formula $J^{*}=J\left(\vect x\left(\vect{\control}^{*}\right),\vect{\control}^{*}\right)$
+\end_inset
+
+.
+ Since there may exist many local minima for the optimization problem
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:op-problem"
+
+\end_inset
+
+ due to the possible non-convexity of 
+\begin_inset Formula $J$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+, gradient
+\emph on
+ 
+\emph default
+methods do not guarantee global optimality of 
+\begin_inset Formula $\vect{\control}^{*}$
+\end_inset
+
+
+\emph on
+.
+ 
+\emph default
+Still, nonlinear optimization methods such as interior point optimization
+ utilize gradient information to improve performance
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Andreas2005"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let us assume we have an initial state and control vector 
+\begin_inset Formula $\vect x^{0},\vect{\control}^{0}$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $H\text{\left(\vect x^{0},\vect{\control}^{0}\right)=0}$
+\end_inset
+
+, and we wish to solve for the derivative of the cost function at the current
+ state and control with respect to 
+\begin_inset Formula $\vect{\control}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)=\pfrac{J\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect x}\Dfrac{\vect x}{\vect{\control}}+\pfrac{J\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect{\control}}\label{eq:j-v}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $J^{i}$
+\end_inset
+
+ is the cost function expression local to points 
+\begin_inset Formula $\left(\vect x^{i},\vect{\control}^{i}\right)$
+\end_inset
+
+.
+ The current difficulty is computing the term 
+\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\end_inset
+
+.
+ Next we take advantage of the fact that the derivative of 
+\begin_inset Formula $H\left(\vect x,\vect{\control}\right)$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $\vect{\control}$
+\end_inset
+
+ is equal to zero since its evaluation must always be zero:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+d_{\vect{\control}}H\left(\vect x^{0},\vect{\control}^{0}\right)=\pfrac{H\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect x}\Dfrac{\vect x}{\vect{\control}}+\pfrac{H\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect{\control}}=0\label{eq:h-v}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The partial derivative terms, 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+, 
+\begin_inset Formula $H_{\control}$
+\end_inset
+
+, 
+\begin_inset Formula $J_{x}$
+\end_inset
+
+, and 
+\begin_inset Formula $J_{\control}$
+\end_inset
+
+, can all be evaluated (more details provided in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Evaluating--and"
+
+\end_inset
+
+) and then treated as constant matrices.
+ Thus, in order to evaluate 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)$
+\end_inset
+
+, we must solve a coupled system of matrix equations.
+\end_layout
+
+\begin_layout Paragraph
+Forward system
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Forward-system"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+If we solve for 
+\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\end_inset
+
+ in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:h-v"
+
+\end_inset
+
+ (which we call the 
+\family default
+\series default
+\shape default
+\size default
+\emph on
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+forward system
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+H_{x}\Dfrac{\vect x}{\vect{\control}}=-H_{v},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+then we can substitute the solved value for 
+\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\end_inset
+
+ into Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:j-v"
+
+\end_inset
+
+ to obtain the full expression for the gradient.
+ Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Evaluating--and"
+
+\end_inset
+
+ gives details on the invertibility of 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+, guaranteeing a solution for 
+\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Adjoint system
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Adjoint-system"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Instead of evaluating 
+\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\end_inset
+
+ directly, the adjoint method instead solves the following system, called
+ the 
+\emph on
+adjoint system
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H_{x}^{T}\lambda=-J_{x}^{T}\label{eq:adjoint}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then the expression for the gradient becomes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)=\lambda^{T}H_{v}+J_{v}\label{eq:adjoint-grad}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We show in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Complexity-of-solving"
+
+\end_inset
+
+ how the complexity of computing the gradient is reduced from 
+\begin_inset Formula $O(D_{x}|\vect x||\vect{\control}|)$
+\end_inset
+
+ to 
+\begin_inset Formula $O(D_{x}|\vect x|+D_{v}|\vect{\control}|)$
+\end_inset
+
+ by considering the adjoint method over the forward method, where 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ is the maximum junction degree on the network
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+D_{x}=\max_{\jn\in\jns}|Inc\left(J\right)\cup Out\left(\jn\right)|\label{eq:dx}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $D_{v}$
+\end_inset
+
+ is the maximum number of constraints that a single control variable appears
+ in:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+D_{\control}=\max_{v_{i,k}\in\vect{\control}}|\bigcup Inc\left(\jn\right)\cup Out\left(\jn\right):\control_{i,k}\in\vect{\control}_{\jn,k}|\label{eq:dv}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A graphical depiction of 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{v}$
+\end_inset
+
+ are given in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Depicting--and"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/gen-net.pdf
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:genneta"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/gen-net-dx.pdf
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:gennetb"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/gen-net-dv.pdf
+	width 33col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:gennetc"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Depicting 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{v}$
+\end_inset
+
+ for an arbitrary graph.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:genneta"
+
+\end_inset
+
+ shows the underlying graphical structure for an arbitrary PDE network.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:gennetb"
+
+\end_inset
+
+ depicts the center junction having the largest number of connecting edges,
+ thus giving 
+\begin_inset Formula $D_{x}=5$
+\end_inset
+
+.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:gennetc"
+
+\end_inset
+
+ shows that control parameter 
+\begin_inset Formula $\control_{1}$
+\end_inset
+
+ influences three junctions with sum of junctions degrees equal to six,
+ which is maximal over the other control parameter 
+\begin_inset Formula $\control_{2}$
+\end_inset
+
+.
+ leading to the result 
+\begin_inset Formula $D_{\control}=6$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Depicting--and"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Since the 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{v}$
+\end_inset
+
+ typically do not scale with 
+\begin_inset Formula $|\vect x|$
+\end_inset
+
+ or 
+\begin_inset Formula $|\vect{\control}|$
+\end_inset
+
+ for freeway networks (which have low node degree), the complexity of evaluating
+ the gradient for such networks can be considered linear for the adjoint
+ method.
+\end_layout
+
+\begin_layout Subsection
+Evaluating the partial derivatives
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Evaluating--and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Computing the gradient relies on the existence of partial derivatives of
+ both 
+\begin_inset Formula $J$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+.
+ We assume that the partial derivatives of the cost function 
+\begin_inset Formula $J$
+\end_inset
+
+ with respect to both the state 
+\begin_inset Formula $\vect x$
+\end_inset
+
+ and control 
+\begin_inset Formula $\vect{\control}$
+\end_inset
+
+ exist and have no special structure or sparsity.
+ The networked-structure of the PDE system and the Godunov discretization
+ scheme allows one to say much more about the structure and sparsity of
+ 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{\control}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Partial derivative expressions
+\end_layout
+
+\begin_layout Standard
+Given that the governing equations require the evaluation of a Riemann solver
+ at each step, we detail some of the necessary computational steps in evaluating
+ the 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+ matrices.
+ 
+\end_layout
+
+\begin_layout Standard
+If we consider a particular governing equation 
+\begin_inset Formula $h_{\link,k}$
+\end_inset
+
+, then we may determine the partial term with respect to 
+\begin_inset Formula $x\in\vect x$
+\end_inset
+
+ by applying the chain rule:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\pfrac{h_{\link,k}}x=-\pfrac{\dvar{}_{\link,k-1}}x+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)\label{eq:partial-hx-chain}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or if we consider the composed Riemann flux solver 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+ in Section 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Composing-the-Riemann"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\pfrac{h_{\link,k}}x=-\pfrac{\dvar{}_{\link,k-1}}x+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)\label{eq:partial-hx-chain-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For links 
+\begin_inset Formula $i$
+\end_inset
+
+ 
+\begin_inset Formula $\neq\link$
+\end_inset
+
+, the 
+\begin_inset Formula $\pfrac{\dvar_{\link,k-1}}x$
+\end_inset
+
+ term is 0.
+ For links 
+\begin_inset Formula $i$
+\end_inset
+
+ connecting to 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}$
+\end_inset
+
+ (and assuming no parallel links for simplicity), the 
+\begin_inset Formula $\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar_{i,l}}$
+\end_inset
+
+ term will be zero, and for links 
+\begin_inset Formula $i$
+\end_inset
+
+ connecting to 
+\begin_inset Formula $\jn_{\link}^{Up}$
+\end_inset
+
+, 
+\begin_inset Formula $\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar_{i,l}}=0$
+\end_inset
+
+.
+ It is also clear that for links 
+\begin_inset Formula $i$
+\end_inset
+
+ non-adjacent to 
+\begin_inset Formula $\link$
+\end_inset
+
+, 
+\begin_inset Formula $\pfrac{h_{\link,k}}{\dvar_{i,k-1}}=0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Also, for all 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j\neq k-1$
+\end_inset
+
+, 
+\begin_inset Formula $\pfrac{h_{\link,k}}{\dvar_{i,j}}=0$
+\end_inset
+
+, guaranteeing a lower triangular structure for the 
+\begin_inset Formula $\pfrac Hx$
+\end_inset
+
+ matrix.
+ Coupling  this result that with the fact that all diagonal terms, 
+\begin_inset Formula $\pfrac{H_{i}}{x_{i}}$
+\end_inset
+
+, are equal to 
+\begin_inset Formula $1$
+\end_inset
+
+ guarantees the invertibility of 
+\begin_inset Formula $\pfrac Hx$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+These results are for a generic scalar hyperbolic network of PDE's, and
+ demonstrate that partial derivatives expressions for 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ are only needed for the flux function 
+\begin_inset Formula $f$
+\end_inset
+
+ and for the Riemann solver 
+\begin_inset Formula $\RS$
+\end_inset
+
+ with respect to state variables adjacent to the junction of the Riemann
+ solver for a given time.
+\end_layout
+
+\begin_layout Standard
+Similarly for 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+, we take a control parameter 
+\begin_inset Formula $\control\in\vect{\control}$
+\end_inset
+
+, and derive the expression:
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)\label{eq:partial-hv-chain}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or for the composed Riemann flux solver 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)\label{eq:partial-hv-chain-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With the same argument, the 
+\begin_inset Formula $\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn,k}\right\} _{\link}}{v_{i,j}}$
+\end_inset
+
+ terms are only non-zero when 
+\begin_inset Formula $j=k-1$
+\end_inset
+
+ and 
+\begin_inset Formula $v_{i,j}\in\vect{\control}_{\jn,k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Example: linear flux function with split-ratio control
+\end_layout
+
+\begin_layout Standard
+For illustrative purposes, we will use the linear-flux function example
+ in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Composing-the-Riemann"
+
+\end_inset
+
+ as a concrete problem.
+ We assume for simplicity that each junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ has two outgoing links 
+\begin_inset Formula $\left(\link_{\jn}^{a},\link_{\jn}^{b}\right)$
+\end_inset
+
+ and at each time-step 
+\begin_inset Formula $k$
+\end_inset
+
+, 
+\begin_inset Formula $\jn$
+\end_inset
+
+ has a control parameter 
+\begin_inset Formula $v_{\jn,k}\in\vect{\control}_{k}\subseteq\vect{\control}$
+\end_inset
+
+ that controls the 
+\begin_inset Quotes eld
+\end_inset
+
+split ratio
+\begin_inset Quotes erd
+\end_inset
+
+ of the flux in the outgoing links such that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)}{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)+f\left(\hat{\dvar}_{\link_{\jn,k}^{b}}\right)}=v_{\jn,k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, we have 
+\begin_inset Formula $\vect v_{\jn,k}=\left\{ \control_{\jn,k}\right\} $
+\end_inset
+
+ and:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ RS\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
+\dvar_{\link} & \link\in Inc\left(\jn\right)\\
+\control_{\jn,k}\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
+\left(1-\control_{\jn,k}\right)\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+or:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \hat{F}\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
+f\left(\dvar_{\link}\right) & \link\in Inc\left(\jn\right)\\
+\control_{\jn,k}\alpha\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
+\left(1-\control_{\jn,k}\right)\alpha\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can now evaluate the individual terms in Equations
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hx-chain"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hv-chain"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn^{\text{}},}\right\} _{\link}} & = & \alpha\\
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{x_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}},k-1},\control_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}}{x_{i,j}}=\pfrac{\dvar_{\link,k-1}}{x_{i,j}}=\begin{cases}
+1 & i=\link\text{ and }j=k-1\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{x_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}},k-1},\control_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}}{x_{i,j}}=\pfrac{\left(\control_{\jn_{\link}^{\text{Up}},k}\sum_{i\in Inc\left(\jn\right)}\dvar_{i}\right)}{x_{i,j}}=0\\
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{v_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}},k-1},\control_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}}{v_{i,j}}=0\\
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{v_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}},k-1},\control_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}}{v_{i,j}}=\begin{cases}
+\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & j=k-1\text{ and }i=\jn_{\link}^{\text{Up}}\\
+0 & \text{otherwise}
+\end{cases}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the 3rd equation is 0 since 
+\begin_inset Formula $\link\in Out\left(J_{\link}^{Up}\right)$
+\end_inset
+
+ and only incoming link terms appear and the 4th equation is 0 since 
+\begin_inset Formula $\link\in Inc\left(\jn_{\link}^{\text{Down}}\right)$
+\end_inset
+
+.
+ These explicit solutions can be substituted back into Equations
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hx-chain"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hv-chain"
+
+\end_inset
+
+ to completely solve 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Structure and sparsity
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Structure-and-sparsity"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can show the lower-triangular structure of 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ by examining the governing equations in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-ge"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:main-ge"
+
+\end_inset
+
+.
+ For 
+\begin_inset Formula $k=0$
+\end_inset
+
+, we have 
+\begin_inset Formula $\pfrac{h_{i,0}}{x_{j,0}}=1$
+\end_inset
+
+ if 
+\begin_inset Formula $i=j$
+\end_inset
+
+ and 0 otherwise, giving all 1's on the diagonal (
+\begin_inset Formula $\pfrac{H_{i,j}}{x_{i,j}}=1\forall i,j$
+\end_inset
+
+).
+ For 
+\begin_inset Formula $k\in\left[2,\ldots,T\right]$
+\end_inset
+
+, we have that 
+\begin_inset Formula $h_{\link,k}$
+\end_inset
+
+ is only a function of 
+\begin_inset Formula $x_{\link,k}$
+\end_inset
+
+ and of the state variables from the previous time-step 
+\begin_inset Formula $k-1$
+\end_inset
+
+.
+ Thus, based on our ordering scheme in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:State,-control,-and"
+
+\end_inset
+
+, we know when 
+\begin_inset Formula $i\ne j$
+\end_inset
+
+, 
+\begin_inset Formula $\pfrac{h_{i,k}}{x_{j,l}}=0$
+\end_inset
+
+ for all 
+\begin_inset Formula $l\ge k$
+\end_inset
+
+, and 
+\begin_inset Formula $\pfrac{h_{i,k}}{x_{i,k}}=1$
+\end_inset
+
+.
+ These two conditions demonstrate both that 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ is lower-triangular and is also invertible.
+\end_layout
+
+\begin_layout Standard
+Additionally, if we take a single state variable 
+\begin_inset Formula $x_{\link,k}$
+\end_inset
+
+, then we can deduce from Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:main-ge"
+
+\end_inset
+
+ that all partial terms will be zero except for those terms involving constraint
+s at time 
+\begin_inset Formula $k+1$
+\end_inset
+
+ and links connecting to the downstream and upstream junctions 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\jn_{\link}^{\text{Up}}$
+\end_inset
+
+ respectively.
+ To summarize, 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ matrices for systems described in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:State,-control,-and"
+
+\end_inset
+
+ will be invertible, lower-triangular and each column will have a maximum
+ cardinality equal to Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dx"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Using the same line of argument for maximum cardinality in 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+, we can bound the maximum cardinality of each column of 
+\begin_inset Formula $H_{\control}$
+\end_inset
+
+.
+ Taking a single control variable 
+\begin_inset Formula $\control_{i,k}$
+\end_inset
+
+ at time-step k, the variable can only appear in constraints at time-step
+ 
+\begin_inset Formula $k+1$
+\end_inset
+
+ that correspond to a link that connects to a junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ such that 
+\begin_inset Formula $v_{i,k}\in\vect{\control}_{\jn,k}$
+\end_inset
+
+.
+ These conditions give us the expression for 
+\begin_inset Formula $D_{\control}$
+\end_inset
+
+ in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dv"
+
+\end_inset
+
+, or the maximum cardinality over all columns in 
+\begin_inset Formula $H_{\control}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Complexity of solving gradient via forward method vs.
+ adjoint method
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Complexity-of-solving"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If we only consider the lower triangular form of 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+, then the complexity of solving for the gradient using the forward system
+ is 
+\begin_inset Formula $O(|\vect x|^{2}|\vect{\control}|)$
+\end_inset
+
+, where the dominating term comes from solving Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:j-v"
+
+\end_inset
+
+, which requires the solution of 
+\begin_inset Formula $|\vect{\control}|$
+\end_inset
+
+ separate 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $|\vect x|\times|\vect x|$
+\end_inset
+
+ lower-triangular system.
+ The lower-triangular system allows for forward substitution, we can be
+ solved in
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ 
+\begin_inset Formula $O(|\vect x|^{2})$
+\end_inset
+
+ steps, giving the overall complexity 
+\begin_inset Formula $O(|\vect x|^{2}|\vect{\control}|)$
+\end_inset
+
+.
+ The complexity of the adjoint method is 
+\begin_inset Formula $O(|\vect x|^{2}+|\vect x||\vect{\control}|)$
+\end_inset
+
+, which is certainly more efficient than the forward-method, as long as
+ 
+\begin_inset Formula $|\vect{\control}|>1$
+\end_inset
+
+.
+ The efficiency is gained by considering that Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:adjoint"
+
+\end_inset
+
+ only requires the solution of 1
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\begin_inset Formula $|\vect x|\times|\vect x|$
+\end_inset
+
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph on
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+upper
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-triangular system (via backward-substitution), followed by the multiplication
+ of 
+\begin_inset Formula $\lambda^{T}H_{v}$
+\end_inset
+
+, a 
+\begin_inset Formula $|\vect x|\times|\vect x|$
+\end_inset
+
+ and a 
+\begin_inset Formula $|\vect x|\times|\vect{\control}|$
+\end_inset
+
+ matrix in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:adjoint-grad"
+
+\end_inset
+
+, for a complexity of 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $O(|\vect x|^{2}+|\vect x||\vect{\control}|)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For the adjoint method, this complexity can be improved upon by considering
+ the sparsity of the 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+ matrices, as detailed in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Structure-and-sparsity"
+
+\end_inset
+
+.
+ For the backward-substitution step, each entry in the 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ vector is solved by 
+\emph on
+at-most
+\emph default
+ 
+\begin_inset Formula $D_{x}$
+\end_inset
+
+ multiplications, and thus the complexity of solving Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:adjoint"
+
+\end_inset
+
+ is reduced to 
+\begin_inset Formula $O(D_{x}|\vect x|)$
+\end_inset
+
+.
+ Similarly, for the matrix multiplication 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+of 
+\begin_inset Formula $\lambda^{T}H_{v}$
+\end_inset
+
+, while 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is not necessarily sparse, we know that each entry in the resulting vector
+ requires at most 
+\begin_inset Formula $D_{v}$
+\end_inset
+
+ multiplications, giving a complexity of 
+\begin_inset Formula $O(D_{v}|\vect{\control}|)$
+\end_inset
+
+.
+ The total complexity for the adjoint method on a scalar hyperbolic network
+ of PDE is then 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $O(D_{x}|\vect x|+D_{v}|\vect{\control}|)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Applications to Optimal coordinated ramp metering on freeways
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Applications-to-Optimal"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Model
+\end_layout
+
+\begin_layout Standard
+Consider a freeway section as a sequence of junctions 
+\begin_inset Formula $\mathcal{J}=\left[J_{1},\ldots,J_{n}\right]$
+\end_inset
+
+.
+ At discrete time 
+\begin_inset Formula $t=k\triangle T,1\le k\le T$
+\end_inset
+
+, Junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ has an incoming (resp.
+ outgoing) mainline density 
+\begin_inset Formula $\rho_{i,k}^{\text{Inc}}$
+\end_inset
+
+ (resp.
+ 
+\begin_inset Formula $\rho_{i,k}^{\text{Out}}$
+\end_inset
+
+) 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\in\mathbb{R}$
+\end_inset
+
+ (units of vehicles per unit length), onramp density 
+\begin_inset Formula $\rho_{i,k}^{\text{On}}\in\mathbb{R}$
+\end_inset
+
+ (units of vehicles), and offramp split ratio 
+\begin_inset Formula $\beta_{i,k}$
+\end_inset
+
+ representing the ratio of cars who stay on the freeway vs.
+ total cars leaving the upstream mainline of junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $J_{1}$
+\end_inset
+
+ is the source of the network, it has no upstream mainline or offramp, and
+ similarly 
+\begin_inset Formula $J_{n}$
+\end_inset
+
+ has no downstream mainline or onramp.
+ These values are depicted in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Freeway-network-junction"
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/junction-network.pdf
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Freeway network junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+.
+ Mainline densities represented by 
+\begin_inset Formula $\rho$
+\end_inset
+
+, onramp queues by 
+\begin_inset Formula $l$
+\end_inset
+
+, and offramp split ratios by 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $\rho_{i}^{\text{Out}}$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\rho_{i+1}^{\text{Inc}}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Freeway-network-junction"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As control input, an onramp at junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and time 
+\begin_inset Formula $k$
+\end_inset
+
+ has a metering rate 
+\begin_inset Formula $u_{i,k}$
+\end_inset
+
+ which limits the flux of vehicles leaving the onramp.
+ Its mathematical model is expressed later.
+\end_layout
+
+\begin_layout Standard
+The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
+ are modeled using the LWR equation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{t}+f'\rho_{x}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the density state, and 
+\begin_inset Formula $f'$
+\end_inset
+
+ is the derivative of the flux function (or fundamental diagram) 
+\begin_inset Formula $f\left(\rho\right)$
+\end_inset
+
+.
+ We assume the fundamental diagram has a trapezoidal form as depicted in
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Fundamental-diagram-with"
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/fd.pdf
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fundamental diagram with free-flow speed 
+\begin_inset Formula $v$
+\end_inset
+
+, congestion wave speed 
+\begin_inset Formula $w$
+\end_inset
+
+, max flux 
+\begin_inset Formula $F^{\max}$
+\end_inset
+
+, critical density 
+\begin_inset Formula $\rho^{c}$
+\end_inset
+
+, and max density 
+\begin_inset Formula $\rho^{\max}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Fundamental-diagram-with"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For notational simplicity we consider the set of densities of links adjacent
+ to a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at time-step 
+\begin_inset Formula $k$
+\end_inset
+
+ as 
+\begin_inset Formula $\vect{\rho}_{J_{i},k}=\left\{ \rho_{i,k}^{\text{Inc}},\rho_{i,k}^{\text{Out}},\rho_{i,k}^{\text{On}}\right\} $
+\end_inset
+
+.
+ The offramp is considered to have infinite capacity, and thus has no bearing
+ on the solution of junction problems.
+ Taking a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at timestep 
+\begin_inset Formula $k$
+\end_inset
+
+, we discretize the downstream mainline density 
+\begin_inset Formula $\rho_{i,k}^{\text{Out}}$
+\end_inset
+
+ using the Godunov scheme from Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:main-ge"
+
+\end_inset
+
+ to obtain the discrete update equation on a mainline:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+h_{i,k}^{\text{Out}}(\vect x,\vect v)=\rho_{i,k}^{\text{Out}}-\rho_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\rho}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\rho}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $L_{i}$
+\end_inset
+
+ is the distance between junctions 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $J_{i+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\rho}}_{J,k}\right)\right\} _{i}$
+\end_inset
+
+ is the flux from the boundary condition of density 
+\begin_inset Formula $\rho_{\jn,k}^{i}$
+\end_inset
+
+ at junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+.
+ We also make the assumption that onramps have infinite capacity and unit
+ length and can then simplify the onramp update equation to be:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+h_{i,k}^{\text{On}}(\vect x,\vect v)=\rho_{i,k}^{\text{On}}-\rho_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\rho}_{J_{i},k},u_{i+1,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $D_{i,k}$
+\end_inset
+
+ is the onramp 
+\emph on
+flux 
+\emph default
+demand.
+ This formulation results in 
+\begin_inset Quotes eld
+\end_inset
+
+strong
+\begin_inset Quotes erd
+\end_inset
+
+ boundary conditions at the onramps which guarantees all demand enters the
+ network.
+ Details on weak versus strong boundary conditions can be found in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ML,Walid,strub2006weak"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Riemann solver
+\end_layout
+
+\begin_layout Standard
+For the ramp metering problem, there are many potential Riemann solvers
+ that satisfy the properties required in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Network-of-PDE's"
+
+\end_inset
+
+.
+ Following the model of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Walid,ML"
+
+\end_inset
+
+, for each junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+, we add two modeling decisions: the flux solution maximizes the outgoing
+ mainline flux 
+\begin_inset Formula $\left\{ \hat{F}_{i}\right\} _{\text{Out}}$
+\end_inset
+
+, and any remaining non-uniqueness in the incoming flux is resolved using
+ a merging parameter 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+.
+ This leads to the following system of equations that gives the flux solution
+ of the Riemann solver at time-step 
+\begin_inset Formula $k>1$
+\end_inset
+
+ and junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\delta & = & \min\left(v_{i}\rho_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
+\sigma & = & \min\left(w_{i}\left(\rho_{i}^{\max}-\rho_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
+d & = & u_{i,k}\min\left(\rho_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}} & = & \min\left(\beta_{i,k}\delta+d,\sigma\right)\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}} & = & \begin{cases}
+\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
+\frac{\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-d_{i,k}}{\beta_{i,k}} & \frac{\sigma}{1+p_{i}}\ge d\\
+\frac{\sigma p_{i}}{\left(1+p_{i}\right)\beta_{i,k}} & \text{otherwise}
+\end{cases}\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{On}} & = & \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-\beta_{i,k}\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Off}} & = & \left(1-\beta_{i,k}\right)\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the equations can be solved sequentially via forward substitution.
+ Also, we only include the flux results for offramps explicitly here to
+ demonstrate that indeed the flux solution satisfies the flux conservation
+ property.
+ We will ignore its explicit computation for the remainder of the article
+ since its value has no bearing on further calculations.
+\end_layout
+
+\begin_layout Paragraph
+Optimal coordinated ramp-metering
+\end_layout
+
+\begin_layout Standard
+Including the initial conditions as specified in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:init-ge"
+
+\end_inset
+
+ with Equations
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:rho-update"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:onramp-update"
+
+\end_inset
+
+ gives a complete description of the system 
+\begin_inset Formula $H\left(\vect x,\vect v\right)=0$
+\end_inset
+
+, where if 
+\begin_inset Formula $\left|\links\right|=2*(n-1)$
+\end_inset
+
+ is the number of links:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+x_{|\links|\left(k-1\right)+2*i-1}\defeq & \rho_{i,k}^{\text{Out}}\defeq\rho_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
+x_{|\links|\left(k-1\right)+2*i}\defeq & \rho_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
+v_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The objective of the control is to minimize the 
+\emph on
+total travel time 
+\emph default
+of flux on the network
+\emph on
+.
+ 
+\emph default
+This is expressed with the cost function 
+\begin_inset Formula $C$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+C\left(\vect x,\vect{\control}\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\rho_{i,k}^{\text{Out}}+\rho_{i,k}^{\text{On}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus the optimal coordinated ramp-metering problem can be formulated as
+ a network PDE-constrained optimization problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\min_{\vect{\control}} & C\left(\vect x,\vect{\control}\right)\label{eq:full}\\
+\text{subject to:} & H\left(\vect x,\vect{\control}\right) & =0\nonumber \\
+ & 0\le\control\le1 & \forall\control\in\vect{\control}\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The inequalities constrain the metering control to neither impose negative
+ flows nor send more vehicles than present in the queue.
+ Since the adjoint method in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Adjoint-method"
+
+\end_inset
+
+ does not permit inequalities in the constraints, we add barrier penalties
+ to the cost function
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Boyd2010,Bayen2006"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tilde{C}\left(\vect x,\vect{\control},R\right)=C\left(\vect x,\vect{\control}\right)+R\sum_{\control\in\vect{\control}}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula $R$
+\end_inset
+
+ tends to zero, 
+\begin_inset Formula $\tilde{C}$
+\end_inset
+
+ tends towards 
+\begin_inset Formula $C$
+\end_inset
+
+.
+ Thus we can solve Problem
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:full"
+
+\end_inset
+
+ by iteratively solving the augmented problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\min_{\vect{\control}} & \tilde{C}\left(\vect x,\vect{\control},R\right)\label{eq:full-1}\\
+\text{subject to:} & H\left(\vect x,\vect{\control}\right) & =0\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with decreasing values of 
+\begin_inset Formula $R$
+\end_inset
+
+.
+ As a result, 
+\begin_inset Formula $\tilde{C}$
+\end_inset
+
+ will approach 
+\begin_inset Formula $C$
+\end_inset
+
+ as the number of iterations increases.
+\end_layout
+
+\begin_layout Paragraph
+Applying the adjoint method
+\end_layout
+
+\begin_layout Standard
+To use the adjoint method as described in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Adjoint-method"
+
+\end_inset
+
+, we need to compute the partial matrices 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+, 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+, 
+\begin_inset Formula $\tilde{C}_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{C}_{v}$
+\end_inset
+
+.
+ Computing the partials with respect to the cost function is straight forward:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\pfrac{\tilde{C}}{\rho_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\rho_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{u_{i,k}}= & R\left(\frac{-1}{1-u_{i,k}}+\frac{1}{u_{i,k}}\right) & 1\le i\le n-1,1\le k\le T
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To compute the partials of 
+\begin_inset Formula $H$
+\end_inset
+
+, we follow the procedure in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Calculating-the-gradient"
+
+\end_inset
+
+.
+ For a given junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and time-step 
+\begin_inset Formula $k$
+\end_inset
+
+, we only need to compute the partial derivatives of the flux solver 
+\begin_inset Formula $\hat{F}_{J_{i},k}$
+\end_inset
+
+ with respect to the adjacent state variables 
+\begin_inset Formula $\vect{\rho}_{J_{i},k}$
+\end_inset
+
+ and ramp metering control 
+\begin_inset Formula $u_{i,k}$
+\end_inset
+
+.
+ We calculate the partials of the variables in Equations
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:state-rm"
+
+\end_inset
+
+ for a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at time-step 
+\begin_inset Formula $k>1$
+\end_inset
+
+ with respect to either a state or control variable 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\pfrac{\delta}s & = & \begin{cases}
+v_{i} & s=\rho_{i,k}^{\text{Inc}},v_{i}\rho_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac{\sigma}s & = & \begin{cases}
+-w_{i} & s=\rho_{i,k}^{\text{Out}},w_{i}\left(\rho_{i}^{\max}-\rho_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac ds & = & \begin{cases}
+u_{i,k} & s=\rho_{i,k}^{\text{On}},\rho_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
+\min\left(\rho_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s & = & \begin{cases}
+\beta_{i,k}\pfrac{\delta}s+\pfrac ds & \beta_{i,k}\delta+d\le\sigma\\
+\pfrac{\sigma}s & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s & = & \begin{cases}
+\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\beta_{i,k}}\\
+\beta_{i,k}^{-1}\left(\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
+\frac{p_{i}}{\beta_{i,k}\left(+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{On}}}s & = & \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\beta_{i,k}\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These expressions fully quantify the partial values needed in Equations
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hx-chain-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:partial-hv-chain-1"
+
+\end_inset
+
+.
+ Thus we can construct the 
+\begin_inset Formula $H_{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{\control}$
+\end_inset
+
+ matrices, which enables us to apply the adjoint method to the ramp metering
+ problem.
+\end_layout
+
+\begin_layout Paragraph
+Initial and boundary conditions
+\end_layout
+
+\begin_layout Section
+Numerical results for model predictive control simulations
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Numerical-results-for"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Conclusions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "/Users/jdr/Documents/School/Papers/bibs/AdjointPaper"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,133 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+\global\long\def\adjvar#1#2#3{\lambda_{#1,#3,#2}}
+
+
+\global\long\def\constrvar#1#2#3{H_{#1,#3,#2}}
+
+We wish to study a number of junction problems with the adjoint framework
+to comparison purposes. Therefore, we wish to extract the shared aspects
+of the adjoint approach to ramp metering. The initial conditions,
+boundary conditions, mass balance equations across junctions and ramps,
+and control parameter are all the same. What differs is the solution
+of the flow that is sent from the one cell and one ramp to the next
+cell. Therefore, we use a general description of the flow sent and
+received from a cell or ramp based on data from the previous time
+step. 
+
+The density introduced into cell $\icell$ at time $\itime$ is:
+
+\[
+\densitysymbol_{\icell,\itime}^{\text{in}}\left(\density{\icell}{\itime-1},\density{\icell-1}{\itime-1},\rampqueue{\icell-1}{\itime-1},\rampcontrol{\icell-1}{\itime-1}\right)
+\]
+
+
+The density sent out of the cell is:
+
+\[
+\densitysymbol_{\icell,\itime}^{\text{out}}\left(\density{\icell}{\itime-1},\density{\icell+1}{\itime-1},\rampqueue{\icell}{\itime-1},\rampcontrol{\icell}{\itime-1}\right)
+\]
+
+
+Similarly, the flow leaving the ramp $\icell$ is:
+
+\[
+\rampqueuesymbol_{\icell,\itime}^{\text{out}}\left(\density{\icell}{\itime-1},\density{\icell+1}{\itime-1},\rampqueue{\icell}{\itime-1},\rampcontrol{\icell}{\itime-1}\right)
+\]
+
+For the Garavello, Piccoli model~\cite{garavello2006traffic}, the above functions are fully detailed in the present report. It is not efficient to think of these functions as independent modules, as they share many intermediate values to determine their values. The formulation is useful from a conceptual perspective, as it allows us to explicitly isolate the core equations, initial conditions, and the boundary conditions for both the forward and adjoint systems for any junction model.
+
+From an implementation standpoint, this method does include intermediate variables explicitly in the state vector, which reduces the size of our linear system that must be solved for the adjoint variables. The trade-off is that the construction of the $\frac{\partial H}{\partial x}$ matrix will take longer. If both systems are implemented as sparse matrices with a triangular form, and the matrix solver is perfectly efficient, then the two approaches should be practically identical from a computational stand-point.
+
+\subsection{Forward system}
+
+System for density variables:
+
+\begin{align*}
+\constrvar{\itime}{\densitysymbol}{\icell}= & \density{\icell}{\itime}-\density{\icell}{\itime-1}\\
+ & +\densitysymbol_{\icell,\itime}^{\text{in}}\left(\density{\icell}{\itime-1},\density{\icell-1}{\itime-1},\rampqueue{\icell-1}{\itime-1},\rampcontrol{\icell-1}{\itime-1}\right)\\
+ & -\densitysymbol_{\icell,\itime}^{\text{out}}\left(\density{\icell}{\itime-1},\density{\icell+1}{\itime-1},\rampqueue{\icell}{\itime-1},\rampcontrol{\icell}{\itime-1}\right) & \forall\icell\in\left\{ 0,\ldots,\ncell\right\} ,\forall\itime\in\left\{ 1,\ldots,\ntime\right\} 
+\end{align*}
+
+
+System for ramp queue variables:
+
+\begin{align*}
+\constrvar{\itime}{\rampqueuesymbol}{\icell}= & \rampqueue{\icell}{\itime}-\rampqueue{\icell}{\itime-1}+\inputflux{\icell}{\itime-1}\\
+ & -\rampqueuesymbol_{\icell,\itime}^{\text{out}}\left(\density{\icell}{\itime-1},\density{\icell+1}{\itime-1},\rampqueue{\icell}{\itime-1},\rampcontrol{\icell}{\itime-1}\right) & \forall\icell\in\left\{ 0,\ldots,\ncell\right\} ,\forall\itime\in\left\{ 1,\ldots,\ntime\right\} 
+\end{align*}
+
+
+Initial conditions:
+
+\begin{align*}
+\mbox{\ensuremath{\constrvar 0{\densitysymbol}{\icell}}}= & \density{\icell}0-\densityinit{\icell} & \forall\icell\in\left\{ 0,\ldots,\ncell\right\} \\
+\constrvar 0{\rampqueuesymbol}{\icell}= & \rampqueue{\icell}0-\rampqueueinit{\icell} & \forall\icell\in\left\{ 1,\ldots,\ncell-1\right\} 
+\end{align*}
+
+
+Boundary conditions for densities:
+
+\begin{align*}
+\constrvar{\itime}{\densitysymbol}{\icell}= & \density{\icell}{\itime} & \forall\icell\in\left\{ -1,\ncell+1\right\} ,\forall\itime\in\left\{ 0,\ldots,\ntime\right\} 
+\end{align*}
+
+
+Boundary conditions for ramp queues:
+
+\begin{align*}
+\constrvar{\itime}{\rampqueuesymbol}{-1}= & \rampqueue{-1}{\itime} & \forall\itime\in\left\{ 0,\ldots,\ntime\right\} 
+\end{align*}
+
+
+
+\subsection{Objective}
+
+\begin{align*}
+\frac{\partial J}{\partial x_{\itime,\icell,\itime}}=1 & \forall\icell\in\left\{ -1,\ldots,\ncell+1\right\} ,\forall\itime\in\left\{ 0,\ldots,\ntime\right\} ,\forall p\in\left\{ \densitysymbol,\rampqueuesymbol\right\} 
+\end{align*}
+
+
+
+\subsection{Adjoint system}
+
+The adjoint system for density constraints:
+
+\begin{align*}
+\adjvar{\itime}{\densitysymbol}{\icell}+\left(-1-\frac{\partial\densitysymbol_{\icell,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\icell,\itime}}-\frac{\partial\densitysymbol_{\icell,\itime+1}^{\text{in}}}{\partial\densitysymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\icell}\\
++\left(\frac{\partial\densitysymbol_{\icell-1,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\icell-1}+\left(-\frac{\partial\densitysymbol_{\icell+1,\itime+1}^{\text{in}}}{\partial\densitysymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\icell+1}\\
++\left(\frac{\partial\rampqueuesymbol_{\icell,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\rampqueuesymbol}{\icell}+\left(\frac{\partial\rampqueuesymbol_{\icell-1,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\rampqueuesymbol}{\icell-1}=1\\
+\forall\icell\in\left\{ 0,\ldots,\ncell\right\} ,\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\end{align*}
+
+
+The adjoint system for ramp queue constraints:
+
+\begin{align*}
+\adjvar{\itime}{\rampqueuesymbol}{\icell}+\left(-1-\frac{\partial\rampqueuesymbol_{\icell,\itime+1}^{\text{out}}}{\partial\rampqueuesymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\rampqueuesymbol}{\icell}+\left(\frac{\partial\densitysymbol_{\icell,\itime+1}^{\text{out}}}{\partial\rampqueuesymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\icell}+\left(-\frac{\partial\densitysymbol_{\icell+1,\itime+1}^{in}}{\partial\rampqueuesymbol_{\icell,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\icell+1}=1\\
+\forall\icell\in\left\{ 0,\ldots,\ncell\right\} ,\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\end{align*}
+
+
+Initial conditions:
+
+\begin{align*}
+\adjvar{\ntime}{\densitysymbol}{\icell}=1 & \forall\icell\in\left\{ -1,\ldots,\ncell+1\right\} \\
+\adjvar{\ntime}{\rampqueuesymbol}{\icell}=1 & \forall\icell\in\left\{ -1,\ldots,\ncell\right\} 
+\end{align*}
+
+
+Boundary conditions for densities:
+
+\begin{align*}
+\adjvar{\itime}{\densitysymbol}{-1}+\left(-\frac{\partial\densitysymbol_{0,\itime+1}^{\text{in}}}{\partial\densitysymbol_{-1,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}0=1\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\} \\
+\adjvar{\itime}{\densitysymbol}{\ncell+1}+\left(\frac{\partial\densitysymbol_{\ncell,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\ncell+1,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}{\ncell}+\left(\frac{\partial\rampqueuesymbol_{\ncell,\itime+1}^{\text{out}}}{\partial\densitysymbol_{\ncell+1,\itime}}\right)\adjvar{\itime+1}{\rampqueuesymbol}{\ncell}=1\\
+\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\end{align*}
+
+
+Boundary conditions for ramp queues:
+
+\begin{align*}
+\adjvar{\itime}{\rampqueuesymbol}{-1}+\left(-\frac{\partial\densitysymbol_{0,\itime+1}^{\text{in}}}{\partial\rampqueuesymbol_{-1,\itime}}\right)\adjvar{\itime+1}{\densitysymbol}0=1\\
+\forall\itime\in\left\{ 0,\ldots,\ntime-1\right\} 
+\end{align*}

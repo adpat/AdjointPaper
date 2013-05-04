@@ -1,0 +1,92 @@
+ 
+ %input
+
+ %cells
+\global\long\def\flowsymbol{f}
+ \global\long\def\flowout#1#2{\flowsymbol_{#1}^{\text{out}}\left(#2\right)}
+ \global\long\def\flowin#1#2{\flowsymbol_{#1}^{\text{in}}\left(#2\right)}
+ \global\long\def\flowoutnt#1#2{\flowsymbol_{#1}^{\text{out}}}
+ \global\long\def\flowinnt#1#2{\flowsymbol_{#1}^{\text{in}}}
+ \global\long\def\flowoutmc#1#2#3{\flowsymbol_{#1,#3}^{\text{out}}\left(#2\right)}
+ \global\long\def\flowinmc#1#2#3{\flowsymbol_{#1,#3}^{\text{in}}\left(#2\right)}
+ \global\long\def\flowoutmcnt#1#2#3{\flowsymbol_{#1,#3}^{\text{out}}}
+ \global\long\def\flowinmcnt#1#2#3{\flowsymbol_{#1,#3}^{\text{in}}}
+
+ \global\long\def\inputfluxsymbol{D}
+ \global\long\def\inputflux#1#2{\inputfluxsymbol_{#1}\left(#2\right)}
+ \global\long\def\inputfluxmc#1#2#3{\inputfluxmc_{#1,#3}\left(#2\right)}
+
+ \global\long\def\density#1#2{\densitysymbol_{#1}\left(#2\right)}
+ \global\long\def\densitymc#1#2#3{\densitysymbol_{#1,#3}\left(#2\right)}
+  \global\long\def\densitymcnt#1#2#3{\densitysymbol_{#1,#2}}
+
+ \global\long\def\splitratiosymbol{\beta}
+ \global\long\def\splitratio#1#2#3#4{\splitratiosymbol_{#1#2,#4}\left(#3\right)}
+ \global\long\def\aggsplitratio#1#2#3{\splitratiosymbol_{#1#2}\left(#3\right)}
+ \global\long\def\splitrationt#1#2#3#4{\splitratiosymbol_{#1#2,#3}}
+ \global\long\def\aggsplitrationt#1#2#3{\splitratiosymbol_{#1#2}}
+
+ \global\long\def\prioritysymbol{P}
+ \global\long\def\priority#1{\prioritysymbol_{#1}}
+ \global\long\def\prioritym#1#2{\prioritysymbol_{#1#2}}
+
+\global\long\def\celldemandsymbol{\delta}
+\global\long\def\celldemand#1#2{\celldemandsymbol_{#1}\left(#2\right)}
+\global\long\def\celldemandnt#1#2{\celldemandsymbol_{#1}}
+
+\global\long\def\cellsupplysymbol{\sigma}
+ \global\long\def\cellsupply#1#2{\cellsupplysymbol_{#1}\left(#2\right)}
+  \global\long\def\cellsupplynt#1#2{\cellsupplysymbol_{#1}}
+
+
+ \global\long\def\boundarydemandsymbol{d}
+ \global\long\def\boundarydemand#1#2{\boundarydemandsymbol_{#1}\left(#2\right)}
+ \global\long\def\boundarydemandmc#1#2#3{\boundarydemandsymbol_{#1,#3}\left(#2\right)}
+ \global\long\def\boundaryqueuesymbol{l}
+ \global\long\def\boundaryqueue#1#2{\boundaryqueuesymbol_{#1}\left(#2\right)}
+ \global\long\def\boundaryqueuemc#1#2#3{\boundaryqueuesymbol_{#1,#3}\left(#2\right)}
+ \global\long\def\boundaryqueuemb#1#2#3{\boundaryqueuesymbol^#3_{#1}\left(#2\right)}
+ \global\long\def\boundaryqueuemcmb#1#2#3#4{\boundaryqueuesymbol^#4_{#1,#3}\left(#2\right)}
+ \global\long\def\boundaryqueueinitmc#1#2{\boundaryqueuesymbol_{#1,#2}\left(0\right)}
+ \global\long\def\boundaryflowsymbol{r}
+ \global\long\def\boundaryflow#1#2{\boundaryflowsymbol_{#1}\left(#2\right)}
+ \global\long\def\boundaryflowmc#1#2#3{\boundaryflowsymbol_{#1,#3}\left(#2\right)}
+ \global\long\def\boundaryflowmb#1#2#3{\boundaryflowsymbol^#3_{#1}\left(#2\right)}
+ \global\long\def\boundaryflowmcmb#1#2#3#4{\boundaryflowsymbol^#4_{#1,#3}\left(#2\right)}
+ 
+ %input
+ \global\long\def\inputfluxsymbol{D}
+ \global\long\def\inputflux#1#2{D_{#1}\left(#2\right)}
+ \global\long\def\inputfluxmc#1#2#3{D_{{#1},{#3}}\left(#2\right)}
+
+ \global\long\def\densitysymbol{\rho}
+ \global\long\def\density#1#2{\densitysymbol_{#1}\left(#2\right)}
+ \global\long\def\densitynt#1#2{\densitysymbol_{#1}}
+ \global\long\def\densityinit#1{\densitysymbol_{#1}^{0}}
+ \global\long\def\densityinitmc#1#2{\densitysymbol_{#1,#2}^{0}}
+
+ \global\long\def\compliantratiosymbol{\alpha}
+ \global\long\def\compliantratiomc#1{\alpha_#1}
+
+ \global\long\def\commoditysymbol{c}
+ \global\long\def\junctionsymbol{z}
+ \global\long\def\constraintsymbol{x}
+
+ \global\long\def\sourcesetsymbol{{\cal S}}
+ \global\long\def\sinksetsymbol{{\cal T}}
+ \global\long\def\junctionsetsymbol{{\cal J}}
+ \global\long\def\linksetsymbol{{\cal A}}
+ \global\long\def\commoditysetsymbol{C}
+
+
+ \global\long\def\injunctionset#1{\junctionsetsymbol^{in}}
+ \global\long\def\outjunctionset#1{\junctionsetsymbol^{out}}
+ 
+ \global\long\def\H#1#2#3{H^{#1}_{#2, #3}}
+ \global\long\def\Hmc#1#2#3#4{H^{#1}_{#2, #3, #4}}
+ 
+ \global\long\def\I#1#2#3{I^{#1}_{#2, #3}}
+ \global\long\def\Imc#1#2#3#4{I^{#1}_{#2, #3, #4}}
+
+
+

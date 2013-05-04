@@ -15,7 +15,7 @@ free-flow speed $\vfd_{\jnidx}$,
 congestion wave speed $\wfd_{\jnidx}$, 
 critical density $\pcfd_{\jnidx}$, 
 max density $\pmfd_{\jnidx}$, and
-max flux $\fmfd_{\jnidx}$. Figure~\ref{fig:freeway-network} summarizes the network topology and parameters.
+max flux $\fmfd_{\jnidx}$. The choice of a triangular fundamental diagram is supported by empirical evidence on freeway networks of a distinct ``free-flow'' phase with constant velocity as a function of density, and a congestion phase with decreasing capacity as a function of density. Figure~\ref{fig:freeway-network} summarizes the network topology and parameters.
 
 \begin{figure}
 \centering
@@ -85,12 +85,14 @@ The system of equations for the discretized system is given in Equation~\eqref{e
 
 The intermediate variables (those used to calculate the states variables, $\density$ and $\queue$) represent the following values; $\demand$, the demand, is the amount of flux that a link can send downstream in a time step; $\supply$, the supply, is the amount of flux that a link can receive; $\rampDemand$, the ramp demand, is the amount of flux that an onramp can send; $\fIn/\fOut$ is the flux that enters/exits upstream/downstream of a link; $\fRamp$ is the flux that exits an onramp.
 
-By taking the system in Equation~\eqref{eqn:system-of-equations}, the initial and boundary conditions, and subtracting the right hand side of each equation in the system, then we can construct the system $\sysMat \left( \state \right) = 0$, where $x$ is the entire state vector, ordered first by time step, then by variable type (e.g. $\density, \queue, \demand,$ etc), and finally by link. More details about the ordering and its effect on the efficiency of gradient computation is given in Section~\ref{sub:efficient_solution_of_system_via_depth_first_search_system_solution}. The system of equations can be solved in linear time via forward-substitution, similar to other first-order network models such as the cell transmission model~\cite{daganzo1995cell}.
+\paragraph*{Control parameters} % (fold)
+\label{sub:control_parameters}
 
-\subsection{Control parameters for ramp metering} % (fold)
-\label{sub:control_parameters_for_ramp_metering}
+% The $\sysMat$ system in Section~\ref{sub:dynamics} expresses the relationships of all state variables, which can be solved to give a forward simulation of the system. 
+In order to affect the system externally, we must introduce some control parameters. We denote control parameters with $\control$. One method of control, known as variable speed limits~\cite{Muralidharan2009}, would set $\control$ as the free-flow velocity of the fundamental diagrams. State estimation problems can be posed in this fashion by letting $\control$ be the initial conditions, and searching for an initial condition that evolves to a known final state~\cite{Jacquet}. Ramp metering sets $\control$ as the maximum outflow from onramps. 
 
-The $\sysMat$ system in Section~\ref{sub:dynamics} expresses the relationships of all state variables, which can be solved to give a forward simulation of the system. In order to effect the system externally, we must introduce some control parameters. We denote control parameters with $u\in\Rbb^{|u|}$, and state parameters with $x\in\Rbb^{|x|}$. One method of control, known as variable speed limits~\cite{Muralidharan2009}, would set the free-flow velocity of the fundamental diagrams as control parameters. State estimation problems can be posed in this fashion by letting initial conditions become control parameters, and searching for an initial condition that drifts to a known state~\cite{Jacquet}. For this article, we study ramp metering, which can be modeled as a control parameter that limits the outflow of ramps. Thus, we say $\idx{\control}{i}{k}$ sets an upper limit on the flux out of onramp $i$ at time $k$. We modify the $\rampDemand$ equation in~\eqref{eqn:system-of-equations} to account for this new parameter:
+\jdrcomment{below maybe moved to ramp metering specific section}
+More precisely, we say $\idx{\control}{i}{k}$ sets an upper limit on the flux out of onramp $i$ at time $k$. For the case of ramp metering, we modify the $\rampDemand$ equation in~\eqref{eqn:system-of-equations} to account for this new parameter:
 
 \begin{equation}
 \label{eqn:modified-ramp-demand}
@@ -98,8 +100,21 @@ The $\sysMat$ system in Section~\ref{sub:dynamics} expresses the relationships o
 \min\left( \idx{\control}{i}{k}, \rampMax_i, \idx{\queue}{i}{k} / \dt \right)
 \end{equation}
 
+\paragraph*{System matrix}
+
+By taking the dynamics conditions in Equation~\eqref{eqn:system-of-equations}, the initial and boundary conditions, and subtracting the right hand side of each equation in the system, we can construct the system matrix $\sysMat \left( \state, \control \right) = 0$, where $\state\in\Rbb^{\nState}$ ($\nState=|x|$) is the entire state vector, ordered first by time step, then by variable type (e.g. $\density, \queue, \demand,$ etc), and finally by link. The control vector $\control\in\Rbb^{\nControl}$ ($\nControl = |\control|$) is ordered similarly. More details about the ordering and its effect on the efficiency of gradient computation is given in Section~\ref{sub:efficient_solution_of_system_via_depth_first_search_system_solution}. The system of equations can be solved in linear time via forward-substitution (a result of the system being triangular), similar to other first-order network models such as the cell transmission model~\cite{daganzo1995cell}. The variable dependencies are graphically depicted in Figure~\ref{fig:variable-dependencies}.
+
+\begin{figure}
+\centering
+\includegraphics[width=.75\columnwidth]{oldPaper/triangletikzpdf}
+\caption{Forward system variable dependencies. Ordering in this fashion leads to a lower-triangular system, which is efficient to solve.}
+\label{fig:variable-dependencies}
+\end{figure}
+
+
 % subsection control_parameters_for_ramp_metering (end)
 
-% subsection dynamics (end)
-
-% subsection network_model (end)
+\subsection{Cost function} % (fold)
+\label{sub:minimzing_total_travel_time}
+\input{objective}
+% section minimzing_total_travel_time (end)

@@ -1,0 +1,27 @@
+\begin{tikzpicture}[scale=1.7, domain=0:1]
+
+\def \rampDem{2}
+\def \dem{2.5}
+\def \priorityRat{0.7}
+\def \totalFlow{3}
+
+\coordinate (Z) at (0,0);
+\coordinate (I1) at (\rampDem, 0);
+\coordinate (I2) at (0, \dem);
+\coordinate (I3) at (\rampDem, \dem);
+\coordinate (A) at (0, {\totalFlow});
+\coordinate (B) at (\totalFlow, 0);
+\coordinate (C) at ({(1-\priorityRat)/\priorityRat*\dem}, \dem);
+\coordinate (P1) at (intersection of I1--I3 and A--B);
+\coordinate (P2) at (intersection of I2--I3 and A--B);
+
+
+\draw[->] (Z) -- (3.5,0) node[below right]{$r_i$};
+\draw[->] (Z) -- (0,4) node[left]{$f_i$};
+\draw[dashed] (I3) -- (I1) node[below]{$d_i(0)$};
+\draw[dashed] (I3) -- (I2) node[left]{$\celldemand{\icell}{\itime}$};
+\draw (A) -- (B) node[yshift=1cm, xshift=0cm]{$\flowout{\icell}{\itime} + \rampflow{\icell}{\itime} = \flowin{\icell+1}{\itime}$};
+\draw (Z) -- (C) node[above, xshift=1cm]{$\flowout{\icell}{\itime} = \frac{\priority{\icell}}{1-\priority{\icell}} \rampflow{\icell}{\itime}$};
+\draw (intersection of A--B and Z--C) circle (1pt);
+
+\end{tikzpicture}

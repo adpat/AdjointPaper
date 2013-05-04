@@ -1,0 +1,9 @@
+% !TEX root = SO-DTA with partial compliance.tex
+
+
+The goal of this work is to solve the problem of allocating system optimal traffic assignments when only a fraction of the total commuters can be controlled. There is a large amount of literature on the system optimal dynamic traffic assignment (SO-DTA) problem with full compliance and the user equilibrium assignment when there is no control, but very little work on SO-DTA with partial compliance. Partial control situations are essential in corridor management projects where altering route choice is being used as a congestion mitigation strategy, since it is only practical to be able to influence the route choices of a small percentage of the drivers. 
+
+We consider a discrete traffic model based on the Godunov discretization of the LWR partial differential equation and a triangular fundamental diagram. The system includes two types of flows. Namely, compliant and non-compliant flows. The non-compliant flow will have fixed turning ratios at junctions and not be controlled by the optimization problem. The compliant flow is the flow that can be controlled to minimize the total travel time of all commuters. 
+
+We consider the general network problem with an arbitary number of sources and destinations. The complexity of the optimization problem will depend on the total number of source destination pairs for the compliant flow. Therefore, for computational tractability it is important to restrict the total number of allowed paths to a reasonable number. We will discuss this in detail in the implementation section. 
+

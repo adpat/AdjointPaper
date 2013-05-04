@@ -1,0 +1,12 @@
+\BOOKMARK [2][]{Outline0.1}{Motivation}{}% 1
+\BOOKMARK [2][]{Outline0.2}{Other highway/control models}{}% 2
+\BOOKMARK [2][]{Outline0.3}{Piccoli Model}{}% 3
+\BOOKMARK [3][]{Outline0.3.1.21}{Classical Riemann Problem}{Outline0.3}% 4
+\BOOKMARK [3][]{Outline0.3.2.23}{2x2 Junction model}{Outline0.3}% 5
+\BOOKMARK [2][]{Outline0.4}{Modified 2x2 Piccoli model with Buffers}{}% 6
+\BOOKMARK [3][]{Outline0.4.1.50}{Generalized mainline junction}{Outline0.4}% 7
+\BOOKMARK [3][]{Outline0.4.2.52}{Conservation of demand at ramps}{Outline0.4}% 8
+\BOOKMARK [3][]{Outline0.4.3.55}{Max junction flux and ramp-metering model}{Outline0.4}% 9
+\BOOKMARK [2][]{Outline0.5}{Mathematical Results on Modified Piccoli Model}{}% 10
+\BOOKMARK [3][]{Outline0.5.1.60}{Cauchy Problem}{Outline0.5}% 11
+\BOOKMARK [3][]{Outline0.5.2.62}{Existence Theorem}{Outline0.5}% 12

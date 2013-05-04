@@ -1,0 +1,54 @@
+% !TEX root = SO-DTA with partial compliance.tex
+
+
+The boundary conditions at each source link of the network dictate the flows the enter the network. Each boundary condition is given as a flow rate at the boundary. Since the inflow to the network is limited by the max flow and density of the immediate downstream link, all of the demand at a given time step might not make it into the network. A source buffer is used to accumulate the flow that can not enter the network to guarantee conservation of boundary flows. In the single commodity case, nothing else is required. However, in the multi commodity case, we also need to make sure that the flow through the boundary respects the FIFO condition. 
+
+Let $\boundarydemand{i}{k}$ be the total demand on link $i$ at time step $k$, and the demand per commodity be given by $\boundarydemandmc{i}{k}{c}$. The FIFO condition dictates that the vehicles entering the boundary buffer at time $k$ must enter link $i$ at the ratio $\frac{\boundarydemandmc{i}{k}{c}}{\boundarydemand{i}{k}}$ for each commodity $c$.
+
+\subsection{Boundary source buffer for multiple commodities}
+
+\subsubsection{Single buffer model}
+
+The simplest solution is to have a single buffer $\boundaryqueuesymbol$ at the boundary, as in the single commodity case, and keep track of how many vehicles of each commodity are at the buffer. The flow into the boundary cell will be as follows:
+\[
+	\flowinmc{i}{k}{c} = \frac{\boundaryqueuemc{i}{k}{c}}{\boundaryqueue{i}{k}} \flowin{i}{k}
+\]
+
+This condition satisfies the FIFO condition assuming that the vehicles in the buffer are uniformly distributed. However, in reality the buffer can accumulate vehicles arriving at the boundary at different time steps with different commodity ratios $\frac{\boundarydemandmc{i}{k}{c}}{\boundarydemand{i}{k}}$. Thus, this model violates the FIFO property across multiple time steps.
+
+\subsection{Multi buffer model}
+
+A simple extension to this model is to allow for multiple input buffers that are connected to each other. In this model, the commodity ratios are maintained separately for each buffer. This restricts the violation of the FIFO condition across multiple steps to the capacity of a single buffer. 
+
+\begin{remark}
+\textbf{FIFO condition is only satisfied approximately on the interior of the network} 
+It is important to note that the FIFO condition is violated in its strict sense even within the network. The flow propagation model assumes that all the flow within a cell is uniformly distributed according to the individual commodity ratios regardless of when the vehicles arrived at the cell. 
+\begin{example}
+Consider the following simple example. There are two commodities $a$, $b$ in cell $i$ with 10 vehicles of each commodity at time $k$. At time $k+1$, 10 vehicles exit the cell (5 of $a$ and 5 of $b$ by the FIFO rule) and 10 new vehicles (3 of $a$ and 7 of $b$) enter the cell. The new ratio of vehicles at $i$ is 8 $a$ to 12 $b$. At time $k+2$, once again 10 vehicles exit the network. According to the cell level FIFO rule, the 10 vehicles will consist of 4 $a$'s and 6 $b$'s. However, the first 10 cars of those currently in cell $i$ came at the ratio of 1:1 and truly satisfying the FIFO rule would require the 10 exiting vehicles to consist of 5 $a$'s and 5 $b$'s.   
+\end{example}
+The strict FIFO condition is not satisfied in most traffic flow models and it is considered acceptable to limit the FIFO requirement to the cell level FIFO condition. 
+\end{remark}
+
+The size of each buffer is chosen to be equal to the cell sizes on the network such that the FIFO violation at the buffer is no worse than the violation in the interior of the network and we satisfy the cell level FIFO condition. The limitation of this model is that we require $\frac{\boundaryqueuesymbol^{max}}{L}$ buffers, where $\boundaryqueuesymbol^{max}$ is the maximum queue length at the boundary and $L$ is the capacity of each buffer. We assume that $\flowinmc{i}{k} \leq{L}$.\\
+
+\noindent The buffers are updated as follows:
+\begin{itemize}
+	\item First move flow out of the initial buffer\[
+	\flowinmc{i}{k}{c} = \frac{\boundaryqueuemc{i}{k}{c}}{\boundaryqueue{i}{k}} \flowin{i}{k}
+	\]
+	\item Let $n$ be the number of buffers in use. Iterate through the buffers and push flow upstream using the following algorithm. \\
+	\begin{algorithm}
+	1. For $b=2$ to $n$\\
+	2. \ \ \ \ $\Delta \boundaryqueuesymbol^{b-1} = L - \boundaryqueuemb{i}{k}{{b-1}}$\\
+	3. \ \ \ \ $\boundaryqueuemcmb{i}{k}{c}{{b-1}} = \boundaryqueuemcmb{i}{k}{c}{{b-1}} + \frac{\boundaryqueuemcmb{i}{k}{c}{b}}{\boundaryqueuemb{i}{k}{b}} \Delta \boundaryqueuesymbol \ \ \ \forall{c \in{C}}$\\
+	4. $\Delta \boundaryqueuesymbol^{n} = L - \boundaryqueuemb{i}{k}{{n}}$\\
+	5. If $\Delta \boundaryqueuesymbol^{n} \leq{\boundarydemand{i}{k}}$\\
+	6. \ \ \ \ $\boundaryqueuemcmb{i}{k}{c}{n} = \boundaryqueuemcmb{i}{k}{c}{n} + \frac{\boundarydemandmc{i}{k}{c}}{\boundarydemand{i}{k}} \boundarydemand{i}{k} \ \ \ \forall{c \in{C}}$\\
+	7. else \\
+	8. \ \ \ \ $\boundaryqueuemcmb{i}{k}{c}{n} = \boundaryqueuemcmb{i}{k}{c}{n} + \frac{\boundarydemandmc{i}{k}{c}}{\boundarydemand{i}{k}} \Delta \boundaryqueuesymbol \ \ \ \forall{c \in{C}}$\\
+	9. \ \ \ \ $\boundaryqueuemcmb{i}{k}{c}{{n+1}} = \boundaryqueuemcmb{i}{k}{c}{{n+1}} + \frac{\boundarydemandmc{i}{k}{c}}{\boundarydemand{i}{k}} \left(\boundarydemand{i}{k} - \Delta \boundaryqueuesymbol\right)\ \ \ \forall{c \in{C}}$\\
+
+	\end{algorithm}
+\end{itemize}
+
+

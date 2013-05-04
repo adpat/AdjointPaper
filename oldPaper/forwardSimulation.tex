@@ -1,0 +1,4 @@
+% !TEX root = rampMeteringViaTheAdjoint.tex
+
+
+In the forward simulation step, we are interested in finding the state at time $k+1$ given the state at time $k$ and the boundary conditions at time $k+1$. This can be done trivially by iteratively solving the equations H1 through H10, since the order of the equations corresponds to the ordering of the dependencies within the equations.  We start the the initial conditions at time T=0 and solve the system of equations one time step at a time for all cells. 

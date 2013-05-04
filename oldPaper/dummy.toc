@@ -1,0 +1,8 @@
+\beamer@endinputifotherversion {3.20pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Motivation}{3}{0}{1}
+\beamer@sectionintoc {2}{Existing Models}{5}{0}{2}
+\beamer@sectionintoc {3}{Piccoli Junction Model}{6}{0}{3}
+\beamer@sectionintoc {4}{Fixing Two-by-two Junctions}{7}{0}{4}
+\beamer@sectionintoc {5}{Guaranteeing Onramp Demand Conservation}{8}{0}{5}
+\beamer@sectionintoc {6}{Riemann Solver for Junction}{9}{0}{6}

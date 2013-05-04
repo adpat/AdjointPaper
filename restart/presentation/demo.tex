@@ -1,0 +1,53 @@
+%!TEX root =presentation.tex
+\section{Demo: Ramp metering} % (fold)
+\label{sec:demo_ramp_metering}
+
+% section demo_ramp_metering (end)
+
+\begin{frame}{Discrete adjoint method applied to ramp metering}
+
+
+\FontSmall
+
+\begin{minipage}[t]{0.30\linewidth}
+\begin{figure}[h]
+\includegraphics[width=60mm]{images/dhdx}
+%\caption{$\frac{dH}{dX}$ matrix}
+\end{figure}
+
+\begin{itemize}
+\item H is piecewise affine
+\item Solving the forward system gives H(x) as a linear system
+\item $\frac{dH}{dX}\bigg|_{X=x}$ is computed simultaneously
+\end{itemize}
+
+
+\end{minipage}\hfill
+\begin{minipage}[t]{0.4\linewidth}
+\begin{align}
+&& \density{\icell}{\itime} & =\density{\icell}{\itime-1}+\frac{\deltat}{\deltax}\left(\flowin{\icell}{\itime-1}-\flowout{\icell}{\itime-1}\right) &  \nonumber \\
+&& \rampqueue{\icell}{\itime} & =\rampqueue{\icell}{\itime-1}+\deltat\left(\inputflux{\icell}{\itime-1}-\rampflow{\icell}{\itime-1}\right) &  \nonumber \\
+&& \celldemand{\icell}{\itime} & =\min\left(\fmax{\icell},\ffspeed{\icell}\density{\icell}{\itime}\right) &  \nonumber \\
+&& \cellsupply{\icell}{\itime} & =\min\left(\fmax{\icell},\congspeed{\icell}\left(\jamdensity{\icell}-\density{\icell}{\itime}\right)\right) & \nonumber \\
+&& \rampdemand{\icell}{\itime} & =\min\left(\rampqueue{\icell}{\itime},\rampcontrol{\icell}{\itime}\right) &  \nonumber \\
+&& \flowin{\icell}{\itime} & =\min\left(\celldemand{\icell-1}{\itime}\left(1-\offrampratio{\icell-1}{\itime}\right)+\rampdemand{\icell-1}{\itime},\cellsupply{\icell}{\itime}\right) & \nonumber
+\end{align}
+\begin{multline}
+\flowout{\icell}{\itime}
+=\begin{cases}
+\celldemand{\icell}{\itime} 
+& \text{if } \priority{\icell}\flowin{\icell+1}{\itime} > \left(1-\offrampratio{\icell}{\itime}\right)\celldemand{\icell}{\itime}
+\\
+\frac{\flowin{\icell+1}{\itime}-\rampdemand{\icell}{\itime}}{1-\offrampratio{\icell}{\itime}}
+& \text{if } : \left(1-\priority{\icell}\right)\flowin{\icell+1}{\itime} > \rampdemand{\icell}{\itime}
+\\
+\frac{\priority{\icell}\flowin{\icell+1}{\itime}}{1-\offrampratio{\icell}{\itime}} & \text{otherwise } 
+\end{cases} \nonumber
+\end{multline}
+\begin{align}
+&& \rampflow{\icell}{\itime} & = \flowin{\icell+1}{\itime} - \flowout{\icell}{\itime}\left(1-\offrampratio{\icell}{\itime}\right)& \nonumber
+\end{align}
+
+\end{minipage}
+
+\end{frame}

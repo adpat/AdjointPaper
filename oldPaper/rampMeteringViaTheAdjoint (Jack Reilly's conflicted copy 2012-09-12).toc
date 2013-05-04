@@ -1,0 +1,48 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Introduction to using the adjoint method in highway control}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}General highway control problem}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Overview of how to use the adjoint method\nobreakspace {}\cite {Duffy2009}}{2}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}A Lagrangian approach}{2}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}A second derivation}{3}{subsubsection.2.2.2}
+\contentsline {subsection}{\numberline {2.3}Continuous approach and discrete approach}{3}{subsection.2.3}
+\contentsline {section}{\numberline {3}A continuous model of traffic on a highway with ramp flow control}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Ramp model}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Junction solver}{3}{subsection.3.2}
+\contentsline {section}{\numberline {4}Highway ramp metering using the adjoint method on the discretized system}{3}{section.4}
+\contentsline {subsection}{\numberline {4.1}Nomenclature}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}System description}{4}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Choosing the correct space and time discretization}{4}{subsubsection.4.2.1}
+\contentsline {subsection}{\numberline {4.3}System equations}{5}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Ordering of state vector and constraints}{6}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Forward simulation}{7}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Objective function}{7}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Adjoint system}{7}{subsection.4.7}
+\contentsline {subsubsection}{\numberline {4.7.1}Adjoint equations}{7}{subsubsection.4.7.1}
+\contentsline {subsection}{\numberline {4.8}Computing the gradient}{9}{subsection.4.8}
+\contentsline {section}{\numberline {5}Triangular system formulation for forward and backward problem}{9}{section.5}
+\contentsline {section}{\numberline {6}Gradient descent methods for the ramp metering problem}{10}{section.6}
+\contentsline {subsection}{\numberline {6.1}Avoiding local minima when the control parameter $u_{i}\left (k\right ) > l_{i}\left (k\right )$}{10}{subsection.6.1}
+\contentsline {section}{\numberline {7}Implementation details}{11}{section.7}
+\contentsline {subsection}{\numberline {7.1}Variable dimensions}{11}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Example 1: one on-ramp and no off-ramps}{11}{subsection.7.2}
+\contentsline {section}{\numberline {8}Adjoint framework for general junction problem}{11}{section.8}
+\contentsline {subsection}{\numberline {8.1}Forward system}{12}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Objective}{12}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Adjoint system}{12}{subsection.8.3}
+\contentsline {section}{\numberline {9}Continuous model with onramp buffer}{13}{section.9}
+\contentsline {subsection}{\numberline {9.1}Weak boundary conditions and ramp flux demands}{13}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Buffer model for ramps}{14}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}Unique and self-similar solutions for the continuous model}{14}{subsection.9.3}
+\contentsline {subsubsection}{\numberline {9.3.1}Virtual Junction Problem Approach}{14}{subsubsection.9.3.1}
+\contentsline {subsection}{\numberline {9.4}Junction model}{16}{subsection.9.4}
+\contentsline {subsection}{\numberline {9.5}Riemann problem}{17}{subsection.9.5}
+\contentsline {subsection}{\numberline {9.6}Self-similar solution}{18}{subsection.9.6}
+\contentsline {subsubsection}{\numberline {9.6.1}Initially empty buffer}{18}{subsubsection.9.6.1}
+\contentsline {paragraph}{Remark}{18}{section*.15}
+\contentsline {paragraph}{Supply-constrained case}{19}{section*.16}
+\contentsline {paragraph}{(a)}{19}{section*.18}
+\contentsline {paragraph}{(b)}{19}{section*.19}
+\contentsline {paragraph}{(c)}{20}{section*.20}
+\contentsline {paragraph}{Demand-constrained case}{20}{section*.21}
+\contentsline {subsubsection}{\numberline {9.6.2}Initially non-empty buffer}{20}{subsubsection.9.6.2}
+\contentsline {section}{\numberline {A}Partial derivatives with respect to $x$}{21}{appendix.A}

@@ -1,0 +1,32 @@
+\def \scale{1.5}
+\begin{tikzpicture}[scale=\scale,domain=0:1]
+
+\def \rampDem{1.7}
+\def \dem{2.2}
+\def \demPlus{2.5}
+\def \priorityRat{0.2}
+\def \splitRat{0.4}
+\def \totalFlow{2.2}
+
+\coordinate (Z) at (0,0);
+\coordinate (I1) at (\rampDem, 0);
+\coordinate (I2) at (0, \dem);
+\coordinate (I2') at (0, \demPlus);
+\coordinate (I3) at (\rampDem, \dem);
+\coordinate (I3') at (\rampDem, \demPlus);
+\coordinate (A) at (0, {\totalFlow/(1-\splitRat)});
+\coordinate (B) at (\totalFlow, 0);
+\coordinate (C) at ({(1-\priorityRat)/\priorityRat*\dem}, \dem);
+\coordinate (D) at (intersection of A--B and Z--C);
+
+
+\draw[->] (Z) -- (3.5,0) node[below right]{$r_i$};
+\draw[->] (Z) -- (0,4) node[left]{$f^{\text{out}}_i$};
+
+\draw (I3') -- (I1) node[below]{$d_i(t_0) = d_i(t_0^+)$};
+\draw (I3') -- (I2') node[left]{$\delta_i(t_0^+)$};
+\draw (A) -- (B) node[yshift=1cm, xshift=0cm]{};
+\draw (Z) -- (D) node[midway, xshift=1cm]{};
+\draw (intersection of A--B and I3--I1) circle (1pt) node[above right]{$(r_i(t_0^+), f_i^{\text{out}}(t_0^+))$};
+
+\end{tikzpicture}

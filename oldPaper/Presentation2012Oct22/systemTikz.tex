@@ -1,0 +1,161 @@
+%indices
+\global\long\def\itime{k}
+\global\long\def\icell{i}
+\global\long\def\iconst{h}
+
+\global\long\def\ntime{T}
+\global\long\def\ncell{N}
+\global\long\def\nconst{8}
+
+%constants
+\global\long\def\deltat{\triangle t}
+\global\long\def\deltax{\triangle x}
+
+
+\global\long\def\prioritysymbol{P}
+ \global\long\def\priority#1{\prioritysymbol_{#1}}
+
+
+%ramps
+\global\long\def\rampcontrolsymbol{u}
+ \global\long\def\rampcontrol#1#2{\rampcontrolsymbol_{#1}\left(#2\right)}
+ \global\long\def\rampcontrolMax#1{\rampcontrolsymbol_{#1}^{\max}}
+ \global\long\def\rampqueuesymbol{l}
+ \global\long\def\rampqueue#1#2{\rampqueuesymbol_{#1}\left(#2\right)}
+ \global\long\def\rampqueueinit#1{\rampqueuesymbol_{#1}^{0}}
+ \global\long\def\rampflowsymbol{r}
+ \global\long\def\rampflow#1#2{\rampflowsymbol_{#1}\left(#2\right)}
+
+
+\global\long\def\offrampratiosymbol{\beta}
+ \global\long\def\offrampratio#1#2{\offrampratiosymbol_{#1}\left(#2\right)}
+
+
+%cells
+\global\long\def\flowsymbol{f}
+ \global\long\def\flowout#1#2{\flowsymbol_{#1}^{\text{out}}\left(#2\right)}
+ \global\long\def\flowin#1#2{\flowsymbol_{#1}^{\text{in}}\left(#2\right)}
+ 
+
+\global\long\def\densitysymbol{\rho}
+ \global\long\def\density#1#2{\densitysymbol_{#1}\left(#2\right)}
+ \global\long\def\densityinit#1{\densitysymbol_{#1}^{0}}
+
+
+%input
+\global\long\def\inputfluxsymbol{D}
+ \global\long\def\inputflux#1#2{D_{#1}\left(#2\right)}
+
+
+%supply and demand
+\global\long\def\celldemandsymbol{\delta}
+ \global\long\def\celldemand#1#2{\celldemandsymbol_{#1}\left(#2\right)}
+
+
+\global\long\def\cellsupplysymbol{\sigma}
+ \global\long\def\cellsupply#1#2{\cellsupplysymbol_{#1}\left(#2\right)}
+
+
+\global\long\def\rampdemandsymbol{d}
+ \global\long\def\rampdemand#1#2{\rampdemandsymbol_{#1}\left(#2\right)}
+
+
+%parameters
+\global\long\def\ffspeedsymbol{v}
+ \global\long\def\ffspeed#1{\ffspeedsymbol_{#1}}
+
+
+\global\long\def\congspeedsymbol{w}
+ \global\long\def\congspeed#1{\congspeedsymbol_{#1}}
+
+
+\global\long\def\fmaxsymbol{F}
+ \global\long\def\fmax#1{\fmaxsymbol_{#1}}
+
+
+\global\long\def\jamdensitysymbol{\densitysymbol^{\text{jam}}}
+ \global\long\def\jamdensity#1{\jamdensitysymbol_{#1}}
+
+
+%adjoint
+\global\long\def\state#1#2{x_{#1}\left( #2 \right)}
+\global\long\def\ind#1{1_{\left\{#1\right\}}}
+
+\global\long\def\stdidx#1{#1{\itime}{\icell}}
+\global\long\def\sstdidx#1{\stdidx{#1{\iconst}}}
+
+\global\long\def\H#1#2#3{H^{#1}_{#2, #3}}
+\global\long\def\stdH#1{\stdidx{\H{#1}}}
+\global\long\def\sstdH{\sstdidx{\H}}
+
+\global\long\def\G#1#2#3{G^{#1}_{#2, #3}}
+\global\long\def\stdG#1{\stdidx{\G{#1}}}
+\global\long\def\sstdG{\sstdidx{\G}}
+
+\global\long\def\Lambd#1#2#3{\lambda^{#1}_{#2, #3}}
+\global\long\def\stdLambd#1{\stdidx{\Lambd{#1}}}
+\global\long\def\sstdLambd{\sstdidx{\Lambd}}
+
+% \global\long\def\R#1#2#3{R{#1}_{#2, #3}}
+
+% Riemann problem
+\global\long\def\rs{\mathcal{RS}}
+\global\long\def\js{\mathcal{JS}}
+
+
+
+\begin{tikzpicture}[scale=1.4]
+
+\def \linkWidth {1cm}
+\def \nodeWidth {0.3cm}
+
+\coordinate (arrow) at (1.8,0);
+\coordinate (dots) at (0.5,0);
+\coordinate (unit) at (2.5,0);
+
+\node (link0) at (0,0) [rectangle, minimum width=\linkWidth, draw] {$0$};
+\node (link1) at ($(link0) + 1*(unit)$) [rectangle, minimum width=\linkWidth, draw] {$1$};
+\node (linkI) at ($(link1) + 2*(unit)$) [rectangle, minimum width=\linkWidth, draw] {$\icell$};
+\node (nodeI) at ($(linkI) + 1*(unit)$) [circle, minimum width=\nodeWidth, draw] {$\icell$};
+
+\node (onrampI) at ($(linkI)-(0,0.8)$) [rectangle, minimum width=\linkWidth, draw] {on-ramp $\icell$};
+\node (offrampI) at ($(linkI) + 1.4*(unit) - (0,0.5)$) {};
+
+\node (linkI1) at ($(nodeI) + 1.45*(unit)$) [rectangle, minimum width=\linkWidth, draw] {$\icell+1$};
+
+\node (linkN) at ($(linkI1)+1.8*(unit)$) [rectangle, minimum width=\linkWidth, draw] {$\ncell$};
+
+% link 0
+\draw[->] ($(link0)-(arrow)$) -- (link0) node[above, midway] {$\inputflux{0}{\itime}$};
+\draw[->] (link0) -- (link1) node[above, midway] {$\flowout{0}{\itime}$};
+
+% link 1
+\draw[->] (link1) -- ($(link1) + (arrow)$) node[above, midway] {$\flowout{1}{\itime}$};
+
+%dots
+\draw ($(link1) + (arrow) + (dots)$) node{$\dots$} ;
+
+% link i
+\draw[->] ($(linkI) - 1.3*(arrow)$) -- (linkI)node[above, xshift=-1.1cm] {$\flowin{\icell}{\itime}$};
+\draw[->] (linkI) -- (nodeI) node[above, midway] {$\flowout{\icell}{\itime}$};
+\draw[->] (nodeI) -- (linkI1) node[above, xshift=-1.1cm]{$\flowin{\icell+1}{\itime}$} ;
+
+%node i
+\draw[->] (onrampI) [anchor=right]-- (nodeI) node[below, midway]{$\rampflow{\icell}{\itime}$};
+\draw[->] ($(onrampI) - (arrow)$) [anchor=right]-- (onrampI) node[above, midway]{$\inputflux{\icell}{\itime}$};
+\draw[->] (nodeI) -- (offrampI) node[below, xshift=-0.3cm]{$\offrampratio{\icell}{\itime} \flowout{\icell}{\itime}$};
+
+%link i+1
+\draw[->] (linkI1) -- ($(linkI1) + (arrow)$) node[above, midway] {$\flowout{\icell+1}{\itime}$};
+
+%dots
+\draw ($(linkI1)+(arrow)+(dots)$) node{$\dots$} ;
+
+% link N
+\draw[->] ($(linkN) - (arrow)$) -- (linkN) node[above, midway] {$\flowin{\ncell}{\itime}$};
+\draw[->] (linkN)--($(linkN) + (arrow)$) node[above, midway] {$\flowout{\ncell}{\itime}$};
+
+% box
+\draw[dashed] ($(linkI) + (-2,1)$) rectangle ($(nodeI) + (1.8,-1.5)$) node[below]{block $\icell$};
+
+\end{tikzpicture}

@@ -1,0 +1,44 @@
+\noindent Constants
+\begin{longtable}{ll}
+$\deltat,\deltax$ & Time, space discretization size\tabularnewline
+$\ffspeed{\icell}$ & Free flow speed on cell $\icell$\tabularnewline
+$\congspeed{\icell}$ & Congestion wave speed on cell $\icell$\tabularnewline
+$\jamdensity{\icell}$ & Jam density on cell $\icell$\tabularnewline
+$\fmax{\icell}$ & Max flow leaving mainline of cell $\icell$\tabularnewline
+$\priority{\icell}$ & Priority factor for cell $\icell$\tabularnewline
+\end{longtable}
+
+\noindent Inputs
+\begin{longtable}{ll}
+$\densityinit{\icell}$ & Initial density on cell $\icell$\tabularnewline
+$\inputflux{\icell}{\itime}$ & Input flow on cell $\icell$, time step $\itime$\tabularnewline
+$\splitratio{\icell}{j}{\itime}{c}$ & Split ratio for commodity $c$ on cell $\icell$ to cell $j$, time step $\itime$\tabularnewline
+\end{longtable}
+
+\noindent Variables
+\begin{longtable}{ll}
+$\flowin{\icell}{\itime}$ & Total flow into mainline on cell $\icell $, time step $\itime$\tabularnewline
+$\flowout{\icell}{\itime}$ & Total flow out of mainline on cell $\icell$, time step $\itime$\tabularnewline
+$\flowinmc{\icell}{\itime}{c}$ & Flow of commodity $c$ into mainline on cell $\icell $, time step $\itime$\tabularnewline
+$\flowoutmc{\icell}{\itime}{c}$ & Flow of commodity $c$ out of mainline on cell $\icell$, time step $\itime$\tabularnewline
+$\density{\icell}{\itime}$ & Density on cell $\icell$, time step $\itime$\tabularnewline
+$\densitymc{\icell}{\itime}{c}$ & Density contribution of commodity $c$ on cell $\icell$, time step $\itime$\tabularnewline
+$\cellsupply{\icell}{\itime}$ & Supply on cell $\icell$, time step $\itime$\tabularnewline
+$\celldemand{\icell}{\itime}$ & Demand on cell $\icell$, time step $\itime$\tabularnewline
+$\celldemand{\icell}{\itime}$ & Demand on cell $\icell$, time step $\itime$\tabularnewline
+$\boundarydemand{\icell}{\itime}$ & Boundary demand on cell $\icell$, time step $\itime$\tabularnewline
+$\boundarydemandmc{\icell}{\itime}{c}$ & Boundary demand of commodity $c$ on cell $\icell$, time step $\itime$\tabularnewline
+$\boundaryqueue{\icell}{\itime}$ & Boundary queue at the boundary of cell $\icell$, time step $\itime$\tabularnewline
+$\boundaryqueuemc{\icell}{\itime}{c}$ & Boundary queue of commodity $c$ at the boundary of cell $\icell$, time step $\itime$\tabularnewline
+$\boundaryqueuemb{\icell}{\itime}{b}$ & Queue at the $b^\text{th}$ buffer at the boundary of cell $\icell$, time step $\itime$\tabularnewline
+$\boundaryqueuemcmb{\icell}{\itime}{c}{b}$ & Queue of commodity $c$ at the $b^\text{th}$ buffer at the boundary of cell $\icell$, time step $\itime$\tabularnewline
+$\compliantratiosymbol$ & Ratio of compliant vehicles\tabularnewline
+$\compliantratiomc{c}$ & Ratio of compliant vehicles of commodity $c$
+\end{longtable}
+
+\noindent Sets
+\begin{longtable}{ll}
+$\injunctionset{\junctionsymbol}$ & Incoming links to junction $\junctionsymbol$\tabularnewline
+$\outjunctionset{\junctionsymbol}$ & Outgoing links to junction $\junctionsymbol$\tabularnewline
+
+\end{longtable}

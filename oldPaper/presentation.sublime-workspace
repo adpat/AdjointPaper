@@ -1,0 +1,265 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"def",
+				"defaultdict	(imported, class)"
+			],
+			[
+				"section_",
+				"section_titles	(global, instance)"
+			],
+			[
+				"pres",
+				"presentation"
+			],
+			[
+				"dum",
+				"dummy_pdf	(local, instance)"
+			],
+			[
+				"dumm",
+				"dummy_tex	(local, instance)"
+			],
+			[
+				"sec",
+				"section_keys	(global, instance)"
+			],
+			[
+				"section",
+				"section_slides"
+			],
+			[
+				"auth",
+				"author_and_inst"
+			],
+			[
+				"temp_",
+				"temp_pdf"
+			],
+			[
+				"temp",
+				"temp_pdf"
+			],
+			[
+				"tem",
+				"temp_name"
+			],
+			[
+				"rm",
+				"rm_cmd"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"regen",
+				"Rope: Regenerate Global Module Cache"
+			],
+			[
+				"regene",
+				"Rope: Regenerate Project Cache"
+			],
+			[
+				"rename",
+				"Rope Refactoring: Rename"
+			],
+			[
+				"refac",
+				"Rope Refactoring: Rename"
+			],
+			[
+				"rope: rena",
+				"Rope Refactoring: Rename"
+			],
+			[
+				"def",
+				"Rope: Go to Definition"
+			],
+			[
+				"doc",
+				"Rope: Show Documentation"
+			],
+			[
+				"rope: ",
+				"Rope: Regenerate Global Module Cache"
+			],
+			[
+				"definit",
+				"Rope: Go to Definition"
+			],
+			[
+				"jump ",
+				"Rope: Jump To Global"
+			],
+			[
+				"rope",
+				"Rope Refactoring: Extract Method"
+			],
+			[
+				"rege",
+				"Rope: Regenerate Project Cache"
+			],
+			[
+				"rope: re",
+				"Rope: Regenerate Global Module Cache"
+			],
+			[
+				"rope global",
+				"Rope: Regenerate Global Module Cache"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/usr/local/lib/python2.7/site-packages/latexslides/beamer.py",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/utils.py",
+		"/usr/local/lib/python2.7/site-packages/latexslides/core.py",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/continuous_model.py",
+		"/Users/jdr/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/myfile.tex",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/test.py",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/presentation.sublime-project",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/myfile.py",
+		"/Users/jdr/Documents/School/Presentations/CC-Adjoint/presentation.sublime-workspace"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"call",
+			"k",
+			"slides"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 216.0
+	},
+	"output.rope_python_documentation":
+	{
+		"height": 231.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 284.0,
+	"status_bar_visible": true
+}

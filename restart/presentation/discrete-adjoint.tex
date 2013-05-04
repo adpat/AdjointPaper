@@ -1,0 +1,400 @@
+%!TEX root =presentation.tex
+\section{Discrete adjoint method}
+
+\subsection{Optimization of a PDE-constrained system}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+\begin{frame}{Optimization of a PDE-constrained system}
+
+\begin{block}{Optimization problem}
+\[
+\begin{aligned}
+&\text{minimize}_{u \in \Ucal} && J(x,u) \\
+&\text{subject to} &&H(x,u) = 0
+\end{aligned}
+\]
+\end{block}
+
+\begin{itemize}
+\item $x \in \Xcal \subseteq \Rbb^n$: state variables
+\item $u \in \Ucal  \subseteq \Rbb^m$: control variables
+\end{itemize}
+
+
+\[
+\begin{aligned}
+J: \Xcal \times \Ucal & \rightarrow \mathbb{R}\\
+(x,u) & \mapsto J(x,u)
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+H: \Xcal \times \Ucal & \rightarrow \mathbb{R}^{n_H}\\
+(x,u) & \mapsto H(x,u)
+\end{aligned}
+\]
+
+Want to do gradient descent. How to compute the gradient?
+\end{frame}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Example: linear system}
+
+\begin{frame}{Example: linear system}
+\begin{block}{Discrete linear dynamics}
+\[
+x_{t+1} = A x_t + B u_t, \ t \in \{0, \dots, T-1 \}
+\]
+with initial condition $x_0$.
+\end{block}
+
+Let
+\begin{align*}
+& x = \left[ \begin{array}{c} x_1 \\ \vdots \\ x_T \end{array}\right] && u = \left[ \begin{array}{c} u_0 \\ \vdots \\ u_{T-1} \end{array}\right]
+\end{align*}
+%
+
+\end{frame}
+
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Example: linear system}
+
+\begin{align*}
+x &= 
+\left[
+\begin{array}{c}
+A x_0 + B u_0 \\
+A x_1 + B u_1 \\
+\vdots \\
+A x_{T-1} + B u_{T-1}
+\end{array}
+\right] \\
+& =
+\left[
+\begin{array}{cccc} 
+0 &             &            & \\
+A & \ddots &           & \\
+   & \ddots & \ddots& \\
+   &            & A         & 0 
+\end{array}
+\right]
+x + 
+\left[\begin{array}{cccc}
+B &             &            & \\
+   & \ddots &             & \\
+   &             & \ddots & \\
+   &             &              &B
+\end{array} \right]
+u + 
+\left[\begin{array}{c}
+A x_0 \\
+0 \\
+\vdots \\
+0
+\end{array}\right]
+\end{align*}
+
+Can be written as 
+\[
+(\tilde{A} - I)x + \tilde{B} u + c = 0
+\]
+
+Note: $(\tilde{A} - I)$ is invertible (lower triangular, with $-1$ on diagonal). Good: system is deterministic!
+
+\end{frame}
+
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\newcommand \xuVector{\left[\begin{array}{c} x \\ u \end{array} \right]}
+\begin{frame}{Example: linear system}
+
+\begin{block}{Linear system}
+\[
+H_x x + H_u u + c = 0
+\]
+\end{block}
+
+\begin{itemize}
+\item $x \in \Rbb^{n}$ state
+\item $u \in \Rbb^{m}$ control, with $m \leq n$
+\item $H_x \in \Rbb^{n \times n}$, assume invertible
+\item $H_u \in \Rbb^{n \times m}$
+\item $c \in \Rbb^n$
+\end{itemize}
+
+want to minimize linear cost function
+\[
+\begin{aligned}
+&\text{minimize}_{u \in \Ucal} && J_x x + J_u u \\
+&\text{subject to} && H_x x + H_u u + c = 0
+\end{aligned}
+\]
+
+$J_x \in \Rbb^{1\times n}$ and $J_u \in \Rbb^{1 \times m}$ are given row vectors.
+
+\end{frame}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\begin{frame}{Example: linear system}
+
+\begin{block}{Optimization problem}
+\[
+\begin{aligned}
+&\text{minimize}_{u \in \Ucal} && J_x x + J_u u \\
+&\text{subject to} && H_x x + H_u u + c = 0
+\end{aligned}
+\]
+\end{block}
+An equivalent problem is
+\[
+\text{minimize}_{u \in \Ucal} - J_x H_x^{-1}(H_u u + c) + J_u u
+\]
+and the gradient is
+\begin{block}{Gradient}
+\[
+\nabla_u J = \alert{- J_x H_x^{-1} H_u} + J_u
+\]
+\end{block}
+
+\end{frame}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Example: linear system}
+\small
+\begin{block}{Gradient}
+\[
+\nabla_u J = - J_x H_x^{-1} H_u + J_u
+\]
+\end{block}
+Two ways to compute the first term
+
+\begin{minipage}[t]{0.50\textwidth}
+\small
+\begin{block}{Forward}
+\[
+\begin{aligned}
+& J_x \alert{M} \\
+& H_x \alert{M} = - H_u
+\end{aligned}
+\]
+\end{block}
+Solve for $\alert{M \in \Rbb^{n \times m}}$: $m$ inversions
+\[
+H_x \left[\begin{array}{c|c|c} M_1 & \dots & M_m \end{array} \right] = \left[\begin{array}{c|c|c} H_{u_1} & \dots & H_{u_m} \end{array} \right]
+\]
+Cost $O(mn^2)$.\\
+Then product $1\times n$ times $n \times m$: $O(nm)$
+
+\end{minipage}\hfill
+%------------------------------------------------------------------------------
+\begin{minipage}[t]{0.46\textwidth}
+\small
+\begin{block}{Adjoint}
+\[
+\begin{aligned}
+& {\color{Green}\lambda^T} H_u \\
+& {\color{Green}\lambda^T} H_x = -J_x
+\end{aligned}
+\]
+\end{block}
+Solve for $\color{Green} \lambda \in \Rbb^{n} $: $1$ inversion
+\[
+H_x^T \lambda = J_x^T
+\]
+Cost $O(n^2)$.\\
+Then product $1\times n$ times $n \times m$: $O(nm)$
+
+\end{minipage}
+
+\end{frame}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\subsection{Solving the original problem}
+
+
+
+\begin{frame}{Optimization of a PDE-constrained system}
+\small
+%------------------------------------------------------------------------------
+\begin{minipage}[t]{0.44\textwidth}
+\begin{block}{General problem}
+\[
+\begin{aligned}
+&\text{minimize}_{u \in \Ucal} && J(x,u) \\
+&\text{subject to} &&H(x,u) = 0
+\end{aligned}
+\]
+\end{block}
+\vspace{-0.2cm}
+\[
+\nabla_u J = \frac{\partial J}{\partial x} \alert{\nabla_u x} + \frac{\partial J}{\partial u}
+\]
+On trajectories, $H(x, u) = 0$ constant, thus $\nabla_u H = 0$
+\[
+\frac{\partial H}{\partial x} \alert{\nabla_u x} + \frac{\partial H}{\partial u} = 0
+\]
+\vspace{-0.5cm}
+\uncover<3>{
+\begin{block}{Adjoint}
+\[
+\frac{\partial H}{\partial x}^T {\color{Green}\lambda} = \frac{\partial J}{\partial x}
+\]
+\end{block}
+then
+\[
+\nabla_u J = {\color{Green}\lambda^T} \frac{\partial H}{\partial u} + \frac{\partial J}{\partial u}
+\]
+}
+\end{minipage}\hfill
+%------------------------------------------------------------------------------
+\begin{minipage}[t]{0.52\textwidth}
+\begin{block}{Linear system}
+\[
+\begin{aligned}
+&\text{minimize}_{u \in \Ucal} && J_x x + J_u u \\
+&\text{subject to} && H_x x + H_u u + c = 0
+\end{aligned}
+\]
+\end{block}
+\vspace{-0.2cm}
+\[
+\nabla_u J = J_x \alert{M} + J_u
+\]
+\vspace{0.9cm}
+\[
+H_x \alert{M} = - H_u
+\]
+\uncover<2, 3>{
+Instead, solve for $\color{Green}\lambda \in \Rbb^{n}$
+\begin{block}{Adjoint}
+\[
+H_x^T {\color{Green}\lambda} = J_x^T
+\]
+\end{block}
+then
+\[
+\nabla_u J = {\color{Green}\lambda^T} H_u + J_u
+\]
+}
+\end{minipage}
+
+
+
+\end{frame}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+\begin{frame}{Computing $\nabla_u J(x, u)$}
+
+Want to evaluate
+\begin{align*}
+&\frac{\partial J}{\partial x} \alert{\nabla_u x} \\
+&\text{where } \frac{\partial H}{\partial x} \alert{\nabla_u x} + \frac{\partial H}{\partial u} = 0
+\end{align*}
+
+\pause If $\lambda$ is solution to the adjoint equation
+\[
+\frac{\partial J}{\partial x} + {\color{Green}\lambda^T} \frac{\partial H}{\partial x} = 0
+\]
+\pause Then
+\[
+\frac{\partial J}{\partial x} \alert{\nabla_u x} = -{\color{Green}\lambda^T} \frac{\partial H}{\partial x} \alert{\nabla_u x} = {\color{Green}\lambda^T} \frac{\partial H}{\partial u}
+\]
+
+\end{frame}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Adjoint solution $\lambda$}
+
+\[
+\nabla_u J = \lambda^T \frac{\partial H}{\partial u} + \frac{\partial J}{\partial u}
+\]
+
+Also useful for sensitivity analysis.
+
+\begin{block}{Sensitivity analysis}
+$\lambda_k$ is the price of changing $H_k$
+\end{block}
+
+
+\end{frame}
+
+
+\subsection{Optimization algorithm using adjoint} % (fold)
+\label{sub:optimization_algorithm_using_adjoint}
+
+
+\begin{frame}{Optimization algorithm}
+
+\begin{algorithm}[H]
+
+\begin{spacing}{1.3}
+\begin{algorithmic}
+\State Pick initial control $u^{init}$
+\While{not converged}
+\State $x = forwardSim(u,IC, BC)$ \hfill solve for state trajectory (forward system)
+\State $\lambda = adjointSln(x,u)$ \hfill solve for adjoint parameters (adjoint system)
+\State $\Delta u = \nabla_u J = \lambda^T \frac{\partial H}{\partial u} + \frac{\partial J}{\partial u}$ \hfill Compute the gradient (search direction)
+\State $ u \gets u + t \Delta u $ \hfill update $u$ using line search along $\Delta u$
+\EndWhile
+\end{algorithmic}
+\end{spacing}
+
+\caption{Gradient descent loop}
+\end{algorithm}
+
+\end{frame}
+
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+\begin{frame}{Line search}
+
+Example 1: decreasing step size
+\[
+t^{(k)} = t^{(1)} /k 
+\]
+
+
+Example 2: backtracking line-search
+\begin{itemize}
+\item fix parameters $ 0 < \alpha < 0.1$ and $0 < \beta < 1$
+\item given search direction $\Delta u$
+\end{itemize}
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\While{$J(u + t \Delta u) - J(u) > \alpha (\nabla_u J)^T ( t \Delta u)$}
+\State $t \gets \beta t$
+\EndWhile
+\end{algorithmic}
+\caption{Backtracking line search}
+\end{algorithm}
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Constraints on control}
+
+What if there are physical constraints on the permissible control values $u$?
+
+\begin{equation}
+    u_{\min} \le u \le u_{\max}
+\end{equation}
+    
+\begin{block}{Barrier functions}
+Lecture 9 slides....
+\end{block}
+
+
+\end{frame}
+
+% subsection optimization_algorithm_using_adjoint (end)
