@@ -1,6 +1,0 @@
-The boundary conditions at each source link of the network dictate the flows the enter the network. Each boundary condition is given as a flow rate at the boundary. Since the inflow to the network is limited by the max flow and density of the immediate downstream link, all of the demand at a given time step might not make it into the network. A source buffer is used to accumulate the flow that can not enter the network to guarantee conservation of boundary flows. In the single commodity case, nothing else is required. However, in the multi commodity case, we also need to make sure that the flow through the boundary respects the FIFO condition. 
-
-
-the total demand is acc In the single commodity case, we
-
-The multi-commodity model requires keeping track of the boundary conditions for each individual commodity. At each source boundary of the network, we need to keep track of the  

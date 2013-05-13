@@ -1,6 +1,0 @@
-% !TEX root = SO-DTA with partial compliance.tex
-
-The road network is divided into $\ncell$ cells, indexed by $\icell \in \{1, \dots, \ncell\}$. The density on cell~$\icell$ at time step $\itime$ is given by $\density{\icell}{\itime}$. The incoming (respectively outgoing) flux to cell~$\icell$ at time step~$\itime$ is given by $\flowin{\icell}{\itime}$ (respectively $\flowout{\icell}{\itime}$). There are $C$ commodities that are transported in the network, indexed by $\commoditysymbol$. The incoming (respectively outgoing) flux of commodity $\commoditysymbol$ to cell~$\icell$ at time step~$\itime$ is given by $\flowinmc{\icell}{\itime}{\commoditysymbol}$ (respectively $\flowoutmc{\icell}{\itime}{\commoditysymbol}$).
-
-We add a ghost cell at the entrance of the network, cell $\icell = 0$, to impose the boundary flow, or flow demand, given at time step~$\itime$ by~$\inputflux{0}{\itime}$. Each cell~$\icell \in \{1, \dots, \ncell-1\}$ is followed by a junction, indexed by $\junctionsymbol \in {\cal J}$, that connects the set of incoming links $J_{\junctionsymbol}^{in}$ to a set of outgoing link $J_{\junctionsymbol}^{out}$.
-

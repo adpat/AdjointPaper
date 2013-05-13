@@ -1,6 +1,0 @@
-\frametitle{Self-similarity}
-\begin{theorem}
-\label{th:existenceSolPiccoli}
-Consider a junction $J$ and a priority parameter $P\in ]0,1[$ or a distribution matrix $A$. Then there exists a unique Riemann Solver $\RS$ such that for a.e. $t>0$ it holds
-$$(\rho_i(t,b_i-),\rho_j(t,a_j+))=\RS(\rho_i(t,b_i-),\rho_j(t,a_j+)) \quad \forall i,j .$$
-\end{theorem}
