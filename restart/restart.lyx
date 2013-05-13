@@ -230,7 +230,7 @@ Traffic (air, vehicle)
 
 \begin_deeper
 \begin_layout Itemize
-Bayen, Jacquet, Dengfeng
+Bayen, Jacquet, Dengfeng, Klar, Zuazua
 \end_layout
 
 \end_deeper
@@ -366,6 +366,10 @@ Jacquet
 all in community
 \end_layout
 
+\begin_layout Itemize
+Klar, Zuazua
+\end_layout
+
 \end_deeper
 \begin_layout Paragraph
 Contributions
@@ -417,10 +421,6 @@ A conservation law for a single space dimension can written in the form:
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 where 
 \begin_inset Formula $\cvar:\left[0,\infty\right]\times\mathbb{R}\rightarrow\mathbb{R}$
 \end_inset
@@ -433,17 +433,7 @@ conserved
 \begin_inset Quotes erd
 \end_inset
 
- quantity
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-cite piccoli
-\end_layout
-
-\end_inset
-
-, and 
+ quantity, and 
 \begin_inset Formula $f:\mathbb{R}\rightarrow\mathbb{R}$
 \end_inset
 
@@ -478,17 +468,8 @@ reference "eq:cons"
 \end_layout
 
 \begin_layout Standard
-We also assume the system is hyperbolic, which implies that 
-\begin_inset Formula $f_{x}$
-\end_inset
-
- has real values everywhere.
- Since we are considering a scalar system, this is automatically satisfied.
-\end_layout
-
-\begin_layout Standard
 For a particular initial condition 
-\begin_inset Formula $\cvar_{0}:\mathbb{R}\rightarrow\mathbb{R}$
+\begin_inset Formula $\cvar_{0}\in L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
 \end_inset
 
 , we seek 
@@ -529,7 +510,7 @@ key "garavello2006traffic"
 \end_inset
 
  for more details on weak solutions to hyperbolic PDE's.
- For all systems of the form in Equation
+ For all problems of the form in Equation
 \begin_inset space ~
 \end_inset
 
@@ -592,8 +573,18 @@ A network of PDE's is defined as a set of links (
 \begin_inset Formula $\link\in\links$
 \end_inset
 
- has an associated space domain 
+ has an associated spatial domain 
 \begin_inset Formula $\left]0,L_{\link}\right[$
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+notation not compatible with the following: PG
+\end_layout
+
 \end_inset
 
  over which 
@@ -632,7 +623,7 @@ reference "eq:cons-smooth"
 \end_layout
 
 \begin_layout Standard
-While the behavior each link 
+While the behavior on each link 
 \begin_inset Formula $\cvar_{\link}\left(t,x\right)$
 \end_inset
 
@@ -668,7 +659,15 @@ Consider a junction
 \begin_inset Formula $n=\left|Out\left(\jn\right)\right|$
 \end_inset
 
- outgoing links.
+ outgoing links, where 
+\begin_inset Formula $|S|$
+\end_inset
+
+ represents the cardinality for a set 
+\begin_inset Formula $S$
+\end_inset
+
+.
  All links 
 \begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
 \end_inset
@@ -681,20 +680,12 @@ Consider a junction
 \begin_inset Formula $\cvar_{\link}\left(0,x\right)=\cvar_{\link}^{0}$
 \end_inset
 
- (called the Riemann data) with incoming links having an 
-\begin_inset Formula $x$
+ (called the Riemann data) with incoming links having a spatial domain 
+\begin_inset Formula $\left]-\infty,0\right[$
 \end_inset
 
- domain 
-\begin_inset Formula $=\left]-\infty,0\right[$
-\end_inset
-
- and outgoing links having an 
-\begin_inset Formula $x$
-\end_inset
-
- domain 
-\begin_inset Formula $=\left]0,\infty\right[$
+ and outgoing links having a spatial domain 
+\begin_inset Formula $\left]0,\infty\right[$
 \end_inset
 
 .
@@ -706,7 +697,7 @@ Consider a junction
 \begin_inset Formula $\left\{ \vect{\cvar}_{\jn}^{0}\right\} _{\link}=\cvar_{\link}^{0}$
 \end_inset
 
-
+, be the union of all Riemann data
 \begin_inset Foot
 status collapsed
 
@@ -736,7 +727,7 @@ If
 
 \end_inset
 
-, be the union of all Riemann data.
+.
  The solution of 
 \begin_inset Formula $\cvar_{\link}\left(x,t\right)$
 \end_inset
@@ -797,15 +788,15 @@ where
 \begin_inset Formula $\left\{ \hat{\vect{\cvar}}_{\jn}\right\} _{\link}=\hat{\cvar}_{\link}$
 \end_inset
 
- provides the boundary condition for link 
+ provides the trace for link 
 \begin_inset Formula $\link$
 \end_inset
 
- at the 
-\begin_inset Formula $x$
+ at junction 
+\begin_inset Formula $\jn$
 \end_inset
 
- position of the junction for all time 
+ for all time 
 \begin_inset Formula $t\ge0$
 \end_inset
 
@@ -872,7 +863,7 @@ reference "fig:Solution-of-boundary"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -894,7 +885,7 @@ Solution of boundary conditions at junction.
 \begin_inset Formula $\hat{\vect{\cvar}}^{0}$
 \end_inset
 
- are produced from the initial conditions Riemann solution 
+ are produced by applying the Riemann solver to the initial conditons, 
 \begin_inset Formula $\RS\left(\vect{\cvar}^{0}\right)$
 \end_inset
 
@@ -931,7 +922,7 @@ The following conditions are required for a valid Riemann solver as part
 The Riemann solver must produce self-similar solutions, i.e.
 \begin_inset Formula 
 \[
-\RS\left(\vect{\cvar}_{\jn}\right)=\RS\left(\vect{\hat{\cvar}}_{\jn}\right)=\vect{\hat{\cvar}}_{\jn}
+\RS\left(\RS\left(\vect{\cvar}_{\jn}\right)\right)=\RS\left(\vect{\cvar}_{\jn}\right)=\vect{\hat{\cvar}}_{\jn}
 \]
 
 \end_inset
@@ -962,9 +953,6 @@ The sum of all incoming fluxes must equal the sum of all outgoing fluxes,
 \end_inset
 
 , then
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
 \[
 \sum_{i\in Inc\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{i}\right)=\sum_{j\in Out\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{j}\right)
@@ -975,6 +963,12 @@ The sum of all incoming fluxes must equal the sum of all outgoing fluxes,
 
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+This condition guarantees mass conservation at junctions.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 The justification for these conditions can be found in
 \begin_inset space ~
@@ -1002,13 +996,13 @@ name "sub:Godunov-Discretization"
 \end_layout
 
 \begin_layout Standard
-To approximate a hyperbolic PDE of the form in Equation
+To approximate a hyperbolic PDE of the form in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:cons-smooth"
 
 \end_inset
@@ -1024,7 +1018,7 @@ key "godunov1959"
 
 \end_inset
 
-, an upwind-downwind numerical method.
+, a finite volume numerical method.
  Given an initial condition that is piecewise-constant, Godunov's scheme
  gives a procedure to advance the system one time-step forward.
  This process can be repeated 
@@ -1040,7 +1034,7 @@ Godunov scheme for a single link
 \end_layout
 
 \begin_layout Standard
-Consider a hyperbolic PDE with space domain 
+Consider a hyperbolic PDE with spatial domain 
 \begin_inset Formula $\left]0,L\right[$
 \end_inset
 
@@ -1230,6 +1224,10 @@ The Courant–Friedrichs–Lewy (CFL) condition is a condition on the time and
  interact with one another over the course of a single time-step.
  This is a necessary condition for the convergence of the discrete solution
  to the continuous solution.
+ For the purposes of the Godunov scheme, we only require that the solution
+ originating from one Riemann problem does not influence the flux across
+ the boundary of another Riemann problem.
+ This requirement leads to the following condition:
 \end_layout
 
 \begin_layout Standard
@@ -1240,10 +1238,6 @@ The Courant–Friedrichs–Lewy (CFL) condition is a condition on the time and
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 where 
 \begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
 \end_inset
@@ -1261,28 +1255,11 @@ where
 \begin_inset Formula $\triangle t$
 \end_inset
 
- is fixed and that the discretization step-size 
+ is fixed and that the (possibly varying) discretization step-size 
 \begin_inset Formula $\triangle x_{i}=L_{i}=x_{i+1}-x_{i}$
 \end_inset
 
- is chosen to not violate the CFL condition
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-For the purposes of the Godunov scheme, we only require that the solution
- originating from one Riemann problem does not influence the flux across
- the boundary of another Riemann problem.
- This is equivalent to 
-\begin_inset Formula $\lambda^{\max}\le\frac{\triangle x}{\triangle t}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-.
+ is chosen to not violate the CFL condition.
 \end_layout
 
 \begin_layout Paragraph
@@ -1747,14 +1724,14 @@ name "sec:State,-control,-and"
 \end_layout
 
 \begin_layout Standard
-Let's assume we have a discrete system of the form in Section
+Let's assume we have a discrete system of the same form as
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
-reference "par:Full-solution-method"
+LatexCommand eqref
+reference "eq:fhat"
 
 \end_inset
 
@@ -1785,7 +1762,7 @@ reference "par:Full-solution-method"
 \begin_inset Formula $T$
 \end_inset
 
- time-steps into the future, i.e.
+ time-steps forward, i.e.
  we wish to determine the discrete state values 
 \begin_inset Formula $\dvar_{\link,k}$
 \end_inset

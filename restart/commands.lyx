@@ -61,7 +61,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\cvar}{u}
+\newcommand{\cvar}{u}
 \end_inset
 
 
@@ -69,7 +69,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\dvar}{U}
+\newcommand{\dvar}{U}
 \end_inset
 
 
@@ -77,7 +77,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
 \end_inset
 
 
@@ -85,7 +85,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
+\newcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
 \end_inset
 
 
@@ -93,7 +93,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\links}{\mathcal{I}}
+\newcommand{\links}{\mathcal{I}}
 \end_inset
 
 
@@ -101,7 +101,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\link}{I}
+\newcommand{\link}{I}
 \end_inset
 
 
@@ -109,7 +109,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctions}{\mathcal{J}}
+\newcommand{\junctions}{\mathcal{J}}
 \end_inset
 
 
@@ -117,7 +117,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jns}{\junctions}
+\newcommand{\jns}{\junctions}
 \end_inset
 
 
@@ -125,7 +125,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junction}{J}
+\newcommand{\junction}{J}
 \end_inset
 
 
@@ -133,7 +133,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jn}{\junction}
+\newcommand{\jn}{\junction}
 \end_inset
 
 
@@ -141,7 +141,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\RS}{RS}
+\newcommand{\RS}{RS}
 \end_inset
 
 
@@ -149,7 +149,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\control}{v}
+\newcommand{\control}{v}
 \end_inset
 
 
@@ -157,7 +157,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\defeq}{:=}
+\newcommand{\state}{\rho}
 \end_inset
 
 
@@ -165,7 +165,15 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\defeq}{:=}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
 \end_inset
 
 
