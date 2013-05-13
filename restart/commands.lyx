@@ -61,7 +61,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\cvar}{u}
+\renewcommand{\cvar}{u}
 \end_inset
 
 
@@ -69,7 +69,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\dvar}{U}
+\renewcommand{\dvar}{U}
 \end_inset
 
 
@@ -77,7 +77,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
+\renewcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
 \end_inset
 
 
@@ -85,7 +85,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
+\renewcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
 \end_inset
 
 
@@ -93,7 +93,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\links}{\mathcal{I}}
+\renewcommand{\links}{\mathcal{I}}
 \end_inset
 
 
@@ -101,7 +101,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\link}{I}
+\renewcommand{\link}{I}
 \end_inset
 
 
@@ -109,7 +109,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\junctions}{\mathcal{J}}
+\renewcommand{\junctions}{\mathcal{J}}
 \end_inset
 
 
@@ -117,7 +117,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jns}{\junctions}
+\renewcommand{\jns}{\junctions}
 \end_inset
 
 
@@ -125,7 +125,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\junction}{J}
+\renewcommand{\junction}{J}
 \end_inset
 
 
@@ -133,7 +133,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jn}{\junction}
+\renewcommand{\jn}{\junction}
 \end_inset
 
 
@@ -141,7 +141,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\RS}{RS}
+\renewcommand{\RS}{RS}
 \end_inset
 
 
@@ -149,7 +149,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\control}{v}
+\renewcommand{\control}{v}
 \end_inset
 
 
@@ -157,7 +157,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\state}{\rho}
+\renewcommand{\state}{s}
 \end_inset
 
 
@@ -165,7 +165,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\defeq}{:=}
+\renewcommand{\density}{\rho}
 \end_inset
 
 
@@ -173,7 +173,31 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\renewcommand{\defeq}{:=}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\Inc}{\text{Inc}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\Out}{\text{Out}}
 \end_inset
 
 

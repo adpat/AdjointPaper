@@ -608,7 +608,7 @@ reference "eq:cons-smooth"
 \end_inset
 
  is the union of two distinct subsets of links: 
-\begin_inset Formula $Inc\left(\jn\right)$
+\begin_inset Formula $\Inc\left(\jn\right)$
 \end_inset
 
  being the links entering junction 
@@ -616,7 +616,7 @@ reference "eq:cons-smooth"
 \end_inset
 
  and 
-\begin_inset Formula $Out\left(\jn\right)$
+\begin_inset Formula $\Out\left(\jn\right)$
 \end_inset
 
  being the links exiting.
@@ -652,11 +652,11 @@ Consider a junction
 \end_inset
 
 , with 
-\begin_inset Formula $m=\left|Inc\left(\jn\right)\right|$
+\begin_inset Formula $m=\left|\Inc\left(\jn\right)\right|$
 \end_inset
 
  incoming links and 
-\begin_inset Formula $n=\left|Out\left(\jn\right)\right|$
+\begin_inset Formula $n=\left|\Out\left(\jn\right)\right|$
 \end_inset
 
  outgoing links, where 
@@ -669,7 +669,7 @@ Consider a junction
 
 .
  All links 
-\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)$
 \end_inset
 
  have a constant initial profile 
@@ -703,11 +703,11 @@ status collapsed
 
 \begin_layout Plain Layout
 If 
-\begin_inset Formula $\vect x$
+\begin_inset Formula $\vect{\state}$
 \end_inset
 
  is a set, where each element 
-\begin_inset Formula $x_{i}\in\vect x$
+\begin_inset Formula $\state_{i}\in\vect{\state}$
 \end_inset
 
  has a corresponding index 
@@ -715,11 +715,11 @@ If
 \end_inset
 
  which is obvious from context, then we use notation 
-\begin_inset Formula $\left\{ \vect x\right\} _{i}$
+\begin_inset Formula $\left\{ \vect{\state}\right\} _{i}$
 \end_inset
 
  to denote the element 
-\begin_inset Formula $x_{i}$
+\begin_inset Formula $\state_{i}$
 \end_inset
 
 .
@@ -745,7 +745,7 @@ If
 \noun off
 \color none
 for all links 
-\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)$
 \end_inset
 
  and 
@@ -775,7 +775,7 @@ We define a Riemann solver:
 \begin_inset Formula 
 \begin{eqnarray*}
 \RS: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
- & \vect{\cvar}_{\jn}^{0} & \mapsto\RS\left(\vect{\cvar}_{\jn}^{0}\right)=\hat{\vect{\cvar}}_{\jn}
+ & \vect{\cvar}_{\jn}^{0} & \mapsto\RS\left(\vect{\cvar}_{\jn}^{0}\right)=\hat{\vect{\cvar}}_{\jn}^{0}
 \end{eqnarray*}
 
 \end_inset
@@ -785,7 +785,7 @@ We define a Riemann solver:
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\left\{ \hat{\vect{\cvar}}_{\jn}\right\} _{\link}=\hat{\cvar}_{\link}$
+\begin_inset Formula $\left\{ \hat{\vect{\cvar}}_{\jn}^{0}\right\} _{\link}=\hat{\cvar}_{\link}^{0}$
 \end_inset
 
  provides the trace for link 
@@ -806,7 +806,7 @@ where
 \end_inset
 
  for a link 
-\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)$
 \end_inset
 
  to the Riemann problem at junction 
@@ -814,7 +814,7 @@ where
 \end_inset
 
  is given by the solution over the domain 
-\begin_inset Formula $x<0$
+\begin_inset Formula $\state<0$
 \end_inset
 
  to the following Riemann problem:
@@ -827,7 +827,7 @@ where
 \left(\cvar_{\link}\right)_{t}+f\left(\cvar_{\link}\right)_{x} & =0\\
 \cvar_{\link}\left(0,x\right) & =\begin{cases}
 \cvar_{\link}^{0} & x<0\\
-\hat{\cvar}_{\link} & x\ge0
+\hat{\cvar}_{\link}^{0} & x\ge0
 \end{cases}
 \end{cases}
 \]
@@ -885,7 +885,8 @@ Solution of boundary conditions at junction.
 \begin_inset Formula $\hat{\vect{\cvar}}^{0}$
 \end_inset
 
- are produced by applying the Riemann solver to the initial conditons, 
+ are produced by applying the Riemann solver to the initial conditions,
+ 
 \begin_inset Formula $\RS\left(\vect{\cvar}^{0}\right)$
 \end_inset
 
@@ -955,7 +956,7 @@ The sum of all incoming fluxes must equal the sum of all outgoing fluxes,
 , then
 \begin_inset Formula 
 \[
-\sum_{i\in Inc\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{i}\right)=\sum_{j\in Out\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{j}\right)
+\sum_{i\in\Inc\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{i}\right)=\sum_{j\in\Out\left(\jn\right)}f\left(\left\{ \vect{\hat{\cvar}}_{\jn}\right\} _{j}\right)
 \]
 
 \end_inset
@@ -1233,7 +1234,7 @@ The Courant–Friedrichs–Lewy (CFL) condition is a condition on the time and
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda^{\max}\le\frac{\triangle x}{2\triangle t}
+\lambda^{\max}\le\frac{\triangle x}{\triangle t}
 \]
 
 \end_inset
@@ -1275,7 +1276,7 @@ name "par:Godunov-scheme-at"
 
 \begin_layout Standard
 We can view each discontinuity point 
-\begin_inset Formula $x_{i}$
+\begin_inset Formula $\state_{i}$
 \end_inset
 
  above as a junction with one incoming link and one outgoing link, which
@@ -1288,11 +1289,11 @@ We can view each discontinuity point
 \begin_inset Formula $\cvar_{\link}\left(0,x\right)=\dvar_{\link}$
 \end_inset
 
- over its entire domain 
-\begin_inset Formula $x\in\left]0,L_{\link}\right[$
+ over its entire spatial domain 
+\begin_inset Formula $\left]0,L_{\link}\right[$
 \end_inset
 
- rather than a constant piecewise profile, since a constant piecewise profile
+, rather than a constant piecewise profile, since a constant piecewise profile
  can be mapped to a series of individual links with 1-to-1 junctions.
  We now generalize the approach to junctions with an arbitrary number of
  input links and output links.
@@ -1304,7 +1305,7 @@ Take a junction
 \end_inset
 
  with links 
-\begin_inset Formula $\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)$
 \end_inset
 
  with Riemann data 
@@ -1319,7 +1320,7 @@ Take a junction
 
 .
  Then for 
-\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)$
 \end_inset
 
 , the downstream flux (
@@ -1350,7 +1351,7 @@ outwards
 \end_inset
 
  at the junction for link 
-\begin_inset Formula $\link\in Inc\left(\jn\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn\right)$
 \end_inset
 
 :
@@ -1370,7 +1371,7 @@ g^{G}\left(\dvar_{\link},\hat{\dvar}_{\link}\right)=f\left(\hat{\dvar}_{\link}\r
 \begin_layout Standard
 A similar argument says that the approximate flux function at the junction
  for outgoing links 
-\begin_inset Formula $\link\in Out\left(\jn\right)$
+\begin_inset Formula $\link\in\Out\left(\jn\right)$
 \end_inset
 
  is also the flux function 
@@ -1426,7 +1427,7 @@ The equations are sometimes simplified if we allow ourselves to consider
 \begin_inset Formula 
 \begin{eqnarray*}
 \hat{F}: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
- & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)\right\} 
+ & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} 
 \end{eqnarray*}
 
 \end_inset
@@ -1452,8 +1453,8 @@ We illustrate the convenience with an example.
 \begin_inset Formula 
 \[
 \left\{ \RS\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
-\dvar_{\link} & \link\in Inc\left(\jn\right)\\
-f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right) & \link\in Out\left(\jn\right)
+\dvar_{\link} & \link\in\Inc\left(\jn\right)\\
+f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right) & \link\in\Out\left(\jn\right)
 \end{cases}
 \]
 
@@ -1464,7 +1465,7 @@ f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\l
 
 \begin_layout Standard
 Then to solve for the flux across the junction for an outgoing link 
-\begin_inset Formula $\link\in Out\left(\jn\right)$
+\begin_inset Formula $\link\in\Out\left(\jn\right)$
 \end_inset
 
 , we again apply the flux function:
@@ -1473,7 +1474,7 @@ Then to solve for the flux across the junction for an outgoing link
 \begin_layout Standard
 \begin_inset Formula 
 \[
-g^{G}\left(\dvar_{\link},f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right)\right)=f\left(f^{-1}\left(\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}\right)\right)=\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|}
+g^{G}\left(\dvar_{\link},f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right)\right)=f\left(f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right)\right)=\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}
 \]
 
 \end_inset
@@ -1508,8 +1509,8 @@ values, and it is often the case (particularly for the linear flux function
 \begin_inset Formula 
 \[
 \left\{ \hat{F}\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
-f\left(\dvar_{\link}\right) & \link\in Inc\left(\jn\right)\\
-\frac{\sum_{i\in Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|Out\left(\jn\right)|} & \link\in Out\left(\jn\right)
+f\left(\dvar_{\link}\right) & \link\in\Inc\left(\jn\right)\\
+\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|} & \link\in\Out\left(\jn\right)
 \end{cases}
 \]
 
@@ -1589,7 +1590,7 @@ For every link
 \begin_deeper
 \begin_layout Enumerate
 Letting 
-\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in\Out\left(\jn\right)$
 \end_inset
 
  and 
@@ -1666,7 +1667,7 @@ For every link
 \begin_deeper
 \begin_layout Enumerate
 Letting 
-\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in\Out\left(\jn\right)$
 \end_inset
 
  and 
@@ -1703,7 +1704,7 @@ Letting
 \color none
 \begin_inset Formula 
 \begin{equation}
-\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(\hat{F}_{\link}\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}}}\right)-\hat{F}_{\link}\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}}}\right)\right)\label{eq:fhat}
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}}}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}}}\right)\right\} _{\link}\right)\label{eq:fhat}
 \end{equation}
 
 \end_inset
@@ -1777,7 +1778,7 @@ reference "eq:fhat"
 
 .
  We represent the entire state of the solved system with the vector 
-\begin_inset Formula $\vect x\in\mathbb{R}^{|\links|T}$
+\begin_inset Formula $\vect{\state}\in\mathbb{R}^{|\links|T}$
 \end_inset
 
 , where for 
@@ -1789,7 +1790,7 @@ reference "eq:fhat"
 \end_inset
 
 , such that 
-\begin_inset Formula $x_{|\links|*(k-1)+\link}=\dvar_{\link,k}$
+\begin_inset Formula $\state_{|\links|*(k-1)+\link}=\dvar_{\link,k}$
 \end_inset
 
 .
@@ -1821,7 +1822,7 @@ control
 \end_inset
 
  as a function of the current state of connecting links, 
-\begin_inset Formula $\vect x_{\jn,k}=\left\{ x_{\link,k}:\link\in Inc\left(\jn\right)\cup Out\left(\jn\right)\right\} $
+\begin_inset Formula $\vect{\state}_{\jn,k}=\left\{ \state_{\link,k}:\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} $
 \end_inset
 
  and the current control parameters, 
@@ -1849,7 +1850,7 @@ control
 \begin_inset Formula 
 \begin{eqnarray*}
 \RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\vect{\control}_{\jn,k}|} & \rightarrow\mathbb{R}^{m+n}\\
- & \left(\vect x_{\jn,k},\vect{\control}_{\jn,k}\right) & \mapsto\RS\left(\vect x_{\jn,k},\vect{\control}_{\jn,k}\right)=\hat{\vect{\dvar}}_{\jn,k}
+ & \left(\vect{\state}_{\jn,k},\vect{\control}_{\jn,k}\right) & \mapsto\RS\left(\vect{\state}_{\jn,k},\vect{\control}_{\jn,k}\right)=\hat{\vect{\dvar}}_{\jn,k}
 \end{eqnarray*}
 
 \end_inset
@@ -1869,8 +1870,8 @@ Additionally, for each variable, there is a corresponding update equation.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-h_{\link,1}\left(\vect x,\vect v\right)=x_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
-h_{\link,k}\left(\vect x,\vect v\right)=x_{\link,k}-x_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\hat{F}_{\link}\left(\vect x_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)-\hat{F}_{\link}\left(\vect x_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+h_{\link,1}\left(\vect{\state},\vect v\right)=x_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
+h_{\link,k}\left(\vect{\state},\vect v\right)=x_{\link,k}-x_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset
@@ -1891,17 +1892,13 @@ for all links
 \begin_inset Formula $\link$
 \end_inset
 
-, where again 
-\begin_inset Formula $\hat{F}_{\link}\left(a,b\right)=f\left(\left\{ \RS\left(a,b\right)\right\} _{\link}\right)$
-\end_inset
-
 .
  Thus, we can construct the system of 
 \begin_inset Formula $|\links|T$
 \end_inset
 
  governing equations 
-\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
 \end_inset
 
 , where the 
@@ -1943,7 +1940,7 @@ name "par:Optimization-Problem"
 
 \begin_layout Standard
 In addition to our governing equations 
-\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
 \end_inset
 
 , we also introduce a cost function 
@@ -1957,7 +1954,7 @@ In addition to our governing equations
 \begin_inset Formula 
 \begin{eqnarray*}
 J: & \mathbb{R}^{|\links|T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
- & \left(\vect x,\vect{\control}\right) & \mapsto J\left(\vect x,\vect{\control}\right)
+ & \left(\vect{\state},\vect{\control}\right) & \mapsto J\left(\vect{\state},\vect{\control}\right)
 \end{eqnarray*}
 
 \end_inset
@@ -1978,7 +1975,7 @@ which returns a scalar that serves as a metric of performance of the state
 
 , while constraining the state of the system to satisfy the governing equations
  
-\begin_inset Formula $H\left(\vect x,\vect{\control}\right)=0$
+\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
 \end_inset
 
 .
@@ -1988,8 +1985,8 @@ which returns a scalar that serves as a metric of performance of the state
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\underset{\vect{\control}}{\min} & J\left(\vect x,\vect{\control}\right)\nonumber \\
-\text{subject to:} & H\left(\vect x,\vect{\control}\right)=0\label{eq:op-problem}
+\underset{\vect{\control}}{\min} & J\left(\vect{\state},\vect{\control}\right)\nonumber \\
+\text{subject to:} & H\left(\vect{\state},\vect{\control}\right)=0\label{eq:op-problem}
 \end{eqnarray}
 
 \end_inset
@@ -2019,7 +2016,7 @@ We wish to use gradient information in order to find control values
 \end_inset
 
  that give small costs 
-\begin_inset Formula $J^{*}=J\left(\vect x\left(\vect{\control}^{*}\right),\vect{\control}^{*}\right)$
+\begin_inset Formula $J^{*}=J\left(\vect{\state}\left(\vect{\control}^{*}\right),\vect{\control}^{*}\right)$
 \end_inset
 
 .
@@ -2068,11 +2065,11 @@ key "Andreas2005"
 
 \begin_layout Standard
 Let us assume we have an initial state and control vector 
-\begin_inset Formula $\vect x^{0},\vect{\control}^{0}$
+\begin_inset Formula $\vect{\state}^{0},\vect{\control}^{0}$
 \end_inset
 
  that satisfies 
-\begin_inset Formula $H\text{\left(\vect x^{0},\vect{\control}^{0}\right)=0}$
+\begin_inset Formula $H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)=0}$
 \end_inset
 
 , and we wish to solve for the derivative of the cost function at the current
@@ -2086,7 +2083,7 @@ Let us assume we have an initial state and control vector
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)=\pfrac{J\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect x}\Dfrac{\vect x}{\vect{\control}}+\pfrac{J\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect{\control}}\label{eq:j-v}
+d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{J\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\state}}\Dfrac{\vect{\state}}{\vect{\control}}+\pfrac{J\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\control}}\label{eq:j-v}
 \end{equation}
 
 \end_inset
@@ -2100,17 +2097,17 @@ where
 \end_inset
 
  is the cost function expression local to points 
-\begin_inset Formula $\left(\vect x^{i},\vect{\control}^{i}\right)$
+\begin_inset Formula $\left(\vect{\state}^{i},\vect{\control}^{i}\right)$
 \end_inset
 
 .
  The current difficulty is computing the term 
-\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
 \end_inset
 
 .
  Next we take advantage of the fact that the derivative of 
-\begin_inset Formula $H\left(\vect x,\vect{\control}\right)$
+\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)$
 \end_inset
 
  with respect to 
@@ -2123,7 +2120,7 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}H\left(\vect x^{0},\vect{\control}^{0}\right)=\pfrac{H\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect x}\Dfrac{\vect x}{\vect{\control}}+\pfrac{H\text{\left(\vect x^{0},\vect{\control}^{0}\right)}}{\vect{\control}}=0\label{eq:h-v}
+d_{\vect{\control}}H\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\state}}\Dfrac{\vect{\state}}{\vect{\control}}+\pfrac{H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\control}}=0\label{eq:h-v}
 \end{equation}
 
 \end_inset
@@ -2133,7 +2130,7 @@ d_{\vect{\control}}H\left(\vect x^{0},\vect{\control}^{0}\right)=\pfrac{H\text{\
 
 \begin_layout Standard
 The partial derivative terms, 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 , 
@@ -2141,7 +2138,7 @@ The partial derivative terms,
 \end_inset
 
 , 
-\begin_inset Formula $J_{x}$
+\begin_inset Formula $J_{\state}$
 \end_inset
 
 , and 
@@ -2173,7 +2170,7 @@ reference "sub:Evaluating--and"
 \noun off
 \color none
 
-\begin_inset Formula $d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)$
+\begin_inset Formula $d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)$
 \end_inset
 
 , we must solve a coupled system of matrix equations.
@@ -2204,7 +2201,7 @@ name "par:Forward-system"
 \noun off
 \color none
 If we solve for 
-\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
 \end_inset
 
  in Equation
@@ -2248,7 +2245,7 @@ forward system
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{x}\Dfrac{\vect x}{\vect{\control}}=-H_{v},
+H_{\state}\Dfrac{\vect{\state}}{\vect{\control}}=-H_{v},
 \]
 
 \end_inset
@@ -2258,7 +2255,7 @@ H_{x}\Dfrac{\vect x}{\vect{\control}}=-H_{v},
 
 \begin_layout Standard
 then we can substitute the solved value for 
-\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
 \end_inset
 
  into Equation
@@ -2285,11 +2282,11 @@ reference "sub:Evaluating--and"
 \end_inset
 
  gives details on the invertibility of 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 , guaranteeing a solution for 
-\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
 \end_inset
 
 .
@@ -2308,7 +2305,7 @@ name "par:Adjoint-system"
 
 \begin_layout Standard
 Instead of evaluating 
-\begin_inset Formula $\Dfrac{\vect x}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
 \end_inset
 
  directly, the adjoint method instead solves the following system, called
@@ -2322,7 +2319,7 @@ adjoint system
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-H_{x}^{T}\lambda=-J_{x}^{T}\label{eq:adjoint}
+H_{\state}^{T}\lambda=-J_{\state}^{T}\label{eq:adjoint}
 \end{equation}
 
 \end_inset
@@ -2337,7 +2334,7 @@ Then the expression for the gradient becomes:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}J\left(\vect x^{0},\vect{\control}^{0}\right)=\lambda^{T}H_{v}+J_{v}\label{eq:adjoint-grad}
+d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\lambda^{T}H_{v}+J_{v}\label{eq:adjoint-grad}
 \end{equation}
 
 \end_inset
@@ -2358,15 +2355,15 @@ reference "sub:Complexity-of-solving"
 \end_inset
 
  how the complexity of computing the gradient is reduced from 
-\begin_inset Formula $O(D_{x}|\vect x||\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\vect{\state}||\vect{\control}|)$
 \end_inset
 
  to 
-\begin_inset Formula $O(D_{x}|\vect x|+D_{v}|\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\vect{\state}|+D_{v}|\vect{\control}|)$
 \end_inset
 
  by considering the adjoint method over the forward method, where 
-\begin_inset Formula $D_{x}$
+\begin_inset Formula $D_{\state}$
 \end_inset
 
  is the maximum junction degree on the network
@@ -2375,7 +2372,7 @@ reference "sub:Complexity-of-solving"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-D_{x}=\max_{\jn\in\jns}|Inc\left(J\right)\cup Out\left(\jn\right)|\label{eq:dx}
+D_{\state}=\max_{\jn\in\jns}|\Inc\left(J\right)\cup\Out\left(\jn\right)|\label{eq:dx}
 \end{equation}
 
 \end_inset
@@ -2395,7 +2392,7 @@ and
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-D_{\control}=\max_{v_{i,k}\in\vect{\control}}|\bigcup Inc\left(\jn\right)\cup Out\left(\jn\right):\control_{i,k}\in\vect{\control}_{\jn,k}|\label{eq:dv}
+D_{\control}=\max_{v_{i,k}\in\vect{\control}}|\bigcup\Inc\left(\jn\right)\cup\Out\left(\jn\right):\control_{i,k}\in\vect{\control}_{\jn,k}|\label{eq:dv}
 \end{equation}
 
 \end_inset
@@ -2405,7 +2402,7 @@ D_{\control}=\max_{v_{i,k}\in\vect{\control}}|\bigcup Inc\left(\jn\right)\cup Ou
 
 \begin_layout Standard
 A graphical depiction of 
-\begin_inset Formula $D_{x}$
+\begin_inset Formula $D_{\state}$
 \end_inset
 
  and 
@@ -2549,7 +2546,7 @@ name "fig:gennetc"
 
 \begin_layout Plain Layout
 Depicting 
-\begin_inset Formula $D_{x}$
+\begin_inset Formula $D_{\state}$
 \end_inset
 
  and 
@@ -2582,7 +2579,7 @@ reference "fig:gennetb"
 
  depicts the center junction having the largest number of connecting edges,
  thus giving 
-\begin_inset Formula $D_{x}=5$
+\begin_inset Formula $D_{\state}=5$
 \end_inset
 
 .
@@ -2633,7 +2630,7 @@ name "fig:Depicting--and"
 \end_inset
 
 Since the 
-\begin_inset Formula $D_{x}$
+\begin_inset Formula $D_{\state}$
 \end_inset
 
  and 
@@ -2641,7 +2638,7 @@ Since the
 \end_inset
 
  typically do not scale with 
-\begin_inset Formula $|\vect x|$
+\begin_inset Formula $|\vect{\state}|$
 \end_inset
 
  or 
@@ -2680,7 +2677,7 @@ Computing the gradient relies on the existence of partial derivatives of
 \end_inset
 
  with respect to both the state 
-\begin_inset Formula $\vect x$
+\begin_inset Formula $\vect{\state}$
 \end_inset
 
  and control 
@@ -2691,7 +2688,7 @@ Computing the gradient relies on the existence of partial derivatives of
  The networked-structure of the PDE system and the Godunov discretization
  scheme allows one to say much more about the structure and sparsity of
  
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  and 
@@ -2709,7 +2706,7 @@ Partial derivative expressions
 Given that the governing equations require the evaluation of a Riemann solver
  at each step, we detail some of the necessary computational steps in evaluating
  the 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  and 
@@ -2726,7 +2723,7 @@ If we consider a particular governing equation
 \end_inset
 
 , then we may determine the partial term with respect to 
-\begin_inset Formula $x\in\vect x$
+\begin_inset Formula $\state\in\vect{\state}$
 \end_inset
 
  by applying the chain rule:
@@ -2735,7 +2732,7 @@ If we consider a particular governing equation
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}x=-\pfrac{\dvar{}_{\link,k-1}}x+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)\label{eq:partial-hx-chain}
+\pfrac{h_{\link,k}}{\state}=-\pfrac{\dvar{}_{\link,k-1}}{\state}+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\state}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\state}\right)\label{eq:partial-hx-chain}
 \end{equation}
 
 \end_inset
@@ -2765,7 +2762,7 @@ reference "par:Composing-the-Riemann"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}x=-\pfrac{\dvar{}_{\link,k-1}}x+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)\label{eq:partial-hx-chain-1}
+\pfrac{h_{\link,k}}{\state}=-\pfrac{\dvar{}_{\link,k-1}}{\state}+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\state}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\state}\right)\label{eq:partial-hx-chain-1}
 \end{equation}
 
 \end_inset
@@ -2842,12 +2839,12 @@ Also, for all
 \end_inset
 
 , guaranteeing a lower triangular structure for the 
-\begin_inset Formula $\pfrac Hx$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  matrix.
- Coupling  this result that with the fact that all diagonal terms, 
-\begin_inset Formula $\pfrac{H_{i}}{x_{i}}$
+ Coupling this result with the fact that all diagonal terms, 
+\begin_inset Formula $\pfrac{H_{i}}{\state_{i}}$
 \end_inset
 
 , are equal to 
@@ -2855,7 +2852,7 @@ Also, for all
 \end_inset
 
  guarantees the invertibility of 
-\begin_inset Formula $\pfrac Hx$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 .
@@ -2864,7 +2861,7 @@ Also, for all
 \begin_layout Standard
 These results are for a generic scalar hyperbolic network of PDE's, and
  demonstrate that partial derivatives expressions for 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  are only needed for the flux function 
@@ -3033,9 +3030,9 @@ Thus, we have
 \begin_inset Formula 
 \[
 \left\{ RS\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
-\dvar_{\link} & \link\in Inc\left(\jn\right)\\
-\control_{\jn,k}\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
-\left(1-\control_{\jn,k}\right)\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
+\dvar_{\link} & \link\in\Inc\left(\jn\right)\\
+\control_{\jn,k}\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
+\left(1-\control_{\jn,k}\right)\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
 \end{cases}
 \]
 
@@ -3052,9 +3049,9 @@ or:
 \begin_inset Formula 
 \[
 \left\{ \hat{F}\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
-f\left(\dvar_{\link}\right) & \link\in Inc\left(\jn\right)\\
-\control_{\jn,k}\alpha\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
-\left(1-\control_{\jn,k}\right)\alpha\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
+f\left(\dvar_{\link}\right) & \link\in\Inc\left(\jn\right)\\
+\control_{\jn,k}\alpha\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
+\left(1-\control_{\jn,k}\right)\alpha\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
 \end{cases}
 \]
 
@@ -3064,13 +3061,13 @@ f\left(\dvar_{\link}\right) & \link\in Inc\left(\jn\right)\\
 \end_layout
 
 \begin_layout Standard
-We can now evaluate the individual terms in Equations
+We can now evaluate the individual terms in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hx-chain"
 
 \end_inset
@@ -3081,7 +3078,7 @@ reference "eq:partial-hx-chain"
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hv-chain"
 
 \end_inset
@@ -3093,14 +3090,14 @@ reference "eq:partial-hv-chain"
 \begin_inset Formula 
 \begin{eqnarray*}
 \pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn^{\text{}},}\right\} _{\link}} & = & \alpha\\
-\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{x_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}},k-1},\control_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}}{x_{i,j}}=\pfrac{\dvar_{\link,k-1}}{x_{i,j}}=\begin{cases}
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\state_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}},k-1},\control_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}}{\state_{i,j}}=\pfrac{\dvar_{\link,k-1}}{\state_{i,j}}=\begin{cases}
 1 & i=\link\text{ and }j=k-1\\
 0 & \text{otherwise}
 \end{cases}\\
-\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{x_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}},k-1},\control_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}}{x_{i,j}}=\pfrac{\left(\control_{\jn_{\link}^{\text{Up}},k}\sum_{i\in Inc\left(\jn\right)}\dvar_{i}\right)}{x_{i,j}}=0\\
+\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\state_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}},k-1},\control_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}}{\state_{i,j}}=\pfrac{\left(\control_{\jn_{\link}^{\text{Up}},k}\sum_{i\in\Inc\left(\jn\right)}\dvar_{i}\right)}{\state_{i,j}}=0\\
 \pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{v_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}},k-1},\control_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}}{v_{i,j}}=0\\
 \pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{v_{i,j}} & = & \pfrac{\left\{ \RS\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}},k-1},\control_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}}{v_{i,j}}=\begin{cases}
-\sum_{i\in Inc\left(\jn\right)}\dvar_{i} & j=k-1\text{ and }i=\jn_{\link}^{\text{Up}}\\
+\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & j=k-1\text{ and }i=\jn_{\link}^{\text{Up}}\\
 0 & \text{otherwise}
 \end{cases}
 \end{eqnarray*}
@@ -3112,21 +3109,21 @@ reference "eq:partial-hv-chain"
 
 \begin_layout Standard
 where the 3rd equation is 0 since 
-\begin_inset Formula $\link\in Out\left(J_{\link}^{Up}\right)$
+\begin_inset Formula $\link\in\Out\left(J_{\link}^{Up}\right)$
 \end_inset
 
  and only incoming link terms appear and the 4th equation is 0 since 
-\begin_inset Formula $\link\in Inc\left(\jn_{\link}^{\text{Down}}\right)$
+\begin_inset Formula $\link\in\Inc\left(\jn_{\link}^{\text{Down}}\right)$
 \end_inset
 
 .
- These explicit solutions can be substituted back into Equations
+ These explicit solutions can be substituted back into
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hx-chain"
 
 \end_inset
@@ -3137,13 +3134,13 @@ reference "eq:partial-hx-chain"
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hv-chain"
 
 \end_inset
 
  to completely solve 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  and 
@@ -3166,7 +3163,7 @@ name "par:Structure-and-sparsity"
 
 \begin_layout Standard
 We can show the lower-triangular structure of 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  by examining the governing equations in 
@@ -3189,7 +3186,7 @@ reference "eq:main-ge"
 \end_inset
 
 , we have 
-\begin_inset Formula $\pfrac{h_{i,0}}{x_{j,0}}=1$
+\begin_inset Formula $\pfrac{h_{i,0}}{\state_{j,0}}=1$
 \end_inset
 
  if 
@@ -3197,7 +3194,7 @@ reference "eq:main-ge"
 \end_inset
 
  and 0 otherwise, giving all 1's on the diagonal (
-\begin_inset Formula $\pfrac{H_{i,j}}{x_{i,j}}=1\forall i,j$
+\begin_inset Formula $\pfrac{H_{i,j}}{\state_{i,j}}=1\forall i,j$
 \end_inset
 
 ).
@@ -3210,7 +3207,7 @@ reference "eq:main-ge"
 \end_inset
 
  is only a function of 
-\begin_inset Formula $x_{\link,k}$
+\begin_inset Formula $\state_{\link,k}$
 \end_inset
 
  and of the state variables from the previous time-step 
@@ -3234,7 +3231,7 @@ reference "sec:State,-control,-and"
 \end_inset
 
 , 
-\begin_inset Formula $\pfrac{h_{i,k}}{x_{j,l}}=0$
+\begin_inset Formula $\pfrac{h_{i,k}}{\state_{j,l}}=0$
 \end_inset
 
  for all 
@@ -3242,12 +3239,12 @@ reference "sec:State,-control,-and"
 \end_inset
 
 , and 
-\begin_inset Formula $\pfrac{h_{i,k}}{x_{i,k}}=1$
+\begin_inset Formula $\pfrac{h_{i,k}}{\state_{i,k}}=1$
 \end_inset
 
 .
  These two conditions demonstrate both that 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  is lower-triangular and is also invertible.
@@ -3255,7 +3252,7 @@ reference "sec:State,-control,-and"
 
 \begin_layout Standard
 Additionally, if we take a single state variable 
-\begin_inset Formula $x_{\link,k}$
+\begin_inset Formula $\state_{\link,k}$
 \end_inset
 
 , then we can deduce from Equation
@@ -3284,7 +3281,7 @@ s at time
 
  respectively.
  To summarize, 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  matrices for systems described in Section
@@ -3299,13 +3296,17 @@ reference "sec:State,-control,-and"
 \end_inset
 
  will be invertible, lower-triangular and each column will have a maximum
- cardinality equal to Equation
+ cardinality equal to 
+\begin_inset Formula $D_{\state}$
+\end_inset
+
+ in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:dx"
 
 \end_inset
@@ -3315,7 +3316,7 @@ reference "eq:dx"
 
 \begin_layout Standard
 Using the same line of argument for maximum cardinality in 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 , we can bound the maximum cardinality of each column of 
@@ -3345,13 +3346,13 @@ Using the same line of argument for maximum cardinality in
 \begin_inset Formula $D_{\control}$
 \end_inset
 
- in Equation
+ in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:dv"
 
 \end_inset
@@ -3377,21 +3378,21 @@ name "sub:Complexity-of-solving"
 
 \begin_layout Standard
 If we only consider the lower triangular form of 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 , then the complexity of solving for the gradient using the forward system
  is 
-\begin_inset Formula $O(|\vect x|^{2}|\vect{\control}|)$
+\begin_inset Formula $O(|\vect{\state}|^{2}|\vect{\control}|)$
 \end_inset
 
-, where the dominating term comes from solving Equation
+, where the dominating term comes from solving
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:j-v"
 
 \end_inset
@@ -3413,7 +3414,7 @@ reference "eq:j-v"
 \noun off
 \color none
 
-\begin_inset Formula $|\vect x|\times|\vect x|$
+\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
 \end_inset
 
  lower-triangular system.
@@ -3431,16 +3432,16 @@ reference "eq:j-v"
 \noun default
 \color inherit
  
-\begin_inset Formula $O(|\vect x|^{2})$
+\begin_inset Formula $O(|\vect{\state}|^{2})$
 \end_inset
 
  steps, giving the overall complexity 
-\begin_inset Formula $O(|\vect x|^{2}|\vect{\control}|)$
+\begin_inset Formula $O(|\vect{\state}|^{2}|\vect{\control}|)$
 \end_inset
 
 .
  The complexity of the adjoint method is 
-\begin_inset Formula $O(|\vect x|^{2}+|\vect x||\vect{\control}|)$
+\begin_inset Formula $O(|\vect{\state}|^{2}+|\vect{\state}||\vect{\control}|)$
 \end_inset
 
 , which is certainly more efficient than the forward-method, as long as
@@ -3449,13 +3450,13 @@ reference "eq:j-v"
 \end_inset
 
 .
- The efficiency is gained by considering that Equation
+ The efficiency is gained by considering that
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:adjoint"
 
 \end_inset
@@ -3473,7 +3474,7 @@ reference "eq:adjoint"
 \noun off
 \color none
  
-\begin_inset Formula $|\vect x|\times|\vect x|$
+\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
 \end_inset
 
  
@@ -3506,20 +3507,20 @@ upper
 \end_inset
 
 , a 
-\begin_inset Formula $|\vect x|\times|\vect x|$
+\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
 \end_inset
 
  and a 
-\begin_inset Formula $|\vect x|\times|\vect{\control}|$
+\begin_inset Formula $|\vect{\state}|\times|\vect{\control}|$
 \end_inset
 
- matrix in Equation
+ matrix in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:adjoint-grad"
 
 \end_inset
@@ -3537,7 +3538,7 @@ reference "eq:adjoint-grad"
 \noun default
 \color inherit
 
-\begin_inset Formula $O(|\vect x|^{2}+|\vect x||\vect{\control}|)$
+\begin_inset Formula $O(|\vect{\state}|^{2}+|\vect{\state}||\vect{\control}|)$
 \end_inset
 
 .
@@ -3546,7 +3547,7 @@ reference "eq:adjoint-grad"
 \begin_layout Standard
 For the adjoint method, this complexity can be improved upon by considering
  the sparsity of the 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  and 
@@ -3574,22 +3575,22 @@ reference "par:Structure-and-sparsity"
 at-most
 \emph default
  
-\begin_inset Formula $D_{x}$
+\begin_inset Formula $D_{\state}$
 \end_inset
 
- multiplications, and thus the complexity of solving Equation
+ multiplications, and thus the complexity of solving
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:adjoint"
 
 \end_inset
 
  is reduced to 
-\begin_inset Formula $O(D_{x}|\vect x|)$
+\begin_inset Formula $O(D_{\state}|\vect{\state}|)$
 \end_inset
 
 .
@@ -3637,7 +3638,7 @@ of
 \noun default
 \color inherit
 
-\begin_inset Formula $O(D_{x}|\vect x|+D_{v}|\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\vect{\state}|+D_{v}|\vect{\control}|)$
 \end_inset
 
 .
@@ -3668,18 +3669,18 @@ Consider a freeway section as a sequence of junctions
 \begin_inset Formula $t=k\triangle T,1\le k\le T$
 \end_inset
 
-, Junction 
+, junction 
 \begin_inset Formula $J_{i}$
 \end_inset
 
  has an incoming (resp.
  outgoing) mainline density 
-\begin_inset Formula $\rho_{i,k}^{\text{Inc}}$
+\begin_inset Formula $\density_{i,k}^{\text{Inc}}$
 \end_inset
 
  (resp.
  
-\begin_inset Formula $\rho_{i,k}^{\text{Out}}$
+\begin_inset Formula $\density_{i,k}^{\text{Out}}$
 \end_inset
 
 ) 
@@ -3699,7 +3700,7 @@ Consider a freeway section as a sequence of junctions
 \end_inset
 
  (units of vehicles per unit length), onramp density 
-\begin_inset Formula $\rho_{i,k}^{\text{On}}\in\mathbb{R}$
+\begin_inset Formula $\density_{i,k}^{\text{On}}\in\mathbb{R}$
 \end_inset
 
  (units of vehicles), and offramp split ratio 
@@ -3749,13 +3750,19 @@ reference "fig:Freeway-network-junction"
 \begin_inset Float figure
 wide false
 sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
 status collapsed
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename figs-gen/junction-network.pdf
-	width 70col%
+	width 45col%
 
 \end_inset
 
@@ -3772,7 +3779,7 @@ Freeway network junction
 
 .
  Mainline densities represented by 
-\begin_inset Formula $\rho$
+\begin_inset Formula $\density$
 \end_inset
 
 , onramp queues by 
@@ -3785,11 +3792,11 @@ Freeway network junction
 
 .
  Note that 
-\begin_inset Formula $\rho_{i}^{\text{Out}}$
+\begin_inset Formula $\density_{i}^{\text{Out}}$
 \end_inset
 
  is equivalent to 
-\begin_inset Formula $\rho_{i+1}^{\text{Inc}}$
+\begin_inset Formula $\density_{i+1}^{\text{Inc}}$
 \end_inset
 
 .
@@ -3799,7 +3806,7 @@ name "fig:Freeway-network-junction"
 
 \end_inset
 
-
+.
 \end_layout
 
 \end_inset
@@ -3810,6 +3817,76 @@ name "fig:Freeway-network-junction"
 \end_inset
 
 
+\begin_inset space \hspace*{\fill}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/fd.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fundamental diagram with free-flow speed 
+\begin_inset Formula $v$
+\end_inset
+
+, congestion wave speed 
+\begin_inset Formula $w$
+\end_inset
+
+, max flux 
+\begin_inset Formula $F^{\max}$
+\end_inset
+
+, critical density 
+\begin_inset Formula $\density^{c}$
+\end_inset
+
+, and max density 
+\begin_inset Formula $\density^{\max}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Fundamental-diagram-with"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ Junctions that have no onramps can be effectively represented by adding
+ an onramp with no demand while junctions with no offramps can be represented
+ by setting the split ratio to 1.
 \end_layout
 
 \begin_layout Standard
@@ -3837,7 +3914,7 @@ The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\rho_{t}+f'\rho_{x}=0
+\density_{t}+f\left(\density\right)_{x}=0
 \]
 
 \end_inset
@@ -3847,7 +3924,7 @@ The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\rho$
+\begin_inset Formula $\density$
 \end_inset
 
  is the density state, and 
@@ -3855,7 +3932,7 @@ where
 \end_inset
 
  is the derivative of the flux function (or fundamental diagram) 
-\begin_inset Formula $f\left(\rho\right)$
+\begin_inset Formula $f\left(\density\right)$
 \end_inset
 
 .
@@ -3868,68 +3945,6 @@ where
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Fundamental-diagram-with"
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename figs-gen/fd.pdf
-	width 50col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Fundamental diagram with free-flow speed 
-\begin_inset Formula $v$
-\end_inset
-
-, congestion wave speed 
-\begin_inset Formula $w$
-\end_inset
-
-, max flux 
-\begin_inset Formula $F^{\max}$
-\end_inset
-
-, critical density 
-\begin_inset Formula $\rho^{c}$
-\end_inset
-
-, and max density 
-\begin_inset Formula $\rho^{\max}$
-\end_inset
-
-.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Fundamental-diagram-with"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
 
 \end_inset
 
@@ -3947,7 +3962,7 @@ For notational simplicity we consider the set of densities of links adjacent
 \end_inset
 
  as 
-\begin_inset Formula $\vect{\rho}_{J_{i},k}=\left\{ \rho_{i,k}^{\text{Inc}},\rho_{i,k}^{\text{Out}},\rho_{i,k}^{\text{On}}\right\} $
+\begin_inset Formula $\vect{\density}_{J_{i},k}=\left\{ \density_{i,k}^{\text{Inc}},\density_{i,k}^{\text{Out}},\density_{i,k}^{\text{On}}\right\} $
 \end_inset
 
 .
@@ -3957,21 +3972,21 @@ For notational simplicity we consider the set of densities of links adjacent
 \begin_inset Formula $J_{i}$
 \end_inset
 
- at timestep 
+ at time-step 
 \begin_inset Formula $k$
 \end_inset
 
 , we discretize the downstream mainline density 
-\begin_inset Formula $\rho_{i,k}^{\text{Out}}$
+\begin_inset Formula $\density_{i,k}^{\text{Out}}$
 \end_inset
 
- using the Godunov scheme from Equation
+ using the Godunov scheme from
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:main-ge"
 
 \end_inset
@@ -3982,7 +3997,7 @@ reference "eq:main-ge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{Out}}(\vect x,\vect v)=\rho_{i,k}^{\text{Out}}-\rho_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\rho}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\rho}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
+h_{i,k}^{\text{Out}}(\vect{\state},\vect v)=\density_{i,k}^{\text{Out}}-\density_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
 \end{equation}
 
 \end_inset
@@ -4004,11 +4019,11 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\rho}}_{J,k}\right)\right\} _{i}$
+\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\density}}_{J,k}\right)\right\} _{i}$
 \end_inset
 
  is the flux from the boundary condition of density 
-\begin_inset Formula $\rho_{\jn,k}^{i}$
+\begin_inset Formula $\density_{\jn,k}^{i}$
 \end_inset
 
  at junction 
@@ -4016,14 +4031,15 @@ where
 \end_inset
 
 .
- We also make the assumption that onramps have infinite capacity and unit
- length and can then simplify the onramp update equation to be:
+ We also make the assumption that onramps have infinite capacity and a length
+ of one.
+ We can then simplify the onramp update equation to be:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{On}}(\vect x,\vect v)=\rho_{i,k}^{\text{On}}-\rho_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\rho}_{J_{i},k},u_{i+1,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+h_{i,k}^{\text{On}}(\vect{\state},\vect v)=\density_{i,k}^{\text{On}}-\density_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
@@ -4116,9 +4132,9 @@ key "Walid,ML"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\delta & = & \min\left(v_{i}\rho_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
-\sigma & = & \min\left(w_{i}\left(\rho_{i}^{\max}-\rho_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
-d & = & u_{i,k}\min\left(\rho_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
+\delta & = & \min\left(v_{i}\density_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
+\sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
+d & = & u_{i,k}\min\left((1)\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
 \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}} & = & \min\left(\beta_{i,k}\delta+d,\sigma\right)\nonumber \\
 \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}} & = & \begin{cases}
 \delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
@@ -4148,37 +4164,41 @@ Optimal coordinated ramp-metering
 \end_layout
 
 \begin_layout Standard
-Including the initial conditions as specified in Equation
+Including the initial conditions as specified in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:init-ge"
 
 \end_inset
 
- with Equations
+ with
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:rho-update"
 
 \end_inset
 
- and 
+ and
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:onramp-update"
 
 \end_inset
 
  gives a complete description of the system 
-\begin_inset Formula $H\left(\vect x,\vect v\right)=0$
+\begin_inset Formula $H\left(\vect{\state},\vect v\right)=0$
 \end_inset
 
 , where if 
@@ -4191,9 +4211,9 @@ reference "eq:onramp-update"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-x_{|\links|\left(k-1\right)+2*i-1}\defeq & \rho_{i,k}^{\text{Out}}\defeq\rho_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
-x_{|\links|\left(k-1\right)+2*i}\defeq & \rho_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
-v_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
+\state_{|\links|\left(k-1\right)+2*i-1}\defeq & \density_{i,k}^{\text{Out}}\defeq\density_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+2*i}\defeq & \density_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
 \end{eqnarray*}
 
 \end_inset
@@ -4206,13 +4226,13 @@ The objective of the control is to minimize the
 \emph on
 total travel time 
 \emph default
-of flux on the network
+on the network
 \emph on
 .
  
 \emph default
 This is expressed with the cost function 
-\begin_inset Formula $C$
+\begin_inset Formula $J$
 \end_inset
 
 :
@@ -4221,7 +4241,7 @@ This is expressed with the cost function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-C\left(\vect x,\vect{\control}\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\rho_{i,k}^{\text{Out}}+\rho_{i,k}^{\text{On}}
+J\left(\vect{\state},\vect{\control}\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density_{i,k}^{\text{Out}}+\density_{i,k}^{\text{On}}
 \]
 
 \end_inset
@@ -4237,8 +4257,8 @@ Thus the optimal coordinated ramp-metering problem can be formulated as
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\vect{\control}} & C\left(\vect x,\vect{\control}\right)\label{eq:full}\\
-\text{subject to:} & H\left(\vect x,\vect{\control}\right) & =0\nonumber \\
+\min_{\vect{\control}} & J\left(\vect{\state},\vect{\control}\right)\label{eq:full}\\
+\text{subject to:} & H\left(\vect{\state},\vect{\control}\right) & =0\nonumber \\
  & 0\le\control\le1 & \forall\control\in\vect{\control}\nonumber 
 \end{eqnarray}
 
@@ -4279,7 +4299,7 @@ key "Boyd2010,Bayen2006"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\tilde{C}\left(\vect x,\vect{\control},R\right)=C\left(\vect x,\vect{\control}\right)+R\sum_{\control\in\vect{\control}}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
+\tilde{J}\left(\vect{\state},\vect{\control},R\right)=J\left(\vect{\state},\vect{\control}\right)-R\sum_{\control\in\vect{\control}}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
 \]
 
 \end_inset
@@ -4289,25 +4309,25 @@ key "Boyd2010,Bayen2006"
 
 \begin_layout Standard
 As 
-\begin_inset Formula $R$
+\begin_inset Formula $R\in\mathbb{R}^{+}$
 \end_inset
 
  tends to zero, 
-\begin_inset Formula $\tilde{C}$
+\begin_inset Formula $\tilde{J}$
 \end_inset
 
  tends towards 
-\begin_inset Formula $C$
+\begin_inset Formula $J$
 \end_inset
 
 .
- Thus we can solve Problem
+ Thus we can solve
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:full"
 
 \end_inset
@@ -4318,8 +4338,8 @@ reference "eq:full"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\vect{\control}} & \tilde{C}\left(\vect x,\vect{\control},R\right)\label{eq:full-1}\\
-\text{subject to:} & H\left(\vect x,\vect{\control}\right) & =0\nonumber 
+\min_{\vect{\control}} & \tilde{J}\left(\vect{\state},\vect{\control},R\right)\label{eq:full-1}\\
+\text{subject to:} & H\left(\vect{\state},\vect{\control}\right) & =0\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -4334,11 +4354,11 @@ with decreasing values of
 
 .
  As a result, 
-\begin_inset Formula $\tilde{C}$
+\begin_inset Formula $\tilde{J}$
 \end_inset
 
  will approach 
-\begin_inset Formula $C$
+\begin_inset Formula $J$
 \end_inset
 
  as the number of iterations increases.
@@ -4361,7 +4381,7 @@ reference "sec:Adjoint-method"
 \end_inset
 
 , we need to compute the partial matrices 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
 , 
@@ -4369,7 +4389,7 @@ reference "sec:Adjoint-method"
 \end_inset
 
 , 
-\begin_inset Formula $\tilde{C}_{x}$
+\begin_inset Formula $\tilde{C}_{\state}$
 \end_inset
 
  and 
@@ -4377,14 +4397,15 @@ reference "sec:Adjoint-method"
 \end_inset
 
 .
- Computing the partials with respect to the cost function is straight forward:
+ Computing the partial derivatives with respect to the cost function is
+ straight forward:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\pfrac{\tilde{C}}{\rho_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
-\pfrac{\tilde{C}}{\rho_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\density_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\density_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
 \pfrac{\tilde{C}}{u_{i,k}}= & R\left(\frac{-1}{1-u_{i,k}}+\frac{1}{u_{i,k}}\right) & 1\le i\le n-1,1\le k\le T
 \end{eqnarray*}
 
@@ -4423,7 +4444,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
  with respect to the adjacent state variables 
-\begin_inset Formula $\vect{\rho}_{J_{i},k}$
+\begin_inset Formula $\vect{\density}_{J_{i},k}$
 \end_inset
 
  and ramp metering control 
@@ -4431,13 +4452,13 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
 .
- We calculate the partials of the variables in Equations
+ We calculate the partials of the variables in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:state-rm"
 
 \end_inset
@@ -4461,16 +4482,16 @@ reference "eq:state-rm"
 \begin_inset Formula 
 \begin{eqnarray*}
 \pfrac{\delta}s & = & \begin{cases}
-v_{i} & s=\rho_{i,k}^{\text{Inc}},v_{i}\rho_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
+v_{i} & s=\density_{i,k}^{\text{Inc}},v_{i}\density_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\sigma}s & = & \begin{cases}
--w_{i} & s=\rho_{i,k}^{\text{Out}},w_{i}\left(\rho_{i}^{\max}-\rho_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
+-w_{i} & s=\density_{i,k}^{\text{Out}},w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac ds & = & \begin{cases}
-u_{i,k} & s=\rho_{i,k}^{\text{On}},\rho_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
-\min\left(\rho_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
+u_{i,k} & s=\density_{i,k}^{\text{On}},\density_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
+\min\left(\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s & = & \begin{cases}
@@ -4491,27 +4512,31 @@ u_{i,k} & s=\rho_{i,k}^{\text{On}},\rho_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\m
 \end_layout
 
 \begin_layout Standard
-These expressions fully quantify the partial values needed in Equations
+These expressions fully quantify the partial values needed in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hx-chain-1"
 
 \end_inset
 
- and 
+ and
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:partial-hv-chain-1"
 
 \end_inset
 
 .
  Thus we can construct the 
-\begin_inset Formula $H_{x}$
+\begin_inset Formula $H_{\state}$
 \end_inset
 
  and 
