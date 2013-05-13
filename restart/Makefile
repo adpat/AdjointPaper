@@ -12,7 +12,7 @@ PFIGS = $(wildcard presfigs-gen/*.pdf)
 FIGS = $(wildcard figs-gen/*.pdf)
 
 
-all: $(PAPER) open
+all: $(PAPER)
 
 
 lyx:
@@ -59,4 +59,22 @@ presfigs-gen/%.pdf: presfigs/%.odg
 # works on mac
 open:
 	open $(PAPER)
+
+
+syncfileLocal     = restart.pdf
+remoteuser   = jreilly
+remotehost   = kepler.berkeley.edu
+remotedir    = ~/public_html/reports/
+switches     = --checksum -rlvzu --exclude ".*" --exclude "*.tgz*" --exclude "Makefile.*"
+putswitches  = --exclude "logs"
+putmessage   = Updating server with newer files from local site mirror...
+sd = $(patsubst %/,%,$(tdir))
+
+put:
+	@echo "$(putmessage)"
+	rsync $(putswitches) $(switches) $(syncfileLocal) $(remoteuser)@$(remotehost):$(remotedir)$(sd)/
+	@echo
+
+.PHONY: put
+
 	
