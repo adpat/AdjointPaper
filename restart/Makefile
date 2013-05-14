@@ -1,15 +1,11 @@
-# Makefile for the kdd paper
-# Most of the elements are shamelessly copied from the wikipedia page
-# http://en.wikipedia.org/wiki/Make_%28software%29
-# To generate the figures, you have to start openoffice or libreoffice with the command:
-# ooffice "-accept=socket,host=localhost,port=2002,tcpNoDelay=1;urp;"
-
 
 PAPER	= restart.pdf
 SRC = restart.lyx
 UNOCONV	= unoconv -f pdf 
 PFIGS = $(wildcard presfigs-gen/*.pdf)
 FIGS = $(wildcard figs-gen/*.pdf)
+TEX_FOLDER=tex
+ZIPFILE=paper.tar.gz
 
 
 all: $(PAPER)
@@ -30,6 +26,7 @@ clean:
 	rm -f *bbl
 	rm -f *blg
 	rm -f *tex
+	rm -rf *gz
 
 auxclean: clean
 	rm -f *fls
@@ -39,6 +36,16 @@ auxclean: clean
 	rm -rf *blg
 	rm -rf *synctex.gz
 	rm -rf *blg
+
+tex: figures presfigs
+	/Applications/Lyx.app/Contents/MacOS/lyx --export pdflatex $(SRC) $(TEX_FOLDER)
+
+zip: tex
+	tar -zcvf $(ZIPFILE) ./
+
+
+dumpzip: zip
+	rsync $(putswitches) $(switches) $(ZIPFILE) $(remoteuser)@$(remotehost):$(remotedir)$(sd)/
 
 figures: $(FIGS)
 

@@ -157,7 +157,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\state}{s}
+\renewcommand{\state}{\vec{\dvar}}
 \end_inset
 
 
@@ -165,7 +165,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\density}{\rho}
+\renewcommand{\density}{\dvar}
 \end_inset
 
 
@@ -198,6 +198,26 @@
 \begin_layout Standard
 \begin_inset FormulaMacro
 \renewcommand{\Out}{\text{Out}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\sysmat}{H}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\pmat}[2]{#1_{\vect{#2}}}
 \end_inset
 
 

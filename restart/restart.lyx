@@ -5,6 +5,10 @@
 \textclass article
 \begin_preamble
 \usepackage{fullpage}
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -863,7 +867,7 @@ reference "fig:Solution-of-boundary"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -1870,8 +1874,8 @@ Additionally, for each variable, there is a corresponding update equation.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-h_{\link,1}\left(\vect{\state},\vect v\right)=x_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
-h_{\link,k}\left(\vect{\state},\vect v\right)=x_{\link,k}-x_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+h_{\link,1}\left(\vect{\state},\vect v\right)=\state_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
+h_{\link,k}\left(\vect{\state},\vect v\right)=\state_{\link,k}-\state_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset
