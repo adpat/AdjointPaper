@@ -414,7 +414,8 @@ name "sub:Hyperbolic-PDE's"
 \end_layout
 
 \begin_layout Standard
-A conservation law for a single space dimension can written in the form:
+We are mainly interested in scalar hyperbolic conservation laws of the following
+ form:
 \end_layout
 
 \begin_layout Standard
@@ -442,11 +443,15 @@ conserved
 \end_inset
 
  is the flux function.
- We assume 
+ If we assume 
 \begin_inset Formula $f$
 \end_inset
 
- to be smooth and rewrite Equation
+ to be 
+\begin_inset Formula $C^{2}$
+\end_inset
+
+, we can rewrite Equation
 \begin_inset space ~
 \end_inset
 
@@ -493,39 +498,41 @@ weak
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 \begin{cases}
 \cvar_{t}+f\left(\cvar\right)_{x} & =0\\
 \cvar\left(0,x\right) & =\cvar_{0}\left(x\right)
-\end{cases}
-\]
+\end{cases}\label{eq:cauchy}
+\end{equation}
 
 \end_inset
 
+More details on weak solutions to hyperbolic PDE's are available, in particular,
+ in
+\begin_inset space ~
+\end_inset
 
-\end_layout
 
-\begin_layout Standard
-Please see 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "garavello2006traffic"
+key "garavello2006traffic,Evans1998"
 
 \end_inset
 
- for more details on weak solutions to hyperbolic PDE's.
- For all problems of the form in Equation
+.
+ It can be shown that a unique weak solution for all Cauchy problems of
+ the form in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:cons-smooth"
+LatexCommand ref
+reference "eq:cauchy"
 
 \end_inset
 
- that we consider, there exists a unique weak solution for all Cauchy problems.
+.
 \end_layout
 
 \begin_layout Definition
@@ -535,7 +542,7 @@ name "def:Riemann-Problem"
 
 \end_inset
 
-Riemann Problem
+Riemann Problem.
 \end_layout
 
 \begin_layout Definition
@@ -647,7 +654,7 @@ reference "eq:cons-smooth"
 \end_layout
 
 \begin_layout Definition
-Riemann problem at junctions
+Riemann problem at junctions.
 \end_layout
 
 \begin_layout Standard
@@ -707,11 +714,11 @@ status collapsed
 
 \begin_layout Plain Layout
 If 
-\begin_inset Formula $\vect{\state}$
+\begin_inset Formula $\state$
 \end_inset
 
  is a set, where each element 
-\begin_inset Formula $\state_{i}\in\vect{\state}$
+\begin_inset Formula $\state_{i}\in\state$
 \end_inset
 
  has a corresponding index 
@@ -719,7 +726,7 @@ If
 \end_inset
 
  which is obvious from context, then we use notation 
-\begin_inset Formula $\left\{ \vect{\state}\right\} _{i}$
+\begin_inset Formula $\left\{ \state\right\} _{i}$
 \end_inset
 
  to denote the element 
@@ -756,7 +763,31 @@ for all links
 \begin_inset Formula $t\ge0$
 \end_inset
 
- we define as the solution to the Riemann problem at junction 
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+is defined
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ as the solution to the Riemann problem at junction 
 \begin_inset Formula $J$
 \end_inset
 
@@ -1005,14 +1036,14 @@ To approximate a hyperbolic PDE of the form in
 \begin_inset space ~
 \end_inset
 
-
+(
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "eq:cons-smooth"
 
 \end_inset
 
- with a discretization in both space and time, we use Godunov's scheme
+) with a discretization in both space and time, we use Godunov's scheme
 \begin_inset space ~
 \end_inset
 
@@ -1035,7 +1066,7 @@ by applying the scheme to the new condition generated from the previous
 \end_layout
 
 \begin_layout Paragraph
-Godunov scheme for a single link
+Godunov scheme for a single link.
 \end_layout
 
 \begin_layout Standard
@@ -1047,140 +1078,26 @@ Consider a hyperbolic PDE with spatial domain
 \begin_inset Formula $u\left(0,x\right)$
 \end_inset
 
-.
- There are 
-\begin_inset Formula $c$
-\end_inset
+ and the following mesh grid: 
+\end_layout
 
- discontinuities at locations 
-\begin_inset Formula $\left\{ x_{i}:i\in\left[1,\ldots,c\right]\right\} $
-\end_inset
-
-, taking the value 
-\begin_inset Formula $\dvar_{i}\in\mathbb{R}$
-\end_inset
-
- over the range 
-\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
-\end_inset
-
- for 
-\begin_inset Formula $i\in\left[1,\ldots,c-1\right]$
-\end_inset
-
-, 
-\begin_inset Formula $\dvar_{0}$
-\end_inset
-
- over the range 
-\begin_inset Formula $\left]0,x_{1}\right[$
-\end_inset
-
- and 
-\begin_inset Formula $\dvar_{c}$
-\end_inset
-
- over the range 
-\begin_inset Formula $\left[x_{c},L\right[$
-\end_inset
-
-.
- The 
-\begin_inset Formula $\dvar_{i}$
-\end_inset
-
- values can be considered the discrete-valued approximations of 
-\begin_inset Formula $u$
-\end_inset
-
- over the range 
-\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
-\end_inset
-
-.
- Then, at time 
+\begin_layout Itemize
 \begin_inset Formula $\triangle t$
 \end_inset
 
- and over the range 
-\begin_inset Formula $\left[x_{i},x_{i+1}\right[$
-\end_inset
-
-, the 
-\emph on
-average
-\emph default
- value of the system, 
-\begin_inset Formula $\bar{\dvar_{i}}$
-\end_inset
-
-, is given by:
+ the fixed time grid size, 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\bar{\dvar}_{i}=\dvar_{i}-\frac{1}{x_{i+1}-x_{i}}\int_{0}^{\triangle t}\left(f\left(u\left(t,x_{i+1}\right)\right)-f\left(u\left(t,x_{i}\right)\right)\right)dt
-\]
-
+\begin_layout Itemize
+\begin_inset Formula $\triangle x$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Instead of evaluating the time integral term 
-\begin_inset Formula $\int_{0}^{\triangle t}f\left(u\left(t,x_{i}\right)\right)dt$
-\end_inset
-
-, which requires a solution of the 
-\begin_inset Formula $\cvar$
-\end_inset
-
- term forward in time, the Godunov scheme approximates the term with a function
+ the non-uniform space grid.
  
-\begin_inset Formula $g^{G}$
-\end_inset
-
- that depends on the constants 
-\begin_inset Formula $\dvar_{i}$
-\end_inset
-
- and 
-\begin_inset Formula $\dvar_{i+1}$
-\end_inset
-
- such that:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-\int_{0}^{\triangle t}f\left(u\left(t,x_{i}\right)\right)dt\approx\triangle tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The 
-\begin_inset Formula $g^{G}$
-\end_inset
-
- function can be seen as either an approximation or an exact solution of
- the flux across the discontinuity point of the Riemann problem with a left
- initial datum 
-\begin_inset Formula $\dvar_{i}$
-\end_inset
-
- and right initial datum 
-\begin_inset Formula $\dvar_{i+1}$
-\end_inset
-
-.
- Therefore, the Godunov update step for 
+The Godunov update step for 
 \begin_inset Formula $\dvar_{i}$
 \end_inset
 
@@ -1190,7 +1107,7 @@ The
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\bar{\dvar}_{i}=\dvar_{i}-\frac{\triangle t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)\label{eq:godunov}
+\bar{\dvar}_{i}=\dvar_{i}-\frac{\triangle t}{\triangle x}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)\label{eq:godunov}
 \end{equation}
 
 \end_inset
@@ -1199,9 +1116,28 @@ The
 \end_layout
 
 \begin_layout Standard
-Again, this process can be repeated to approximate the average values of
- the system at the subsequent time-step by applying the Godunov scheme with
- initial data 
+where the numerical flux 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ takes in general the following expression: 
+\begin_inset Formula 
+\begin{equation}
+g^{G}(u,v)=\left\{ \begin{array}{ll}
+\min_{z\in[u,v]}f(z) & \text{if }u\leq v,\\
+\max_{z\in[v,u]}f(z) & \text{if }v\leq u.
+\end{array}\right.\label{eq:godfluxorig}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This process can be repeated to approximate the average values of the system
+ at the subsequent time-step by applying the Godunov scheme with initial
+ data 
 \begin_inset Formula $\bar{\dvar}_{i}$
 \end_inset
 
@@ -1213,7 +1149,7 @@ Again, this process can be repeated to approximate the average values of
 \end_layout
 
 \begin_layout Paragraph
-CFL condition for discretized hyperbolic PDE's
+CFL condition for discretized hyperbolic PDE's.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:CFL-condition-for"
@@ -1247,16 +1183,8 @@ where
 \begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
 \end_inset
 
- is the maximum absolute wave speed, and 
-\begin_inset Formula $\triangle x$
-\end_inset
-
- and 
-\begin_inset Formula $\triangle t$
-\end_inset
-
- are the space and time discretization steps, respectively.
- We assume for the rest of the paper that the time-step 
+ is the maximum absolute wave speed.
+ We assume for the rest of the article that the time-step 
 \begin_inset Formula $\triangle t$
 \end_inset
 
@@ -1268,7 +1196,7 @@ where
 \end_layout
 
 \begin_layout Paragraph
-Godunov scheme at junctions
+Godunov scheme at junctions.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Godunov-scheme-at"
@@ -1398,7 +1326,7 @@ m junction of every link.
 \end_layout
 
 \begin_layout Paragraph
-Composing the Riemann solver and flux function
+Composing the Riemann solver and flux function.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Composing-the-Riemann"
@@ -1431,92 +1359,8 @@ The equations are sometimes simplified if we allow ourselves to consider
 \begin_inset Formula 
 \begin{eqnarray*}
 \hat{F}: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
- & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} 
+ & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} .
 \end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We illustrate the convenience with an example.
- Take the flux function to be linear 
-\begin_inset Formula $f\left(\cvar\right)=\alpha\cvar,\alpha>0$
-\end_inset
-
-.
- Then we can define the Riemann solver for a junction 
-\begin_inset Formula $\jn$
-\end_inset
-
- as follows:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\left\{ \RS\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
-\dvar_{\link} & \link\in\Inc\left(\jn\right)\\
-f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right) & \link\in\Out\left(\jn\right)
-\end{cases}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Then to solve for the flux across the junction for an outgoing link 
-\begin_inset Formula $\link\in\Out\left(\jn\right)$
-\end_inset
-
-, we again apply the flux function:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-g^{G}\left(\dvar_{\link},f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right)\right)=f\left(f^{-1}\left(\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}\right)\right)=\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It is clear that the intermediate step of solving for the boundary states
- is unnecessary in this case for the Godunov scheme, since the scheme uses
- 
-\emph on
-flux
-\emph default
- values at boundaries rather than 
-\emph on
-state 
-\emph default
-values, and it is often the case (particularly for the linear flux function
- considered above) that boundary states are determined by initially solving
- for the fluxes.
- Therefore, we can skip the intermediate step of applying the inverse flux
- function and reapplying the same flux function by considering the composed
- function 
-\begin_inset Formula $\hat{F}$
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\left\{ \hat{F}\left(\vect{\dvar}_{\jn}\right)\right\} _{\link}=\begin{cases}
-f\left(\dvar_{\link}\right) & \link\in\Inc\left(\jn\right)\\
-\frac{\sum_{i\in\Inc\left(\jn\right)}f\left(\dvar_{i}\right)}{|\Out\left(\jn\right)|} & \link\in\Out\left(\jn\right)
-\end{cases}
-\]
 
 \end_inset
 
@@ -1549,7 +1393,7 @@ Assume a discrete scalar hyperbolic network of PDE's with links
 
 .
  The solution method for advancing the discrete system forward one time-step
- is given by:
+ is given by: 
 \end_layout
 
 \begin_layout Enumerate
@@ -1562,6 +1406,7 @@ Begin with initial condition (
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -1580,6 +1425,7 @@ Apply the Riemann solver to Riemann data to obtain the boundary condition
 \end_inset
 
 .
+ 
 \end_layout
 
 \end_deeper
@@ -1613,22 +1459,10 @@ Letting
 \begin_inset Formula $\bar{\dvar}_{\link}$
 \end_inset
 
-, is given by:
+, is given by: 
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
 \begin_inset Formula 
 \[
 \bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
@@ -1645,7 +1479,7 @@ If we instead use the composed flux junction solver
 \begin_inset Formula $\hat{F}$
 \end_inset
 
-, then the method simplifies to:
+, then the method simplifies to: 
 \end_layout
 
 \begin_layout Enumerate
@@ -1658,6 +1492,7 @@ Begin with initial condition (
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -1690,22 +1525,10 @@ Letting
 \begin_inset Formula $\bar{\dvar}_{\link}$
 \end_inset
 
-, is given by:
+, is given by: 
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
 \begin_inset Formula 
 \begin{equation}
 \bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}}}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}}}\right)\right\} _{\link}\right)\label{eq:fhat}
@@ -1729,7 +1552,7 @@ name "sec:State,-control,-and"
 \end_layout
 
 \begin_layout Standard
-Let's assume we have a discrete system of the same form as
+Let us assume we have a discrete system of the form of
 \begin_inset space ~
 \end_inset
 
@@ -1777,12 +1600,12 @@ reference "eq:fhat"
 \end_inset
 
  and all time-steps 
-\begin_inset Formula $k\in\left[1,\ldots,T\right]$
+\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
 \end_inset
 
 .
  We represent the entire state of the solved system with the vector 
-\begin_inset Formula $\vect{\state}\in\mathbb{R}^{|\links|T}$
+\begin_inset Formula $\state\in\mathbb{R}^{|\links|T}$
 \end_inset
 
 , where for 
@@ -1790,11 +1613,11 @@ reference "eq:fhat"
 \end_inset
 
  and 
-\begin_inset Formula $k\in\left[1,\ldots,T\right]$
+\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
 \end_inset
 
 , such that 
-\begin_inset Formula $\state_{|\links|*(k-1)+\link}=\dvar_{\link,k}$
+\begin_inset Formula $\state_{|\links|k+\link}=\dvar_{\link,k}$
 \end_inset
 
 .
@@ -1807,11 +1630,7 @@ control
 \end_inset
 
  variable 
-\begin_inset Formula $ $
-\end_inset
-
-
-\begin_inset Formula $\vect{\control}\in\mathbb{R}^{N_{\control}T}$
+\begin_inset Formula $\control\in\mathbb{R}^{N_{\control}T}$
 \end_inset
 
  that influences the solution of the Riemann problems, where 
@@ -1826,16 +1645,16 @@ control
 \end_inset
 
  as a function of the current state of connecting links, 
-\begin_inset Formula $\vect{\state}_{\jn,k}=\left\{ \state_{\link,k}:\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} $
+\begin_inset Formula $\sjn{J,k}=\left\{ \state_{\link,k}:\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} $
 \end_inset
 
  and the current control parameters, 
-\begin_inset Formula $\vect{\control}_{k}=\left\{ v_{i}:i\in\left[(k-1)N_{v}+1,\ldots,(k)N_{\control}\right]\right\} $
+\begin_inset Formula $\cjn k=\left\{ v_{i}:i\in\left[kN_{v}+1,\ldots,(k+1)N_{\control}\right]\right\} $
 \end_inset
 
 .
  More specifically, we let 
-\begin_inset Formula $\vect{\control}_{\jn,k}\subseteq\vect{\control}_{k}$
+\begin_inset Formula $\cjn{\jn,k}\subseteq\control_{k}$
 \end_inset
 
  be the set of control variables that the Riemann solver at junction 
@@ -1853,8 +1672,8 @@ control
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\vect{\control}_{\jn,k}|} & \rightarrow\mathbb{R}^{m+n}\\
- & \left(\vect{\state}_{\jn,k},\vect{\control}_{\jn,k}\right) & \mapsto\RS\left(\vect{\state}_{\jn,k},\vect{\control}_{\jn,k}\right)=\hat{\vect{\dvar}}_{\jn,k}
+\RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\cjn{J,k}|} & \rightarrow\mathbb{R}^{m+n}\\
+ & \left(\sjn{J,k},\cjn{J,k}\right) & \mapsto\RS\left(\sjn{J,k},\cjn{J,k}\right)=\jnvec{\hat{\dvar}}{J,k}
 \end{eqnarray*}
 
 \end_inset
@@ -1874,8 +1693,8 @@ Additionally, for each variable, there is a corresponding update equation.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-h_{\link,1}\left(\vect{\state},\vect v\right)=\state_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
-h_{\link,k}\left(\vect{\state},\vect v\right)=\state_{\link,k}-\state_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Down}},k-1},\vect{\control}_{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\state}_{\jn_{\link}^{\text{Up}},k-1},\vect{\control}_{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+h_{\link,1}\left(\state,\control\right)=\state_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
+h_{\link,k}\left(\state,\control\right)=\state_{\link,k}-\state_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Down}},k-1},\cjn{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Up}},k-1},\cjn{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset
@@ -1902,7 +1721,7 @@ for all links
 \end_inset
 
  governing equations 
-\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
+\begin_inset Formula $H\left(\state,\control\right)=0$
 \end_inset
 
 , where the 
@@ -1914,14 +1733,14 @@ for all links
 \end_inset
 
  at index 
-\begin_inset Formula $|\links|(k-1)+\link$
+\begin_inset Formula $|\links|k+\link$
 \end_inset
 
 , identical to the ordering of the state vectors.
 \end_layout
 
 \begin_layout Section
-Adjoint method
+Adjoint based flow optimization.
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Adjoint-method"
@@ -1932,7 +1751,7 @@ name "sec:Adjoint-method"
 \end_layout
 
 \begin_layout Subsection
-Optimization Problem
+Optimal control problem formulation.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Optimization-Problem"
@@ -1944,11 +1763,11 @@ name "par:Optimization-Problem"
 
 \begin_layout Standard
 In addition to our governing equations 
-\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
+\begin_inset Formula $\sys\left(\state,\control\right)=0$
 \end_inset
 
 , we also introduce a cost function 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
 :
@@ -1957,8 +1776,8 @@ In addition to our governing equations
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-J: & \mathbb{R}^{|\links|T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
- & \left(\vect{\state},\vect{\control}\right) & \mapsto J\left(\vect{\state},\vect{\control}\right)
+\cost: & \mathbb{R}^{|\links|T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
+ & \left(\state,\control\right) & \mapsto\cost\left(\state,\control\right)
 \end{eqnarray*}
 
 \end_inset
@@ -1979,7 +1798,7 @@ which returns a scalar that serves as a metric of performance of the state
 
 , while constraining the state of the system to satisfy the governing equations
  
-\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)=0$
+\begin_inset Formula $\sys\left(\state,\control\right)=0$
 \end_inset
 
 .
@@ -1989,8 +1808,8 @@ which returns a scalar that serves as a metric of performance of the state
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\underset{\vect{\control}}{\min} & J\left(\vect{\state},\vect{\control}\right)\nonumber \\
-\text{subject to:} & H\left(\vect{\state},\vect{\control}\right)=0\label{eq:op-problem}
+\underset{\control}{\min} & \cost\left(\state,\control\right)\nonumber \\
+\text{subject to:} & \sys\left(\state,\control\right)=0\label{eq:op-problem}
 \end{eqnarray}
 
 \end_inset
@@ -2016,11 +1835,11 @@ name "par:Calculating-the-gradient"
 
 \begin_layout Standard
 We wish to use gradient information in order to find control values 
-\begin_inset Formula $\vect{\control}^{*}$
+\begin_inset Formula $\control^{*}$
 \end_inset
 
  that give small costs 
-\begin_inset Formula $J^{*}=J\left(\vect{\state}\left(\vect{\control}^{*}\right),\vect{\control}^{*}\right)$
+\begin_inset Formula $\cost^{*}=\cost\left(\state\left(\control^{*}\right),\control^{*}\right)$
 \end_inset
 
 .
@@ -2030,17 +1849,17 @@ We wish to use gradient information in order to find control values
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:op-problem"
 
 \end_inset
 
  due to the possible non-convexity of 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
  and 
-\begin_inset Formula $H$
+\begin_inset Formula $\sys$
 \end_inset
 
 , gradient
@@ -2048,7 +1867,7 @@ reference "eq:op-problem"
  
 \emph default
 methods do not guarantee global optimality of 
-\begin_inset Formula $\vect{\control}^{*}$
+\begin_inset Formula $\control^{*}$
 \end_inset
 
 
@@ -2058,6 +1877,10 @@ methods do not guarantee global optimality of
 \emph default
 Still, nonlinear optimization methods such as interior point optimization
  utilize gradient information to improve performance
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Andreas2005"
@@ -2068,26 +1891,18 @@ key "Andreas2005"
 \end_layout
 
 \begin_layout Standard
-Let us assume we have an initial state and control vector 
-\begin_inset Formula $\vect{\state}^{0},\vect{\control}^{0}$
+In a descent algorithm, the optimization procedure will have to descend
+ a cost function, by coupling the gradient, which, at a nominal point 
+\begin_inset Formula $\left(\nominal{\state},\nominal{\control}\right)$
 \end_inset
 
- that satisfies 
-\begin_inset Formula $H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)=0}$
-\end_inset
 
-, and we wish to solve for the derivative of the cost function at the current
- state and control with respect to 
-\begin_inset Formula $\vect{\control}$
-\end_inset
-
-:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{J\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\state}}\Dfrac{\vect{\state}}{\vect{\control}}+\pfrac{J\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\control}}\label{eq:j-v}
+d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\cost\text{\left(\state,\control\right)}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\cost\text{\left(\state,\control\right)}}{\control}}{\nominal{\state},\nominal{\control}}\label{eq:j-v}
 \end{equation}
 
 \end_inset
@@ -2096,26 +1911,17 @@ d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{J\
 \end_layout
 
 \begin_layout Standard
-where 
-\begin_inset Formula $J^{i}$
-\end_inset
-
- is the cost function expression local to points 
-\begin_inset Formula $\left(\vect{\state}^{i},\vect{\control}^{i}\right)$
-\end_inset
-
-.
- The current difficulty is computing the term 
-\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
+The main difficulty is to compute the term 
+\begin_inset Formula $\Dfrac{\state}{\control}$
 \end_inset
 
 .
  Next we take advantage of the fact that the derivative of 
-\begin_inset Formula $H\left(\vect{\state},\vect{\control}\right)$
+\begin_inset Formula $H\left(\state,\control\right)$
 \end_inset
 
  with respect to 
-\begin_inset Formula $\vect{\control}$
+\begin_inset Formula $\control$
 \end_inset
 
  is equal to zero since its evaluation must always be zero:
@@ -2124,7 +1930,7 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}H\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\state}}\Dfrac{\vect{\state}}{\vect{\control}}+\pfrac{H\text{\left(\vect{\state}^{0},\vect{\control}^{0}\right)}}{\vect{\control}}=0\label{eq:h-v}
+d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\control}}{\nominal{\state},\nominal{\control}}\label{eq:h-v}
 \end{equation}
 
 \end_inset
@@ -2134,19 +1940,19 @@ d_{\vect{\control}}H\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\pfrac{H\
 
 \begin_layout Standard
 The partial derivative terms, 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 , 
-\begin_inset Formula $H_{\control}$
+\begin_inset Formula $\Hu$
 \end_inset
 
 , 
-\begin_inset Formula $J_{\state}$
+\begin_inset Formula $\Jx$
 \end_inset
 
 , and 
-\begin_inset Formula $J_{\control}$
+\begin_inset Formula $\Ju$
 \end_inset
 
 , can all be evaluated (more details provided in Section
@@ -2174,14 +1980,14 @@ reference "sub:Evaluating--and"
 \noun off
 \color none
 
-\begin_inset Formula $d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)$
+\begin_inset Formula $d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)$
 \end_inset
 
 , we must solve a coupled system of matrix equations.
 \end_layout
 
 \begin_layout Paragraph
-Forward system
+Forward system.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Forward-system"
@@ -2205,21 +2011,21 @@ name "par:Forward-system"
 \noun off
 \color none
 If we solve for 
-\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\state}{\control}$
 \end_inset
 
- in Equation
+ in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:h-v"
 
 \end_inset
 
- (which we call the 
+, which we call the 
 \family default
 \series default
 \shape default
@@ -2243,13 +2049,13 @@ forward system
 \uwave off
 \noun off
 \color none
-):
+:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-H_{\state}\Dfrac{\vect{\state}}{\vect{\control}}=-H_{v},
+\Hx\Dfrac{\state}{\control}=-\Hu,
 \]
 
 \end_inset
@@ -2259,16 +2065,16 @@ H_{\state}\Dfrac{\vect{\state}}{\vect{\control}}=-H_{v},
 
 \begin_layout Standard
 then we can substitute the solved value for 
-\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\state}{\control}$
 \end_inset
 
- into Equation
+ into
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:j-v"
 
 \end_inset
@@ -2286,18 +2092,18 @@ reference "sub:Evaluating--and"
 \end_inset
 
  gives details on the invertibility of 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 , guaranteeing a solution for 
-\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\state}{\control}$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Paragraph
-Adjoint system
+Adjoint system.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Adjoint-system"
@@ -2308,8 +2114,21 @@ name "par:Adjoint-system"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+add all steps to derivation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Instead of evaluating 
-\begin_inset Formula $\Dfrac{\vect{\state}}{\vect{\control}}$
+\begin_inset Formula $\Dfrac{\state}{\control}$
 \end_inset
 
  directly, the adjoint method instead solves the following system, called
@@ -2323,7 +2142,7 @@ adjoint system
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-H_{\state}^{T}\lambda=-J_{\state}^{T}\label{eq:adjoint}
+\Hx^{T}\lambda=-\Jx^{T}\label{eq:adjoint}
 \end{equation}
 
 \end_inset
@@ -2338,7 +2157,7 @@ Then the expression for the gradient becomes:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\vect{\control}}J\left(\vect{\state}^{0},\vect{\control}^{0}\right)=\lambda^{T}H_{v}+J_{v}\label{eq:adjoint-grad}
+d_{\control}J\left(\state^{0},\control^{0}\right)=\lambda^{T}H_{v}+J_{v}\label{eq:adjoint-grad}
 \end{equation}
 
 \end_inset
@@ -2359,11 +2178,11 @@ reference "sub:Complexity-of-solving"
 \end_inset
 
  how the complexity of computing the gradient is reduced from 
-\begin_inset Formula $O(D_{\state}|\vect{\state}||\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\state||\control|)$
 \end_inset
 
  to 
-\begin_inset Formula $O(D_{\state}|\vect{\state}|+D_{v}|\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\state|+D_{v}|\control|)$
 \end_inset
 
  by considering the adjoint method over the forward method, where 
@@ -2396,7 +2215,7 @@ and
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-D_{\control}=\max_{v_{i,k}\in\vect{\control}}|\bigcup\Inc\left(\jn\right)\cup\Out\left(\jn\right):\control_{i,k}\in\vect{\control}_{\jn,k}|\label{eq:dv}
+D_{\control}=\max_{v_{i,k}\in\control}|\bigcup\Inc\left(\jn\right)\cup\Out\left(\jn\right):\control_{i,k}\in\control_{\jn,k}|\label{eq:dv}
 \end{equation}
 
 \end_inset
@@ -2642,11 +2461,11 @@ Since the
 \end_inset
 
  typically do not scale with 
-\begin_inset Formula $|\vect{\state}|$
+\begin_inset Formula $|\state|$
 \end_inset
 
  or 
-\begin_inset Formula $|\vect{\control}|$
+\begin_inset Formula $|\control|$
 \end_inset
 
  for freeway networks (which have low node degree), the complexity of evaluating
@@ -2681,22 +2500,22 @@ Computing the gradient relies on the existence of partial derivatives of
 \end_inset
 
  with respect to both the state 
-\begin_inset Formula $\vect{\state}$
+\begin_inset Formula $\state$
 \end_inset
 
  and control 
-\begin_inset Formula $\vect{\control}$
+\begin_inset Formula $\control$
 \end_inset
 
  exist and have no special structure or sparsity.
  The networked-structure of the PDE system and the Godunov discretization
  scheme allows one to say much more about the structure and sparsity of
  
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  and 
-\begin_inset Formula $H_{\control}$
+\begin_inset Formula $\Hu$
 \end_inset
 
 .
@@ -2710,7 +2529,7 @@ Partial derivative expressions
 Given that the governing equations require the evaluation of a Riemann solver
  at each step, we detail some of the necessary computational steps in evaluating
  the 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  and 
@@ -2727,7 +2546,7 @@ If we consider a particular governing equation
 \end_inset
 
 , then we may determine the partial term with respect to 
-\begin_inset Formula $\state\in\vect{\state}$
+\begin_inset Formula $\dvar\in\state$
 \end_inset
 
  by applying the chain rule:
@@ -2736,7 +2555,7 @@ If we consider a particular governing equation
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\state}=-\pfrac{\dvar{}_{\link,k-1}}{\state}+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\state}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\state}\right)\label{eq:partial-hx-chain}
+\pfrac{h_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain}
 \end{equation}
 
 \end_inset
@@ -2766,7 +2585,7 @@ reference "par:Composing-the-Riemann"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\state}=-\pfrac{\dvar{}_{\link,k-1}}{\state}+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\state}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\state}\right)\label{eq:partial-hx-chain-1}
+\pfrac{h_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain-1}
 \end{equation}
 
 \end_inset
@@ -2784,7 +2603,7 @@ For links
 \end_inset
 
 , the 
-\begin_inset Formula $\pfrac{\dvar_{\link,k-1}}x$
+\begin_inset Formula $\pfrac{\dvar_{\link,k-1}}{\dvar}$
 \end_inset
 
  term is 0.
@@ -2843,7 +2662,7 @@ Also, for all
 \end_inset
 
 , guaranteeing a lower triangular structure for the 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  matrix.
@@ -2856,7 +2675,7 @@ Also, for all
 \end_inset
 
  guarantees the invertibility of 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 .
@@ -2865,7 +2684,7 @@ Also, for all
 \begin_layout Standard
 These results are for a generic scalar hyperbolic network of PDE's, and
  demonstrate that partial derivatives expressions for 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  are only needed for the flux function 
@@ -2886,7 +2705,7 @@ Similarly for
 \end_inset
 
 , we take a control parameter 
-\begin_inset Formula $\control\in\vect{\control}$
+\begin_inset Formula $\convar\in\control$
 \end_inset
 
 , and derive the expression:
@@ -2907,7 +2726,7 @@ Similarly for
 \color none
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)\label{eq:partial-hv-chain}
+\pfrac{h_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain}
 \end{equation}
 
 \end_inset
@@ -2938,7 +2757,7 @@ or for the composed Riemann flux solver
 \color none
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)\label{eq:partial-hv-chain-1}
+\pfrac{h_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain-1}
 \end{equation}
 
 \end_inset
@@ -2948,7 +2767,7 @@ or for the composed Riemann flux solver
 
 \begin_layout Standard
 With the same argument, the 
-\begin_inset Formula $\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn,k}\right\} _{\link}}{v_{i,j}}$
+\begin_inset Formula $\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn,k}\right\} _{\link}}{\convar_{i,j}}$
 \end_inset
 
  terms are only non-zero when 
@@ -2956,7 +2775,7 @@ With the same argument, the
 \end_inset
 
  and 
-\begin_inset Formula $v_{i,j}\in\vect{\control}_{\jn,k}$
+\begin_inset Formula $\convar_{i,j}\in\control_{\jn,k}$
 \end_inset
 
 .
@@ -2997,7 +2816,7 @@ reference "par:Composing-the-Riemann"
 \end_inset
 
  has a control parameter 
-\begin_inset Formula $v_{\jn,k}\in\vect{\control}_{k}\subseteq\vect{\control}$
+\begin_inset Formula $\convar_{\jn,k}\in\control_{k}\subseteq\control$
 \end_inset
 
  that controls the 
@@ -3014,7 +2833,7 @@ split ratio
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)}{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)+f\left(\hat{\dvar}_{\link_{\jn,k}^{b}}\right)}=v_{\jn,k}
+\frac{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)}{f\left(\hat{\dvar}_{\link_{\jn,k}^{a}}\right)+f\left(\hat{\dvar}_{\link_{\jn,k}^{b}}\right)}=\convar_{\jn,k}
 \]
 
 \end_inset
@@ -3024,7 +2843,7 @@ split ratio
 
 \begin_layout Standard
 Thus, we have 
-\begin_inset Formula $\vect v_{\jn,k}=\left\{ \control_{\jn,k}\right\} $
+\begin_inset Formula $\vect{\convar}_{\jn,k}=\left\{ \control_{\jn,k}\right\} $
 \end_inset
 
  and:
@@ -3033,9 +2852,9 @@ Thus, we have
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\left\{ RS\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
+\left\{ RS\left(\vect{\dvar}_{\jn,k},\convar_{J,k}\right)\right\} _{\link}=\begin{cases}
 \dvar_{\link} & \link\in\Inc\left(\jn\right)\\
-\control_{\jn,k}\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
+\convar_{\jn,k}\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
 \left(1-\control_{\jn,k}\right)\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
 \end{cases}
 \]
@@ -3052,7 +2871,7 @@ or:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\left\{ \hat{F}\left(\vect{\dvar}_{\jn,k},\vect{\control}_{\jn,k}\right)\right\} _{\link}=\begin{cases}
+\left\{ \hat{F}\left(\vect{\dvar}_{\jn,k},\control_{\jn,k}\right)\right\} _{\link}=\begin{cases}
 f\left(\dvar_{\link}\right) & \link\in\Inc\left(\jn\right)\\
 \control_{\jn,k}\alpha\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{a}\\
 \left(1-\control_{\jn,k}\right)\alpha\sum_{i\in\Inc\left(\jn\right)}\dvar_{i} & \link=I_{\jn,k}^{b}
@@ -3144,7 +2963,7 @@ reference "eq:partial-hv-chain"
 \end_inset
 
  to completely solve 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  and 
@@ -3167,7 +2986,7 @@ name "par:Structure-and-sparsity"
 
 \begin_layout Standard
 We can show the lower-triangular structure of 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  by examining the governing equations in 
@@ -3248,7 +3067,7 @@ reference "sec:State,-control,-and"
 
 .
  These two conditions demonstrate both that 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  is lower-triangular and is also invertible.
@@ -3285,7 +3104,7 @@ s at time
 
  respectively.
  To summarize, 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  matrices for systems described in Section
@@ -3320,11 +3139,11 @@ reference "eq:dx"
 
 \begin_layout Standard
 Using the same line of argument for maximum cardinality in 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 , we can bound the maximum cardinality of each column of 
-\begin_inset Formula $H_{\control}$
+\begin_inset Formula $\Hu$
 \end_inset
 
 .
@@ -3342,7 +3161,7 @@ Using the same line of argument for maximum cardinality in
 \end_inset
 
  such that 
-\begin_inset Formula $v_{i,k}\in\vect{\control}_{\jn,k}$
+\begin_inset Formula $v_{i,k}\in\control_{\jn,k}$
 \end_inset
 
 .
@@ -3362,7 +3181,7 @@ reference "eq:dv"
 \end_inset
 
 , or the maximum cardinality over all columns in 
-\begin_inset Formula $H_{\control}$
+\begin_inset Formula $\Hu$
 \end_inset
 
 .
@@ -3382,12 +3201,12 @@ name "sub:Complexity-of-solving"
 
 \begin_layout Standard
 If we only consider the lower triangular form of 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 , then the complexity of solving for the gradient using the forward system
  is 
-\begin_inset Formula $O(|\vect{\state}|^{2}|\vect{\control}|)$
+\begin_inset Formula $O(|\state|^{2}|\control|)$
 \end_inset
 
 , where the dominating term comes from solving
@@ -3402,7 +3221,7 @@ reference "eq:j-v"
 \end_inset
 
 , which requires the solution of 
-\begin_inset Formula $|\vect{\control}|$
+\begin_inset Formula $|\control|$
 \end_inset
 
  separate 
@@ -3418,7 +3237,7 @@ reference "eq:j-v"
 \noun off
 \color none
 
-\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
+\begin_inset Formula $|\state|\times|\state|$
 \end_inset
 
  lower-triangular system.
@@ -3436,21 +3255,21 @@ reference "eq:j-v"
 \noun default
 \color inherit
  
-\begin_inset Formula $O(|\vect{\state}|^{2})$
+\begin_inset Formula $O(|\state|^{2})$
 \end_inset
 
  steps, giving the overall complexity 
-\begin_inset Formula $O(|\vect{\state}|^{2}|\vect{\control}|)$
+\begin_inset Formula $O(|\state|^{2}|\control|)$
 \end_inset
 
 .
  The complexity of the adjoint method is 
-\begin_inset Formula $O(|\vect{\state}|^{2}+|\vect{\state}||\vect{\control}|)$
+\begin_inset Formula $O(|\state|^{2}+|\state||\control|)$
 \end_inset
 
 , which is certainly more efficient than the forward-method, as long as
  
-\begin_inset Formula $|\vect{\control}|>1$
+\begin_inset Formula $|\control|>1$
 \end_inset
 
 .
@@ -3478,7 +3297,7 @@ reference "eq:adjoint"
 \noun off
 \color none
  
-\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
+\begin_inset Formula $|\state|\times|\state|$
 \end_inset
 
  
@@ -3511,11 +3330,11 @@ upper
 \end_inset
 
 , a 
-\begin_inset Formula $|\vect{\state}|\times|\vect{\state}|$
+\begin_inset Formula $|\state|\times|\state|$
 \end_inset
 
  and a 
-\begin_inset Formula $|\vect{\state}|\times|\vect{\control}|$
+\begin_inset Formula $|\state|\times|\control|$
 \end_inset
 
  matrix in
@@ -3542,7 +3361,7 @@ reference "eq:adjoint-grad"
 \noun default
 \color inherit
 
-\begin_inset Formula $O(|\vect{\state}|^{2}+|\vect{\state}||\vect{\control}|)$
+\begin_inset Formula $O(|\state|^{2}+|\state||\control|)$
 \end_inset
 
 .
@@ -3551,7 +3370,7 @@ reference "eq:adjoint-grad"
 \begin_layout Standard
 For the adjoint method, this complexity can be improved upon by considering
  the sparsity of the 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  and 
@@ -3594,7 +3413,7 @@ reference "eq:adjoint"
 \end_inset
 
  is reduced to 
-\begin_inset Formula $O(D_{\state}|\vect{\state}|)$
+\begin_inset Formula $O(D_{\state}|\state|)$
 \end_inset
 
 .
@@ -3624,7 +3443,7 @@ of
 \end_inset
 
  multiplications, giving a complexity of 
-\begin_inset Formula $O(D_{v}|\vect{\control}|)$
+\begin_inset Formula $O(D_{v}|\control|)$
 \end_inset
 
 .
@@ -3642,7 +3461,7 @@ of
 \noun default
 \color inherit
 
-\begin_inset Formula $O(D_{\state}|\vect{\state}|+D_{v}|\vect{\control}|)$
+\begin_inset Formula $O(D_{\state}|\state|+D_{v}|\control|)$
 \end_inset
 
 .
@@ -4001,7 +3820,7 @@ reference "eq:main-ge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{Out}}(\vect{\state},\vect v)=\density_{i,k}^{\text{Out}}-\density_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
+h_{i,k}^{\text{Out}}(\state,\vect v)=\density_{i,k}^{\text{Out}}-\density_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
 \end{equation}
 
 \end_inset
@@ -4043,7 +3862,7 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{On}}(\vect{\state},\vect v)=\density_{i,k}^{\text{On}}-\density_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+h_{i,k}^{\text{On}}(\state,\vect v)=\density_{i,k}^{\text{On}}-\density_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
@@ -4202,7 +4021,7 @@ reference "eq:onramp-update"
 \end_inset
 
  gives a complete description of the system 
-\begin_inset Formula $H\left(\vect{\state},\vect v\right)=0$
+\begin_inset Formula $H\left(\state,\vect v\right)=0$
 \end_inset
 
 , where if 
@@ -4245,7 +4064,7 @@ This is expressed with the cost function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-J\left(\vect{\state},\vect{\control}\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density_{i,k}^{\text{Out}}+\density_{i,k}^{\text{On}}
+J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density_{i,k}^{\text{Out}}+\density_{i,k}^{\text{On}}
 \]
 
 \end_inset
@@ -4261,9 +4080,9 @@ Thus the optimal coordinated ramp-metering problem can be formulated as
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\vect{\control}} & J\left(\vect{\state},\vect{\control}\right)\label{eq:full}\\
-\text{subject to:} & H\left(\vect{\state},\vect{\control}\right) & =0\nonumber \\
- & 0\le\control\le1 & \forall\control\in\vect{\control}\nonumber 
+\min_{\control} & J\left(\state,\control\right)\label{eq:full}\\
+\text{subject to:} & H\left(\state,\control\right) & =0\nonumber \\
+ & 0\le\control\le1 & \forall\control\in\control\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -4303,7 +4122,7 @@ key "Boyd2010,Bayen2006"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\tilde{J}\left(\vect{\state},\vect{\control},R\right)=J\left(\vect{\state},\vect{\control}\right)-R\sum_{\control\in\vect{\control}}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
+\tilde{J}\left(\state,\control,R\right)=J\left(\state,\control\right)-R\sum_{\control\in\control}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
 \]
 
 \end_inset
@@ -4342,8 +4161,8 @@ reference "eq:full"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\vect{\control}} & \tilde{J}\left(\vect{\state},\vect{\control},R\right)\label{eq:full-1}\\
-\text{subject to:} & H\left(\vect{\state},\vect{\control}\right) & =0\nonumber 
+\min_{\control} & \tilde{J}\left(\state,\control,R\right)\label{eq:full-1}\\
+\text{subject to:} & H\left(\state,\control\right) & =0\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -4385,7 +4204,7 @@ reference "sec:Adjoint-method"
 \end_inset
 
 , we need to compute the partial matrices 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
 , 
@@ -4540,11 +4359,11 @@ reference "eq:partial-hv-chain-1"
 
 .
  Thus we can construct the 
-\begin_inset Formula $H_{\state}$
+\begin_inset Formula $\Hx$
 \end_inset
 
  and 
-\begin_inset Formula $H_{\control}$
+\begin_inset Formula $\Hu$
 \end_inset
 
  matrices, which enables us to apply the adjoint method to the ramp metering

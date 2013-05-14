@@ -61,7 +61,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\cvar}{u}
+\newcommand{\cvar}{u}
 \end_inset
 
 
@@ -69,7 +69,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\dvar}{U}
+\newcommand{\dvar}{U}
 \end_inset
 
 
@@ -77,7 +77,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\pfrac}[2]{\frac{\partial#1}{\partial#2}}
 \end_inset
 
 
@@ -85,7 +85,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
+\newcommand{\Dfrac}[2]{\frac{d#1}{d#2}}
 \end_inset
 
 
@@ -93,7 +93,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\links}{\mathcal{I}}
+\newcommand{\links}{\mathcal{I}}
 \end_inset
 
 
@@ -101,7 +101,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\link}{I}
+\newcommand{\link}{I}
 \end_inset
 
 
@@ -109,7 +109,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctions}{\mathcal{J}}
+\newcommand{\junctions}{\mathcal{J}}
 \end_inset
 
 
@@ -117,7 +117,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jns}{\junctions}
+\newcommand{\jns}{\junctions}
 \end_inset
 
 
@@ -125,7 +125,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junction}{J}
+\newcommand{\junction}{J}
 \end_inset
 
 
@@ -133,7 +133,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jn}{\junction}
+\newcommand{\jn}{\junction}
 \end_inset
 
 
@@ -141,7 +141,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\RS}{RS}
+\newcommand{\RS}{RS}
 \end_inset
 
 
@@ -149,7 +149,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\control}{v}
+\newcommand{\convar}{V}
 \end_inset
 
 
@@ -157,7 +157,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\state}{\vec{\dvar}}
+\newcommand{\control}{\vec{\convar}}
 \end_inset
 
 
@@ -165,7 +165,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\density}{\dvar}
+\newcommand{\state}{\vec{\dvar}}
 \end_inset
 
 
@@ -173,7 +173,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\defeq}{:=}
+\newcommand{\density}{\dvar}
 \end_inset
 
 
@@ -181,7 +181,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\defeq}{:=}
 \end_inset
 
 
@@ -189,7 +189,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\Inc}{\text{Inc}}
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
 \end_inset
 
 
@@ -197,7 +197,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\Out}{\text{Out}}
+\newcommand{\Inc}{\text{Inc}}
 \end_inset
 
 
@@ -205,19 +205,103 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\sysmat}{H}
+\newcommand{\Out}{\text{Out}}
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\sys}{H}
+\end_inset
+
 
 \end_layout
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\pmat}[2]{#1_{\vect{#2}}}
+\newcommand{\cost}{C}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\pmat}[2]{#1_{#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Hx}{\pmat{\sys}{\state}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Hu}{\pmat{\sys}{\control}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Jx}{\pmat{\cost}{\state}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Ju}{\pmat{\cost}{\control}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\jnvec}[2]{\vect{#1}_{#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\sjn}[1]{\jnvec{\dvar}{#1}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\cjn}[1]{\jnvec{\convar}{#1}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\nominal}[1]{#1'}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\evaluate}[2]{\left.#1\right|_{#2}}
 \end_inset
 
 
