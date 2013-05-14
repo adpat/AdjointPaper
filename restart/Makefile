@@ -84,4 +84,8 @@ put:
 
 .PHONY: put
 
-	
+checkpoint: figures presfigs git
+
+git:
+	git commit -a -m 'standard checkpoint'
+	git push
