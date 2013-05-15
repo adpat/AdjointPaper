@@ -1,0 +1,262 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+State, control, and governing equations
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:State,-control,-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us assume we have a discrete system of the form of
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fhat"
+
+\end_inset
+
+, and that there is some arbitrary ordering of the links 
+\begin_inset Formula $\links$
+\end_inset
+
+ such that we can uniquely associate an integer 
+\begin_inset Formula $i_{\link}\in\left[1,\ldots,|\links|\right]$
+\end_inset
+
+ to each link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+.
+ For simplicity, we assume 
+\begin_inset Formula $i_{\link}=\link$
+\end_inset
+
+, i.e.
+ 
+\begin_inset Formula $\link$
+\end_inset
+
+ also represents its own unique integer.
+ We wish to solve the system for 
+\begin_inset Formula $T$
+\end_inset
+
+ time-steps forward, i.e.
+ we wish to determine the discrete state values 
+\begin_inset Formula $\dvar_{\link,k}$
+\end_inset
+
+ for all links 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ and all time-steps 
+\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
+\end_inset
+
+.
+ We represent the entire state of the solved system with the vector 
+\begin_inset Formula $\state\in\mathbb{R}^{|\links|T}$
+\end_inset
+
+, where for 
+\begin_inset Formula $\link\in\left[1,\ldots,|\links|\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
+\end_inset
+
+, such that 
+\begin_inset Formula $\state_{|\links|k+\link}=\dvar_{\link,k}$
+\end_inset
+
+.
+ Furthermore, we assume some 
+\begin_inset Quotes eld
+\end_inset
+
+control
+\begin_inset Quotes erd
+\end_inset
+
+ variable 
+\begin_inset Formula $\control\in\mathbb{R}^{N_{\control}T}$
+\end_inset
+
+ that influences the solution of the Riemann problems, where 
+\begin_inset Formula $N_{\control}$
+\end_inset
+
+ is the number of controllable values at each time-step and each control
+ may be updated at each time-step.
+ Thus, it would be more accurate to represent the solution of the Riemann
+ problem at a junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ as a function of the current state of connecting links, 
+\begin_inset Formula $\sjn{J,k}=\left\{ \state_{\link,k}:\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} $
+\end_inset
+
+ and the current control parameters, 
+\begin_inset Formula $\cjn k=\left\{ v_{i}:i\in\left[kN_{v}+1,\ldots,(k+1)N_{\control}\right]\right\} $
+\end_inset
+
+.
+ More specifically, we let 
+\begin_inset Formula $\cjn{\jn,k}\subseteq\control_{k}$
+\end_inset
+
+ be the set of control variables that the Riemann solver at junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ depends on at time 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Then using the same notation as before, we express the Riemann solver as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\cjn{J,k}|} & \rightarrow\mathbb{R}^{m+n}\\
+ & \left(\sjn{J,k},\cjn{J,k}\right) & \mapsto\RS\left(\sjn{J,k},\cjn{J,k}\right)=\jnvec{\hat{\dvar}}{J,k}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Additionally, for each variable, there is a corresponding update equation.
+ More specifically, the update equations for link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+h_{\link,1}\left(\state,\control\right)=\state_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
+h_{\link,k}\left(\state,\control\right)=\state_{\link,k}-\state_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Down}},k-1},\cjn{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Up}},k-1},\cjn{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for all links 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+, where 
+\begin_inset Formula $\dvar_{\link}$
+\end_inset
+
+ is the initial condition for link 
+\begin_inset Formula $\link$
+\end_inset
+
+.
+ Thus, we can construct the system of 
+\begin_inset Formula $|\links|T$
+\end_inset
+
+ governing equations 
+\begin_inset Formula $H\left(\state,\control\right)=0$
+\end_inset
+
+, where the 
+\begin_inset Formula $h_{\link,k}$
+\end_inset
+
+ is the equation in 
+\begin_inset Formula $H$
+\end_inset
+
+ at index 
+\begin_inset Formula $|\links|k+\link$
+\end_inset
+
+, identical to the ordering of the state vectors.
+\end_layout
+
+\end_body
+\end_document

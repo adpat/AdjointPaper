@@ -1,0 +1,970 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Applications to Optimal coordinated ramp metering on freeways
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Applications-to-Optimal"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Model
+\end_layout
+
+\begin_layout Standard
+Consider a freeway section as a sequence of junctions 
+\begin_inset Formula $\mathcal{J}=\left[J_{1},\ldots,J_{n}\right]$
+\end_inset
+
+.
+ At discrete time 
+\begin_inset Formula $t=k\triangle T,1\le k\le T$
+\end_inset
+
+, junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ has an incoming (resp.
+ outgoing) mainline density 
+\begin_inset Formula $\density_{i,k}^{\text{Inc}}$
+\end_inset
+
+ (resp.
+ 
+\begin_inset Formula $\density_{i,k}^{\text{Out}}$
+\end_inset
+
+) 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\in\mathbb{R}$
+\end_inset
+
+ (units of vehicles per unit length), onramp density 
+\begin_inset Formula $\density_{i,k}^{\text{On}}\in\mathbb{R}$
+\end_inset
+
+ (units of vehicles), and offramp split ratio 
+\begin_inset Formula $\beta_{i,k}$
+\end_inset
+
+ representing the ratio of cars who stay on the freeway vs.
+ total cars leaving the upstream mainline of junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $J_{1}$
+\end_inset
+
+ is the source of the network, it has no upstream mainline or offramp, and
+ similarly 
+\begin_inset Formula $J_{n}$
+\end_inset
+
+ has no downstream mainline or onramp.
+ These values are depicted in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Freeway-network-junction"
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/junction-network.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Freeway network junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+.
+ Mainline densities represented by 
+\begin_inset Formula $\density$
+\end_inset
+
+, onramp queues by 
+\begin_inset Formula $l$
+\end_inset
+
+, and offramp split ratios by 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $\density_{i}^{\text{Out}}$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\density_{i+1}^{\text{Inc}}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Freeway-network-junction"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hspace*{\fill}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/fd.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Fundamental diagram with free-flow speed 
+\begin_inset Formula $v$
+\end_inset
+
+, congestion wave speed 
+\begin_inset Formula $w$
+\end_inset
+
+, max flux 
+\begin_inset Formula $F^{\max}$
+\end_inset
+
+, critical density 
+\begin_inset Formula $\density^{c}$
+\end_inset
+
+, and max density 
+\begin_inset Formula $\density^{\max}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Fundamental-diagram-with"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ Junctions that have no onramps can be effectively represented by adding
+ an onramp with no demand while junctions with no offramps can be represented
+ by setting the split ratio to 1.
+\end_layout
+
+\begin_layout Standard
+As control input, an onramp at junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and time 
+\begin_inset Formula $k$
+\end_inset
+
+ has a metering rate 
+\begin_inset Formula $u_{i,k}$
+\end_inset
+
+ which limits the flux of vehicles leaving the onramp.
+ Its mathematical model is expressed later.
+\end_layout
+
+\begin_layout Standard
+The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
+ are modeled using the LWR equation:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\density_{t}+f\left(\density\right)_{x}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\density$
+\end_inset
+
+ is the density state, and 
+\begin_inset Formula $f'$
+\end_inset
+
+ is the derivative of the flux function (or fundamental diagram) 
+\begin_inset Formula $f\left(\density\right)$
+\end_inset
+
+.
+ We assume the fundamental diagram has a trapezoidal form as depicted in
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Fundamental-diagram-with"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For notational simplicity we consider the set of densities of links adjacent
+ to a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at time-step 
+\begin_inset Formula $k$
+\end_inset
+
+ as 
+\begin_inset Formula $\vect{\density}_{J_{i},k}=\left\{ \density_{i,k}^{\text{Inc}},\density_{i,k}^{\text{Out}},\density_{i,k}^{\text{On}}\right\} $
+\end_inset
+
+.
+ The offramp is considered to have infinite capacity, and thus has no bearing
+ on the solution of junction problems.
+ Taking a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at time-step 
+\begin_inset Formula $k$
+\end_inset
+
+, we discretize the downstream mainline density 
+\begin_inset Formula $\density_{i,k}^{\text{Out}}$
+\end_inset
+
+ using the Godunov scheme from
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:main-ge"
+
+\end_inset
+
+ to obtain the discrete update equation on a mainline:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+h_{i,k}^{\text{Out}}(\state,\vect v)=\density_{i,k}^{\text{Out}}-\density_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $L_{i}$
+\end_inset
+
+ is the distance between junctions 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $J_{i+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\density}}_{J,k}\right)\right\} _{i}$
+\end_inset
+
+ is the flux from the boundary condition of density 
+\begin_inset Formula $\density_{\jn,k}^{i}$
+\end_inset
+
+ at junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+.
+ We also make the assumption that onramps have infinite capacity and a length
+ of one.
+ We can then simplify the onramp update equation to be:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+h_{i,k}^{\text{On}}(\state,\vect v)=\density_{i,k}^{\text{On}}-\density_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $D_{i,k}$
+\end_inset
+
+ is the onramp 
+\emph on
+flux 
+\emph default
+demand.
+ This formulation results in 
+\begin_inset Quotes eld
+\end_inset
+
+strong
+\begin_inset Quotes erd
+\end_inset
+
+ boundary conditions at the onramps which guarantees all demand enters the
+ network.
+ Details on weak versus strong boundary conditions can be found in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ML,Walid,strub2006weak"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Riemann solver
+\end_layout
+
+\begin_layout Standard
+For the ramp metering problem, there are many potential Riemann solvers
+ that satisfy the properties required in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Network-of-PDE's"
+
+\end_inset
+
+.
+ Following the model of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Walid,ML"
+
+\end_inset
+
+, for each junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+, we add two modeling decisions: the flux solution maximizes the outgoing
+ mainline flux 
+\begin_inset Formula $\left\{ \hat{F}_{i}\right\} _{\text{Out}}$
+\end_inset
+
+, and any remaining non-uniqueness in the incoming flux is resolved using
+ a merging parameter 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+.
+ This leads to the following system of equations that gives the flux solution
+ of the Riemann solver at time-step 
+\begin_inset Formula $k>1$
+\end_inset
+
+ and junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\delta & = & \min\left(v_{i}\density_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
+\sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
+d & = & u_{i,k}\min\left((1)\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}} & = & \min\left(\beta_{i,k}\delta+d,\sigma\right)\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}} & = & \begin{cases}
+\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
+\frac{\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-d_{i,k}}{\beta_{i,k}} & \frac{\sigma}{1+p_{i}}\ge d\\
+\frac{\sigma p_{i}}{\left(1+p_{i}\right)\beta_{i,k}} & \text{otherwise}
+\end{cases}\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{On}} & = & \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-\beta_{i,k}\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber \\
+\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Off}} & = & \left(1-\beta_{i,k}\right)\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the equations can be solved sequentially via forward substitution.
+ Also, we only include the flux results for offramps explicitly here to
+ demonstrate that indeed the flux solution satisfies the flux conservation
+ property.
+ We will ignore its explicit computation for the remainder of the article
+ since its value has no bearing on further calculations.
+\end_layout
+
+\begin_layout Paragraph
+Optimal coordinated ramp-metering
+\end_layout
+
+\begin_layout Standard
+Including the initial conditions as specified in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-ge"
+
+\end_inset
+
+ with
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rho-update"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:onramp-update"
+
+\end_inset
+
+ gives a complete description of the system 
+\begin_inset Formula $H\left(\state,\vect v\right)=0$
+\end_inset
+
+, where if 
+\begin_inset Formula $\left|\links\right|=2*(n-1)$
+\end_inset
+
+ is the number of links:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\state_{|\links|\left(k-1\right)+2*i-1}\defeq & \density_{i,k}^{\text{Out}}\defeq\density_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+2*i}\defeq & \density_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The objective of the control is to minimize the 
+\emph on
+total travel time 
+\emph default
+on the network
+\emph on
+.
+ 
+\emph default
+This is expressed with the cost function 
+\begin_inset Formula $J$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density_{i,k}^{\text{Out}}+\density_{i,k}^{\text{On}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus the optimal coordinated ramp-metering problem can be formulated as
+ a network PDE-constrained optimization problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\min_{\control} & J\left(\state,\control\right)\label{eq:full}\\
+\text{subject to:} & H\left(\state,\control\right) & =0\nonumber \\
+ & 0\le\control\le1 & \forall\control\in\control\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The inequalities constrain the metering control to neither impose negative
+ flows nor send more vehicles than present in the queue.
+ Since the adjoint method in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Adjoint-method"
+
+\end_inset
+
+ does not permit inequalities in the constraints, we add barrier penalties
+ to the cost function
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Boyd2010,Bayen2006"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\tilde{J}\left(\state,\control,R\right)=J\left(\state,\control\right)-R\sum_{\control\in\control}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As 
+\begin_inset Formula $R\in\mathbb{R}^{+}$
+\end_inset
+
+ tends to zero, 
+\begin_inset Formula $\tilde{J}$
+\end_inset
+
+ tends towards 
+\begin_inset Formula $J$
+\end_inset
+
+.
+ Thus we can solve
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:full"
+
+\end_inset
+
+ by iteratively solving the augmented problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\min_{\control} & \tilde{J}\left(\state,\control,R\right)\label{eq:full-1}\\
+\text{subject to:} & H\left(\state,\control\right) & =0\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with decreasing values of 
+\begin_inset Formula $R$
+\end_inset
+
+.
+ As a result, 
+\begin_inset Formula $\tilde{J}$
+\end_inset
+
+ will approach 
+\begin_inset Formula $J$
+\end_inset
+
+ as the number of iterations increases.
+\end_layout
+
+\begin_layout Paragraph
+Applying the adjoint method
+\end_layout
+
+\begin_layout Standard
+To use the adjoint method as described in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Adjoint-method"
+
+\end_inset
+
+, we need to compute the partial matrices 
+\begin_inset Formula $\Hx$
+\end_inset
+
+, 
+\begin_inset Formula $H_{v}$
+\end_inset
+
+, 
+\begin_inset Formula $\tilde{C}_{\state}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{C}_{v}$
+\end_inset
+
+.
+ Computing the partial derivatives with respect to the cost function is
+ straight forward:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\pfrac{\tilde{C}}{\density_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\density_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{u_{i,k}}= & R\left(\frac{-1}{1-u_{i,k}}+\frac{1}{u_{i,k}}\right) & 1\le i\le n-1,1\le k\le T
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To compute the partials of 
+\begin_inset Formula $H$
+\end_inset
+
+, we follow the procedure in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Calculating-the-gradient"
+
+\end_inset
+
+.
+ For a given junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ and time-step 
+\begin_inset Formula $k$
+\end_inset
+
+, we only need to compute the partial derivatives of the flux solver 
+\begin_inset Formula $\hat{F}_{J_{i},k}$
+\end_inset
+
+ with respect to the adjacent state variables 
+\begin_inset Formula $\vect{\density}_{J_{i},k}$
+\end_inset
+
+ and ramp metering control 
+\begin_inset Formula $u_{i,k}$
+\end_inset
+
+.
+ We calculate the partials of the variables in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:state-rm"
+
+\end_inset
+
+ for a junction 
+\begin_inset Formula $J_{i}$
+\end_inset
+
+ at time-step 
+\begin_inset Formula $k>1$
+\end_inset
+
+ with respect to either a state or control variable 
+\begin_inset Formula $s$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\pfrac{\delta}s & = & \begin{cases}
+v_{i} & s=\density_{i,k}^{\text{Inc}},v_{i}\density_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac{\sigma}s & = & \begin{cases}
+-w_{i} & s=\density_{i,k}^{\text{Out}},w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac ds & = & \begin{cases}
+u_{i,k} & s=\density_{i,k}^{\text{On}},\density_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
+\min\left(\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
+0 & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s & = & \begin{cases}
+\beta_{i,k}\pfrac{\delta}s+\pfrac ds & \beta_{i,k}\delta+d\le\sigma\\
+\pfrac{\sigma}s & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s & = & \begin{cases}
+\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\beta_{i,k}}\\
+\beta_{i,k}^{-1}\left(\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
+\frac{p_{i}}{\beta_{i,k}\left(+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
+\end{cases}\\
+\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{On}}}s & = & \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\beta_{i,k}\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These expressions fully quantify the partial values needed in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:partial-hx-chain-1"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:partial-hv-chain-1"
+
+\end_inset
+
+.
+ Thus we can construct the 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ and 
+\begin_inset Formula $\Hu$
+\end_inset
+
+ matrices, which enables us to apply the adjoint method to the ramp metering
+ problem.
+\end_layout
+
+\begin_layout Paragraph
+Initial and boundary conditions
+\end_layout
+
+\end_body
+\end_document

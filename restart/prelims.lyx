@@ -1,0 +1,1170 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+theorems-std
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Preliminaries
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Preliminaries"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Conservation law PDE's
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Hyperbolic-PDE's"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are mainly interested in scalar hyperbolic conservation laws of the following
+ form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\pfrac{\cvar\left(t,x\right)}t+\pfrac{f\left(\cvar\left(t,x\right)\right)}x=0\label{eq:cons}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\cvar:\left[0,\infty\right]\times\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+ is the scalar 
+\begin_inset Quotes eld
+\end_inset
+
+conserved
+\begin_inset Quotes erd
+\end_inset
+
+ quantity, and 
+\begin_inset Formula $f:\mathbb{R}\rightarrow\mathbb{R}$
+\end_inset
+
+ is the flux function.
+ If we assume 
+\begin_inset Formula $f$
+\end_inset
+
+ to be 
+\begin_inset Formula $C^{2}$
+\end_inset
+
+, we can rewrite Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons"
+
+\end_inset
+
+ as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\cvar_{t}+f\left(\cvar\right)_{x}=0\label{eq:cons-smooth}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a particular initial condition 
+\begin_inset Formula $\initstate\in L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
+\end_inset
+
+, we seek 
+\begin_inset Quotes eld
+\end_inset
+
+weak
+\begin_inset Quotes erd
+\end_inset
+
+ solutions of 
+\begin_inset Formula $\cvar$
+\end_inset
+
+ for the Cauchy problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+\cvar_{t}+f\left(\cvar\right)_{x} & =0\\
+\cvar\left(0,x\right) & =\initstate\left(x\right)
+\end{cases}\label{eq:cauchy}
+\end{equation}
+
+\end_inset
+
+More details on weak solutions to hyperbolic PDE's are available, in particular,
+ in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garavello2006traffic,Evans1998"
+
+\end_inset
+
+.
+ It can be shown that a unique weak solution for all Cauchy problems of
+ the form in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cauchy"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "def:Riemann-Problem"
+
+\end_inset
+
+Riemann Problem.
+\end_layout
+
+\begin_layout Definition
+A Riemann problem is a Cauchy problem with a piecewise-constant initial
+ condition that has one point of discontinuity, 
+\begin_inset Formula $x=\bar{x}$
+\end_inset
+
+.
+ Without loss of generality, we take 
+\begin_inset Formula $\bar{x}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Network of PDE's
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Network-of-PDE's"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A network of PDE's is defined as a set of 
+\begin_inset Formula $\nlinks$
+\end_inset
+
+ links 
+\begin_inset Formula $\links=\left[1,\nlinks\right]$
+\end_inset
+
+, with junctions 
+\begin_inset Formula $\jns$
+\end_inset
+
+, where a junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ is defined as the union of the set of 
+\begin_inset Formula $\ninc_{\jn}$
+\end_inset
+
+ incoming links 
+\begin_inset Formula $\Inc\left(\jn\right)=\tuple{\jlink{\jn}1}{\jlink{\jn}{\ninc_{\jn}}}\subset\links$
+\end_inset
+
+ and the set of 
+\begin_inset Formula $\nout_{\jn}$
+\end_inset
+
+ outgoing links 
+\begin_inset Formula $\Out\left(\jn\right)=\tuple{\jlink{\jn}{\ninc_{\jn}+1}}{\jlink{\jn}{\ninc_{\jn}+\nout_{\jn}}}\subset\links$
+\end_inset
+
+.
+ Each link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ has an associated upstream junction 
+\begin_inset Formula $\jup{\link}\in\jns$
+\end_inset
+
+ and downstream junction 
+\begin_inset Formula $\jdown{\link}\in\jns$
+\end_inset
+
+, and has an associated spatial domain 
+\begin_inset Formula $\left]0,L_{\link}\right[$
+\end_inset
+
+ over which the evolution of the state on link 
+\begin_inset Formula $\link$
+\end_inset
+
+, 
+\begin_inset Formula $\cvar_{\link}\left(t,x\right)$
+\end_inset
+
+, obeys the following scalar conservation law:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+\left(\cvar_{\link}\right)_{t}+f\left(\cvar_{\link}\right)_{x} & =0\\
+\cvar_{\link}\left(0,x\right) & =\initstate_{\link}\left(x\right)
+\end{cases}\label{eq:cauchy-i}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $u_{i}^{0}\in L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
+\end_inset
+
+ is the initial condition on link 
+\begin_inset Formula $\link$
+\end_inset
+
+.
+ For simplicity of notation, this section considers a single junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ with 
+\begin_inset Formula $\Inc\left(\jn\right)=\left(1,\ldots,\ninc\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\Out\left(\jn\right)=\left(\ninc+1,\ldots,\ninc+\nout\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+While the behavior on each link 
+\begin_inset Formula $\cvar_{\link}\left(t,x\right)$
+\end_inset
+
+ is determined by the dynamics described in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+, the behavior of the links still needs to be defined when they meet at
+ junctions.
+\end_layout
+
+\begin_layout Definition
+Riemann problem at junctions.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Let all links 
+\begin_inset Formula $\link$
+\end_inset
+
+ have a constant initial profile 
+\begin_inset Formula $\cvar_{\link}\left(0,x\right)=\initstate_{\link}\in\mathbb{R}$
+\end_inset
+
+ (called the Riemann data) with incoming links having a spatial domain 
+\begin_inset Formula $\left]-\infty,0\right[$
+\end_inset
+
+ and outgoing links having a spatial domain 
+\begin_inset Formula $\left]0,\infty\right[$
+\end_inset
+
+.
+ The solution of 
+\begin_inset Formula $\cvar_{\link}\left(x,t\right)$
+\end_inset
+
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+for all links 
+\begin_inset Formula $\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $t\ge0$
+\end_inset
+
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+is defined
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ as the solution to the Riemann problem at junction 
+\begin_inset Formula $J$
+\end_inset
+
+ with initial data 
+\begin_inset Formula $\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+We define a Riemann solver:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\RS: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
+ & \tuple{\initstate_{1}}{\initstate_{\ninc+\nout}} & \mapsto\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\trace{\cvar}_{\link}$
+\end_inset
+
+ provides the trace for link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at the junction for all time 
+\begin_inset Formula $t\ge0$
+\end_inset
+
+.
+ Specifically, for a link 
+\begin_inset Formula $i\in\Inc\left(\jn\right)$
+\end_inset
+
+, the solution 
+\begin_inset Formula $u_{i}\left(t,x\right)$
+\end_inset
+
+ over its spatial domain 
+\begin_inset Formula $x<0$
+\end_inset
+
+ is given by the solution to the Riemann problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+\left(\cvar_{\link}\right)_{t}+f\left(\cvar_{\link}\right)_{x} & =0\\
+\cvar_{\link}\left(0,x\right) & =\begin{cases}
+\initstate_{\link} & x<0\\
+\trace{\cvar}_{\link} & x\ge0
+\end{cases}
+\end{cases}\label{eq:riemann-problem}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Riemann problem for an outgoing link is defined similarly, with the
+ exception that 
+\begin_inset Formula $\cvar_{\link}\left(0,x>0\right)=\cvar_{\link}^{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\cvar_{\link}\left(0,x\le0\right)=\trace{\cvar}_{\link}$
+\end_inset
+
+.
+ Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Solution-of-boundary"
+
+\end_inset
+
+ gives a depiction of Riemann solution at the junction
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The assumption of an unbounded spatial domain is to eliminate the need to
+ explicitly consider boundary conditions away from the junction, and for
+ each link, the solution near the junction generalizes to the case when
+ the spatial domain is bounded.
+\end_layout
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename presentation/figs-gen/junctions-riemann-rs.pdf
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Solution of boundary conditions at junction.
+ The boundary conditions 
+\begin_inset Formula $\hat{\vect{\cvar}}^{0}$
+\end_inset
+
+ are produced by applying the Riemann solver to the initial conditions,
+ 
+\begin_inset Formula $\RS\left(\vect{\cvar}^{0}\right)$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Solution-of-boundary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The following conditions are required for a valid Riemann solver as part
+ of the definition:
+\end_layout
+
+\begin_layout Itemize
+The Riemann solver must produce self-similar solutions, i.e.
+\begin_inset Formula 
+\[
+\RS\left(\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\RS\left(\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+All waves produced from the solution to Riemann problems on all links, generated
+ by the boundary conditions at a junction, must emanate out from the junction.
+ For example, the solution to the Riemann problem on an incoming link must
+ produce waves with negative speeds, while the solution on an outgoing link
+ must produce waves with positive speed.
+\end_layout
+
+\begin_layout Itemize
+The sum of all incoming fluxes must equal the sum of all outgoing fluxes:
+\begin_inset Formula 
+\[
+\sum_{i\in\Inc\left(\jn\right)}f\left(\trace{\cvar}_{\link}\right)=\sum_{j\in\Out\left(\jn\right)}f\left(\trace{\cvar}_{j}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This condition guarantees mass conservation at junctions.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The justification for these conditions can be found in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "garavello2006traffic"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Godunov Discretization
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Godunov-Discretization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To approximate a hyperbolic PDE of the form in
+\begin_inset space ~
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cons-smooth"
+
+\end_inset
+
+) with a discretization in both space and time, we use Godunov's scheme
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "godunov1959"
+
+\end_inset
+
+, a finite volume numerical method.
+ Given an initial condition that is piecewise-constant, Godunov's scheme
+ gives a procedure to advance the system one time-step forward.
+ This process can be repeated 
+\emph on
+ad infinum 
+\emph default
+by applying the scheme to the new condition generated from the previous
+ time-step.
+\end_layout
+
+\begin_layout Paragraph
+Godunov scheme for a single link.
+\end_layout
+
+\begin_layout Standard
+Consider a scalar conservation law with spatial domain 
+\begin_inset Formula $\left]0,L\right[$
+\end_inset
+
+ that has a piecewise-constant initial condition 
+\begin_inset Formula $\initstate\left(x\right)$
+\end_inset
+
+ with the following mesh grid:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\triangle t$
+\end_inset
+
+ the fixed time grid size, 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\triangle x$
+\end_inset
+
+ the fixed space grid size
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This method can be generalized to non-uniform grid sizes, but is chosen
+ to be uniform to simplify notation
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The Godunov update step for 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+ is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bar{\dvar}_{i}=\dvar_{i}-\frac{\triangle t}{\triangle x}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)\label{eq:godunov}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the numerical flux 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ takes in general the following expression:
+\end_layout
+
+\begin_layout Standard
+This process can be repeated to approximate the average values of the system
+ at the subsequent time-step by applying the Godunov scheme with initial
+ data 
+\begin_inset Formula $\bar{\dvar}_{i}$
+\end_inset
+
+ rather than 
+\begin_inset Formula $\dvar_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+CFL condition for discretized hyperbolic PDE's.
+\begin_inset CommandInset label
+LatexCommand label
+name "par:CFL-condition-for"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Courant–Friedrichs–Lewy (CFL) condition is a condition on the time and
+ space discretization size that guarantees that no two Riemann problems
+ interact with one another over the course of a single time-step.
+ This is a necessary condition for the convergence of the discrete solution
+ to the continuous solution.
+ For the purposes of the Godunov scheme, we only require that the solution
+ originating from one Riemann problem does not influence the flux across
+ the boundary of another Riemann problem.
+ This requirement leads to the following condition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda^{\max}\le\frac{\triangle x}{\triangle t}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
+\end_inset
+
+ is the maximum absolute wave speed.
+ We assume for the rest of the article that the time-step 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+ is fixed and that the (possibly varying) discretization step-size 
+\begin_inset Formula $\triangle x_{i}=L_{i}=x_{i+1}-x_{i}$
+\end_inset
+
+ is chosen to not violate the CFL condition.
+\end_layout
+
+\begin_layout Paragraph
+Godunov scheme at junctions.
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Godunov-scheme-at"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can view each discontinuity point 
+\begin_inset Formula $\state_{i}$
+\end_inset
+
+ above as a junction with one incoming link and one outgoing link, which
+ gives us a Godunov scheme for the specific case of 1-to-1 junctions.
+ Given this view, it becomes more convenient to assume that a link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ has a constant initial profile 
+\begin_inset Formula $\cvar_{\link}\left(0,x\right)=\dvar_{\link}$
+\end_inset
+
+ over its entire spatial domain 
+\begin_inset Formula $\left]0,L_{\link}\right[$
+\end_inset
+
+, rather than a constant piecewise profile, since a constant piecewise profile
+ can be mapped to a series of individual links with 1-to-1 junctions.
+ We now generalize the approach to junctions with an arbitrary number of
+ input links and output links.
+\end_layout
+
+\begin_layout Standard
+Take a junction 
+\begin_inset Formula $\jn$
+\end_inset
+
+ with links 
+\begin_inset Formula $\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)$
+\end_inset
+
+ with Riemann data 
+\begin_inset Formula $\left\{ \vect{\cvar}\left(0,x\right)\right\} _{\link}=\left\{ \vect{\dvar}\right\} _{\link}$
+\end_inset
+
+.
+ Applying the Riemann solver to the Riemann data gives the boundary solution
+ 
+\begin_inset Formula $\left\{ \vect{\hat{\dvar}}\right\} _{\link}$
+\end_inset
+
+.
+ Then for 
+\begin_inset Formula $\link\in\Inc\left(\jn\right)$
+\end_inset
+
+, the downstream flux (
+\begin_inset Formula $x=L_{\link}$
+\end_inset
+
+) is determined by the solution of a Riemann problem with initial conditions
+ 
+\begin_inset Formula $\left(\dvar_{\link},\hat{\dvar}_{\link}\right)$
+\end_inset
+
+.
+ Furthermore, since all waves emanate 
+\emph on
+outwards
+\emph default
+ from a junction, the flux at the downstream boundary is equal to 
+\begin_inset Formula $f\left(\hat{\dvar}_{\link}\right)$
+\end_inset
+
+ for all 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ This leads to a natural choice for the approximate flux function 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ at the junction for link 
+\begin_inset Formula $\link\in\Inc\left(\jn\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+g^{G}\left(\dvar_{\link},\hat{\dvar}_{\link}\right)=f\left(\hat{\dvar}_{\link}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A similar argument says that the approximate flux function at the junction
+ for outgoing links 
+\begin_inset Formula $\link\in\Out\left(\jn\right)$
+\end_inset
+
+ is also the flux function 
+\begin_inset Formula $f$
+\end_inset
+
+ applied to the Riemann solution 
+\begin_inset Formula $\hat{\dvar}_{\link}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For junctions with no incoming or no outgoing links, a boundary condition
+ is required in order to specify a Riemann problem at the upstream and downstrea
+m junction of every link.
+ For the discretized problem, the boundary condition is taken to be constant
+ over each discrete time step.
+\end_layout
+
+\begin_layout Paragraph
+Composing the Riemann solver and flux function.
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Composing-the-Riemann"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The equations are sometimes simplified if we allow ourselves to consider
+ the composition of the Riemann solver 
+\begin_inset Formula $\RS$
+\end_inset
+
+ and the approximate flux function 
+\begin_inset Formula $g^{G}$
+\end_inset
+
+ directly.
+ Using the same notation as defined for the Riemann solver, we define the
+ function 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+ as just this composition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\hat{F}: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
+ & \vect{\dvar}_{\jn}^{0} & \mapsto\left\{ f\left(\left\{ \RS\left(\vect{\dvar}_{\jn}^{0}\right)\right\} _{\link}\right):\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} .
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Full discrete solution method
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Full-solution-method"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume a discrete scalar hyperbolic network of PDE's with links 
+\begin_inset Formula $\links$
+\end_inset
+
+, junctions 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+, and initial conditions 
+\begin_inset Formula $\left\{ u_{\link}\left(0,x\right)=\dvar_{\link}:x\in\left]0,L_{\link}\right[,\link\in\links\right\} $
+\end_inset
+
+.
+ The solution method for advancing the discrete system forward one time-step
+ is given by: 
+\end_layout
+
+\begin_layout Enumerate
+Begin with initial condition (
+\begin_inset Formula $t=0$
+\end_inset
+
+) 
+\begin_inset Formula $\left\{ \dvar_{\link}:\link\in\links\right\} $
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+For every junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Apply the Riemann solver to Riemann data to obtain the boundary condition
+ 
+\begin_inset Formula $\hat{\vect{\dvar}}_{\jn}=\RS\left(\vect{\dvar}_{\jn}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+For every link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Letting 
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in\Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$
+\end_inset
+
+, the discrete value over link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at time 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\dvar}_{\link}$
+\end_inset
+
+, is given by: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+If we instead use the composed flux junction solver 
+\begin_inset Formula $\hat{F}$
+\end_inset
+
+, then the method simplifies to: 
+\end_layout
+
+\begin_layout Enumerate
+Begin with initial condition (
+\begin_inset Formula $t=0$
+\end_inset
+
+) 
+\begin_inset Formula $\left\{ \dvar_{\link}:\link\in\links\right\} $
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+For every link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Letting 
+\begin_inset Formula $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in\Out\left(\jn\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$
+\end_inset
+
+, the discrete value over link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at time 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{\dvar}_{\link}$
+\end_inset
+
+, is given by: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Down}}}\right)\right\} _{\link}-\left\{ \hat{F}\left(\vect{\dvar}_{\jn_{\link}^{\text{Up}}}\right)\right\} _{\link}\right)\label{eq:fhat}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
