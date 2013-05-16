@@ -552,12 +552,12 @@ The assumption of an unbounded spatial domain is to eliminate the need to
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename ml/presentation/figs-gen/junctions-riemann-rs.eps
+	filename presentation/figs-gen/junctions-riemann-rs.eps
 	width 50col%
 
 \end_inset
@@ -1194,7 +1194,7 @@ For every junction
 \begin_layout Enumerate
 Apply the Riemann solver to Riemann data to obtain the boundary condition
  
-\begin_inset Formula $\junctrace\jn\tind=\RS\left(\juncstate{\jn}{\tind}\right)$
+\begin_inset Formula $\junctrace{\jn}{\tind}=\RS\left(\juncstate{\jn}{\tind}\right)$
 \end_inset
 
 .

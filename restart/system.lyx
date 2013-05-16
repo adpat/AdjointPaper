@@ -75,14 +75,14 @@ Let us assume we have a discrete system of the form of
 \begin_inset space ~
 \end_inset
 
-
+(
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "eq:fhat"
 
 \end_inset
 
-.
+).
  We wish to solve the system 
 \begin_inset Formula $T$
 \end_inset
@@ -134,6 +134,12 @@ control
 \end_inset
 
  influence the solution of the Riemann solver.
+ Similar to the notation developed for state variables, for control variables,
+ we define 
+\begin_inset Formula $\junccon{\jn}{\tind}\defeq\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
+\end_inset
+
+.
  To account for the addition of controls, we modify the Riemann problem
  at a junction 
 \begin_inset Formula $\jn\in\jns$
@@ -144,11 +150,11 @@ control
 \end_inset
 
  to be a function of the current state of connecting links 
-\begin_inset Formula $\tuple{\discrete{\link_{\jn}^{1}}{\tind}}{\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{\tind}}$
+\begin_inset Formula $\juncstate{\jn}{\tind}$
 \end_inset
 
 , and the current control parameters 
-\begin_inset Formula $\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
+\begin_inset Formula $\junccon{\jn}{\tind}$
 \end_inset
 
 .
@@ -158,8 +164,8 @@ control
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\RS_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}+\ncontrols_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\\
- & \left(\discrete{\link_{\jn}^{1}}{},\ldots,\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{},\condiscrete{\cind_{\jn}^{1}}{},\ldots,\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{}\right) & \mapsto\RS_{\jn}\left(\discrete{\link_{\jn}^{1}}{},\ldots,\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{},\condiscrete{\cind_{\jn}^{1}}{},\ldots,\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{}\right)=\tuple{\trace{\dvar}_{\link_{\jn}^{1}}}{\trace{\dvar}_{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}}
+\RS_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\times\mathbb{R}^{\ncontrols_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\\
+ & \left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right) & \mapsto\RS_{\jn}\left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right)=\juncstate{\jn}{\tind}
 \end{eqnarray*}
 
 \end_inset
@@ -191,26 +197,6 @@ We represent the entire state of the solved system with the vector
 
 , where 
 \begin_inset Formula $\control_{\ncontrols\tind+\cind}=\condiscrete{\cind}{\tind}$
-\end_inset
-
-.
- To reduce the cumbersome nature of the notation, we use some additional,
- simplifying definitions.
- Let the state variables adjacent to a junction 
-\begin_inset Formula $\jn\in\jns$
-\end_inset
-
- at a time-step 
-\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
-\end_inset
-
- be defined as 
-\begin_inset Formula $\juncstate{\jn}{\tind}\defeq\tuple{\discrete{\link_{\jn}^{1}}{\tind}}{\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{\tind}}$
-\end_inset
-
-.
- Similarly, for control variables, we define 
-\begin_inset Formula $\junccon{\jn}{\tind}\defeq\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
 \end_inset
 
 .
@@ -269,28 +255,6 @@ for all links
 \begin_inset Formula $\link$
 \end_inset
 
-, and 
-\begin_inset Formula $\left(s\right)_{i}$
-\end_inset
-
- is the 
-\begin_inset Formula $i$
-\end_inset
-
-th element of the tuple 
-\begin_inset Formula $s$
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-this notation belongs back in the update equations in prelim section
-\end_layout
-
-\end_inset
-
 .
  Thus, we can construct a system of 
 \begin_inset Formula $\nlinks T$
@@ -313,6 +277,7 @@ this notation belongs back in the update equations in prelim section
 \end_inset
 
 , identical to the ordering of the corresponding discrete state variable.
+ 
 \end_layout
 
 \end_body
