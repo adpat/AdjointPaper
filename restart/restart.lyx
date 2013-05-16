@@ -102,6 +102,10 @@ filename "commands.lyx"
 \end_inset
 
 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset CommandInset include
 LatexCommand input
 filename "nomenclature.lyx"
@@ -112,6 +116,11 @@ filename "nomenclature.lyx"
 \begin_inset CommandInset include
 LatexCommand input
 filename "intro.lyx"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -137,6 +146,10 @@ filename "adjoint.lyx"
 \end_inset
 
 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset CommandInset include
 LatexCommand input
 filename "ramp.lyx"
@@ -145,6 +158,15 @@ filename "ramp.lyx"
 
 
 \end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset Note Note
+status open
 
 \begin_layout Section
 Numerical results for model predictive control simulations
@@ -162,6 +184,15 @@ Conclusions
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Conclusions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 

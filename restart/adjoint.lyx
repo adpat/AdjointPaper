@@ -96,7 +96,7 @@ In addition to our governing equations
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\cost: & \mathbb{R}^{|\links|T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
+\cost: & \mathbb{R}^{\nlinks T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
  & \left(\state,\control\right) & \mapsto\cost\left(\state,\control\right)
 \end{eqnarray*}
 
@@ -477,7 +477,7 @@ Then the expression for the gradient becomes:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\control}J\left(\nominal{\state},\nominal{\control}\right)=\lambda^{T}H_{\control}+J_{\control}\label{eq:adjoint-grad}
+d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\lambda^{T}\Hu+\Ju\label{eq:adjoint-grad}
 \end{equation}
 
 \end_inset
@@ -498,7 +498,7 @@ reference "sub:Complexity-of-solving"
 \end_inset
 
  how the complexity of computing the gradient is reduced from 
-\begin_inset Formula $O(D_{\state}|\state||\control|)$
+\begin_inset Formula $O(D_{\state}\nlinks\ncontrols\ntime^{2})$
 \end_inset
 
  to 
@@ -858,7 +858,7 @@ Given that the governing equations require the evaluation of a Riemann solver
 
 \begin_layout Standard
 If we consider a particular governing equation 
-\begin_inset Formula $h_{\link,k}$
+\begin_inset Formula $\syseq_{\link}^{\tind}$
 \end_inset
 
 , then we may determine the partial term with respect to 
@@ -871,7 +871,7 @@ If we consider a particular governing equation
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain}
+\pfrac{\syseq_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain}
 \end{equation}
 
 \end_inset
@@ -901,7 +901,7 @@ reference "par:Composing-the-Riemann"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain-1}
+\pfrac{\syseq_{\link,k}}{\dvar}=-\pfrac{\dvar{}_{\link,k-1}}{\dvar}+\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\dvar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\dvar}\right)\label{eq:partial-hx-chain-1}
 \end{equation}
 
 \end_inset
@@ -957,7 +957,7 @@ For links
 \end_inset
 
 , 
-\begin_inset Formula $\pfrac{h_{\link,k}}{\dvar_{i,k-1}}=0$
+\begin_inset Formula $\pfrac{\syseq_{\link,k}}{\dvar_{i,k-1}}=0$
 \end_inset
 
 .
@@ -974,7 +974,7 @@ Also, for all
 \end_inset
 
 , 
-\begin_inset Formula $\pfrac{h_{\link,k}}{\dvar_{i,j}}=0$
+\begin_inset Formula $\pfrac{\syseq_{\link,k}}{\dvar_{i,j}}=0$
 \end_inset
 
 , guaranteeing a lower triangular structure for the 
@@ -1042,7 +1042,7 @@ Similarly for
 \color none
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain}
+\pfrac{\syseq_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac f{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \vect{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain}
 \end{equation}
 
 \end_inset
@@ -1073,7 +1073,7 @@ or for the composed Riemann flux solver
 \color none
 \begin_inset Formula 
 \begin{equation}
-\pfrac{h_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain-1}
+\pfrac{\syseq_{\link,k}}{\convar}=\frac{\triangle t}{L_{i}}\left(\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}{\convar}-\pfrac{\left\{ \vect{\hat{F}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}{\convar}\right)\label{eq:partial-hv-chain-1}
 \end{equation}
 
 \end_inset
@@ -1325,7 +1325,7 @@ reference "eq:main-ge"
 \end_inset
 
 , we have 
-\begin_inset Formula $\pfrac{h_{i,0}}{\state_{j,0}}=1$
+\begin_inset Formula $\pfrac{\syseq_{i,0}}{\state_{j,0}}=1$
 \end_inset
 
  if 
@@ -1342,7 +1342,7 @@ reference "eq:main-ge"
 \end_inset
 
 , we have that 
-\begin_inset Formula $h_{\link,k}$
+\begin_inset Formula $\syseq_{\link,k}$
 \end_inset
 
  is only a function of 
@@ -1370,7 +1370,7 @@ reference "sec:State,-control,-and"
 \end_inset
 
 , 
-\begin_inset Formula $\pfrac{h_{i,k}}{\state_{j,l}}=0$
+\begin_inset Formula $\pfrac{\syseq_{i,k}}{\state_{j,l}}=0$
 \end_inset
 
  for all 
@@ -1378,7 +1378,7 @@ reference "sec:State,-control,-and"
 \end_inset
 
 , and 
-\begin_inset Formula $\pfrac{h_{i,k}}{\state_{i,k}}=1$
+\begin_inset Formula $\pfrac{\syseq_{i,k}}{\state_{i,k}}=1$
 \end_inset
 
 .

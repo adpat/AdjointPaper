@@ -82,36 +82,14 @@ reference "eq:fhat"
 
 \end_inset
 
-, and that there is some arbitrary ordering of the links 
-\begin_inset Formula $\links$
-\end_inset
-
- such that we can uniquely associate an integer 
-\begin_inset Formula $i_{\link}\in\left[1,\ldots,|\links|\right]$
-\end_inset
-
- to each link 
-\begin_inset Formula $\link\in\links$
-\end_inset
-
 .
- For simplicity, we assume 
-\begin_inset Formula $i_{\link}=\link$
-\end_inset
-
-, i.e.
- 
-\begin_inset Formula $\link$
-\end_inset
-
- also represents its own unique integer.
- We wish to solve the system for 
+ We wish to solve the system 
 \begin_inset Formula $T$
 \end_inset
 
  time-steps forward, i.e.
  we wish to determine the discrete state values 
-\begin_inset Formula $\dvar_{\link,k}$
+\begin_inset Formula $\discrete{\link}{\tind}$
 \end_inset
 
  for all links 
@@ -119,28 +97,15 @@ reference "eq:fhat"
 \end_inset
 
  and all time-steps 
-\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
+\begin_inset Formula $\tind\in\left[0,\ldots,\ntime-1\right]$
 \end_inset
 
 .
- We represent the entire state of the solved system with the vector 
-\begin_inset Formula $\state\in\mathbb{R}^{|\links|T}$
+ Furthermore, at each time-step 
+\begin_inset Formula $\tind$
 \end_inset
 
-, where for 
-\begin_inset Formula $\link\in\left[1,\ldots,|\links|\right]$
-\end_inset
-
- and 
-\begin_inset Formula $k\in\left[0,\ldots,T-1\right]$
-\end_inset
-
-, such that 
-\begin_inset Formula $\state_{|\links|k+\link}=\dvar_{\link,k}$
-\end_inset
-
-.
- Furthermore, we assume some 
+, we assume a set of 
 \begin_inset Quotes eld
 \end_inset
 
@@ -148,40 +113,42 @@ control
 \begin_inset Quotes erd
 \end_inset
 
- variable 
-\begin_inset Formula $\control\in\mathbb{R}^{N_{\control}T}$
+ variables 
+\begin_inset Formula $\tuple{\condiscrete 1{\tind}}{\condiscrete{\ncontrols}{\tind}}\in\mathbb{R}^{\ncontrols}$
 \end_inset
 
- that influences the solution of the Riemann problems, where 
+ that influence the solution of the Riemann problems at junctions, where
+ 
 \begin_inset Formula $N_{\control}$
 \end_inset
 
- is the number of controllable values at each time-step and each control
+ is the number of controllable values at each time-step, and each control
  may be updated at each time-step.
- Thus, it would be more accurate to represent the solution of the Riemann
- problem at a junction 
+ It is likely that a control may only influence the subset of junctions.
+ Thus, for a junction 
 \begin_inset Formula $\jn\in\jns$
 \end_inset
 
- as a function of the current state of connecting links, 
-\begin_inset Formula $\sjn{J,k}=\left\{ \state_{\link,k}:\link\in\Inc\left(\jn\right)\cup\Out\left(\jn\right)\right\} $
+, we assume a subset of the control parameters 
+\begin_inset Formula $\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}\in\mathbb{R}^{\ncontrols_{\jn}}$
 \end_inset
 
- and the current control parameters, 
-\begin_inset Formula $\cjn k=\left\{ v_{i}:i\in\left[kN_{v}+1,\ldots,(k+1)N_{\control}\right]\right\} $
+ influence the solution of the Riemann solver.
+ To account for the addition of controls, we modify the Riemann problem
+ at a junction 
+\begin_inset Formula $\jn\in\jns$
 \end_inset
 
-.
- More specifically, we let 
-\begin_inset Formula $\cjn{\jn,k}\subseteq\control_{k}$
+ at time-step 
+\begin_inset Formula $\tind$
 \end_inset
 
- be the set of control variables that the Riemann solver at junction 
-\begin_inset Formula $\jn$
+ to be a function of the current state of connecting links 
+\begin_inset Formula $\tuple{\discrete{\link_{\jn}^{1}}{\tind}}{\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{\tind}}$
 \end_inset
 
- depends on at time 
-\begin_inset Formula $k$
+, and the current control parameters 
+\begin_inset Formula $\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
 \end_inset
 
 .
@@ -191,8 +158,8 @@ control
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\RS: & \mathbb{R}^{m+n}\times\mathbb{R}^{|\cjn{J,k}|} & \rightarrow\mathbb{R}^{m+n}\\
- & \left(\sjn{J,k},\cjn{J,k}\right) & \mapsto\RS\left(\sjn{J,k},\cjn{J,k}\right)=\jnvec{\hat{\dvar}}{J,k}
+\RS_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}+\ncontrols_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\\
+ & \left(\discrete{\link_{\jn}^{1}}{},\ldots,\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{},\condiscrete{\cind_{\jn}^{1}}{},\ldots,\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{}\right) & \mapsto\RS_{\jn}\left(\discrete{\link_{\jn}^{1}}{},\ldots,\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{},\condiscrete{\cind_{\jn}^{1}}{},\ldots,\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{}\right)=\tuple{\trace{\dvar}_{\link_{\jn}^{1}}}{\trace{\dvar}_{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}}
 \end{eqnarray*}
 
 \end_inset
@@ -201,19 +168,87 @@ control
 \end_layout
 
 \begin_layout Standard
-Additionally, for each variable, there is a corresponding update equation.
- More specifically, the update equations for link 
-\begin_inset Formula $\link\in\links$
+We represent the entire state of the solved system with the vector 
+\begin_inset Formula $\state\in\mathbb{R}^{\nlinks\ntime}$
 \end_inset
 
- are:
+, where for 
+\begin_inset Formula $\link\in\left[1,\nlinks\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $k\in\left[0,\ntime-1\right]$
+\end_inset
+
+, such that 
+\begin_inset Formula $\state_{\nlinks k+\link}=\dvar_{\link,k}$
+\end_inset
+
+.
+ Similarly, we represent the entire control vector by 
+\begin_inset Formula $\control\in\mathbb{R}^{\ncontrols\ntime}$
+\end_inset
+
+, where 
+\begin_inset Formula $\control_{\ncontrols\tind+\cind}=\condiscrete{\cind}{\tind}$
+\end_inset
+
+.
+ To reduce the cumbersome nature of the notation, we use some additional,
+ simplifying definitions.
+ Let the state variables adjacent to a junction 
+\begin_inset Formula $\jn\in\jns$
+\end_inset
+
+ at a time-step 
+\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
+\end_inset
+
+ be defined as 
+\begin_inset Formula $\juncstate{\jn}{\tind}\defeq\tuple{\discrete{\link_{\jn}^{1}}{\tind}}{\discrete{\link_{\jn}^{\ninc_{\jn}+\nout_{\jn}}}{\tind}}$
+\end_inset
+
+.
+ Similarly, for control variables, we define 
+\begin_inset Formula $\junccon{\jn}{\tind}\defeq\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For each state variable 
+\begin_inset Formula $\discrete{\link}{\tind}$
+\end_inset
+
+, we say there is a corresponding update equation 
+\begin_inset Formula $\syseq_{\link}^{\tind}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\syseq_{\link}^{\tind}: & \mathbb{R}^{\nlinks\ntime}\times\mathbb{R}^{\ncontrols\ntime} & \rightarrow\mathbb{R}\\
+ & \left(\state,\control\right) & \mapsto\syseq_{\link}^{\tind}\left(\state,\control\right)=0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which takes the following forms:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-h_{\link,1}\left(\state,\control\right)=\state_{\link,1}-\dvar_{\link} & =0\label{eq:init-ge}\\
-h_{\link,k}\left(\state,\control\right)=\state_{\link,k}-\state_{\link,k-1}+\frac{\triangle t}{L_{\link}}\left(\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Down}},k-1},\cjn{\jn_{\link}^{\text{Down}},k-1}\right)\right\} _{\link}-\left\{ \hat{F}\left(\sjn{\jn_{\link}^{\text{Up}},k-1},\cjn{\jn_{\link}^{\text{Up}},k-1}\right)\right\} _{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+h_{\link}^{0}\left(\state,\control\right)=\discrete{\link}0-\initdiscrete_{\link} & =0\label{eq:init-ge}\\
+\syseq_{\link}^{\tind}\left(\state,\control\right)=\discrete{\link}{\tind}-\discrete{\link}{\tind-1}+\frac{\triangle t}{L_{\link}}\left(\left(\hat{F}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\left(\hat{F}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right) & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset
@@ -227,16 +262,38 @@ for all links
 \end_inset
 
 , where 
-\begin_inset Formula $\dvar_{\link}$
+\begin_inset Formula $\initdiscrete_{\link}$
 \end_inset
 
  is the initial condition for link 
 \begin_inset Formula $\link$
 \end_inset
 
+, and 
+\begin_inset Formula $\left(s\right)_{i}$
+\end_inset
+
+ is the 
+\begin_inset Formula $i$
+\end_inset
+
+th element of the tuple 
+\begin_inset Formula $s$
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+this notation belongs back in the update equations in prelim section
+\end_layout
+
+\end_inset
+
 .
- Thus, we can construct the system of 
-\begin_inset Formula $|\links|T$
+ Thus, we can construct a system of 
+\begin_inset Formula $\nlinks T$
 \end_inset
 
  governing equations 
@@ -252,10 +309,10 @@ for all links
 \end_inset
 
  at index 
-\begin_inset Formula $|\links|k+\link$
+\begin_inset Formula $\nlinks k+\link$
 \end_inset
 
-, identical to the ordering of the state vectors.
+, identical to the ordering of the corresponding discrete state variable.
 \end_layout
 
 \end_body
