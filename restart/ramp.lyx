@@ -76,7 +76,11 @@ Model
 
 \begin_layout Standard
 Consider a freeway section as a sequence of junctions 
-\begin_inset Formula $\mathcal{J}=\left[J_{1},\ldots,J_{n}\right]$
+\begin_inset Formula $\mathcal{J}=\left[J_{1},\ldots,J_{\nlinks}\right]$
+\end_inset
+
+ with links 
+\begin_inset Formula $\links=1,\ldots,\nlinks$
 \end_inset
 
 .
@@ -90,12 +94,12 @@ Consider a freeway section as a sequence of junctions
 
  has an incoming (resp.
  outgoing) mainline density 
-\begin_inset Formula $\density_{i,k}^{\text{Inc}}$
+\begin_inset Formula $\density{\link}{\tind}{\text{Inc}}$
 \end_inset
 
  (resp.
  
-\begin_inset Formula $\density_{i,k}^{\text{Out}}$
+\begin_inset Formula $\density{\link}{\tind}{\text{Out}}$
 \end_inset
 
 ) 
@@ -115,7 +119,7 @@ Consider a freeway section as a sequence of junctions
 \end_inset
 
  (units of vehicles per unit length), onramp density 
-\begin_inset Formula $\density_{i,k}^{\text{On}}\in\mathbb{R}$
+\begin_inset Formula $\density{\link}{\tind}{\text{On}}\in\mathbb{R}$
 \end_inset
 
  (units of vehicles), and offramp split ratio 
@@ -194,7 +198,7 @@ Freeway network junction
 
 .
  Mainline densities represented by 
-\begin_inset Formula $\density$
+\begin_inset Formula $\density{}{}{}$
 \end_inset
 
 , onramp queues by 
@@ -207,11 +211,11 @@ Freeway network junction
 
 .
  Note that 
-\begin_inset Formula $\density_{i}^{\text{Out}}$
+\begin_inset Formula $\density{}{}{}_{i}^{\text{Out}}$
 \end_inset
 
  is equivalent to 
-\begin_inset Formula $\density_{i+1}^{\text{Inc}}$
+\begin_inset Formula $\density{}{}{}_{i+1}^{\text{Inc}}$
 \end_inset
 
 .
@@ -269,11 +273,11 @@ Fundamental diagram with free-flow speed
 \end_inset
 
 , critical density 
-\begin_inset Formula $\density^{c}$
+\begin_inset Formula $\density{}{}{}^{c}$
 \end_inset
 
 , and max density 
-\begin_inset Formula $\density^{\max}$
+\begin_inset Formula $\density{}{}{}^{\max}$
 \end_inset
 
 .
@@ -314,7 +318,7 @@ As control input, an onramp at junction
 \end_inset
 
  has a metering rate 
-\begin_inset Formula $u_{i,k}$
+\begin_inset Formula $\ramp_{\link}^{\tind}\in\left[0,1\right]$
 \end_inset
 
  which limits the flux of vehicles leaving the onramp.
@@ -322,14 +326,17 @@ As control input, an onramp at junction
 \end_layout
 
 \begin_layout Standard
-The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
- are modeled using the LWR equation:
+The vehicle flow dynamics on all links 
+\begin_inset Formula $\link$
+\end_inset
+
+ (mainlines, onramps, and offramps) are modeled using the LWR equation:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\density_{t}+f\left(\density\right)_{x}=0
+\density{}{}{}_{t}+f\left(\density{}{}{}\right)_{x}=0
 \]
 
 \end_inset
@@ -339,15 +346,15 @@ The vehicle flow dynamics on all links (mainlines, onramps, and offramps)
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\density$
+\begin_inset Formula $\density{}{}{}$
 \end_inset
 
  is the density state, and 
-\begin_inset Formula $f'$
+\begin_inset Formula $f$
 \end_inset
 
  is the derivative of the flux function (or fundamental diagram) 
-\begin_inset Formula $f\left(\density\right)$
+\begin_inset Formula $f\left(\density{}{}{}\right)$
 \end_inset
 
 .
@@ -367,17 +374,17 @@ reference "fig:Fundamental-diagram-with"
 \end_layout
 
 \begin_layout Standard
-For notational simplicity we consider the set of densities of links adjacent
+For notational simplicity we define the set of densities of links adjacent
  to a junction 
 \begin_inset Formula $J_{i}$
 \end_inset
 
  at time-step 
-\begin_inset Formula $k$
+\begin_inset Formula $\tind$
 \end_inset
 
  as 
-\begin_inset Formula $\vect{\density}_{J_{i},k}=\left\{ \density_{i,k}^{\text{Inc}},\density_{i,k}^{\text{Out}},\density_{i,k}^{\text{On}}\right\} $
+\begin_inset Formula $=\left\{ \density{}{}{}_{i,k}^{\text{Inc}},\density{}{}{}_{i,k}^{\text{Out}},\density{}{}{}_{i,k}^{\text{On}}\right\} $
 \end_inset
 
 .
@@ -392,7 +399,7 @@ For notational simplicity we consider the set of densities of links adjacent
 \end_inset
 
 , we discretize the downstream mainline density 
-\begin_inset Formula $\density_{i,k}^{\text{Out}}$
+\begin_inset Formula $\density{}{}{}_{i,k}^{\text{Out}}$
 \end_inset
 
  using the Godunov scheme from
@@ -412,7 +419,7 @@ reference "eq:main-ge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{Out}}(\state,\vect v)=\density_{i,k}^{\text{Out}}-\density_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
+h_{i,k}^{\text{Out}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{Out}}-\density{}{}{}_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density{}{}{}}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density{}{}{}}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
 \end{equation}
 
 \end_inset
@@ -434,11 +441,11 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\density}}_{J,k}\right)\right\} _{i}$
+\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\density{}{}{}}}_{J,k}\right)\right\} _{i}$
 \end_inset
 
  is the flux from the boundary condition of density 
-\begin_inset Formula $\density_{\jn,k}^{i}$
+\begin_inset Formula $\density{}{}{}_{\jn,k}^{i}$
 \end_inset
 
  at junction 
@@ -454,7 +461,7 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{On}}(\state,\vect v)=\density_{i,k}^{\text{On}}-\density_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+h_{i,k}^{\text{On}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{On}}-\density{}{}{}_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density{}{}{}}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
@@ -547,9 +554,9 @@ key "Walid,ML"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\delta & = & \min\left(v_{i}\density_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
-\sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
-d & = & u_{i,k}\min\left((1)\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
+\delta & = & \min\left(v_{i}\density{}{}{}_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
+\sigma & = & \min\left(w_{i}\left(\density{}{}{}_{i}^{\max}-\density{}{}{}_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
+d & = & u_{i,k}\min\left((1)\density{}{}{}_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
 \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}} & = & \min\left(\beta_{i,k}\delta+d,\sigma\right)\nonumber \\
 \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}} & = & \begin{cases}
 \delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
@@ -626,8 +633,8 @@ reference "eq:onramp-update"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\state_{|\links|\left(k-1\right)+2*i-1}\defeq & \density_{i,k}^{\text{Out}}\defeq\density_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
-\state_{|\links|\left(k-1\right)+2*i}\defeq & \density_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+2*i-1}\defeq & \density{}{}{}_{i,k}^{\text{Out}}\defeq\density{}{}{}_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
+\state_{|\links|\left(k-1\right)+2*i}\defeq & \density{}{}{}_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
 \state_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
 \end{eqnarray*}
 
@@ -656,7 +663,7 @@ This is expressed with the cost function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density_{i,k}^{\text{Out}}+\density_{i,k}^{\text{On}}
+J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density{}{}{}_{i,k}^{\text{Out}}+\density{}{}{}_{i,k}^{\text{On}}
 \]
 
 \end_inset
@@ -819,8 +826,8 @@ reference "sec:Adjoint-method"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\pfrac{\tilde{C}}{\density_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
-\pfrac{\tilde{C}}{\density_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\density{}{}{}_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
+\pfrac{\tilde{C}}{\density{}{}{}_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
 \pfrac{\tilde{C}}{u_{i,k}}= & R\left(\frac{-1}{1-u_{i,k}}+\frac{1}{u_{i,k}}\right) & 1\le i\le n-1,1\le k\le T
 \end{eqnarray*}
 
@@ -859,7 +866,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
  with respect to the adjacent state variables 
-\begin_inset Formula $\vect{\density}_{J_{i},k}$
+\begin_inset Formula $\vect{\density{}{}{}}_{J_{i},k}$
 \end_inset
 
  and ramp metering control 
@@ -897,16 +904,16 @@ reference "eq:state-rm"
 \begin_inset Formula 
 \begin{eqnarray*}
 \pfrac{\delta}s & = & \begin{cases}
-v_{i} & s=\density_{i,k}^{\text{Inc}},v_{i}\density_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
+v_{i} & s=\density{}{}{}_{i,k}^{\text{Inc}},v_{i}\density{}{}{}_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\sigma}s & = & \begin{cases}
--w_{i} & s=\density_{i,k}^{\text{Out}},w_{i}\left(\density_{i}^{\max}-\density_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
+-w_{i} & s=\density{}{}{}_{i,k}^{\text{Out}},w_{i}\left(\density{}{}{}_{i}^{\max}-\density{}{}{}_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac ds & = & \begin{cases}
-u_{i,k} & s=\density_{i,k}^{\text{On}},\density_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
-\min\left(\density_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
+u_{i,k} & s=\density{}{}{}_{i,k}^{\text{On}},\density{}{}{}_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
+\min\left(\density{}{}{}_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s & = & \begin{cases}
@@ -934,7 +941,7 @@ These expressions fully quantify the partial values needed in
 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:partial-hx-chain-1"
+reference "eq:dhdugod"
 
 \end_inset
 
@@ -945,7 +952,7 @@ reference "eq:partial-hx-chain-1"
 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:partial-hv-chain-1"
+reference "eqdhdvgod"
 
 \end_inset
 

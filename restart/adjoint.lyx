@@ -109,7 +109,7 @@ In addition to our governing equations
 which returns a scalar that serves as a metric of performance of the state
  and control values of the system.
  We wish to minimize the quantity 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
  over the set of control parameters 
