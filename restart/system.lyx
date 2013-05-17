@@ -97,7 +97,7 @@ reference "eq:fhat"
 \end_inset
 
  and all time-steps 
-\begin_inset Formula $\tind\in\left[0,\ldots,\ntime-1\right]$
+\begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
 \end_inset
 
 .
@@ -179,11 +179,11 @@ We represent the entire state of the solved system with the vector
 \end_inset
 
 , where for 
-\begin_inset Formula $\link\in\left[1,\nlinks\right]$
+\begin_inset Formula $\link\in\links$
 \end_inset
 
  and 
-\begin_inset Formula $k\in\left[0,\ntime-1\right]$
+\begin_inset Formula $k\in\intrange 0{\ntime-1}$
 \end_inset
 
 , such that 

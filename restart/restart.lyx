@@ -88,7 +88,8 @@ s in order to minimize some objective.
  After discretizing the PDE system via the Godunov scheme, we detail the
  computation of the gradient of the discretized system with respect to the
  control parameters and show that the complexity of its computation scales
- linearly for networks with small vertex degree.
+ linearly with the number of discrete state variables for networks with
+ small vertex degree.
  The method is applied to solve the problem of coordinated ramp metering
  on freeway networks and is shown to improve the performance and running
  time over existing methods.

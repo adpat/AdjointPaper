@@ -61,7 +61,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\cvar}{u}
+\newcommand{\cvar}{\rho}
 \end_inset
 
 
@@ -85,7 +85,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\dvar}{u}
+\newcommand{\dvar}{\cvar}
 \end_inset
 
 
@@ -197,7 +197,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\convar}{v}
+\newcommand{\convar}{u}
 \end_inset
 
 
@@ -341,30 +341,6 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jnvec}[2]{\vect{#1}_{#2}}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FormulaMacro
-\newcommand{\sjn}[1]{\jnvec{\dvar}{#1}}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FormulaMacro
-\newcommand{\cjn}[1]{\jnvec{\convar}{#1}}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset FormulaMacro
 \newcommand{\nominal}[1]{#1'}
 \end_inset
 
@@ -405,7 +381,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\nout}{m}
+\newcommand{\nout}{m}
 \end_inset
 
 
@@ -413,7 +389,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jlink}[2]{\link_{#1}^{#2}}
+\newcommand{\jlink}[2]{\link_{#1}^{#2}}
 \end_inset
 
 
@@ -421,7 +397,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jup}[1]{\jn_{#1}^{\text{Up}}}
+\newcommand{\jup}[1]{\jn_{#1}^{\text{Up}}}
 \end_inset
 
 
@@ -429,7 +405,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jdown}[1]{\jn_{#1}^{\text{Down}}}
+\newcommand{\jdown}[1]{\jn_{#1}^{\text{Down}}}
 \end_inset
 
 
@@ -437,7 +413,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\tuple}[2]{\left(#1,\ldots,#2\right)}
+\newcommand{\tuple}[2]{\left(#1,\ldots,#2\right)}
 \end_inset
 
 
@@ -445,7 +421,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\trace}[1]{\hat{#1}}
+\newcommand{\trace}[1]{\hat{#1}}
 \end_inset
 
 
@@ -453,7 +429,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ntime}{T}
+\newcommand{\ntime}{T}
 \end_inset
 
 
@@ -461,7 +437,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
+\newcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
 \end_inset
 
 
@@ -469,7 +445,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
+\newcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
 \end_inset
 
 
@@ -477,7 +453,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
+\newcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
 \end_inset
 
 
@@ -485,7 +461,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
+\newcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
 \end_inset
 
 
@@ -493,7 +469,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ssvar}{W_{R}}
+\newcommand{\ssvar}{W_{R}}
 \end_inset
 
 
@@ -501,7 +477,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
+\newcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
 \end_inset
 
 
@@ -509,7 +485,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\god}{g^{G}}
+\newcommand{\god}{g^{G}}
 \end_inset
 
 
@@ -517,7 +493,23 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ramp}{r}
+\newcommand{\ramp}{r}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\length}{L}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\intrange}[2]{\left\{ #1,\ldots,#2\right\} }
 \end_inset
 
 

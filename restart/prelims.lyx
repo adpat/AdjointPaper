@@ -192,14 +192,14 @@ key "garavello2006traffic,Evans1998"
 \end_inset
 
 .
- It can be shown that a unique weak solution exists for all Cauchy problems
- of the form in
+ It can be shown that there exists a unique weak solution exists to a Cauchy
+ problem of the form in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:cauchy"
 
 \end_inset
@@ -227,7 +227,7 @@ A Riemann problem is a Cauchy problem with a piecewise-constant initial
 \[
 \initvar{\cvar}\left(x\right)=\begin{cases}
 \cvar_{-} & x<\initvar x\\
-u_{+} & x\ge\initvar x
+\cvar_{+} & x\ge\initvar x
 \end{cases}
 \]
 
@@ -301,7 +301,7 @@ A network of PDE's is defined as a set of
 \end_inset
 
  links 
-\begin_inset Formula $\links=\left[1,\nlinks\right]$
+\begin_inset Formula $\links=\intrange 1{\nlinks}$
 \end_inset
 
 , with junctions 
@@ -368,7 +368,7 @@ A network of PDE's is defined as a set of
 \end_inset
 
 where 
-\begin_inset Formula $u_{i}^{0}\in BV\cap L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
+\begin_inset Formula $\initstate_{\link}\in BV\cap L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
 \end_inset
 
  is the initial condition on link 
@@ -392,11 +392,11 @@ where
 \end_layout
 
 \begin_layout Standard
-While the behavior on each link 
+While the dynamics on each link 
 \begin_inset Formula $\cvar_{\link}\left(t,x\right)$
 \end_inset
 
- is determined by the dynamics described in Equation
+ is determined by
 \begin_inset space ~
 \end_inset
 
@@ -407,7 +407,7 @@ reference "eq:cons-smooth"
 
 \end_inset
 
-), the behavior of the links still needs to be defined when they meet at
+), the dynamics of the links still needs to be defined when they meet at
  junctions.
 \end_layout
 
@@ -451,7 +451,7 @@ Let all links
 \end_inset
 
  with initial data 
-\begin_inset Formula $\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}$
+\begin_inset Formula $\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\in\mathbb{R}^{\ninc+\nout}$
 \end_inset
 
 .
@@ -492,7 +492,7 @@ where
 \end_inset
 
 , the solution 
-\begin_inset Formula $u_{i}\left(t,x\right)$
+\begin_inset Formula $\cvar_{i}\left(t,x\right)$
 \end_inset
 
  over its spatial domain 
@@ -616,7 +616,7 @@ The Riemann solver must produce self-similar solutions, i.e.
  
 \begin_inset Formula 
 \[
-\RS\left(\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\RS\left(\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
+\RS\left(\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
 \]
 
 \end_inset
@@ -753,8 +753,31 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 \begin_inset Formula $\xind\in\mathbb{Z}$
 \end_inset
 
- grid points.
- 
+ grid points
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The Courant–Friedrichs–Lewy (CFL) condition, 
+\begin_inset Formula $\lambda^{\max}\le\frac{\triangle x}{\triangle t}$
+\end_inset
+
+, guarantees that the waves in two neighboring cells do not interact at
+ the cell boundaries before 
+\begin_inset Formula $\triangle t$
+\end_inset
+
+.
+ Above 
+\begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
+\end_inset
+
+ is the maximum absolute wave speed.
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -783,10 +806,21 @@ For a function
 
 \begin_layout Paragraph
 Godunov scheme for a single link.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+should say something about not working with Inc and Out anymore
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Consider a hyperbolic equation together with an initial condition like
+Consider a hyperbolic equation together with an initial condition as expressed
+ in
 \begin_inset space ~
 \end_inset
 
@@ -798,13 +832,13 @@ reference "eq:cauchy"
 \end_inset
 
 .
- A solution of the problem is constructed by taking a piecewise constant
- approximation of the initial data 
+ A solution of the discretized problem is constructed by taking a piecewise
+ constant approximation of the initial data 
 \begin_inset Formula $\initvar{\dvar}^{\triangle}$
 \end_inset
 
- and then the scheme constructs the solution recursively from the approximate
- initial data as in
+ and then constructing the solution recursively from the approximate initial
+ data as in
 \begin_inset space ~
 \end_inset
 
@@ -819,30 +853,35 @@ reference "eq:godproj"
  
 \begin_inset Formula 
 \begin{equation}
-u_{l}^{k+1}=\dfrac{1}{\Delta x}\int_{x^{\xind}}^{x^{\xind+1}}u^{\Delta}(t^{k+1},x)dx.\label{eq:godproj}
+\discrete{\xind}{\tind}=\dfrac{1}{\Delta x}\int_{x^{\xind}}^{x^{\xind+1}}\dvar^{\Delta}(t^{k+1},x)dx.\label{eq:godproj}
 \end{equation}
 
 \end_inset
 
-The Courant–Friedrichs–Lewy (CFL) condition 
-\begin_inset Formula 
-\[
-\lambda^{\max}\le\frac{\triangle x}{\triangle t}
-\]
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\cvar^{\triangle}\left(t,x\right)$
+\end_inset
+
+ is an exact solution of
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cauchy"
 
 \end_inset
 
-guarantees that the waves in two neighboring cells do not interact at the
- cell boundaries before 
-\begin_inset Formula $\triangle t$
+ with initial condition 
+\begin_inset Formula $\initstate^{\triangle}$
 \end_inset
 
 .
- Above 
-\begin_inset Formula $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
-\end_inset
-
- is the maximum absolute wave speed.
 \end_layout
 
 \begin_layout Standard
@@ -856,12 +895,16 @@ Since
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:godproj"
 
 \end_inset
 
- is an exact solution of 
+ is an exact solution of
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:cons-smooth"
@@ -891,7 +934,7 @@ citation
  is given by 
 \begin_inset Formula 
 \[
-f(u(t,x_{l}))=f(W_{R}(0;u_{l-1}^{k},u_{l}^{k})),
+f(\cvar(t,x_{l}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})),
 \]
 
 \end_inset
@@ -907,13 +950,12 @@ and the flux at
  is given by 
 \begin_inset Formula 
 \[
-f(u(t,x_{l+1}))=f(W_{R}(0;\dvar_{l}^{k},\dvar_{l+1}^{k})),
+f(\cvar(t,x_{\xind+1}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
 \]
 
 \end_inset
 
-.
- As the flux is constant at 
+As the flux is constant at 
 \begin_inset Formula $x=0$
 \end_inset
 
@@ -967,7 +1009,7 @@ The scheme just discussed applies to the case where a single cell is adjacent
  For incoming links near the junction, we have: 
 \begin_inset Formula 
 \begin{align*}
-u_{L_{i}}^{k+1}=u_{L_{i}}^{k+1}-\dfrac{\Delta t}{\Delta x}(f(\hat{u}_{i})-\god(u_{L_{i}-1}^{k},u_{L_{i}}^{k})), & \link\in\left[1,\ninc\right]
+\discrete{\length_{\link}}{\tind+1}=\discrete{\length_{\link}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\discrete{}{}}_{\length_{\link}})-\god(u_{L_{i}-1}^{k},u_{L_{i}}^{k})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
 \end{align*}
 
 \end_inset
@@ -988,7 +1030,7 @@ where
  The same can be done for the outgoing links: 
 \begin_inset Formula 
 \begin{align*}
-u_{0}^{k+1}=u_{0}^{k}-\dfrac{\Delta t}{\Delta x}(\god(u_{0}^{k},u_{1}^{k})-f(\hat{u}_{i})), & i\in\left[\ninc+1,\ninc+\nout\right]
+\discrete 0{\tind+1}=\discrete 0{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 0{\tind},\discrete 1{\tind})-f(\trace{\dvar}_{0}^{\tind})), & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
 \end{align*}
 
 \end_inset
@@ -1010,7 +1052,7 @@ Using the Godunov scheme, each mesh grid along a given
 \end_inset
 
  at a time-step 
-\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
+\begin_inset Formula $k\in\intrange 0{\ntime-1}$
 \end_inset
 
  is represented by the single discrete value 
@@ -1056,7 +1098,7 @@ The previous remark allows us to develop a generalized update step for all
 \end_inset
 
 , and time-step 
-\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
+\begin_inset Formula $\tind\in\left\{ 0,\ldots,\ntime-1\right\} $
 \end_inset
 
 , the update step becomes:
@@ -1065,8 +1107,8 @@ The previous remark allows us to develop a generalized update step for all
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-u_{\link}^{k+1} & =u_{\link}^{k}-\dfrac{\Delta t}{\Delta x}(f(\left(\RS\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link})-f(\left(\RS\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}))\nonumber \\
- & =u_{\link}^{k}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))\label{eq:reg-update}
+\discrete{\link}{\tind+1} & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\RS\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link})-f(\left(\RS\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}))\nonumber \\
+ & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))\label{eq:reg-update}
 \end{align}
 
 \end_inset
@@ -1091,7 +1133,7 @@ th element of the tuple
 \end_layout
 
 \begin_layout Paragraph
-Composing the Riemann solver and flux function.
+Working directly with flux solutions at junctions.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Composing-the-Riemann"
@@ -1102,21 +1144,18 @@ name "par:Composing-the-Riemann"
 \end_layout
 
 \begin_layout Standard
-The equations are sometimes simplified if we allow ourselves to consider
- the composition of the Riemann solver 
-\begin_inset Formula $\RS$
+The equations can be simplified if we do not explicitly represent the solution
+ of the Riemann solver, 
+\begin_inset Formula $\junctrace{\jn}{}$
 \end_inset
 
- and the flux function 
-\begin_inset Formula $f$
-\end_inset
-
- directly.
- We define this composition of functions as 
+, and, instead, directly calculate the flux solution from the Riemann data,
+ .
+ We denote this composition of functions by 
 \begin_inset Formula $\god_{\jn}$
 \end_inset
 
-, the Godunov flux solution solution at a junction:
+, the Godunov flux solution at a junction:
 \end_layout
 
 \begin_layout Standard
@@ -1134,7 +1173,7 @@ This gives a simplified expressions for the update step:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-u_{\link}^{k+1}=u_{\link}^{k}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:composed-flux}
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:composed-flux}
 \end{equation}
 
 \end_inset
@@ -1242,7 +1281,7 @@ reference "eq:reg-update"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-u_{\link}^{k+1}=u_{\link}^{k}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))
 \]
 
 \end_inset
@@ -1306,7 +1345,7 @@ reference "eq:composed-flux"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-u_{\link}^{k+1}=u_{\link}^{k}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:fhat}
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:fhat}
 \end{equation}
 
 \end_inset
