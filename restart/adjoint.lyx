@@ -452,11 +452,11 @@ Instead of evaluating
 \end_inset
 
  directly, the adjoint method instead solves the following system, called
- the 
-\emph on
-adjoint system
-\emph default
-:
+ the adjoint system, for a new unknown variable 
+\begin_inset Formula $\lambda\in\mathbb{R}^{\nlinks\ntime}$
+\end_inset
+
+ (called the adjoint variable):
 \end_layout
 
 \begin_layout Standard
@@ -467,10 +467,6 @@ adjoint system
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 Then the expression for the gradient becomes:
 \end_layout
 
@@ -482,10 +478,6 @@ d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\lambda^{T}\Hu
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 We show in Section
 \begin_inset space ~
 \end_inset
@@ -1357,33 +1349,33 @@ reference "sec:State,-control,-and"
 
 \end_inset
 
-, we know when 
-\begin_inset Formula $i\ne j$
+ of ordering variables by increasing time-step and ordering constraints
+ by corresponding variable, we know for 
+\begin_inset Formula $\Hx$
 \end_inset
 
-, 
-\begin_inset Formula $\pfrac{\syseq_{i,k}}{\state_{j,l}}=0$
+, diagonal terms are always 
+\begin_inset Formula $1$
 \end_inset
 
- for all 
-\begin_inset Formula $l\ge k$
-\end_inset
-
-, and 
-\begin_inset Formula $\pfrac{\syseq_{i,k}}{\state_{i,k}}=1$
-\end_inset
-
-.
+ and all upper-triangular terms must be zero (since those terms correspond
+ to constraints with a dependence of 
+\emph on
+future
+\emph default
+ values).
  These two conditions demonstrate both that 
 \begin_inset Formula $\Hx$
 \end_inset
 
- is lower-triangular and is also invertible.
+ is lower-triangular and is also invertible due to the non-zero diagonal
+ terms.
 \end_layout
 
 \begin_layout Standard
-Additionally, if we take a single state variable 
-\begin_inset Formula $\state_{\link,k}$
+Additionally, if we consider taking partial derivatives with respect to
+ the variable 
+\begin_inset Formula $\discrete jl$
 \end_inset
 
 , then we can deduce from Equation
@@ -1397,17 +1389,17 @@ reference "eq:main-ge"
 
 \end_inset
 
- that all partial terms will be zero except for those terms involving constraint
-s at time 
-\begin_inset Formula $k+1$
+ that all partial terms will be zero except for the diagonal term, and those
+ terms involving constraints at time 
+\begin_inset Formula $\tind+1$
 \end_inset
 
- and links connecting to the downstream and upstream junctions 
-\begin_inset Formula $\jn_{\link}^{\text{Down}}$
+ with links connecting to the downstream and upstream junctions 
+\begin_inset Formula $\jdown j$
 \end_inset
 
  and 
-\begin_inset Formula $\jn_{\link}^{\text{Up}}$
+\begin_inset Formula $\jup j$
 \end_inset
 
  respectively.
@@ -1456,12 +1448,11 @@ Using the same line of argument for maximum cardinality in
 
 .
  Taking a single control variable 
-\begin_inset Formula $\control_{i,k}$
+\begin_inset Formula $\condiscrete jl$
 \end_inset
 
- at time-step k, the variable can only appear in constraints at time-step
- 
-\begin_inset Formula $k+1$
+, the variable can only appear in constraints at time-step 
+\begin_inset Formula $\tind+1$
 \end_inset
 
  that correspond to a link that connects to a junction 
@@ -1469,7 +1460,7 @@ Using the same line of argument for maximum cardinality in
 \end_inset
 
  such that 
-\begin_inset Formula $v_{i,k}\in\control_{\jn,k}$
+\begin_inset Formula $\condiscrete jl\in\junccon{\jn}{l+1}$
 \end_inset
 
 .
@@ -1514,7 +1505,7 @@ If we only consider the lower triangular form of
 
 , then the complexity of solving for the gradient using the forward system
  is 
-\begin_inset Formula $O(|\state|^{2}|\control|)$
+\begin_inset Formula $O(\left(\nlinks\ntime\right)^{2}\ncontrols\ntime)$
 \end_inset
 
 , where the dominating term comes from solving
@@ -1529,7 +1520,7 @@ reference "eq:j-v"
 \end_inset
 
 , which requires the solution of 
-\begin_inset Formula $|\control|$
+\begin_inset Formula $\ncontrols\ntime$
 \end_inset
 
  separate 
@@ -1545,10 +1536,10 @@ reference "eq:j-v"
 \noun off
 \color none
 
-\begin_inset Formula $|\state|\times|\state|$
+\begin_inset Formula $\nlinks\ntime\times\nlinks\ntime$
 \end_inset
 
- lower-triangular system.
+ lower-triangular systems.
  The lower-triangular system allows for forward substitution, we can be
  solved in
 \family default
@@ -1563,21 +1554,21 @@ reference "eq:j-v"
 \noun default
 \color inherit
  
-\begin_inset Formula $O(|\state|^{2})$
+\begin_inset Formula $O(\left(\nlinks\ntime\right)^{2})$
 \end_inset
 
  steps, giving the overall complexity 
-\begin_inset Formula $O(|\state|^{2}|\control|)$
+\begin_inset Formula $O(\left(\nlinks\ntime\right)^{2}\ncontrols\ntime)$
 \end_inset
 
 .
  The complexity of the adjoint method is 
-\begin_inset Formula $O(|\state|^{2}+|\state||\control|)$
+\begin_inset Formula $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$
 \end_inset
 
 , which is certainly more efficient than the forward-method, as long as
  
-\begin_inset Formula $|\control|>1$
+\begin_inset Formula $\ncontrols\ntime>1$
 \end_inset
 
 .
@@ -1605,7 +1596,7 @@ reference "eq:adjoint"
 \noun off
 \color none
  
-\begin_inset Formula $|\state|\times|\state|$
+\begin_inset Formula $\nlinks\ntime\times\nlinks\ntime$
 \end_inset
 
  
@@ -1638,11 +1629,11 @@ upper
 \end_inset
 
 , a 
-\begin_inset Formula $|\state|\times|\state|$
+\begin_inset Formula $\nlinks\ntime\times\nlinks\ntime$
 \end_inset
 
  and a 
-\begin_inset Formula $|\state|\times|\control|$
+\begin_inset Formula $\nlinks\ntime\times\ncontrols\ntime$
 \end_inset
 
  matrix in
@@ -1669,7 +1660,7 @@ reference "eq:adjoint-grad"
 \noun default
 \color inherit
 
-\begin_inset Formula $O(|\state|^{2}+|\state||\control|)$
+\begin_inset Formula $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$
 \end_inset
 
 .
@@ -1682,7 +1673,7 @@ For the adjoint method, this complexity can be improved upon by considering
 \end_inset
 
  and 
-\begin_inset Formula $H_{v}$
+\begin_inset Formula $\Hu$
 \end_inset
 
  matrices, as detailed in Section
@@ -1703,7 +1694,7 @@ reference "par:Structure-and-sparsity"
 
  vector is solved by 
 \emph on
-at-most
+at most
 \emph default
  
 \begin_inset Formula $D_{\state}$
@@ -1721,7 +1712,7 @@ reference "eq:adjoint"
 \end_inset
 
  is reduced to 
-\begin_inset Formula $O(D_{\state}|\state|)$
+\begin_inset Formula $O(D_{\state}\nlinks\ntime)$
 \end_inset
 
 .
@@ -1751,7 +1742,7 @@ of
 \end_inset
 
  multiplications, giving a complexity of 
-\begin_inset Formula $O(D_{v}|\control|)$
+\begin_inset Formula $O(D_{v}\ncontrols\ntime)$
 \end_inset
 
 .
@@ -1769,7 +1760,7 @@ of
 \noun default
 \color inherit
 
-\begin_inset Formula $O(D_{\state}|\state|+D_{v}|\control|)$
+\begin_inset Formula $O(\ntime\left(D_{\state}\nlinks+D_{v}\ncontrols\right))$
 \end_inset
 
 .

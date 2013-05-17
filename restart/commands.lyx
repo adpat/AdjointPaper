@@ -157,7 +157,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\junctions}{\mathcal{J}}
+\renewcommand{\junctions}{\mathcal{J}}
 \end_inset
 
 
@@ -165,7 +165,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jns}{\junctions}
+\renewcommand{\jns}{\junctions}
 \end_inset
 
 
@@ -173,7 +173,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\junction}{J}
+\renewcommand{\junction}{J}
 \end_inset
 
 
@@ -181,7 +181,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jn}{\junction}
+\renewcommand{\jn}{\junction}
 \end_inset
 
 
@@ -189,7 +189,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\RS}{RS}
+\renewcommand{\RS}{RS}
 \end_inset
 
 
@@ -197,7 +197,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\convar}{v}
+\renewcommand{\convar}{v}
 \end_inset
 
 
@@ -205,7 +205,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\condiscrete}[2]{\convar_{#1}^{#2}}
+\renewcommand{\condiscrete}[2]{\convar_{#1}^{#2}}
 \end_inset
 
 
@@ -213,7 +213,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\ncontrols}{N^{\convar}}
+\renewcommand{\ncontrols}{M}
 \end_inset
 
 
@@ -221,7 +221,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\control}{\vec{\convar}}
+\renewcommand{\control}{\vec{\convar}}
 \end_inset
 
 
@@ -229,7 +229,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\state}{\vec{\dvar}}
+\renewcommand{\state}{\vec{\dvar}}
 \end_inset
 
 
@@ -237,7 +237,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\density}{\dvar}
+\renewcommand{\density}{\dvar}
 \end_inset
 
 
@@ -245,7 +245,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\defeq}{:=}
+\renewcommand{\defeq}{:=}
 \end_inset
 
 
@@ -253,7 +253,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\renewcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
 \end_inset
 
 
@@ -261,7 +261,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\Inc}{\text{Inc}}
+\renewcommand{\Inc}{\text{Inc}}
 \end_inset
 
 
@@ -269,7 +269,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\Out}{\text{Out}}
+\renewcommand{\Out}{\text{Out}}
 \end_inset
 
 
@@ -277,7 +277,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\sys}{H}
+\renewcommand{\sys}{H}
 \end_inset
 
 
@@ -285,7 +285,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\syseq}{h}
+\renewcommand{\syseq}{h}
 \end_inset
 
 
@@ -293,7 +293,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\cost}{C}
+\renewcommand{\cost}{C}
 \end_inset
 
 
@@ -301,7 +301,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\pmat}[2]{#1_{#2}}
+\renewcommand{\pmat}[2]{#1_{#2}}
 \end_inset
 
 
@@ -309,7 +309,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\Hx}{\pmat{\sys}{\state}}
+\renewcommand{\Hx}{\pmat{\sys}{\state}}
 \end_inset
 
 
@@ -373,7 +373,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\evaluate}[2]{\left.#1\right|_{#2}}
+\newcommand{\evaluate}[2]{\left.#1\right|_{#2}}
 \end_inset
 
 
@@ -381,7 +381,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\tind}{k}
+\newcommand{\tind}{k}
 \end_inset
 
 
@@ -389,7 +389,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\xind}{l}
+\newcommand{\xind}{l}
 \end_inset
 
 
@@ -397,7 +397,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ninc}{n}
+\newcommand{\ninc}{n}
 \end_inset
 
 
@@ -405,7 +405,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\nout}{m}
+\newcommand{\nout}{m}
 \end_inset
 
 
@@ -413,7 +413,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jlink}[2]{\link_{#1}^{#2}}
+\newcommand{\jlink}[2]{\link_{#1}^{#2}}
 \end_inset
 
 
@@ -421,7 +421,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jup}[1]{\jn_{#1}^{\text{Up}}}
+\newcommand{\jup}[1]{\jn_{#1}^{\text{Up}}}
 \end_inset
 
 
@@ -429,7 +429,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\jdown}[1]{\jn_{#1}^{\text{Down}}}
+\newcommand{\jdown}[1]{\jn_{#1}^{\text{Down}}}
 \end_inset
 
 
@@ -437,7 +437,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\tuple}[2]{\left(#1,\ldots,#2\right)}
+\newcommand{\tuple}[2]{\left(#1,\ldots,#2\right)}
 \end_inset
 
 
@@ -445,7 +445,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\trace}[1]{\hat{#1}}
+\newcommand{\trace}[1]{\hat{#1}}
 \end_inset
 
 
@@ -453,7 +453,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ntime}{T}
+\newcommand{\ntime}{T}
 \end_inset
 
 
@@ -461,7 +461,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
+\newcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
 \end_inset
 
 
@@ -469,7 +469,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
+\newcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
 \end_inset
 
 
@@ -477,7 +477,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
+\newcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
 \end_inset
 
 
@@ -485,7 +485,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
+\newcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
 \end_inset
 
 
@@ -493,7 +493,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ssvar}{W_{R}}
+\newcommand{\ssvar}{W_{R}}
 \end_inset
 
 
@@ -501,7 +501,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
+\newcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
 \end_inset
 
 
@@ -509,7 +509,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\god}{g^{G}}
+\newcommand{\god}{g^{G}}
 \end_inset
 
 

@@ -119,7 +119,7 @@ control
 
  that influence the solution of the Riemann problems at junctions, where
  
-\begin_inset Formula $N_{\control}$
+\begin_inset Formula $\ncontrols$
 \end_inset
 
  is the number of controllable values at each time-step, and each control
