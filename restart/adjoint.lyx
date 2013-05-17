@@ -1064,8 +1064,8 @@ e of the flux function
 \end_inset
 
 , and the partial terms just discussed.
- These values are explicitly calculated for the problem of optimal ramp
- metering in Section
+ These expressions are explicitly calculated for the problem of optimal
+ ramp metering in Section
 \begin_inset space ~
 \end_inset
 
@@ -1302,18 +1302,26 @@ name "par:Structure-and-sparsity"
 \end_layout
 
 \begin_layout Standard
-We can show the lower-triangular structure of 
+We can show the lower-triangular structure and invertibility of 
 \begin_inset Formula $\Hx$
 \end_inset
 
- by examining the governing equations in 
+ by examining
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:init-ge"
 
 \end_inset
 
- and 
+ and
+\begin_inset space ~
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:main-ge"
@@ -1322,36 +1330,19 @@ reference "eq:main-ge"
 
 .
  For 
-\begin_inset Formula $k=0$
-\end_inset
-
-, we have 
-\begin_inset Formula $\pfrac{\syseq_{i,0}}{\state_{j,0}}=1$
-\end_inset
-
- if 
-\begin_inset Formula $i=j$
-\end_inset
-
- and 0 otherwise, giving all 1's on the diagonal (
-\begin_inset Formula $\pfrac{H_{i,j}}{\state_{i,j}}=1\forall i,j$
-\end_inset
-
-).
- For 
-\begin_inset Formula $k\in\left[2,\ldots,T\right]$
+\begin_inset Formula $\tind\in\left[1,\ldots,\ntime-1\right]$
 \end_inset
 
 , we have that 
-\begin_inset Formula $\syseq_{\link,k}$
+\begin_inset Formula $\syseq_{\link}^{\tind}$
 \end_inset
 
  is only a function of 
-\begin_inset Formula $\state_{\link,k}$
+\begin_inset Formula $\discrete{\link}{\tind}$
 \end_inset
 
  and of the state variables from the previous time-step 
-\begin_inset Formula $k-1$
+\begin_inset Formula $\tind-1$
 \end_inset
 
 .
