@@ -96,7 +96,7 @@ In addition to our governing equations
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\cost: & \mathbb{R}^{\nlinks T}\times\mathbb{R}^{N_{\control}T} & \rightarrow\mathbb{R}\\
+\cost: & \mathbb{R}^{\nlinks T}\times\mathbb{R}^{\ncontrols T} & \rightarrow\mathbb{R}\\
  & \left(\state,\control\right) & \mapsto\cost\left(\state,\control\right)
 \end{eqnarray*}
 
@@ -852,7 +852,7 @@ Given that the governing equations require the evaluation of a Riemann solver
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Description
 If we consider a particular governing equation 
 \begin_inset Formula $\syseq_{\link}^{\tind}$
 \end_inset
@@ -866,10 +866,10 @@ If we consider a particular governing equation
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{eqnarray}
-\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}= & \pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\discrete jl}\label{eq:dhdufull}\\
- &  & -\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\discrete jl}\nonumber 
-\end{eqnarray}
+\begin{align}
+\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\discrete jl}\label{eq:dhdufull}\\
+ & -\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\discrete jl}\nonumber 
+\end{align}
 
 \end_inset
 
@@ -932,10 +932,10 @@ Similarly for
 \noun off
 \color none
 \begin_inset Formula 
-\begin{eqnarray}
-\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl} & = & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\condiscrete jl}\label{eq:dhdvfull}\\
- &  & -\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\condiscrete jl}\nonumber 
-\end{eqnarray}
+\begin{align}
+\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\condiscrete jl}\label{eq:dhdvfull}\\
+ & -\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\condiscrete jl}\nonumber 
+\end{align}
 
 \end_inset
 

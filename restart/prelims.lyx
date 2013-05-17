@@ -918,7 +918,7 @@ f(u(t,x_{l+1}))=f(W_{R}(0;\dvar_{l}^{k},\dvar_{l+1}^{k})),
 \end_inset
 
 , we can put it out of the integral and, setting 
-\begin_inset Formula $g(u,v)=f(W_{R}(0;u,v))$
+\begin_inset Formula $\god(u,v)=f(W_{R}(0;u,v))$
 \end_inset
 
 , Under the CFL condition the scheme can be written as 
@@ -960,12 +960,10 @@ name "par:Godunov-scheme-at"
 \end_layout
 
 \begin_layout Standard
-We can generalize the above approach to the case where the grid point 
-\begin_inset Formula $x^{\xind}$
-\end_inset
-
- is adjacent to a junction, in which case there is not necessarily a single
- adjacent cell.
+The scheme just discussed applies to the case where a single cell is adjacent
+ to another single cell.
+ Yet, at junctions, a cell may share a boundary with more than one cell.
+ A more general Godunov flux can be derived for such cases.
  For incoming links near the junction, we have: 
 \begin_inset Formula 
 \begin{align*}
