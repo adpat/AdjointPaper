@@ -150,7 +150,7 @@ reference "eq:cons"
 
 \begin_layout Standard
 For a particular initial condition 
-\begin_inset Formula $\initstate\in L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
+\begin_inset Formula $\initstate\in BV\cap L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
 \end_inset
 
 , we seek 
@@ -192,8 +192,8 @@ key "garavello2006traffic,Evans1998"
 \end_inset
 
 .
- It can be shown that a unique weak solution for all Cauchy problems of
- the form in
+ It can be shown that a unique weak solution exists for all Cauchy problems
+ of the form in
 \begin_inset space ~
 \end_inset
 
@@ -219,11 +219,7 @@ Riemann Problem.
 
 \begin_layout Definition
 A Riemann problem is a Cauchy problem with a piecewise-constant initial
- condition that has one point of discontinuity, 
-\begin_inset Formula $x=\bar{x}$
-\end_inset
-
- (called the Riemann data):
+ condition (called the Riemann data):
 \end_layout
 
 \begin_layout Definition
@@ -237,7 +233,12 @@ u_{+} & x\ge\initvar x
 
 \end_inset
 
-Without loss of generality, we may take 
+with one point of discontinuity, 
+\begin_inset Formula $x=\bar{x}$
+\end_inset
+
+.
+ Without loss of generality, we may take 
 \begin_inset Formula $\bar{x}=0$
 \end_inset
 
@@ -245,11 +246,7 @@ Without loss of generality, we may take
 \end_layout
 
 \begin_layout Standard
-It can be shown that along lines of constant 
-\begin_inset Formula $\frac{x}{t}$
-\end_inset
-
-, the 
+It can be shown that the 
 \begin_inset Formula $\cvar$
 \end_inset
 
@@ -257,20 +254,30 @@ It can be shown that along lines of constant
 \begin_inset Formula $\left(\cvar_{-};\cvar_{+}\right)$
 \end_inset
 
- has a constant value.
- We denote the self-similar solution by 
+ has a constant value along lines of constant 
+\begin_inset Formula $\frac{x}{t}$
+\end_inset
+
+.
+ We denote this constant value along the characteristic by 
 \begin_inset Formula $\ss{\frac{x}{t}}{\cvar_{-}}{\cvar_{+}}$
 \end_inset
 
-:
-\end_layout
+.
+\begin_inset Note Note
+status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \begin{eqnarray*}
 \ssvar: & \mathbb{R}\times\mathbb{R}\times\mathbb{R}\rightarrow & \mathbb{R}\\
  & \left(\frac{x}{t};\cvar_{-},\cvar_{+}\right)\mapsto & \ss{\frac{x}{t}}{\cvar_{-}}{\cvar_{+}}
 \end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -361,7 +368,7 @@ A network of PDE's is defined as a set of
 \end_inset
 
 where 
-\begin_inset Formula $u_{i}^{0}\in L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
+\begin_inset Formula $u_{i}^{0}\in BV\cap L_{\text{loc}}^{1}\left(\mathbb{R};\mathbb{R}\right)$
 \end_inset
 
  is the initial condition on link 
