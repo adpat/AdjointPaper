@@ -436,7 +436,7 @@ flux function
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\bar{u}$
+\begin_inset Formula $\initstate$
 \end_inset
 
  
@@ -471,7 +471,7 @@ Riemann data
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $u^{-}$
+\begin_inset Formula $\cvar^{-}$
 \end_inset
 
  
@@ -506,7 +506,7 @@ Left state of the Riemann data
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $u^{+}$
+\begin_inset Formula $\cvar^{+}$
 \end_inset
 
  
@@ -576,6 +576,9 @@ Point of discontinuity
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\ssvar$
+\end_inset
+
 
 \end_layout
 

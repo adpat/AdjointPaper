@@ -124,7 +124,8 @@ control
 
  is the number of controllable values at each time-step, and each control
  may be updated at each time-step.
- It is likely that a control may only influence the subset of junctions.
+ We assume that a control may only influence a subset of junctions, a reasonable
+ assumption if the controls have some spatial locality.
  Thus, for a junction 
 \begin_inset Formula $\jn\in\jns$
 \end_inset
@@ -165,7 +166,7 @@ control
 \begin_inset Formula 
 \begin{eqnarray*}
 \RS_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\times\mathbb{R}^{\ncontrols_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\\
- & \left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right) & \mapsto\RS_{\jn}\left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right)=\juncstate{\jn}{\tind}
+ & \left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right) & \mapsto\RS_{\jn}\left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right)=\junctrace{\jn}{\tind}
 \end{eqnarray*}
 
 \end_inset
@@ -186,8 +187,8 @@ We represent the entire state of the solved system with the vector
 \begin_inset Formula $k\in\intrange 0{\ntime-1}$
 \end_inset
 
-, such that 
-\begin_inset Formula $\state_{\nlinks k+\link}=\dvar_{\link,k}$
+, we have 
+\begin_inset Formula $\state_{\nlinks k+\link}=\discrete{\link}{\tind}$
 \end_inset
 
 .

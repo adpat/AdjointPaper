@@ -522,7 +522,7 @@ where
 \begin_layout Standard
 The Riemann problem for an outgoing link is defined similarly, with the
  exception that 
-\begin_inset Formula $\cvar_{\link}\left(0,x>0\right)=\cvar_{\link}^{0}$
+\begin_inset Formula $\cvar_{\link}\left(0,x>0\right)=\initstate_{\link}$
 \end_inset
 
  and 
@@ -564,7 +564,7 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename presentation/figs-gen/junctions-riemann-rs.eps
+	filename presentation/figs-gen/junctions-riemann-rs.pdf
 	width 50col%
 
 \end_inset
@@ -1149,9 +1149,8 @@ The equations can be simplified if we do not explicitly represent the solution
 \begin_inset Formula $\junctrace{\jn}{}$
 \end_inset
 
-, and, instead, directly calculate the flux solution from the Riemann data,
- .
- We denote this composition of functions by 
+, and, instead, directly calculate the flux solution from the Riemann data.
+ We denote this direct computation by 
 \begin_inset Formula $\god_{\jn}$
 \end_inset
 

@@ -113,7 +113,7 @@ which returns a scalar that serves as a metric of performance of the state
 \end_inset
 
  over the set of control parameters 
-\begin_inset Formula $\vect v$
+\begin_inset Formula $\control$
 \end_inset
 
 , while constraining the state of the system to satisfy the governing equations
@@ -158,12 +158,12 @@ We wish to use gradient information in order to find control values
 \begin_inset Formula $\control^{*}$
 \end_inset
 
- that give small costs 
+ that give locally optimal costs 
 \begin_inset Formula $\cost^{*}=\cost\left(\state\left(\control^{*}\right),\control^{*}\right)$
 \end_inset
 
 .
- Since there may exist many local minima for the optimization problem
+ Since there may exist many local minima for this optimization problem
 \begin_inset space ~
 \end_inset
 
@@ -174,15 +174,7 @@ reference "eq:op-problem"
 
 \end_inset
 
- due to the possible non-convexity of 
-\begin_inset Formula $\cost$
-\end_inset
-
- and 
-\begin_inset Formula $\sys$
-\end_inset
-
-, gradient
+ (which is non-convex in general), gradient
 \emph on
  
 \emph default
@@ -216,7 +208,7 @@ In a descent algorithm, the optimization procedure will have to descend
 \begin_inset Formula $\left(\nominal{\state},\nominal{\control}\right)$
 \end_inset
 
-
+ is given by:
 \end_layout
 
 \begin_layout Standard
@@ -244,7 +236,7 @@ The main difficulty is to compute the term
 \begin_inset Formula $\control$
 \end_inset
 
- is equal to zero since its evaluation must always be zero:
+ is equal to zero along trajectories of the system:
 \end_layout
 
 \begin_layout Standard
@@ -260,19 +252,19 @@ d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfra
 
 \begin_layout Standard
 The partial derivative terms, 
-\begin_inset Formula $\Hx$
+\begin_inset Formula $\Hx\in\mathbb{R}^{\nlinks\ntime\times\nlinks\ntime}$
 \end_inset
 
 , 
-\begin_inset Formula $\Hu$
+\begin_inset Formula $\Hu\in\mathbb{R}^{\nlinks\ntime\times\ncontrols\ntime}$
 \end_inset
 
 , 
-\begin_inset Formula $\Jx$
+\begin_inset Formula $\Jx\in\mathbb{R}^{\nlinks\ntime}$
 \end_inset
 
 , and 
-\begin_inset Formula $\Ju$
+\begin_inset Formula $\Ju\in\mathbb{R}^{\ncontrols\ntime}$
 \end_inset
 
 , can all be evaluated (more details provided in Section
@@ -300,7 +292,7 @@ reference "sub:Evaluating--and"
 \noun off
 \color none
 
-\begin_inset Formula $d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)$
+\begin_inset Formula $d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)\in\mathbb{R}^{\ncontrols\ntime}$
 \end_inset
 
 , we must solve a coupled system of matrix equations.
@@ -331,7 +323,7 @@ name "par:Forward-system"
 \noun off
 \color none
 If we solve for 
-\begin_inset Formula $\Dfrac{\state}{\control}$
+\begin_inset Formula $\Dfrac{\state}{\control}\in\mathbb{R}^{\nlinks\ntime\times\ncontrols\ntime}$
 \end_inset
 
  in
@@ -490,15 +482,15 @@ reference "sub:Complexity-of-solving"
 \end_inset
 
  how the complexity of computing the gradient is reduced from 
-\begin_inset Formula $O(D_{\state}\nlinks\ncontrols\ntime^{2})$
+\begin_inset Formula $O(\degree{\state}\nlinks\ncontrols\ntime^{2})$
 \end_inset
 
  to 
-\begin_inset Formula $O(\ntime\left(D_{\state}\nlinks+D_{v}\ncontrols\right))$
+\begin_inset Formula $O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$
 \end_inset
 
  by considering the adjoint method over the forward method, where 
-\begin_inset Formula $D_{\state}$
+\begin_inset Formula $\degree{\state}$
 \end_inset
 
  is the maximum junction degree on the network
@@ -517,7 +509,7 @@ D_{\state}=\max_{\jn\in\jns}\ninc_{\jn}+\nout_{\jn}\label{eq:dx}
 
 \begin_layout Standard
 and 
-\begin_inset Formula $D_{v}$
+\begin_inset Formula $\degree{\control}$
 \end_inset
 
  is the maximum number of constraints that a single control variable appears
@@ -531,7 +523,7 @@ and
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-D_{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\ninc_{\jn}+\nout_{\jn}\label{eq:dv}
+\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\ninc_{\jn}+\nout_{\jn}\label{eq:dv}
 \end{equation}
 
 \end_inset
@@ -765,19 +757,19 @@ name "fig:Depicting--and"
 \end_inset
 
 Since the 
-\begin_inset Formula $D_{\state}$
+\begin_inset Formula $\degree{\state}$
 \end_inset
 
  and 
-\begin_inset Formula $D_{\control}$
+\begin_inset Formula $\degree{\control}$
 \end_inset
 
  typically do not scale with 
-\begin_inset Formula $|\state|$
+\begin_inset Formula $\nlinks\ntime$
 \end_inset
 
  or 
-\begin_inset Formula $|\control|$
+\begin_inset Formula $\ncontrols\ntime$
 \end_inset
 
  for freeway networks (which have low node degree), the complexity of evaluating
@@ -1420,7 +1412,7 @@ reference "sec:State,-control,-and"
 
  will be invertible, lower-triangular and each column will have a maximum
  cardinality equal to 
-\begin_inset Formula $D_{\state}$
+\begin_inset Formula $\degree{\state}$
 \end_inset
 
  in
@@ -1465,7 +1457,7 @@ Using the same line of argument for maximum cardinality in
 
 .
  These conditions give us the expression for 
-\begin_inset Formula $D_{\control}$
+\begin_inset Formula $\degree{\control}$
 \end_inset
 
  in
@@ -1697,7 +1689,7 @@ reference "par:Structure-and-sparsity"
 at most
 \emph default
  
-\begin_inset Formula $D_{\state}$
+\begin_inset Formula $\degree{\state}$
 \end_inset
 
  multiplications, and thus the complexity of solving
@@ -1712,7 +1704,7 @@ reference "eq:adjoint"
 \end_inset
 
  is reduced to 
-\begin_inset Formula $O(D_{\state}\nlinks\ntime)$
+\begin_inset Formula $O(\degree{\state}\nlinks\ntime)$
 \end_inset
 
 .
@@ -1738,11 +1730,11 @@ of
 
  is not necessarily sparse, we know that each entry in the resulting vector
  requires at most 
-\begin_inset Formula $D_{v}$
+\begin_inset Formula $\degree{\control}$
 \end_inset
 
  multiplications, giving a complexity of 
-\begin_inset Formula $O(D_{v}\ncontrols\ntime)$
+\begin_inset Formula $O(\degree{\control}\ncontrols\ntime)$
 \end_inset
 
 .
@@ -1760,7 +1752,7 @@ of
 \noun default
 \color inherit
 
-\begin_inset Formula $O(\ntime\left(D_{\state}\nlinks+D_{v}\ncontrols\right))$
+\begin_inset Formula $O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$
 \end_inset
 
 .
