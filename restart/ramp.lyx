@@ -126,11 +126,11 @@ resp.
 \begin_inset Formula $\in\mathbb{R}$
 \end_inset
 
- (units of vehicles per unit length), onramp density 
+ and onramp density 
 \begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{On}}\in\mathbb{R}$
 \end_inset
 
- (units of vehicles), and offramp split ratio 
+ (in units of vehicles per unit length), and offramp split ratio 
 \begin_inset Formula $\splitratio_{\link}^{\tind}$
 \end_inset
 
@@ -146,7 +146,7 @@ resp.
 
  is the source of the network, it has no upstream mainline or offramp, and
  similarly 
-\begin_inset Formula $\jn_{\nlinks}$
+\begin_inset Formula $\jn_{\nlinks+1}$
 \end_inset
 
  has no downstream mainline or onramp.
@@ -454,11 +454,11 @@ where
 \end_inset
 
  and 
-\begin_inset Formula $\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\link}$
+\begin_inset Formula $\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{s}\in\mathbb{R}$
 \end_inset
 
  is the flux from the boundary condition of density 
-\begin_inset Formula $\juncstate{\link}{\tind}$
+\begin_inset Formula $\densitydiscrete{\link}{\tind}s$
 \end_inset
 
  at junction 
@@ -466,12 +466,12 @@ where
 \end_inset
 
  for 
-\begin_inset Formula $\link\in\intrange 1{\nlinks}$
+\begin_inset Formula $s\in\left\{ \text{Inc},\text{Out},\text{On}\right\} $
 \end_inset
 
 .
  We also make the assumption that onramps have infinite capacity and a length
- of one to prevent ramp congestion from block demand from ever entering
+ of one to prevent the ramp congestion from blocking demand from ever entering
  the network.
  We can then simplify the onramp update equation to be:
 \end_layout
@@ -590,16 +590,12 @@ d & = & \ramp_{\link}^{\tind}\min\left((1)\densitydiscrete{\link}{\tind}{\text{O
 \frac{\sigma p_{i}}{\left(1+p_{i}\right)\splitratio_{\link}^{\tind}} & \text{otherwise}
 \end{cases}\\
 \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\splitratio_{\link}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\splitratio_{\link}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\splitratio_{\link}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}},\label{eq:last-ramp}
 \end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-, where, for simplicity of notation, any undefined state values (e.g.
+where, for simplicity of notation, any undefined state values (e.g.
  
 \begin_inset Formula $\densitydiscrete 1{\tind}{\text{Inc}}$
 \end_inset
@@ -705,12 +701,7 @@ The objective of the control is to minimize the
 \emph on
 total travel time 
 \emph default
-on the network
-\emph on
-.
- 
-\emph default
-This is expressed with the cost function 
+on the network, expressed by the cost function 
 \begin_inset Formula $\cost$
 \end_inset
 
@@ -729,8 +720,8 @@ This is expressed with the cost function
 \end_layout
 
 \begin_layout Standard
-Thus the optimal coordinated ramp-metering problem can be formulated as
- a network PDE-constrained optimization problem:
+The optimal coordinated ramp-metering problem can be formulated as a network
+ PDE-constrained optimization problem:
 \end_layout
 
 \begin_layout Standard
@@ -925,7 +916,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
 .
- We calculate the partials of the variables in
+ We calculate the partial derivatives of the variables in
 \begin_inset space ~
 \end_inset
 
@@ -974,16 +965,16 @@ v_{i} & s=\densitydiscrete{\link}{\tind}{\text{Inc}},v_{i}\densitydiscrete{\link
 \min\left(\densitydiscrete{\link}{\tind}{\text{On}},F_{i,\text{On}}^{\max}\right) & s=\ramp_{\link}^{\tind}\\
 0 & \text{otherwise}
 \end{cases}\\
-\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s & = & \begin{cases}
+\pfrac{}s\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \begin{cases}
 \splitratio_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \splitratio_{\link}^{\tind}\delta+d\le\sigma\\
 \pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
-\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s & = & \begin{cases}
+\pfrac{}s\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}} & = & \begin{cases}
 \pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\splitratio_{\link}^{\tind}}\\
 \frac{1}{\splitratio_{\link}^{\tind}}\left(\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
 \frac{p_{i}}{\splitratio_{\link}^{\tind}\left(1+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
-\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}}}s & = & \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\splitratio_{\link}^{\tind}\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s
+\pfrac{}s\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\splitratio_{\link}^{\tind}\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s
 \end{eqnarray*}
 
 \end_inset
@@ -992,7 +983,7 @@ v_{i} & s=\densitydiscrete{\link}{\tind}{\text{Inc}},v_{i}\densitydiscrete{\link
 \end_layout
 
 \begin_layout Standard
-These expressions fully quantify the partial values needed in
+These expressions fully quantify the partial derivative values needed in
 \begin_inset space ~
 \end_inset
 

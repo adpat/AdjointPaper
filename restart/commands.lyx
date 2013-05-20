@@ -373,7 +373,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\xind}{l}
+\newcommand{\xind}{j}
 \end_inset
 
 
@@ -429,7 +429,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\trace}[1]{\hat{#1}}
+\newcommand{\trace}[1]{\hat{#1}}
 \end_inset
 
 
@@ -437,7 +437,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ntime}{T}
+\newcommand{\ntime}{T}
 \end_inset
 
 
@@ -445,7 +445,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
+\newcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
 \end_inset
 
 
@@ -453,7 +453,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
+\newcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
 \end_inset
 
 
@@ -461,7 +461,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
+\newcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
 \end_inset
 
 
@@ -469,7 +469,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
+\newcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
 \end_inset
 
 
@@ -477,7 +477,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ssvar}{W_{R}}
+\newcommand{\ssvar}{W_{R}}
 \end_inset
 
 
@@ -485,7 +485,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
+\newcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
 \end_inset
 
 
@@ -493,7 +493,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\god}{g^{G}}
+\newcommand{\god}{g^{G}}
 \end_inset
 
 
@@ -501,7 +501,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ramp}{r}
+\newcommand{\ramp}{\convar}
 \end_inset
 
 
@@ -509,7 +509,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\length}{L}
+\newcommand{\length}{L}
 \end_inset
 
 
@@ -517,7 +517,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\intrange}[2]{\left\{  #1,\ldots,#2\right\}  }
+\newcommand{\intrange}[2]{\left\{  #1,\ldots,#2\right\}  }
 \end_inset
 
 
@@ -525,7 +525,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\degree}[1]{D_{#1}}
+\newcommand{\degree}[1]{D_{#1}}
 \end_inset
 
 
@@ -533,7 +533,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\demandsym}{D}
+\newcommand{\demandsym}{D}
 \end_inset
 
 
@@ -541,7 +541,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\demand}[2]{\demandsym_{#1}^{#2}}
+\newcommand{\demand}[2]{\demandsym_{#1}^{#2}}
 \end_inset
 
 
@@ -549,7 +549,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\splitratio}{\beta}
+\newcommand{\splitratio}{\beta}
 \end_inset
 
 

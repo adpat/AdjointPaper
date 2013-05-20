@@ -565,7 +565,7 @@ Right state of the Riemann data
 \begin_inset Text
 
 \begin_layout Plain Layout
-Point of discontinuity
+Point of discontinuity in Riemann problem
 \end_layout
 
 \end_inset
@@ -903,6 +903,9 @@ Trace for a link
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
 
 \end_layout
 
@@ -935,6 +938,9 @@ Time grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
 
 \end_layout
 
@@ -1072,6 +1078,9 @@ Wave speed
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}^{m_{\jn}+n_{\jn}}$
+\end_inset
+
 
 \end_layout
 
@@ -1081,7 +1090,7 @@ Wave speed
 \begin_inset Text
 
 \begin_layout Plain Layout
-state variables aat a junction 
+state variables at a junction 
 \begin_inset Formula $\jn\in\jns$
 \end_inset
 
@@ -1112,6 +1121,9 @@ state variables aat a junction
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{N}$
+\end_inset
+
 
 \end_layout
 
@@ -1144,6 +1156,9 @@ Number of time steps
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}^{m_{\jn}+n_{\jn}}$
+\end_inset
+
 
 \end_layout
 
@@ -1336,6 +1351,9 @@ adjoint variable
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{N}$
+\end_inset
+
 
 \end_layout
 
@@ -1368,6 +1386,9 @@ maximum junction degree on the network
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $\mathbb{N}$
+\end_inset
+
 
 \end_layout
 

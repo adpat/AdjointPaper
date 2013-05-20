@@ -37,7 +37,7 @@ auxclean: clean
 	rm -rf *synctex.gz
 	rm -rf *blg
 
-tex: figures presfigs
+tex: auxclean figures presfigs
 	/Applications/Lyx.app/Contents/MacOS/lyx --export pdflatex $(SRC) $(TEX_FOLDER)
 
 zip: tex

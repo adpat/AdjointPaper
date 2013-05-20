@@ -72,7 +72,7 @@ theorems-ams
 
 \begin_layout Title
 Adjoint-based optimization on a network of discretized scalar conservation
- law PDE's: application to coordinated ramp metering
+ law PDE's with applications to coordinated ramp metering
 \end_layout
 
 \begin_layout Author
@@ -154,37 +154,16 @@ filename "ramp.lyx"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-\begin_inset Note Note
-status open
-
-\begin_layout Section
-Numerical results for model predictive control simulations
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Numerical-results-for"
+\begin_inset CommandInset include
+LatexCommand input
+filename "numerical.lyx"
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-Conclusions
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:Conclusions"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
+\begin_inset CommandInset include
+LatexCommand input
+filename "conclusions.lyx"
 
 \end_inset
 
