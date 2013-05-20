@@ -131,7 +131,7 @@ resp.
 \end_inset
 
  (units of vehicles), and offramp split ratio 
-\begin_inset Formula $\split_{\link}^{\tind}$
+\begin_inset Formula $\splitratio_{\link}^{\tind}$
 \end_inset
 
  representing the ratio of cars who stay on the freeway vs.
@@ -214,7 +214,7 @@ Freeway network junction
 \end_inset
 
 , and offramp split ratios by 
-\begin_inset Formula $\split_{\link}^{\tind}$
+\begin_inset Formula $\splitratio_{\link}^{\tind}$
 \end_inset
 
 .
@@ -583,14 +583,14 @@ key "Walid,ML"
 \delta & = & \min\left(v_{i}\densitydiscrete{\link}{\tind}{\text{Inc}},F_{\link,\text{Inc}}^{\max}\right)\label{eq:first-ramp}\\
 \sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\densitydiscrete{\link}{\tind}{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\\
 d & = & \ramp_{\link}^{\tind}\min\left((1)\densitydiscrete{\link}{\tind}{\text{On}},F_{i,\text{On}}^{\max}\right)\label{eq:ramp-eqn}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \min\left(\split_{\link}^{\tind}\delta+d,\sigma\right)\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \min\left(\splitratio_{\link}^{\tind}\delta+d,\sigma\right)\\
 \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}} & = & \begin{cases}
-\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\split_{\link}^{\tind}}\\
-\frac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-d}{\split_{\link}^{\tind}} & \frac{\sigma}{1+p_{i}}\ge d\\
-\frac{\sigma p_{i}}{\left(1+p_{i}\right)\split_{\link}^{\tind}} & \text{otherwise}
+\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\splitratio_{\link}^{\tind}}\\
+\frac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-d}{\splitratio_{\link}^{\tind}} & \frac{\sigma}{1+p_{i}}\ge d\\
+\frac{\sigma p_{i}}{\left(1+p_{i}\right)\splitratio_{\link}^{\tind}} & \text{otherwise}
 \end{cases}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\split_{\link}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\split_{\link}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\splitratio_{\link}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\splitratio_{\link}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
 \end{eqnarray}
 
 \end_inset
@@ -975,15 +975,15 @@ v_{i} & s=\densitydiscrete{\link}{\tind}{\text{Inc}},v_{i}\densitydiscrete{\link
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s & = & \begin{cases}
-\split_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \split_{\link}^{\tind}\delta+d\le\sigma\\
+\splitratio_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \splitratio_{\link}^{\tind}\delta+d\le\sigma\\
 \pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
 \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s & = & \begin{cases}
-\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\split_{\link}^{\tind}}\\
-\frac{1}{\split_{\link}^{\tind}}\left(\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
-\frac{p_{i}}{\split_{\link}^{\tind}\left(1+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
+\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\splitratio_{\link}^{\tind}}\\
+\frac{1}{\splitratio_{\link}^{\tind}}\left(\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
+\frac{p_{i}}{\splitratio_{\link}^{\tind}\left(1+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
-\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}}}s & = & \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\split_{\link}^{\tind}\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s
+\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}}}s & = & \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\splitratio_{\link}^{\tind}\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s
 \end{eqnarray*}
 
 \end_inset
