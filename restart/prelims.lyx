@@ -755,7 +755,7 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 
  grid points
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 The Courant–Friedrichs–Lewy (CFL) condition, 
@@ -777,6 +777,23 @@ The Courant–Friedrichs–Lewy (CFL) condition,
  sizes.
 \end_layout
 
+\end_inset
+
+.
+ For a link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ with space domain 
+\begin_inset Formula $\left(0,\length_{\link}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\xind$
+\end_inset
+
+ takes values in 
+\begin_inset Formula $\intrange 0{\length_{\link}^{\triangle}}$
 \end_inset
 
 .
@@ -804,6 +821,71 @@ For a function
 \end_inset
 
 .
+ The space discretization scheme is depicted for a link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figs-gen/dx.pdf
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Space discretization for a link 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+.
+ Step size is uniform 
+\begin_inset Formula $\triangle x$
+\end_inset
+
+, with discrete value 
+\begin_inset Formula $\discrete{\xind}{\tind}$
+\end_inset
+
+ representing the state between 
+\begin_inset Formula $x^{\xind-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $x^{\xind}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -855,7 +937,7 @@ reference "eq:godproj"
  
 \begin_inset Formula 
 \begin{equation}
-\discrete{\xind}{\tind}=\dfrac{1}{\Delta x}\int_{x^{\xind}}^{x^{\xind+1}}\dvar^{\Delta}(t^{k+1},x)dx.\label{eq:godproj}
+\discrete{\xind}{\tind}=\dfrac{1}{\Delta x}\int_{x^{\xind-1}}^{x^{\xind}}\dvar^{\Delta}(t^{k+1},x)dx.\label{eq:godproj}
 \end{equation}
 
 \end_inset
@@ -936,13 +1018,13 @@ citation
  is given by 
 \begin_inset Formula 
 \[
-f(\cvar(t,x_{l}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})),
+f(\cvar(t,x^{\xind}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})),
 \]
 
 \end_inset
 
 and the flux at 
-\begin_inset Formula $x=x_{l+1}$
+\begin_inset Formula $x=x^{\xind-1}$
 \end_inset
 
  for 
@@ -952,7 +1034,7 @@ and the flux at
  is given by 
 \begin_inset Formula 
 \[
-f(\cvar(t,x_{\xind+1}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
+f(\cvar(t,x^{\xind-1}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})).
 \]
 
 \end_inset
@@ -965,7 +1047,7 @@ As the flux is constant at
 \begin_inset Formula $\god(u,v)=f(W_{R}(0;u,v))$
 \end_inset
 
-, Under the CFL condition the scheme can be written as 
+, the scheme can be written as 
 \begin_inset Formula 
 \begin{equation}
 \dvar_{l}^{k+1}=\dvar_{l}^{k}-\frac{\Delta t}{\Delta x}(\god(\dvar_{l}^{k},\dvar_{l+1}^{k})-\god(\dvar_{l-1}^{k},\dvar_{l}^{k})),\label{eq:godscheme}
@@ -1011,13 +1093,13 @@ The scheme just discussed applies to the case where a single cell is adjacent
  For incoming links near the junction, we have: 
 \begin_inset Formula 
 \begin{align*}
-\discrete{\length_{\link}}{\tind+1}=\discrete{\length_{\link}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\discrete{}{}}_{\length_{\link}})-\god(u_{L_{i}-1}^{k},u_{L_{i}}^{k})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
+\discrete{\length_{\link}^{\triangle}}{\tind+1}=\discrete{\length_{\link}^{\triangle}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\discrete{}{}}_{\length_{\link}})-\god(\discrete{L_{i}^{\triangle}-1}{\tind},\discrete{L_{i}^{\triangle}}{\tind})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
 \end{align*}
 
 \end_inset
 
 where 
-\begin_inset Formula $f(\hat{u}_{i})$
+\begin_inset Formula $\hat{\dvar}_{i}^{\tind}$
 \end_inset
 
  is the solution of the Riemann solver 
@@ -1032,7 +1114,7 @@ where
  The same can be done for the outgoing links: 
 \begin_inset Formula 
 \begin{align*}
-\discrete 0{\tind+1}=\discrete 0{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 0{\tind},\discrete 1{\tind})-f(\trace{\dvar}_{0}^{\tind})), & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
+\discrete 1{\tind+1}=\discrete 1{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 1{\tind},\discrete 2{\tind})-f(\trace{\dvar}_{1}^{\tind})), & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
 \end{align*}
 
 \end_inset
