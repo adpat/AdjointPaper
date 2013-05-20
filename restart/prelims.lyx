@@ -755,7 +755,7 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 
  grid points
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 The Courant–Friedrichs–Lewy (CFL) condition, 
@@ -773,6 +773,8 @@ The Courant–Friedrichs–Lewy (CFL) condition,
 \end_inset
 
  is the maximum absolute wave speed.
+ We assume henceforth that this condition always holds for the chosen step
+ sizes.
 \end_layout
 
 \end_inset

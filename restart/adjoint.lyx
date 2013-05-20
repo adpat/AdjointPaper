@@ -869,8 +869,8 @@ walid has a problem with this notation
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\label{eq:dhdufull}\\
- & -\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\nonumber 
+\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\label{eq:dhdufull}\\
+ & -\frac{\triangle t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\nonumber 
 \end{align}
 
 \end_inset
@@ -1081,8 +1081,8 @@ Similarly for
 \color none
 \begin_inset Formula 
 \begin{align}
-\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\label{eq:dhdvfull}\\
- & -\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\nonumber 
+\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\triangle t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\label{eq:dhdvfull}\\
+ & -\frac{\triangle t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\nonumber 
 \end{align}
 
 \end_inset
@@ -1134,11 +1134,11 @@ reference "eq:dhdufull"
 \end_inset
 
 , the only partial terms that are not trivial to compute are 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
+\begin_inset Formula $\pfrac{\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
 \end_inset
 
  and 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
+\begin_inset Formula $\pfrac{\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
 \end_inset
 
 .
@@ -1154,11 +1154,11 @@ reference "eq:dhdvfull"
 \end_inset
 
 , the only nontrivial terms are 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
+\begin_inset Formula $\pfrac{\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
 \end_inset
 
  and 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
+\begin_inset Formula $\pfrac{\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
 \end_inset
 
 .
