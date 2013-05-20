@@ -76,30 +76,38 @@ Model
 
 \begin_layout Standard
 Consider a freeway section as a sequence of junctions 
-\begin_inset Formula $\mathcal{J}=\left[J_{1},\ldots,J_{\nlinks}\right]$
+\begin_inset Formula $\mathcal{J}=\left(J_{1},\ldots,J_{\nlinks+1}\right)$
 \end_inset
 
  with links 
-\begin_inset Formula $\links=1,\ldots,\nlinks$
+\begin_inset Formula $\links=\intrange 1{\nlinks}$
 \end_inset
 
 .
  At discrete time 
-\begin_inset Formula $t=k\triangle T,1\le k\le T$
+\begin_inset Formula $t=\tind\triangle t,0\le\tind\le\ntime-1$
 \end_inset
 
 , junction 
 \begin_inset Formula $J_{i}$
 \end_inset
 
- has an incoming (resp.
+ has an incoming (
+\emph on
+resp.
+
+\emph default
  outgoing) mainline density 
-\begin_inset Formula $\density{\link}{\tind}{\text{Inc}}$
+\begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{Inc}}$
 \end_inset
 
- (resp.
+ (
+\emph on
+resp.
+
+\emph default
  
-\begin_inset Formula $\density{\link}{\tind}{\text{Out}}$
+\begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{Out}}$
 \end_inset
 
 ) 
@@ -119,26 +127,26 @@ Consider a freeway section as a sequence of junctions
 \end_inset
 
  (units of vehicles per unit length), onramp density 
-\begin_inset Formula $\density{\link}{\tind}{\text{On}}\in\mathbb{R}$
+\begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{On}}\in\mathbb{R}$
 \end_inset
 
  (units of vehicles), and offramp split ratio 
-\begin_inset Formula $\beta_{i,k}$
+\begin_inset Formula $\beta_{i}^{\tind}$
 \end_inset
 
  representing the ratio of cars who stay on the freeway vs.
  total cars leaving the upstream mainline of junction 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $\jn_{\link}$
 \end_inset
 
 .
  Since 
-\begin_inset Formula $J_{1}$
+\begin_inset Formula $\jn_{1}$
 \end_inset
 
  is the source of the network, it has no upstream mainline or offramp, and
  similarly 
-\begin_inset Formula $J_{n}$
+\begin_inset Formula $\jn_{\nlinks}$
 \end_inset
 
  has no downstream mainline or onramp.
@@ -198,7 +206,7 @@ Freeway network junction
 
 .
  Mainline densities represented by 
-\begin_inset Formula $\density{}{}{}$
+\begin_inset Formula $\density$
 \end_inset
 
 , onramp queues by 
@@ -211,11 +219,11 @@ Freeway network junction
 
 .
  Note that 
-\begin_inset Formula $\density{}{}{}_{i}^{\text{Out}}$
+\begin_inset Formula $\density_{i}^{\text{Out}}$
 \end_inset
 
  is equivalent to 
-\begin_inset Formula $\density{}{}{}_{i+1}^{\text{Inc}}$
+\begin_inset Formula $\density_{i+1}^{\text{Inc}}$
 \end_inset
 
 .
@@ -273,11 +281,11 @@ Fundamental diagram with free-flow speed
 \end_inset
 
 , critical density 
-\begin_inset Formula $\density{}{}{}^{c}$
+\begin_inset Formula $\density^{c}$
 \end_inset
 
 , and max density 
-\begin_inset Formula $\density{}{}{}^{\max}$
+\begin_inset Formula $\density^{\max}$
 \end_inset
 
 .
@@ -322,7 +330,20 @@ As control input, an onramp at junction
 \end_inset
 
  which limits the flux of vehicles leaving the onramp.
- Its mathematical model is expressed later.
+ The bounded domain of the metering control is to force the control to neither
+ impose negative flows nor send more vehicles than present in a queue.
+ Its mathematical model is expressed in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:ramp-eqn"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -336,7 +357,7 @@ The vehicle flow dynamics on all links
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\density{}{}{}_{t}+f\left(\density{}{}{}\right)_{x}=0
+\density_{t}+f\left(\density\right)_{x}=0
 \]
 
 \end_inset
@@ -346,7 +367,7 @@ The vehicle flow dynamics on all links
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\density{}{}{}$
+\begin_inset Formula $\density$
 \end_inset
 
  is the density state, and 
@@ -354,7 +375,7 @@ where
 \end_inset
 
  is the derivative of the flux function (or fundamental diagram) 
-\begin_inset Formula $f\left(\density{}{}{}\right)$
+\begin_inset Formula $f\left(\density\right)$
 \end_inset
 
 .
@@ -384,7 +405,7 @@ For notational simplicity we define the set of densities of links adjacent
 \end_inset
 
  as 
-\begin_inset Formula $=\left\{ \density{}{}{}_{i,k}^{\text{Inc}},\density{}{}{}_{i,k}^{\text{Out}},\density{}{}{}_{i,k}^{\text{On}}\right\} $
+\begin_inset Formula $\juncstate{\link}{\tind}=\left\{ \densitydiscrete{\link}{\tind}{\text{Inc}},\densitydiscrete{\link}{\tind}{\text{Out}},\densitydiscrete{\link}{\tind}{\text{On}}\right\} $
 \end_inset
 
 .
@@ -399,7 +420,7 @@ For notational simplicity we define the set of densities of links adjacent
 \end_inset
 
 , we discretize the downstream mainline density 
-\begin_inset Formula $\density{}{}{}_{i,k}^{\text{Out}}$
+\begin_inset Formula $\density_{i,k}^{\text{Out}}=\density_{i+1,k}^{\text{Inc}}$
 \end_inset
 
  using the Godunov scheme from
@@ -418,9 +439,10 @@ reference "eq:main-ge"
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-h_{i,k}^{\text{Out}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{Out}}-\density{}{}{}_{i,k-1}^{\text{Out}}+\frac{\triangle t}{L_{i}}\left(\left\{ \hat{F}\left(\vect{\vect{\density{}{}{}}}_{J_{i+1},k},u_{i+1,k}\right)\right\} _{\text{Inc}}-\left\{ \hat{F}\left(\vect{\density{}{}{}}_{J_{i},k},u_{i,k}\right)\right\} _{\text{Out}}\right)=0\label{eq:rho-update}
-\end{equation}
+\begin{eqnarray}
+\syseq_{\link,\text{Out}}^{\tind}(\state,\control) & =\densitydiscrete{\link}{\tind}{\text{Out}}-\densitydiscrete{\link}{\tind-1}{\text{Out}} & +\dfrac{\Delta t}{\Delta x}\left(\god_{\jn_{\link+1}}\left(\juncstate{\jn_{\link+1}}{\tind-1},\ramp_{\link+1}^{\tind-1}\right)\right)_{\text{Inc}}\label{eq:rho-update}\\
+ &  & -\dfrac{\Delta t}{\Delta x}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind-1},\ramp_{\link}^{\tind-1}\right)\right)_{\text{Out}}
+\end{eqnarray}
 
 \end_inset
 
@@ -429,39 +451,44 @@ h_{i,k}^{\text{Out}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{Out}}-\density{
 
 \begin_layout Standard
 where 
-\begin_inset Formula $L_{i}$
+\begin_inset Formula $\length_{\link}$
 \end_inset
 
  is the distance between junctions 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $\jn_{\link}$
 \end_inset
 
  and 
-\begin_inset Formula $J_{i+1}$
+\begin_inset Formula $\jn_{\link+1}$
 \end_inset
 
  and 
-\begin_inset Formula $\left\{ \hat{F}\left(\vect{\vect{\density{}{}{}}}_{J,k}\right)\right\} _{i}$
+\begin_inset Formula $\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\link}$
 \end_inset
 
  is the flux from the boundary condition of density 
-\begin_inset Formula $\density{}{}{}_{\jn,k}^{i}$
+\begin_inset Formula $\juncstate{\link}{\tind}$
 \end_inset
 
  at junction 
-\begin_inset Formula $\jn$
+\begin_inset Formula $\jn_{\link}$
+\end_inset
+
+ for 
+\begin_inset Formula $\link\in\intrange 1{\nlinks}$
 \end_inset
 
 .
  We also make the assumption that onramps have infinite capacity and a length
- of one.
+ of one to prevent ramp congestion from block demand from ever entering
+ the network.
  We can then simplify the onramp update equation to be:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-h_{i,k}^{\text{On}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{On}}-\density{}{}{}_{i,k-1}^{\text{On}}+\triangle t\left(\left\{ \hat{F}\left(\vect{\density{}{}{}}_{J_{i},k},u_{i,k}\right)\right\} _{\text{On}}-D_{i,k}\right)=0\label{eq:onramp-update}
+\syseq_{\link,\text{On}}^{\tind}(\state,\control)=\densitydiscrete{\link}{\tind}{\text{On}}-\densitydiscrete{\link}{\tind-1}{\text{On}}+\frac{\triangle t}{1}\left(\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind-1},\ramp_{\link}^{\tind-1}\right)\right)_{\text{On}}-\demand{\link}{\tind}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
@@ -471,14 +498,18 @@ h_{i,k}^{\text{On}}(\state,\vect v)=\density{}{}{}_{i,k}^{\text{On}}-\density{}{
 
 \begin_layout Standard
 where 
-\begin_inset Formula $D_{i,k}$
+\begin_inset Formula $\demand{\link}{\tind}$
 \end_inset
 
  is the onramp 
 \emph on
 flux 
 \emph default
-demand.
+demand, where 
+\begin_inset Formula $\link\in\intrange 1{\nlinks}$
+\end_inset
+
+.
  This formulation results in 
 \begin_inset Quotes eld
 \end_inset
@@ -525,12 +556,12 @@ key "Walid,ML"
 \end_inset
 
 , for each junction 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $\jn_{\link}$
 \end_inset
 
 , we add two modeling decisions: the flux solution maximizes the outgoing
  mainline flux 
-\begin_inset Formula $\left\{ \hat{F}_{i}\right\} _{\text{Out}}$
+\begin_inset Formula $\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}$
 \end_inset
 
 , and any remaining non-uniqueness in the incoming flux is resolved using
@@ -541,11 +572,15 @@ key "Walid,ML"
 .
  This leads to the following system of equations that gives the flux solution
  of the Riemann solver at time-step 
-\begin_inset Formula $k>1$
+\begin_inset Formula $k\in\intrange 1{\ntime-1}$
 \end_inset
 
  and junction 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $\jn_{\link}$
+\end_inset
+
+ for 
+\begin_inset Formula $\link\in\intrange 1{\nlinks+1}$
 \end_inset
 
 :
@@ -554,17 +589,17 @@ key "Walid,ML"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\delta & = & \min\left(v_{i}\density{}{}{}_{i,k}^{\text{Inc}},F_{i,\text{Inc}}^{\max}\right)\label{eq:state-rm}\\
-\sigma & = & \min\left(w_{i}\left(\density{}{}{}_{i}^{\max}-\density{}{}{}_{i,k}^{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\nonumber \\
-d & = & u_{i,k}\min\left((1)\density{}{}{}_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right)\nonumber \\
-\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}} & = & \min\left(\beta_{i,k}\delta+d,\sigma\right)\nonumber \\
-\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}} & = & \begin{cases}
+\delta & = & \min\left(v_{i}\densitydiscrete{\link}{\tind}{\text{Inc}},F_{\link,\text{Inc}}^{\max}\right)\label{eq:first-ramp}\\
+\sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\densitydiscrete{\link}{\tind}{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\\
+d & = & \ramp_{\link}^{\tind}\min\left((1)\densitydiscrete{\link}{\tind}{\text{On}},F_{i,\text{On}}^{\max}\right)\label{eq:ramp-eqn}\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \min\left(\beta_{\link}^{\tind}\delta+d,\sigma\right)\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}} & = & \begin{cases}
 \delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
-\frac{\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-d_{i,k}}{\beta_{i,k}} & \frac{\sigma}{1+p_{i}}\ge d\\
-\frac{\sigma p_{i}}{\left(1+p_{i}\right)\beta_{i,k}} & \text{otherwise}
-\end{cases}\nonumber \\
-\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{On}} & = & \left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Out}}-\beta_{i,k}\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber \\
-\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Off}} & = & \left(1-\beta_{i,k}\right)\left\{ \hat{F}_{J_{i},k+1}\right\} _{\text{Inc}}\nonumber 
+\frac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-d}{\beta_{\link}^{\tind}} & \frac{\sigma}{1+p_{i}}\ge d\\
+\frac{\sigma p_{i}}{\left(1+p_{i}\right)\beta_{\link}^{\tind}} & \text{otherwise}
+\end{cases}\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\beta_{i}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\beta_{i}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
 \end{eqnarray}
 
 \end_inset
@@ -573,7 +608,34 @@ d & = & u_{i,k}\min\left((1)\density{}{}{}_{i,k}^{\text{On}},F_{i,\text{On}}^{\m
 \end_layout
 
 \begin_layout Standard
-Note that the equations can be solved sequentially via forward substitution.
+, where, for simplicity of notation, any undefined state values (e.g.
+ 
+\begin_inset Formula $\densitydiscrete 1{\tind}{\text{Inc}}$
+\end_inset
+
+ or
+\begin_inset Formula $\densitydiscrete{\nlinks+1}{\tind}{\text{Out}}$
+\end_inset
+
+ ) are assumed to be zero.
+ For 
+\begin_inset Formula $\tind=0$
+\end_inset
+
+, the update equation is given by a pre-specified initial condition, as
+ in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-ge"
+
+\end_inset
+
+.
+ Note that the equations can be solved sequentially via forward substitution.
  Also, we only include the flux results for offramps explicitly here to
  demonstrate that indeed the flux solution satisfies the flux conservation
  property.
@@ -620,22 +682,26 @@ reference "eq:onramp-update"
 \end_inset
 
  gives a complete description of the system 
-\begin_inset Formula $H\left(\state,\vect v\right)=0$
+\begin_inset Formula $\sys\left(\state,\control\right)=0$
 \end_inset
 
-, where if 
-\begin_inset Formula $\left|\links\right|=2*(n-1)$
+, 
+\begin_inset Formula $\state\in\mathbb{R}^{2\nlinks}$
 \end_inset
 
- is the number of links:
+, 
+\begin_inset Formula $\control\in\mathbb{R}$
+\end_inset
+
+, where:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\state_{|\links|\left(k-1\right)+2*i-1}\defeq & \density{}{}{}_{i,k}^{\text{Out}}\defeq\density{}{}{}_{i+1,k}^{\text{Inc}} & 1\le i\le n-1,1\le k\le T\\
-\state_{|\links|\left(k-1\right)+2*i}\defeq & \density{}{}{}_{i,k}^{\text{On}} & 1\le i\le n-1,1\le k\le T\\
-\state_{|\links|\left(k-1\right)+i}\defeq & u_{i,k} & 1\le i\le n-1,1\le k\le T
+\state_{2\nlinks\tind+2*\link-1}\defeq & \densitydiscrete{\link}{\tind}{\text{Out}}\defeq\densitydiscrete{\link+1}{\tind}{\text{Inc}} & 1\le i\le\nlinks,0\le k\le T-1\\
+\state_{2\nlinks\tind+2*\link-1}\defeq & \densitydiscrete{\link}{\tind}{\text{On}} & 1\le i\le\nlinks,0\le k\le T-1\\
+\control_{\nlinks\tind+\link}\defeq & \ramp_{\link}^{\tind} & 1\le i\le\nlinks,0\le k\le T-1
 \end{eqnarray*}
 
 \end_inset
@@ -663,7 +729,7 @@ This is expressed with the cost function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}x_{|\links|(k-1)+2*i-1}+x_{|\links|(k-1)+2*i}=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{n-1}L_{i}\density{}{}{}_{i,k}^{\text{Out}}+\density{}{}{}_{i,k}^{\text{On}}
+J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{\nlinks}L_{i}\densitydiscrete{\link}{\tind}{\text{Out}}+(1)\densitydiscrete{\link}{\tind}{\text{On}}
 \]
 
 \end_inset
@@ -679,20 +745,14 @@ Thus the optimal coordinated ramp-metering problem can be formulated as
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\control} & J\left(\state,\control\right)\label{eq:full}\\
-\text{subject to:} & H\left(\state,\control\right) & =0\nonumber \\
- & 0\le\control\le1 & \forall\control\in\control\nonumber 
+\min_{\control} & \cost\left(\state,\control\right)\label{eq:full}\\
+\text{subject to:} & \sys\left(\state,\control\right) & =0\nonumber \\
+ & 0\le\convar\le1 & \forall\convar\in\control\nonumber 
 \end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-The inequalities constrain the metering control to neither impose negative
- flows nor send more vehicles than present in the queue.
- Since the adjoint method in Section
+Since the adjoint method in Section
 \begin_inset space ~
 \end_inset
 
@@ -721,7 +781,7 @@ key "Boyd2010,Bayen2006"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\tilde{J}\left(\state,\control,R\right)=J\left(\state,\control\right)-R\sum_{\control\in\control}\log\left(\left(1-\control\right)\left(\control-0\right)\right)
+\tilde{\cost}\left(\state,\control,R\right)=\cost\left(\state,\control\right)-R\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)
 \]
 
 \end_inset
@@ -735,11 +795,11 @@ As
 \end_inset
 
  tends to zero, 
-\begin_inset Formula $\tilde{J}$
+\begin_inset Formula $\tilde{\cost}$
 \end_inset
 
  tends towards 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
 .
@@ -760,8 +820,8 @@ reference "eq:full"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\min_{\control} & \tilde{J}\left(\state,\control,R\right)\label{eq:full-1}\\
-\text{subject to:} & H\left(\state,\control\right) & =0\nonumber 
+\min_{\control} & \tilde{\cost}\left(\state,\control,R\right)\label{eq:full-1}\\
+\text{subject to:} & \sys\left(\state,\control\right) & =0\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -776,11 +836,11 @@ with decreasing values of
 
 .
  As a result, 
-\begin_inset Formula $\tilde{J}$
+\begin_inset Formula $\tilde{\cost}$
 \end_inset
 
  will approach 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
  as the number of iterations increases.
@@ -826,9 +886,9 @@ reference "sec:Adjoint-method"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\pfrac{\tilde{C}}{\density{}{}{}_{i,k}^{\text{Out}}}= & \triangle tL_{i} & 1\le i\le n-1,1\le k\le T\\
-\pfrac{\tilde{C}}{\density{}{}{}_{i,k}^{\text{On}}}= & \triangle t & 1\le i\le n-1,1\le k\le T\\
-\pfrac{\tilde{C}}{u_{i,k}}= & R\left(\frac{-1}{1-u_{i,k}}+\frac{1}{u_{i,k}}\right) & 1\le i\le n-1,1\le k\le T
+\pfrac{\tilde{\cost}}{\densitydiscrete{\link}{\tind}{\text{Out}}}= & \triangle tL_{i} & 1\le i\le\nlinks,0\le k\le T-1\\
+\pfrac{\tilde{\cost}}{\densitydiscrete{\link}{\tind}{\text{On}}}= & \triangle t & 1\le i\le\nlinks,0\le k\le T-1\\
+\pfrac{\tilde{\cost}}{\ramp_{\link}^{\tind}}= & R\left(\frac{-1}{1-\ramp_{\link}^{\tind}}+\frac{1}{\ramp_{\link}^{\tind}}\right) & 1\le i\le\nlinks,0\le k\le T-1
 \end{eqnarray*}
 
 \end_inset
@@ -866,7 +926,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
  with respect to the adjacent state variables 
-\begin_inset Formula $\vect{\density{}{}{}}_{J_{i},k}$
+\begin_inset Formula $\vect{\density}_{J_{i},k}$
 \end_inset
 
  and ramp metering control 
@@ -881,16 +941,23 @@ reference "par:Calculating-the-gradient"
 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:state-rm"
+reference "eq:first-ramp"
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:last-ramp"
 
 \end_inset
 
  for a junction 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $J_{i},\link\in\intrange 1{\nlinks}$
 \end_inset
 
  at time-step 
-\begin_inset Formula $k>1$
+\begin_inset Formula $k\in\intrange 1{\ntime-1}$
 \end_inset
 
  with respect to either a state or control variable 
@@ -904,20 +971,20 @@ reference "eq:state-rm"
 \begin_inset Formula 
 \begin{eqnarray*}
 \pfrac{\delta}s & = & \begin{cases}
-v_{i} & s=\density{}{}{}_{i,k}^{\text{Inc}},v_{i}\density{}{}{}_{i,k}^{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
+v_{i} & s=\densitydiscrete{\link}{\tind}{\text{Inc}},v_{i}\densitydiscrete{\link}{\tind}{\text{Inc}}\le F_{i,\text{Inc}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\sigma}s & = & \begin{cases}
--w_{i} & s=\density{}{}{}_{i,k}^{\text{Out}},w_{i}\left(\density{}{}{}_{i}^{\max}-\density{}{}{}_{i,k}^{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
+-w_{i} & s=\densitydiscrete{\link}{\tind}{\text{Out}},w_{i}\left(\density_{i}^{\max}-\densitydiscrete{\link}{\tind}{\text{Out}}\right)\le F_{i,\text{Out}}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac ds & = & \begin{cases}
-u_{i,k} & s=\density{}{}{}_{i,k}^{\text{On}},\density{}{}{}_{i,k}^{\text{On}}\le F_{i,\text{On}}^{\max}\\
-\min\left(\density{}{}{}_{i,k}^{\text{On}},F_{i,\text{On}}^{\max}\right) & s=u_{i,k}\\
+\ramp_{\link}^{\tind} & s=\densitydiscrete{\link}{\tind}{\text{On}},\densitydiscrete{\link}{\tind}{\text{On}}\le F_{\link,\text{On}}^{\max}\\
+\min\left(\densitydiscrete{\link}{\tind}{\text{On}},F_{i,\text{On}}^{\max}\right) & s=\ramp_{\link}^{\tind}\\
 0 & \text{otherwise}
 \end{cases}\\
-\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s & = & \begin{cases}
-\beta_{i,k}\pfrac{\delta}s+\pfrac ds & \beta_{i,k}\delta+d\le\sigma\\
+\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s & = & \begin{cases}
+\beta_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \beta_{i,k}\delta+d\le\sigma\\
 \pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
 \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s & = & \begin{cases}
@@ -971,6 +1038,10 @@ reference "eqdhdvgod"
 
 \begin_layout Paragraph
 Initial and boundary conditions
+\end_layout
+
+\begin_layout Standard
+Is this section necessary?
 \end_layout
 
 \end_body

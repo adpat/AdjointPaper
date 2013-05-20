@@ -75,7 +75,7 @@ name "sec:Preliminaries"
 \end_layout
 
 \begin_layout Subsection
-Conservation law PDE's
+Conservation law PDEs
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Hyperbolic-PDE's"
@@ -179,7 +179,7 @@ weak
 
 \end_inset
 
-More details on weak solutions to hyperbolic PDE's are available, in particular,
+More details on weak solutions to hyperbolic PDEs are available, in particular,
  in
 \begin_inset space ~
 \end_inset
@@ -285,7 +285,7 @@ status open
 \end_layout
 
 \begin_layout Subsection
-Network of PDE's
+Network of PDEs
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Network-of-PDE's"
@@ -296,7 +296,7 @@ name "sub:Network-of-PDE's"
 \end_layout
 
 \begin_layout Standard
-A network of PDE's is defined as a set of 
+A network of PDEs is defined as a set of 
 \begin_inset Formula $\nlinks$
 \end_inset
 
@@ -342,7 +342,7 @@ A network of PDE's is defined as a set of
 \end_inset
 
 , and has an associated spatial domain 
-\begin_inset Formula $\left]0,L_{\link}\right[$
+\begin_inset Formula $\left(0,L_{\link}\right)$
 \end_inset
 
  over which the evolution of the state on link 
@@ -426,11 +426,11 @@ Let all links
 \end_inset
 
  (called the Riemann data) with incoming links having a spatial domain 
-\begin_inset Formula $\left]-\infty,0\right[$
+\begin_inset Formula $\left(-\infty,0\right)$
 \end_inset
 
  and outgoing links having a spatial domain 
-\begin_inset Formula $\left]0,\infty\right[$
+\begin_inset Formula $\left(0,\infty\right)$
 \end_inset
 
 .
@@ -1107,8 +1107,8 @@ The previous remark allows us to develop a generalized update step for all
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\discrete{\link}{\tind+1} & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\RS\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link})-f(\left(\RS\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}))\nonumber \\
- & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))\label{eq:reg-update}
+\discrete{\link}{\tind+1} & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\RS\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}\right)-f\left(\left(\RS\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\right)\nonumber \\
+ & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\junctrace{\jdown{\link}}{}\right)_{\link}\right)-f\left(\left(\junctrace{\jup{\link}}{}\right)_{\link}\right)\right)\label{eq:reg-update}
 \end{align}
 
 \end_inset
@@ -1172,7 +1172,7 @@ This gives a simplified expressions for the update step:
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:composed-flux}
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\label{eq:composed-flux}
 \end{equation}
 
 \end_inset
@@ -1192,7 +1192,7 @@ name "par:Full-solution-method"
 \end_layout
 
 \begin_layout Standard
-Assume a discrete scalar hyperbolic network of PDE's with links 
+Assume a discrete scalar hyperbolic network of PDEs with links 
 \begin_inset Formula $\links$
 \end_inset
 
@@ -1280,7 +1280,7 @@ reference "eq:reg-update"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\left(\junctrace{\jdown{\link}}{}\right)_{\link})-f(\left(\junctrace{\jup{\link}}{}\right)_{\link}))
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\junctrace{\jdown{\link}}{}\right)_{\link}\right)-f\left(\left(\junctrace{\jup{\link}}{}\right)_{\link}\right)\right)
 \]
 
 \end_inset
@@ -1290,8 +1290,8 @@ reference "eq:reg-update"
 
 \end_deeper
 \begin_layout Standard
-If we instead use the composed flux junction solver 
-\begin_inset Formula $\hat{F}$
+If we instead use the Godunov junction flux 
+\begin_inset Formula $\god_{\jn}$
 \end_inset
 
 , then the method simplifies to: 
@@ -1344,7 +1344,7 @@ reference "eq:composed-flux"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link})\label{eq:fhat}
+\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\label{eq:fhat}
 \end{equation}
 
 \end_inset

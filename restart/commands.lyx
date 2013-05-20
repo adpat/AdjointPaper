@@ -237,7 +237,15 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\density}[3]{\discrete{#1,#3}{#2}}
+\newcommand{\density}{\cvar}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\densitydiscrete}[3]{\discrete{#1,#3}{#2}}
 \end_inset
 
 
@@ -518,6 +526,30 @@
 \begin_layout Standard
 \begin_inset FormulaMacro
 \newcommand{\degree}[1]{D_{#1}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\demandsym}{D}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\demand}[2]{\demandsym_{#1}^{#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\split}{\beta}
 \end_inset
 
 

@@ -854,13 +854,23 @@ If we consider a particular governing equation
 \end_inset
 
  by applying the chain rule:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+walid has a problem with this notation
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{align}
-\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\discrete jl}\label{eq:dhdufull}\\
- & -\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\discrete jl}\nonumber 
+\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\label{eq:dhdufull}\\
+ & -\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}\nonumber 
 \end{align}
 
 \end_inset
@@ -899,6 +909,152 @@ reference "eq:god-jn"
 \end_layout
 
 \begin_layout Standard
+A diagram of the structure of the 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ matrix is given in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:partial-ordering"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figs-gen/dstate.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:partial-ordering"
+
+\end_inset
+
+Ordering of the partial derivative terms.
+ Constraints and state variables are clustered first by time, and then by
+ cell index.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\family typewriter
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figs-gen/sparsity.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sparsity-diagram"
+
+\end_inset
+
+Sparsity structure of the 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ matrix.
+ Besides the diagonal blocks, which are identity matrices, blocks where
+ 
+\begin_inset Formula $l\neq\tind-1$
+\end_inset
+
+ are zero.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Structure of the 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ matrix.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Similarly for 
 \begin_inset Formula $H_{v}$
 \end_inset
@@ -925,8 +1081,8 @@ Similarly for
 \color none
 \begin_inset Formula 
 \begin{align}
-\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\condiscrete jl}\label{eq:dhdvfull}\\
- & -\frac{\triangle t}{L_{i}}\pfrac f{\left(\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}}\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\condiscrete jl}\nonumber 
+\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\label{eq:dhdvfull}\\
+ & -\frac{\triangle t}{L_{i}}f'\left(\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}\nonumber 
 \end{align}
 
 \end_inset
@@ -978,11 +1134,11 @@ reference "eq:dhdufull"
 \end_inset
 
 , the only partial terms that are not trivial to compute are 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\discrete jl}$
+\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
 \end_inset
 
  and 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\discrete jl}$
+\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\discrete jl}$
 \end_inset
 
 .
@@ -998,11 +1154,11 @@ reference "eq:dhdvfull"
 \end_inset
 
 , the only nontrivial terms are 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)}{\condiscrete jl}$
+\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
 \end_inset
 
  and 
-\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)}{\condiscrete jl}$
+\begin_inset Formula $\pfrac{\RS\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}}{\condiscrete jl}$
 \end_inset
 
 .
@@ -1044,10 +1200,10 @@ reference "eq:adjoint-grad"
 As these expressions are for a general scalar conservation law, the only
  steps in computing the gradient that is specialized are computing the derivativ
 e of the flux function 
-\begin_inset Formula $f'$
+\begin_inset Formula $f$
 \end_inset
 
-, and the partial terms just discussed.
+ and the partial derivative terms just discussed.
  These expressions are explicitly calculated for the problem of optimal
  ramp metering in Section
 \begin_inset space ~
@@ -1314,7 +1470,7 @@ reference "eq:main-ge"
 
 .
  For 
-\begin_inset Formula $\tind\in\left[1,\ldots,\ntime-1\right]$
+\begin_inset Formula $\tind\in\intrange 1{\ntime-1}$
 \end_inset
 
 , we have that 
@@ -1410,8 +1566,8 @@ reference "sec:State,-control,-and"
 
 \end_inset
 
- will be invertible, lower-triangular and each column will have a maximum
- cardinality equal to 
+ will be square, invertible, lower-triangular and each column will have
+ a maximum cardinality equal to 
 \begin_inset Formula $\degree{\state}$
 \end_inset
 
@@ -1423,6 +1579,22 @@ reference "sec:State,-control,-and"
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:dx"
+
+\end_inset
+
+.
+ The sparsity structure of 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ is depicted in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:sparsity-diagram"
 
 \end_inset
 
