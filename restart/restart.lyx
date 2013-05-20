@@ -147,18 +147,9 @@ filename "adjoint.lyx"
 \end_inset
 
 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
 \begin_inset CommandInset include
 LatexCommand input
 filename "ramp.lyx"
-
-\end_inset
-
-
-\end_layout
 
 \end_inset
 

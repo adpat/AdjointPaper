@@ -131,7 +131,7 @@ resp.
 \end_inset
 
  (units of vehicles), and offramp split ratio 
-\begin_inset Formula $\beta_{i}^{\tind}$
+\begin_inset Formula $\split_{\link}^{\tind}$
 \end_inset
 
  representing the ratio of cars who stay on the freeway vs.
@@ -206,24 +206,15 @@ Freeway network junction
 
 .
  Mainline densities represented by 
-\begin_inset Formula $\density$
+\begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{Out}}=\densitydiscrete{\link+1}{\tind}{\text{Inc}}$
 \end_inset
 
-, onramp queues by 
-\begin_inset Formula $l$
+, onramp densities by 
+\begin_inset Formula $\densitydiscrete{\link}{\tind}{\text{On}}$
 \end_inset
 
 , and offramp split ratios by 
-\begin_inset Formula $\beta$
-\end_inset
-
-.
- Note that 
-\begin_inset Formula $\density_{i}^{\text{Out}}$
-\end_inset
-
- is equivalent to 
-\begin_inset Formula $\density_{i+1}^{\text{Inc}}$
+\begin_inset Formula $\split_{\link}^{\tind}$
 \end_inset
 
 .
@@ -592,14 +583,14 @@ key "Walid,ML"
 \delta & = & \min\left(v_{i}\densitydiscrete{\link}{\tind}{\text{Inc}},F_{\link,\text{Inc}}^{\max}\right)\label{eq:first-ramp}\\
 \sigma & = & \min\left(w_{i}\left(\density_{i}^{\max}-\densitydiscrete{\link}{\tind}{\text{Out}}\right),F_{i,\text{Out}}^{\max}\right)\\
 d & = & \ramp_{\link}^{\tind}\min\left((1)\densitydiscrete{\link}{\tind}{\text{On}},F_{i,\text{On}}^{\max}\right)\label{eq:ramp-eqn}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \min\left(\beta_{\link}^{\tind}\delta+d,\sigma\right)\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}} & = & \min\left(\split_{\link}^{\tind}\delta+d,\sigma\right)\\
 \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}} & = & \begin{cases}
-\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\beta_{i,k}}\\
-\frac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-d}{\beta_{\link}^{\tind}} & \frac{\sigma}{1+p_{i}}\ge d\\
-\frac{\sigma p_{i}}{\left(1+p_{i}\right)\beta_{\link}^{\tind}} & \text{otherwise}
+\delta & \frac{\sigma p_{i}}{1+p_{i}}\ge\frac{\delta}{\split_{\link}^{\tind}}\\
+\frac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-d}{\split_{\link}^{\tind}} & \frac{\sigma}{1+p_{i}}\ge d\\
+\frac{\sigma p_{i}}{\left(1+p_{i}\right)\split_{\link}^{\tind}} & \text{otherwise}
 \end{cases}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\beta_{i}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
-\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\beta_{i}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}} & = & \left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}-\split_{\link}^{\tind}\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\\
+\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Off}} & = & \left(1-\split_{\link}^{\tind}\right)\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}\label{eq:last-ramp}
 \end{eqnarray}
 
 \end_inset
@@ -720,7 +711,7 @@ on the network
  
 \emph default
 This is expressed with the cost function 
-\begin_inset Formula $J$
+\begin_inset Formula $\cost$
 \end_inset
 
 :
@@ -729,7 +720,7 @@ This is expressed with the cost function
 \begin_layout Standard
 \begin_inset Formula 
 \[
-J\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{\nlinks}L_{i}\densitydiscrete{\link}{\tind}{\text{Out}}+(1)\densitydiscrete{\link}{\tind}{\text{On}}
+\cost\left(\state,\control\right)=\triangle t\sum_{k=1}^{T}\sum_{i=1}^{\nlinks}L_{i}\densitydiscrete{\link}{\tind}{\text{Out}}+(1)\densitydiscrete{\link}{\tind}{\text{On}}
 \]
 
 \end_inset
@@ -867,7 +858,7 @@ reference "sec:Adjoint-method"
 \end_inset
 
 , 
-\begin_inset Formula $H_{v}$
+\begin_inset Formula $\Hu$
 \end_inset
 
 , 
@@ -875,7 +866,7 @@ reference "sec:Adjoint-method"
 \end_inset
 
  and 
-\begin_inset Formula $\tilde{C}_{v}$
+\begin_inset Formula $\tilde{C}_{\control}$
 \end_inset
 
 .
@@ -898,7 +889,7 @@ reference "sec:Adjoint-method"
 
 \begin_layout Standard
 To compute the partials of 
-\begin_inset Formula $H$
+\begin_inset Formula $\sys$
 \end_inset
 
 , we follow the procedure in Section
@@ -914,23 +905,23 @@ reference "par:Calculating-the-gradient"
 
 .
  For a given junction 
-\begin_inset Formula $J_{i}$
+\begin_inset Formula $\jn_{\link}$
 \end_inset
 
  and time-step 
-\begin_inset Formula $k$
+\begin_inset Formula $\tind$
 \end_inset
 
 , we only need to compute the partial derivatives of the flux solver 
-\begin_inset Formula $\hat{F}_{J_{i},k}$
+\begin_inset Formula $\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)_{\text{}}$
 \end_inset
 
  with respect to the adjacent state variables 
-\begin_inset Formula $\vect{\density}_{J_{i},k}$
+\begin_inset Formula $\juncstate{\jn_{\link}}{\tind}$
 \end_inset
 
  and ramp metering control 
-\begin_inset Formula $u_{i,k}$
+\begin_inset Formula $\ramp_{\link}^{\tind}$
 \end_inset
 
 .
@@ -984,15 +975,15 @@ v_{i} & s=\densitydiscrete{\link}{\tind}{\text{Inc}},v_{i}\densitydiscrete{\link
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s & = & \begin{cases}
-\beta_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \beta_{i,k}\delta+d\le\sigma\\
+\split_{\link}^{\tind}\pfrac{\delta}s+\pfrac ds & \split_{\link}^{\tind}\delta+d\le\sigma\\
 \pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
-\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s & = & \begin{cases}
-\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\beta_{i,k}}\\
-\beta_{i,k}^{-1}\left(\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
-\frac{p_{i}}{\beta_{i,k}\left(+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
+\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s & = & \begin{cases}
+\pfrac{\delta}s & \frac{\sigma p_{i}}{1+p_{i}}\le\frac{\delta}{\split_{\link}^{\tind}}\\
+\frac{1}{\split_{\link}^{\tind}}\left(\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\pfrac ds\right) & \frac{\sigma}{1+p_{i}}\le d\\
+\frac{p_{i}}{\split_{\link}^{\tind}\left(1+p_{i}\right)}\pfrac{\sigma}s & \text{otherwise}
 \end{cases}\\
-\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{On}}}s & = & \pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Out}}}s-\beta_{i,k}\pfrac{\left\{ \hat{F}_{J_{i},k}\right\} _{\text{Inc}}}s
+\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{On}}}s & = & \pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Out}}}s-\split_{\link}^{\tind}\pfrac{\left(\god_{\jn_{\link}}\left(\juncstate{\jn_{\link}}{\tind},\ramp_{\link}^{\tind}\right)\right)_{\text{Inc}}}s
 \end{eqnarray*}
 
 \end_inset
