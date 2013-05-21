@@ -99,7 +99,7 @@ We are mainly interested in scalar hyperbolic conservation laws of the following
 \end_inset
 
 where 
-\begin_inset Formula $\cvar:\left[0,\infty\right]\times\mathbb{R}\rightarrow\mathbb{R}$
+\begin_inset Formula $\cvar:\left[0,\infty\right)\times\mathbb{R}\rightarrow\mathbb{R}$
 \end_inset
 
  is the scalar 
