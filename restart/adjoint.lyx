@@ -121,6 +121,28 @@ which returns a scalar that serves as a metric of performance of the state
 \begin_inset Formula $\sys\left(\state,\control\right)=0$
 \end_inset
 
+, which is, again, the concatenated version of
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:main-ge"
+
+\end_inset
+
+ or
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:syseq-god"
+
+\end_inset
+
 .
  We summarize this with the following optimization problem:
 \end_layout
@@ -242,7 +264,7 @@ The main difficulty is to compute the term
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\control}}{\nominal{\state},\nominal{\control}}\label{eq:h-v}
+d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\sys\text{\left(\state,\control\right)}}{\control}}{\nominal{\state},\nominal{\control}}=0\label{eq:h-v}
 \end{equation}
 
 \end_inset
@@ -296,6 +318,71 @@ reference "sub:Evaluating--and"
 \end_inset
 
 , we must solve a coupled system of matrix equations.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Note:
+\series default
+ In
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:h-v"
+
+\end_inset
+
+, 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ and 
+\begin_inset Formula $\Hu$
+\end_inset
+
+ might not necessarily by defined either because 
+\begin_inset Formula $f$
+\end_inset
+
+ itself is not a smooth (note that we took 
+\begin_inset Formula $f$
+\end_inset
+
+ to be 
+\begin_inset Formula $C^{2}$
+\end_inset
+
+ to avoid this problem), and/or because 
+\begin_inset Formula $\god$
+\end_inset
+
+ is not smooth.
+ The derivations below are valid when the partials 
+\begin_inset Formula $\Hx$
+\end_inset
+
+ and 
+\begin_inset Formula $\Hu$
+\end_inset
+
+ can indeed be taken.
+ There are several settings in which the conditions for differentiability
+ are satisfied, see in particular
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gugat2005,FlaÃkamp2012"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -403,7 +490,7 @@ reference "sub:Evaluating--and"
 
 \end_inset
 
- gives details on the invertibility of 
+ below gives details on the invertibility of 
 \begin_inset Formula $\Hx$
 \end_inset
 
@@ -457,7 +544,46 @@ d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\lambda^{T}\Hu
 
 \end_inset
 
-We show in Section
+We define 
+\begin_inset Formula $\degree{\state}$
+\end_inset
+
+ to be the maximum junction degree on the network:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+D_{\state}=\max_{\jn\in\jns}\left(\ninc_{\jn}+\nout_{\jn}\right),\label{eq:dx}
+\end{equation}
+
+\end_inset
+
+and also define 
+\begin_inset Formula $\degree{\control}$
+\end_inset
+
+ to be the maximum number of constraints that a single control variable
+ appears in, which is equivalent to (for any 
+\begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\left(\ninc_{\jn}+\nout_{\jn}\right)\label{eq:dv}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using these definitions, we show later in Section
 \begin_inset space ~
 \end_inset
 
@@ -476,46 +602,7 @@ reference "sub:Complexity-of-solving"
 \begin_inset Formula $O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$
 \end_inset
 
- by considering the adjoint method over the forward method, where 
-\begin_inset Formula $\degree{\state}$
-\end_inset
-
- is the maximum junction degree on the network
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-D_{\state}=\max_{\jn\in\jns}\ninc_{\jn}+\nout_{\jn}\label{eq:dx}
-\end{equation}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-and 
-\begin_inset Formula $\degree{\control}$
-\end_inset
-
- is the maximum number of constraints that a single control variable appears
- in, which is equivalent to (for any 
-\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
-\end_inset
-
-):
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\ninc_{\jn}+\nout_{\jn}\label{eq:dv}
-\end{equation}
-
-\end_inset
-
-
+ by considering the adjoint method over the forward method.
 \end_layout
 
 \begin_layout Standard
@@ -663,7 +750,7 @@ name "fig:gennetc"
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Depicting 
+Depiction 
 \begin_inset Formula $D_{\state}$
 \end_inset
 
@@ -776,32 +863,12 @@ name "sub:Evaluating--and"
 \end_layout
 
 \begin_layout Standard
-Computing the gradient relies on the existence of partial derivatives of
- both 
+While no assumptions are made about the sparsity of the cost function 
 \begin_inset Formula $\cost$
 \end_inset
 
- and 
-\begin_inset Formula $\sys$
-\end_inset
-
-.
- We assume that the partial derivatives of the cost function 
-\begin_inset Formula $\cost$
-\end_inset
-
- with respect to both the state 
-\begin_inset Formula $\state$
-\end_inset
-
- and control 
-\begin_inset Formula $\control$
-\end_inset
-
- exist and have no special structure or sparsity.
- The networked-structure of the PDE system and the Godunov discretization
- scheme allows one to say much more about the structure and sparsity of
- 
+, the networked-structure of the PDE system and the Godunov discretization
+ scheme allows us to say more about the structure and sparsity of 
 \begin_inset Formula $\Hx$
 \end_inset
 
@@ -813,7 +880,7 @@ Computing the gradient relies on the existence of partial derivatives of
 \end_layout
 
 \begin_layout Paragraph
-Partial derivative expressions
+Partial derivative expressions.
 \end_layout
 
 \begin_layout Standard
@@ -831,9 +898,9 @@ Given that the governing equations require the evaluation of a Riemann solver
  
 \end_layout
 
-\begin_layout Description
+\begin_layout Standard
 If we consider a particular governing equation 
-\begin_inset Formula $\syseq_{\link}^{\tind}$
+\begin_inset Formula $\syseq_{\link}^{\tind}\left(\state,\control\right)=0$
 \end_inset
 
 , then we may determine the partial term with respect to 
@@ -905,7 +972,7 @@ reference "fig:partial-ordering"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -1028,10 +1095,6 @@ Structure of the
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 Similarly for 
 \begin_inset Formula $H_{v}$
 \end_inset
@@ -1068,8 +1131,8 @@ Similarly for
 \end_layout
 
 \begin_layout Standard
-or for the composed Riemann flux solver 
-\begin_inset Formula $\hat{F}$
+or for the composed Godunov junction flux solver 
+\begin_inset Formula $\god_{\jn}$
 \end_inset
 
 :
@@ -1174,9 +1237,10 @@ reference "eq:adjoint-grad"
 \end_layout
 
 \begin_layout Standard
-As these expressions are for a general scalar conservation law, the only
- steps in computing the gradient that is specialized are computing the derivativ
-e of the flux function 
+As these expressions are written for a general scalar conservation law,
+ the only steps in computing the gradient that are specific to a particular
+ conservation law and Riemann solver are computing the derivative of the
+ flux function 
 \begin_inset Formula $f$
 \end_inset
 
@@ -1197,7 +1261,7 @@ reference "sec:Applications-to-Optimal"
 \end_layout
 
 \begin_layout Paragraph
-Structure and sparsity
+Structure and sparsity.
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Structure-and-sparsity"
@@ -1492,7 +1556,7 @@ reference "eq:j-v"
 \end_inset
 
 .
- The complexity of the adjoint method is 
+ The complexity of computing the gradient via the adjoint method is 
 \begin_inset Formula $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$
 \end_inset
 
@@ -1513,7 +1577,7 @@ reference "eq:adjoint"
 
 \end_inset
 
- only requires the solution of 1
+ only requires the solution of a single
 \family roman
 \series medium
 \shape up
@@ -1558,11 +1622,11 @@ upper
 \begin_inset Formula $\lambda^{T}H_{v}$
 \end_inset
 
-, a 
+, an 
 \begin_inset Formula $\nlinks\ntime\times\nlinks\ntime$
 \end_inset
 
- and a 
+ and an 
 \begin_inset Formula $\nlinks\ntime\times\ncontrols\ntime$
 \end_inset
 
@@ -1577,7 +1641,7 @@ reference "eq:adjoint-grad"
 
 \end_inset
 
-, for a complexity of 
+, with a complexity of 
 \family default
 \series default
 \shape default

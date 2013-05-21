@@ -59,7 +59,7 @@
 
 \begin_body
 
-\begin_layout Section
+\begin_layout Subsection
 State, control, and governing equations
 \begin_inset CommandInset label
 LatexCommand label
@@ -71,19 +71,31 @@ name "sec:State,-control,-and"
 \end_layout
 
 \begin_layout Standard
-Let us assume we have a discrete system of the form of
+The rest of the article focuses on controlling systems of the form in Algorithm
 \begin_inset space ~
 \end_inset
 
-(
+
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "eq:fhat"
+reference "algo:god-alg"
 
 \end_inset
 
-).
- We wish to solve the system 
+ where some parts of the state can be controlled directly (i.e.
+ boundary control).
+ We wish to solve the system in Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:god-alg"
+
+\end_inset
+
+ 
 \begin_inset Formula $T$
 \end_inset
 
@@ -122,7 +134,7 @@ control
 \begin_inset Formula $\ncontrols$
 \end_inset
 
- is the number of controllable values at each time-step, and each control
+ is the number of controlled values at each time-step, and each control
  may be updated at each time-step.
  We assume that a control may only influence a subset of junctions, a reasonable
  assumption if the controls have some spatial locality.
@@ -208,7 +220,7 @@ For each state variable
 \begin_inset Formula $\discrete{\link}{\tind}$
 \end_inset
 
-, we say there is a corresponding update equation 
+, write the corresponding update equation 
 \begin_inset Formula $\syseq_{\link}^{\tind}$
 \end_inset
 
@@ -228,7 +240,7 @@ For each state variable
 \end_layout
 
 \begin_layout Standard
-which takes the forms:
+This takes the following form:
 \end_layout
 
 \begin_layout Standard
@@ -236,31 +248,23 @@ which takes the forms:
 \begin{eqnarray}
 h_{\link}^{0}\left(\state,\control\right)=\discrete{\link}0-\initdiscrete_{\link} & =0\label{eq:init-ge}\\
 \syseq_{\link}^{\tind}\left(\state,\control\right)=\discrete{\link}{\tind}-\discrete{\link}{\tind-1}+\frac{\triangle t}{L_{\link}}f\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}\nonumber \\
--\frac{\triangle t}{L_{\link}}f\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link} & =0 & \forall k\in\left[2,\ldots,T\right]\label{eq:main-ge}
+-\frac{\triangle t}{L_{\link}}f\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link} & =0 & \forall k\in\intrange 2{\ntime-1},\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-, or in terms of the Godunov junction flux:
+or in terms of the Godunov junction flux:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\syseq_{\link}^{\tind}\left(\state,\control\right)= & \discrete{\link}{\tind}-\discrete{\link}{\tind-1} & +\dfrac{\Delta t}{\Delta x}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}\label{eq:syseq-god}\\
- &  & -\dfrac{\Delta t}{\Delta x}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}
+\syseq_{\link}^{\tind}\left(\state,\control\right)= & \discrete{\link}{\tind}-\discrete{\link}{\tind-1} & +\dfrac{\Delta t}{\Delta x}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}\nonumber \\
+ &  & -\dfrac{\Delta t}{\Delta x}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\label{eq:syseq-god}
 \end{eqnarray}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 for all links 
 \begin_inset Formula $\link\in\links$
 \end_inset

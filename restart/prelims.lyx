@@ -296,7 +296,18 @@ name "sub:Network-of-PDE's"
 \end_layout
 
 \begin_layout Standard
-A network of PDEs is defined as a set of 
+A network of hyperbolic conservation laws such as
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+ is defined as a set of 
 \begin_inset Formula $\nlinks$
 \end_inset
 
@@ -499,7 +510,7 @@ where
 \begin_inset Formula $x<0$
 \end_inset
 
- is given by the solution to the Riemann problem:
+ is given by the solution to the following Riemann problem:
 \end_layout
 
 \begin_layout Standard
@@ -509,14 +520,23 @@ where
 \left(\cvar_{\link}\right)_{t}+f\left(\cvar_{\link}\right)_{x} & =0\\
 \cvar_{\link}\left(0,x\right) & =\begin{cases}
 \initstate_{\link} & x<0\\
-\trace{\cvar}_{\link} & x\ge0
+\trace{\cvar}_{\link} & x\ge0,
 \end{cases}
 \end{cases}\label{eq:riemann-problem}
 \end{equation}
 
 \end_inset
 
+which is essentially a Riemann problem with a 
+\begin_inset Quotes eld
+\end_inset
 
+virtual
+\begin_inset Quotes erd
+\end_inset
+
+ outgoing link, used to compute the solution of the junction problem in
+ the incoming link near the junction.
 \end_layout
 
 \begin_layout Standard
@@ -559,7 +579,7 @@ The assumption of an unbounded spatial domain is to eliminate the need to
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -727,7 +747,8 @@ We define a numerical grid using the following notations
 \begin_inset Formula $\triangle x$
 \end_inset
 
- is the fixed space grid size chosen with respect to the CFL condition
+ is the fixed space grid size chosen with respect to the The Courant–Friedrichs–
+Lewy (CFL) condition
 \begin_inset Foot
 status collapsed
 
@@ -758,7 +779,7 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 status collapsed
 
 \begin_layout Plain Layout
-The Courant–Friedrichs–Lewy (CFL) condition, 
+The CFL condition, 
 \begin_inset Formula $\lambda^{\max}\le\frac{\triangle x}{\triangle t}$
 \end_inset
 
@@ -825,15 +846,22 @@ For a function
 \begin_inset Formula $\link\in\links$
 \end_inset
 
- in
+ in Figure
 \begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "fig:Space-discretization-for"
+
 \end_inset
 
 
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -872,6 +900,13 @@ Space discretization for a link
 \end_inset
 
 .
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Space-discretization-for"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -885,21 +920,11 @@ Space discretization for a link
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Paragraph
 Godunov scheme for a single link.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-should say something about not working with Inc and Out anymore
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -921,7 +946,7 @@ reference "eq:cauchy"
 \begin_inset Formula $\initvar{\dvar}^{\triangle}$
 \end_inset
 
- and then constructing the solution recursively from the approximate initial
+ and then constructing the solution iteratively from the approximate initial
  data as in
 \begin_inset space ~
 \end_inset
@@ -1006,7 +1031,7 @@ citation
 \end_inset
 
 .
- Under the CFL Condition, the solutions are locally given by the solutions
+ Under the CFL condition, the solutions are locally given by the solutions
  of the Riemann problems and, in particular, the flux at 
 \begin_inset Formula $x=x^{\xind}$
 \end_inset
@@ -1135,8 +1160,8 @@ name "par:Godunov-scheme-at"
 \end_layout
 
 \begin_layout Standard
-The scheme just discussed applies to the case where a single cell is adjacent
- to another single cell.
+The scheme just discussed applies to the case in which a single cell is
+ adjacent to another single cell.
  Yet, at junctions, a cell may share a boundary with more than one cell.
  A more general Godunov flux can be derived for such cases.
  For incoming links near the junction, we have: 
@@ -1180,7 +1205,7 @@ Using the Godunov scheme, each mesh grid along a given
  link.
  It is therefore more convenient to consider that every discretized cell
  is, rather, a link with both an upstream and downstream junction.
- Thus, we consider networks where the state of each link 
+ Thus, we consider networks in which the state of each link 
 \begin_inset Formula $\link\in\links$
 \end_inset
 
@@ -1205,7 +1230,7 @@ The previous remark allows us to develop a generalized update step for all
 \end_inset
 
  at a time-step 
-\begin_inset Formula $\tind\in\left[0,\ntime-1\right]$
+\begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
 \end_inset
 
  be represented as 
@@ -1263,6 +1288,8 @@ th element of the tuple
 \end_inset
 
 .
+ This equation is thus a general way of writing the Godunov scheme in a
+ way which applies everywhere, including at junctions.
 \end_layout
 
 \begin_layout Paragraph
@@ -1325,7 +1352,7 @@ name "par:Full-solution-method"
 \end_layout
 
 \begin_layout Standard
-Assume a discrete scalar hyperbolic network of PDEs with links 
+We assume a discrete scalar hyperbolic network of PDEs with links 
 \begin_inset Formula $\links$
 \end_inset
 
@@ -1343,148 +1370,104 @@ Assume a discrete scalar hyperbolic network of PDEs with links
 
 .
  The solution method for advancing the discrete system forward one time-step
- is given by: 
-\end_layout
-
-\begin_layout Enumerate
-Begin with initial condition (
-\begin_inset Formula $t=k\triangle t$
-\end_inset
-
-) 
-\begin_inset Formula $\left(\initdiscrete_{\link}^{\tind}:\link\in\links\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-For every junction 
-\begin_inset Formula $\jn\in\jns$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Apply the Riemann solver to Riemann data to obtain the boundary condition
- 
-\begin_inset Formula $\junctrace{\jn}{\tind}=\RS\left(\juncstate{\jn}{\tind}\right)$
-\end_inset
-
-.
- 
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-For every link 
-\begin_inset Formula $\link\in\links$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-The discrete value over link 
-\begin_inset Formula $\link$
-\end_inset
-
- at time-step 
-\begin_inset Formula $\tind+1$
-\end_inset
-
- is given by
+ is given in Algorithm
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:reg-update"
+reference "algo:rs-alg"
 
 \end_inset
 
-:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\junctrace{\jdown{\link}}{}\right)_{\link}\right)-f\left(\left(\junctrace{\jup{\link}}{}\right)_{\link}\right)\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-If we instead use the Godunov junction flux 
-\begin_inset Formula $\god_{\jn}$
-\end_inset
-
-, then the method simplifies to: 
-\end_layout
-
-\begin_layout Enumerate
-Begin with initial condition (
-\begin_inset Formula $t=k\triangle t$
-\end_inset
-
-) 
-\begin_inset Formula $\left(\initdiscrete_{\link}^{\tind}:\link\in\links\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-For every link 
-\begin_inset Formula $\link\in\links$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-The discrete value over link 
-\begin_inset Formula $\link$
-\end_inset
-
- at time-step 
-\begin_inset Formula $\tind+1$
-\end_inset
-
- is given by
+, or alternatively Algorithm
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:composed-flux"
+reference "algo:god-alg"
 
 \end_inset
 
-: 
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{equation}
-\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\label{eq:fhat}
-\end{equation}
+\begin_inset Float algorithm
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\family typewriter
+Riemann solver update procedure
+\end_layout
 
 \end_inset
 
 
 \end_layout
 
-\end_deeper
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "rs-alg"
+lstparams "basicstyle={\\ttfamily\\footnotesize},breaklines=true,label={algo:rs-alg},mathescape=true"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\family typewriter
+Godunov junction flux update procedure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "god-alg"
+lstparams "basicstyle={\\ttfamily\\footnotesize},breaklines=true,label={algo:god-alg},mathescape=true"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
