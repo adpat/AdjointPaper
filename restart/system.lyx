@@ -82,8 +82,8 @@ reference "algo:god-alg"
 
 \end_inset
 
- where some parts of the state can be controlled directly (i.e.
- boundary control).
+ in which some parts of the state can be controlled directly (for example,
+ in the form of boundary control).
  We wish to solve the system in Algorithm
 \begin_inset space ~
 \end_inset
@@ -136,13 +136,14 @@ control
 
  is the number of controlled values at each time-step, and each control
  may be updated at each time-step.
- We assume that a control may only influence a subset of junctions, a reasonable
- assumption if the controls have some spatial locality.
+ We assume that a control may only influence a subset of junctions, which
+ is a reasonable assumption if the controls have some spatial locality.
  Thus, for a junction 
 \begin_inset Formula $\jn\in\jns$
 \end_inset
 
-, we assume a subset of the control parameters 
+, we assume without loss of generality that a subset of the control parameters
+ 
 \begin_inset Formula $\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}\in\mathbb{R}^{\ncontrols_{\jn}}$
 \end_inset
 
@@ -150,6 +151,10 @@ control
  Similar to the notation developed for state variables, for control variables,
  we define 
 \begin_inset Formula $\junccon{\jn}{\tind}\defeq\tuple{\condiscrete{\cind_{\jn}^{1}}{\tind}}{\condiscrete{\cind_{\jn}^{\ncontrols_{\jn}}}{\tind}}$
+\end_inset
+
+ as the concatenation of the control variables around the junction 
+\begin_inset Formula $\jn$
 \end_inset
 
 .

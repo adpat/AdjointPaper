@@ -4,6 +4,10 @@
 \begin_header
 \textclass article
 \use_default_options true
+\begin_modules
+theorems-ams
+theorems-ams-extended
+\end_modules
 \maintain_unincluded_children false
 \language english
 \language_package default
@@ -25,6 +29,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -60,7 +65,7 @@
 \begin_body
 
 \begin_layout Section
-Adjoint based flow optimization.
+Adjoint based flow optimization
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Adjoint-method"
@@ -71,7 +76,7 @@ name "sec:Adjoint-method"
 \end_layout
 
 \begin_layout Subsection
-Optimal control problem formulation.
+Optimal control problem formulation
 \begin_inset CommandInset label
 LatexCommand label
 name "par:Optimization-Problem"
@@ -88,6 +93,10 @@ In addition to our governing equations
 
 , we also introduce a cost function 
 \begin_inset Formula $\cost$
+\end_inset
+
+, which we assume to be in 
+\begin_inset Formula $C^{2}$
 \end_inset
 
 :
@@ -221,6 +230,16 @@ key "Andreas2005"
 
 \end_inset
 
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+more references, although this is only for gradient descent stuff
+\end_layout
+
+\end_inset
+
 .
 \end_layout
 
@@ -320,18 +339,14 @@ reference "sub:Evaluating--and"
 , we must solve a coupled system of matrix equations.
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-Note:
-\series default
- In
+\begin_layout Note
+In
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:h-v"
 
 \end_inset
@@ -344,11 +359,11 @@ reference "eq:h-v"
 \begin_inset Formula $\Hu$
 \end_inset
 
- might not necessarily by defined either because 
+ might not necessarily by defined, either because 
 \begin_inset Formula $f$
 \end_inset
 
- itself is not a smooth (note that we took 
+ itself is not smooth (note that we took 
 \begin_inset Formula $f$
 \end_inset
 
@@ -378,7 +393,7 @@ reference "eq:h-v"
 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Gugat2005,FlaÃkamp2012"
+key "Gugat2005,Flasskamp2012"
 
 \end_inset
 
@@ -564,11 +579,7 @@ and also define
 \end_inset
 
  to be the maximum number of constraints that a single control variable
- appears in, which is equivalent to (for any 
-\begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
-\end_inset
-
-):
+ appears in, which is equivalent to:
 \end_layout
 
 \begin_layout Standard
@@ -580,6 +591,42 @@ and also define
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $\left\{ \convar\in\junccon{\jn}{\tind}:\jn\in\jns\right\} $
+\end_inset
+
+ is a 
+\begin_inset Formula $\tind$
+\end_inset
+
+-dependent set.
+ By convention, junctions are either actuated or not, so there is no dependency
+ on 
+\begin_inset Formula $\tind$
+\end_inset
+
+, i.e.
+ if 
+\begin_inset Formula $\exists\tind$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $\convar\in\junccon{\jn}{\tind}$
+\end_inset
+
+, then 
+\begin_inset Formula $\forall\tind$
+\end_inset
+
+, 
+\begin_inset Formula $\convar\in\junccon{\jn}{\tind}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -625,7 +672,7 @@ reference "fig:Depicting--and"
 
 \end_inset
 
-.
+
 \begin_inset Float figure
 wide false
 sideways false
@@ -830,7 +877,23 @@ name "fig:Depicting--and"
 
 \end_inset
 
-Since the 
+.Freeway networks are usually considered to have topologies that are nearly
+ planar, leading to junctions degrees which typically do not exceed 3 or
+ 4, regardless of the total number of links.
+ Also, from the locality argument for control variables in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sec:State,-control,-and"
+
+\end_inset
+
+, a single control variable's influence over state variables will not grow
+ with the size of the network.
+ Since the 
 \begin_inset Formula $\degree{\state}$
 \end_inset
 
@@ -838,7 +901,7 @@ Since the
 \begin_inset Formula $\degree{\control}$
 \end_inset
 
- typically do not scale with 
+ typically do not grow with 
 \begin_inset Formula $\nlinks\ntime$
 \end_inset
 
@@ -846,9 +909,8 @@ Since the
 \begin_inset Formula $\ncontrols\ntime$
 \end_inset
 
- for freeway networks (which have low node degree), the complexity of evaluating
- the gradient for such networks can be considered linear for the adjoint
- method.
+ for freeway networks, the complexity of evaluating the gradient for such
+ networks can be considered linear for the adjoint method.
 \end_layout
 
 \begin_layout Subsection
@@ -1346,8 +1408,8 @@ future
 \begin_inset Formula $\Hx$
 \end_inset
 
- is lower-triangular and is also invertible due to the non-zero diagonal
- terms.
+ is lower-triangular and is also invertible due to the identity matrix block-dia
+gonal terms.
 \end_layout
 
 \begin_layout Standard
@@ -1740,7 +1802,23 @@ of
 \end_inset
 
 .
- The total complexity for the adjoint method on a scalar hyperbolic network
+ 
+\end_layout
+
+\begin_layout Proposition
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+The total complexity for the adjoint method on a scalar hyperbolic network
  of PDE is then 
 \family default
 \series default

@@ -5,7 +5,8 @@
 \textclass article
 \use_default_options true
 \begin_modules
-theorems-std
+theorems-ams
+theorems-ams-extended
 \end_modules
 \maintain_unincluded_children false
 \language english
@@ -264,24 +265,6 @@ It can be shown that the
 \end_inset
 
 .
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\begin{eqnarray*}
-\ssvar: & \mathbb{R}\times\mathbb{R}\times\mathbb{R}\rightarrow & \mathbb{R}\\
- & \left(\frac{x}{t};\cvar_{-},\cvar_{+}\right)\mapsto & \ss{\frac{x}{t}}{\cvar_{-}}{\cvar_{+}}
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -397,6 +380,34 @@ where
 
  and 
 \begin_inset Formula $\Out\left(\jn\right)=\left(\ninc+1,\ldots,\ninc+\nout\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+There is redundancy in the labeling of the junctions, for if link 
+\begin_inset Formula $i$
+\end_inset
+
+ is directly upstream of link 
+\begin_inset Formula $j$
+\end_inset
+
+, then we have 
+\begin_inset Formula $\jdown{\link}=\jup j$
+\end_inset
+
+.
+ See Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Space-discretization-for"
+
 \end_inset
 
 .
@@ -852,7 +863,7 @@ For a function
 
 
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "fig:Space-discretization-for"
 
 \end_inset
@@ -1397,10 +1408,10 @@ reference "algo:god-alg"
 
 \begin_layout Standard
 \begin_inset Float algorithm
-placement htbp
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -1433,11 +1444,67 @@ lstparams "basicstyle={\\ttfamily\\footnotesize},breaklines=true,label={algo:rs-
 \end_layout
 
 \begin_layout Standard
+Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:rs-alg"
+
+\end_inset
+
+ takes as input the state at a time-step 
+\begin_inset Formula $\tind$
+\end_inset
+
+ for all links 
+\begin_inset Formula $\left(\discrete{\link}{\tind}:\link\in\links\right)$
+\end_inset
+
+ and returns the state advanced by one time-step 
+\begin_inset Formula $\left(\discrete{\link}{\tind+1}:\link\in\links\right)$
+\end_inset
+
+.
+ The algorithm first iterates over all junctions 
+\begin_inset Formula $\jn$
+\end_inset
+
+, calculating all the boundary conditions, 
+\begin_inset Formula $\junctrace{\jn}{\tind}$
+\end_inset
+
+.
+ Then, the algorithm iterates over all links 
+\begin_inset Formula $\link\in\links$
+\end_inset
+
+ to compute the updated state 
+\begin_inset Formula $\discrete{\link}{\tind+1}$
+\end_inset
+
+ using the previously computed boundary conditions, as in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:reg-update"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float algorithm
-placement htbp
+placement h
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -1467,6 +1534,72 @@ lstparams "basicstyle={\\ttfamily\\footnotesize},breaklines=true,label={algo:god
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:god-alg"
+
+\end_inset
+
+ is similar to Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:rs-alg"
+
+\end_inset
+
+, except that the boundary conditions 
+\begin_inset Formula $\junctrace{\jn}{\tind}$
+\end_inset
+
+ are not explicitly computed, but rather the Godunov flux solution is used
+ to update the state, as in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:composed-flux"
+
+\end_inset
+
+.
+ Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:god-alg"
+
+\end_inset
+
+ is more suitable if a Godunov flux solution is derived for solving junctions,
+ while Algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "algo:rs-alg"
+
+\end_inset
+
+ is more suitable if one uses Riemann solver at junctions.
 \end_layout
 
 \end_body
