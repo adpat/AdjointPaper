@@ -462,7 +462,22 @@ For notational simplicity we define the set of densities of links adjacent
 .
  The offramp is considered to have infinite capacity, and thus has no bearing
  on the solution of junction problems.
- The mainline density 
+ Initial conditions are handled as in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-ge"
+
+\end_inset
+
+, while for 
+\begin_inset Formula $k\in\intrange 1{\ntime-1}$
+\end_inset
+
+, the mainline density 
 \begin_inset Formula $\discrete{2\link}{\tind}$
 \end_inset
 
@@ -532,13 +547,13 @@ key "Monache2013"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\syseq_{2\link-1}^{\tind}(\state,\control)=\discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{\link}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\demand{2\link-1}{\tind}\right)=0\label{eq:onramp-update}
+\syseq_{2\link-1}^{\tind}(\state,\control)=\discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{\link}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $\demand{2\link-1}{\tind}$
+\begin_inset Formula $\boundaryDemand{2\link-1}{\tind}$
 \end_inset
 
  is the onramp 
@@ -695,9 +710,9 @@ reference "eq:merge"
 \rampDemand_{2\link-1}^{\tind} & = & \ramp_{2\link-1}^{\tind}\min\left(\frac{\length_{2\link-1}}{\Delta t}\densitydiscrete{2\link-1}{\tind},F_{2i-1}^{\max}\right)\label{eq:ramp-eqn}\\
 \left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \min\left(\splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind},\supply_{2\link}^{\tind}\right)\label{eq:fin}\\
 \left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
-\demand_{2\left(\link-1\right)}^{\tind} & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\demand_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
-\frac{\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)_{2\link}-\rampDemand_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}}{1+p_{2(\link-1)}}\ge \rampDemand_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
-\frac{\left(\god_{\jup{2\link}}\right){}_{2\link}p_{2(\link-1)}}{\left(1+p_{2(\link-1)}\right)\splitratio_{2\left(\link-1\right)}^{\tind}} & \text{otherwise}\hfill[\text{Case 3]}
+\demand_{2\left(\link-1\right)}^{\tind} & \frac{p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\demand_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
+\frac{\left(\god_{\jup{2\link}}\right)_{2\link}-\rampDemand_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
+\frac{p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link}}{\left(1+p_{2(\link-1)}\right)\splitratio_{2\left(\link-1\right)}^{\tind}} & \text{otherwise}\hfill[\text{Case 3]}
 \end{cases}\label{eq:merge}\\
 \left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}\label{eq:last-ramp}
 \end{eqnarray}
@@ -1364,7 +1379,7 @@ reference "eq:last-ramp"
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
 \pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\demand_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
-\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge \rampDemand_{2\left(\link-1\right)}^{\tind}\\
+\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\left(\link-1\right)}^{\tind}\\
 \frac{p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link} & \text{otherwise}
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}
@@ -1451,14 +1466,6 @@ reference "eq:adjoint-grad"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Paragraph
-Initial and boundary conditions
-\end_layout
-
-\begin_layout Standard
-Is this section necessary?
 \end_layout
 
 \end_body

@@ -541,7 +541,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\demand}[2]{\demandsym_{#1}^{#2}}
+\renewcommand{\boundaryDemand}[2]{\demandsym_{#1}^{#2}}
 \end_inset
 
 
