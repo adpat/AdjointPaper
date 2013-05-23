@@ -18,10 +18,10 @@
 
 \begin{block}{Godunov's scheme (high level)}
 \begin{enumerate}
-    \item Split system in discrete chunks of size $\triangle x$.
-    \item Approximate IC by averaging over $\triangle x$.
-    \item Find exact sln of system by solving Riemann problems at discretized boundaries for $\triangle t$ time.
-    \item Approximate new sln by averaging over $\triangle x$.
+    \item Split system in discrete chunks of size $\Delta x$.
+    \item Approximate IC by averaging over $\Delta x$.
+    \item Find exact sln of system by solving Riemann problems at discretized boundaries for $\Delta t$ time.
+    \item Approximate new sln by averaging over $\Delta x$.
     \item Set IC as new sln and go to step 3.
 \end{enumerate}
 \end{block}
@@ -43,20 +43,20 @@
 \begin{frame}
 \frametitle{Derivation of Godunov's method}
 
-Take discrete initial condition $\dvar_i$ at cell $i$. We want $\bar{\dvar})_i$, the average value at cell $i$ at time $\triangle t$:
+Take discrete initial condition $\dvar_i$ at cell $i$. We want $\bar{\dvar})_i$, the average value at cell $i$ at time $\Delta t$:
 
 \begin{equation}
-    \bar{\dvar}_{i}=\dvar_{i}-\frac{1}{x_{i+1}-x_{i}}\int_{0}^{\triangle t}\left(f\left(u\left(t,x_{i+1}\right)\right)-f\left(u\left(t,x_{i}\right)\right)\right)dt
+    \bar{\dvar}_{i}=\dvar_{i}-\frac{1}{x_{i+1}-x_{i}}\int_{0}^{\Delta t}\left(f\left(u\left(t,x_{i+1}\right)\right)-f\left(u\left(t,x_{i}\right)\right)\right)dt
 \end{equation}
 
 
-This requires solution of $\cvar(x,t)$ over $[0,\triangle x]\times [0,\triangle t]$. 
+This requires solution of $\cvar(x,t)$ over $[0,\Delta x]\times [0,\Delta t]$. 
 
 
 But since Riemann problems are self-similar, fluxes across boundaries are constant:
 
 \begin{equation}
-    \int_{0}^{\triangle t}f\left(u\left(t,x_{i}\right)\right)dt\approx\triangle tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
+    \int_{0}^{\Delta t}f\left(u\left(t,x_{i}\right)\right)dt\approx\Delta tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
 \end{equation}
 
 where $g^G$ is the flux across cell boundaries obtained via sln of Riemann problem.
@@ -64,7 +64,7 @@ where $g^G$ is the flux across cell boundaries obtained via sln of Riemann probl
 Now only function of discrete values:
 
 \begin{equation}
-\bar{\dvar}_{i}=\dvar_{i}-\frac{\triangle t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)    
+\bar{\dvar}_{i}=\dvar_{i}-\frac{\Delta t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)    
 \end{equation}
 
 
@@ -78,7 +78,7 @@ This limits how large the time-step to guarantee convergence of Godunov scheme t
 
 \begin{block}{The Courant Friedrichs Lewy (CFL) condition}
 \begin{equation}
-    \lambda^{\max}\le\frac{\triangle x}{\triangle t}
+    \lambda^{\max}\le\frac{\Delta x}{\Delta t}
 \end{equation}
 \end{block}
 
@@ -119,12 +119,12 @@ $\hat{\mathbf{\dvar}}_{\jn}=\RS\left(\mathbf{\dvar}_{\jn}\right)$.
 \begin{enumerate}
 \item<3-> Letting $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
 and $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$,
-the discrete value over link $\link$ at time $\triangle t$, $\bar{\dvar}_{\link}$,
+the discrete value over link $\link$ at time $\Delta t$, $\bar{\dvar}_{\link}$,
 is given by:
 \end{enumerate}
 
 \[
-\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\triangle t}{L_{\link}}\left(f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
+\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\Delta t}{L_{\link}}\left(f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
 \]
 
 \end{enumerate}

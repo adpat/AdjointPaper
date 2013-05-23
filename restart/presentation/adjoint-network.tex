@@ -26,7 +26,7 @@ Updated discrete state equations:
 \begin{align}
 h_{\link,1}(\mathbf{x},\mathbf{v})&=x_{\link,1}-\dvar_{\link}=0\\
 h_{\link,k}(\mathbf{x},\mathbf{v})&=x_{\link,k}-x_{\link,k-1}+\\
-&\frac{\triangle t}{L_{\link}}(\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Down}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Down}},k-1})-\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Up}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Up}},k-1}))\\
+&\frac{\Delta t}{L_{\link}}(\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Down}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Down}},k-1})-\hat{F}_{\link}(\mathbf{x}_{\jn_{\link}^{\text{Up}},k-1},\mathbf{\control}_{\jn_{\link}^{\text{Up}},k-1}))\\
 &=0\forall k\in\left[2,\ldots,T\right]
 \end{align}
 
@@ -76,7 +76,7 @@ Assume initial $\mathbf{\control}_0$ and state $H(\mathbf{x}_0, \mathbf{\control
 By chain rule:
 \begin{align*}
 \pfrac{h_{\link,k}}x=-\pfrac{x_{\link,k-1}}x+\\
-\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)    
+\frac{\Delta t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}x-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}x\right)    
 \end{align*}
 
 \begin{itemize}
@@ -106,7 +106,7 @@ Thus each partial term is zero unless variable is from previous time-step and ad
 \begin{block}{$H_v$}
 By chain rule:
 \begin{align*}
-\pfrac{h_{\link,k}}v=\frac{\triangle t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)
+\pfrac{h_{\link,k}}v=\frac{\Delta t}{L_{i}}\left(\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}},k}\right\} _{\link}}v-\pfrac f{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}\pfrac{\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}},k}\right\} _{\link}}v\right)
 \end{align*}
 Similar arguments to $H_x$ give us that each partial term is zero unless variable is from same time-step and $v\in \mathbf{v}_J^{\text{Down}}\cup\mathbf{v}_J^{\text{Up}}$.
 \end{block}

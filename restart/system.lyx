@@ -252,8 +252,8 @@ This takes the following form:
 \begin_inset Formula 
 \begin{eqnarray}
 h_{\link}^{0}\left(\state,\control\right)=\discrete{\link}0-\initdiscrete_{\link} & =0\label{eq:init-ge}\\
-\syseq_{\link}^{\tind}\left(\state,\control\right)=\discrete{\link}{\tind}-\discrete{\link}{\tind-1}+\frac{\triangle t}{L_{\link}}f\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}\nonumber \\
--\frac{\triangle t}{L_{\link}}f\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link} & =0 & \forall k\in\intrange 2{\ntime-1},\label{eq:main-ge}
+\syseq_{\link}^{\tind}\left(\state,\control\right)=\discrete{\link}{\tind}-\discrete{\link}{\tind-1}+\frac{\Delta t}{L_{\link}}f\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}\nonumber \\
+-\frac{\Delta t}{L_{\link}}f\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link} & =0 & \forall k\in\intrange 2{\ntime-1},\label{eq:main-ge}
 \end{eqnarray}
 
 \end_inset

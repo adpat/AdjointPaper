@@ -748,14 +748,14 @@ We define a numerical grid using the following notations
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\triangle t$
+\begin_inset Formula $\Delta t$
 \end_inset
 
  is the fixed time grid size, 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\triangle x$
+\begin_inset Formula $\Delta x$
 \end_inset
 
  is the fixed space grid size chosen with respect to the The Courant–Friedrichs–
@@ -774,7 +774,7 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $(t^{\tind},x^{\xind})=(k\triangle t,\xind\triangle x)$
+\begin_inset Formula $(t^{\tind},x^{\xind})=(k\Delta t,\xind\Delta x)$
 \end_inset
 
  for 
@@ -791,12 +791,12 @@ status collapsed
 
 \begin_layout Plain Layout
 The CFL condition, 
-\begin_inset Formula $\lambda^{\max}\le\frac{\triangle x}{\triangle t}$
+\begin_inset Formula $\lambda^{\max}\le\frac{\Delta x}{\Delta t}$
 \end_inset
 
 , guarantees that the waves in two neighboring cells do not interact at
  the cell boundaries before 
-\begin_inset Formula $\triangle t$
+\begin_inset Formula $\Delta t$
 \end_inset
 
 .
@@ -825,7 +825,7 @@ The CFL condition,
 \end_inset
 
  takes values in 
-\begin_inset Formula $\intrange 0{\length_{\link}^{\triangle}}$
+\begin_inset Formula $\intrange 0{\length_{\link}^{\Delta}}$
 \end_inset
 
 .
@@ -895,7 +895,7 @@ Space discretization for a link
 
 .
  Step size is uniform 
-\begin_inset Formula $\triangle x$
+\begin_inset Formula $\Delta x$
 \end_inset
 
 , with discrete value 
@@ -954,7 +954,7 @@ reference "eq:cauchy"
 .
  A solution of the discretized problem is constructed by taking a piecewise
  constant approximation of the initial data 
-\begin_inset Formula $\initvar{\dvar}^{\triangle}$
+\begin_inset Formula $\initvar{\dvar}^{\Delta}$
 \end_inset
 
  and then constructing the solution iteratively from the approximate initial
@@ -983,7 +983,7 @@ reference "eq:godproj"
 
 \begin_layout Standard
 where 
-\begin_inset Formula $\cvar^{\triangle}\left(t,x\right)$
+\begin_inset Formula $\cvar^{\Delta}\left(t,x\right)$
 \end_inset
 
  is an exact solution of
@@ -998,7 +998,7 @@ reference "eq:cauchy"
 \end_inset
 
  with initial condition 
-\begin_inset Formula $\initstate^{\triangle}$
+\begin_inset Formula $\initstate^{\Delta}$
 \end_inset
 
 .
@@ -1006,7 +1006,7 @@ reference "eq:cauchy"
 
 \begin_layout Standard
 Since 
-\begin_inset Formula $\cvar^{\triangle}$
+\begin_inset Formula $\cvar^{\Delta}$
 \end_inset
 
  in
@@ -1178,7 +1178,7 @@ The scheme just discussed applies to the case in which a single cell is
  For incoming links near the junction, we have: 
 \begin_inset Formula 
 \begin{align*}
-\discrete{\length_{\link}^{\triangle}}{\tind+1}=\discrete{\length_{\link}^{\triangle}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\dvar}_{\length_{\link}^{\triangle}}^{\tind})-\god(\discrete{L_{i}^{\triangle}-1}{\tind},\discrete{L_{i}^{\triangle}}{\tind})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
+\discrete{\length_{\link}^{\Delta}}{\tind+1}=\discrete{\length_{\link}^{\Delta}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\dvar}_{\length_{\link}^{\Delta}}^{\tind})-\god(\discrete{L_{i}^{\Delta}-1}{\tind},\discrete{L_{i}^{\Delta}}{\tind})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
 \end{align*}
 
 \end_inset
