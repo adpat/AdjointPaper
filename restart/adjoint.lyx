@@ -1322,6 +1322,18 @@ reference "sec:Applications-to-Optimal"
 .
 \end_layout
 
+\begin_layout Subsection
+Complexity of solving gradient via forward method vs.
+ adjoint method
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Complexity-of-solving"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 Structure and sparsity.
 \begin_inset CommandInset label
@@ -1540,18 +1552,6 @@ reference "eq:dv"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Subsection
-Complexity of solving gradient via forward method vs.
- adjoint method
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Complexity-of-solving"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1819,7 +1819,7 @@ of
 \noun off
 \color none
 The total complexity for the adjoint method on a scalar hyperbolic network
- of PDE is then 
+ of PDEs is 
 \family default
 \series default
 \shape default

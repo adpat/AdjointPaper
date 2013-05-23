@@ -71,6 +71,17 @@ name "sec:Applications-to-Optimal"
 
 \end_layout
 
+\begin_layout Subsection
+Formulation of the network model and explicit Riemann solver
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Formulation-of-the"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Paragraph
 Model.
 \end_layout
@@ -193,11 +204,14 @@ reference "fig:Freeway-network-junction"
 \uwave default
 \noun default
 \color inherit
-
+.
+ Junctions that have no onramps can be effectively represented by adding
+ an onramp with no demand while junctions with no offramps can be represented
+ by setting the split ratio to 1.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -238,20 +252,17 @@ name "fig:Freeway-network-junction"
 
 \end_inset
 
-.
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
 \end_inset
 
-.
- Junctions that have no onramps can be effectively represented by adding
- an onramp with no demand while junctions with no offramps can be represented
- by setting the split ratio to 1.
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -260,22 +271,18 @@ The vehicle flow dynamics on all links
 \end_inset
 
  (mainlines, onramps, and offramps) are modeled using the conservation law
- governing the density evolution:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\density_{t}+f\left(\density\right)_{x}=0
-\]
-
+ governing the density evolution
+\begin_inset space ~
 \end_inset
 
 
-\end_layout
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
 
-\begin_layout Standard
-where 
+\end_inset
+
+, where 
 \begin_inset Formula $\density$
 \end_inset
 
@@ -288,8 +295,8 @@ where
 \end_inset
 
 .
- This model is referred to as the Lighthill-Whitham-Richards (LWR) model
- in the traffic literature
+ In the context of traffic, this model is referred to as the Lighthill-Whitham-R
+ichards (LWR) model
 \begin_inset space ~
 \end_inset
 
@@ -301,8 +308,11 @@ key "lighthill1955kinematic,richards1956shock"
 \end_inset
 
 .
- The fundamental diagram is typically assumed to be concave, and have a
- bounded domain of 
+ The fundamental diagram 
+\begin_inset Formula $f$
+\end_inset
+
+ is typically assumed to be concave, and have a bounded domain of 
 \begin_inset Formula $\left[0,\density^{\max}\right]$
 \end_inset
 
@@ -328,6 +338,18 @@ reference "fig:Fundamental-diagram-with"
 \end_inset
 
 .
+ For the remainder of the article, we instantiate the conservation law in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cons-smooth"
+
+\end_inset
+
+ with the LWR equation as it applies to traffic flow modeling.
 \begin_inset Wrap figure
 lines 0
 placement o
@@ -350,7 +372,8 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Fundamental diagram with free-flow speed 
+Fundamental diagram (the name of the flux function in transportation literature)
+ with free-flow speed 
 \begin_inset Formula $v$
 \end_inset
 
@@ -385,24 +408,9 @@ name "fig:Fundamental-diagram-with"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
- For the remainder of the article, we instantiate the conservation law in
-\begin_inset space ~
 \end_inset
 
 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:cons-smooth"
-
-\end_inset
-
- with the LWR equation as it applies to traffic flow modeling.
 \end_layout
 
 \begin_layout Standard
@@ -476,7 +484,7 @@ reference "eq:main-ge"
 \begin_inset Formula 
 \begin{eqnarray}
 \syseq_{2\link}^{\tind}(\state,\control) & =\discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
- &  & -\dfrac{\Delta t}{\length_{\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}
+ &  & -\dfrac{\Delta t}{\length_{\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -492,7 +500,7 @@ where
 .
  We also make the assumption that onramps have infinite capacity and a free-flow
  velocity 
-\begin_inset Formula $v_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
+\begin_inset Formula $\ffspeed_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
 \end_inset
 
  to prevent the ramp congestion from blocking demand from ever entering
@@ -650,19 +658,19 @@ key "Walid,ML"
 \begin_inset Formula $p_{2(\link-1)}\in\mathbb{R}_{+}$
 \end_inset
 
-, which models the manner in which vehicles merge from two roads to one
- (shown in
+, which models the manner in which vehicles merge from two roads to one,
+ shown in
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:merge"
 
 \end_inset
 
-).
+.
  This leads to the following system of equations that gives the flux solution
  of the Riemann solver at time-step 
 \begin_inset Formula $k\in\intrange 1{\ntime-1}$
@@ -682,13 +690,13 @@ reference "eq:merge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\delta_{2\left(\link-1\right)}^{\tind} & = & \min\left(v_{2\left(i-1\right)}\densitydiscrete{2\left(\link-1\right)}{\tind},F_{2\left(\link-1\right)}^{\max}\right)\label{eq:first-ramp}\\
-\sigma_{2\link}^{\tind} & = & \min\left(w_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right),F_{2i}^{\max}\right)\label{eq:supply}\\
-d_{2\link-1}^{\tind} & = & \ramp_{2\link-1}^{\tind}\min\left(\frac{\length_{2\link-1}}{\Delta t}\densitydiscrete{2\link-1}{\tind},F_{2i-1}^{\max}\right)\label{eq:ramp-eqn}\\
-\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \min\left(\splitratio_{2\left(\link-1\right)}^{\tind}\delta_{2\left(\link-1\right)}^{\tind}+d_{2\link-1}^{\tind},\sigma_{2\link}^{\tind}\right)\label{eq:fin}\\
+\demand_{2\left(\link-1\right)}^{\tind} & = & \min\left(\ffspeed_{2\left(i-1\right)}\densitydiscrete{2\left(\link-1\right)}{\tind},F_{2\left(\link-1\right)}^{\max}\right)\label{eq:first-ramp}\\
+\supply_{2\link}^{\tind} & = & \min\left(\congspeed_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right),F_{2i}^{\max}\right)\label{eq:supply}\\
+\rampDemand_{2\link-1}^{\tind} & = & \ramp_{2\link-1}^{\tind}\min\left(\frac{\length_{2\link-1}}{\Delta t}\densitydiscrete{2\link-1}{\tind},F_{2i-1}^{\max}\right)\label{eq:ramp-eqn}\\
+\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \min\left(\splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind},\supply_{2\link}^{\tind}\right)\label{eq:fin}\\
 \left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
-\delta & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\delta_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
-\frac{\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)_{2\link}-d_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}}{1+p_{2(\link-1)}}\ge d_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
+\demand_{2\left(\link-1\right)}^{\tind} & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\demand_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
+\frac{\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)_{2\link}-\rampDemand_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}}{1+p_{2(\link-1)}}\ge \rampDemand_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
 \frac{\left(\god_{\jup{2\link}}\right){}_{2\link}p_{2(\link-1)}}{\left(1+p_{2(\link-1)}\right)\splitratio_{2\left(\link-1\right)}^{\tind}} & \text{otherwise}\hfill[\text{Case 3]}
 \end{cases}\label{eq:merge}\\
 \left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}\label{eq:last-ramp}
@@ -696,7 +704,11 @@ d_{2\link-1}^{\tind} & = & \ramp_{2\link-1}^{\tind}\min\left(\frac{\length_{2\li
 
 \end_inset
 
-where, for simplicity of notation, any undefined state values (e.g.
+where, for notational simplicity, at the edges of of the range for 
+\begin_inset Formula $\link$
+\end_inset
+
+, any undefined state values (e.g.
  
 \begin_inset Formula $\densitydiscrete 0{\tind}$
 \end_inset
@@ -781,11 +793,23 @@ supply
 \end_inset
 
  of the downstream link.
+ See
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Monache2013"
+
+\end_inset
+
+ for more details on the model for this equation.
  The flux out of link 
 \begin_inset Formula $2(\link-1)$
 \end_inset
 
- is split into 3 cases in
+ is split into three cases in
 \begin_inset space ~
 \end_inset
 
@@ -803,7 +827,7 @@ reference "eq:merge"
 
 
 \begin_inset CommandInset ref
-LatexCommand eqref
+LatexCommand ref
 reference "fig:Godunov-junction-flux"
 
 \end_inset
@@ -813,7 +837,8 @@ reference "fig:Godunov-junction-flux"
 \begin_inset Formula $p_{2\left(\link-1\right)}$
 \end_inset
 
-.Finally, Equation
+.
+ Finally, Equation
 \begin_inset space ~
 \end_inset
 
@@ -916,7 +941,7 @@ Case 2: Priority violated due to limited onramp demand entering downstream
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -1004,8 +1029,12 @@ reference "eq:init-ge"
 .
 \end_layout
 
+\begin_layout Subsection
+Formulation of the optimal control problem
+\end_layout
+
 \begin_layout Paragraph
-Optimal coordinated ramp-metering
+Optimal coordinated ramp-metering.
 \end_layout
 
 \begin_layout Standard
@@ -1306,7 +1335,7 @@ reference "eq:last-ramp"
 
 \end_inset
 
- with respect to either a state or control variable 
+ with respect to either a state or control variable
 \begin_inset Formula $s\in\state\cup\control$
 \end_inset
 
@@ -1316,12 +1345,12 @@ reference "eq:last-ramp"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-\pfrac{\delta_{2\left(\link-1\right)}^{\tind}}s & = & \begin{cases}
-v_{2\left(i-1\right)} & s=\densitydiscrete{2\left(\link-1\right)}{\tind},v_{i}\densitydiscrete{2\left(\link-1\right)}{\tind}\le F_{2\left(i-1\right)}^{\max}\\
+\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & = & \begin{cases}
+\ffspeed_{2\left(i-1\right)} & s=\densitydiscrete{2\left(\link-1\right)}{\tind},\ffspeed_{i}\densitydiscrete{2\left(\link-1\right)}{\tind}\le F_{2\left(i-1\right)}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
-\pfrac{\sigma_{2\link}^{\tind}}s & = & \begin{cases}
--w_{2i} & s=\densitydiscrete{2\link}{\tind},w_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right)\le F_{2i}^{\max}\\
+\pfrac{\supply_{2\link}^{\tind}}s & = & \begin{cases}
+-\congspeed_{2i} & s=\densitydiscrete{2\link}{\tind},\congspeed_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right)\le F_{2i}^{\max}\\
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac ds & = & \begin{cases}
@@ -1330,12 +1359,12 @@ v_{2\left(i-1\right)} & s=\densitydiscrete{2\left(\link-1\right)}{\tind},v_{i}\d
 0 & \text{otherwise}
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \begin{cases}
-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{\delta_{2\left(\link-1\right)}^{\tind}}s+\pfrac{d_{2\left(\link-1\right)}^{\tind}}s & \splitratio_{2\left(\link-1\right)}^{\tind}\delta_{2\left(\link-1\right)}^{\tind}+d_{2\link-1}^{\tind}\le\sigma_{2\link}^{\tind}\\
-\pfrac{\sigma_{2\link}^{\tind}}s & \text{otherwise}
+\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s+\pfrac{\rampDemand_{2\left(\link-1\right)}^{\tind}}s & \splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind}\le\supply_{2\link}^{\tind}\\
+\pfrac{\supply_{2\link}^{\tind}}s & \text{otherwise}
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
-\pfrac{\delta_{2\left(\link-1\right)}^{\tind}}s & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\delta_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
-\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\delta_{2\left(\link-1\right)}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge d_{2\left(\link-1\right)}^{\tind}\\
+\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\demand_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
+\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge \rampDemand_{2\left(\link-1\right)}^{\tind}\\
 \frac{p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link} & \text{otherwise}
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}
