@@ -791,7 +791,7 @@ reference "eq:fin"
 
 \end_inset
 
-, is given as the minimum of the 
+, is given as hthe minimum of the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -925,7 +925,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figs-gen/flux-sln-2.pdf
+	filename figs-gen/flux-sln-2-slim.pdf
 	width 30col%
 
 \end_inset
@@ -960,7 +960,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figs-gen/flux-sln-3.pdf
+	filename figs-gen/flux-sln-3-slim.pdf
 	width 30col%
 
 \end_inset
@@ -990,18 +990,46 @@ Case 3: Priority rule satisfied due to sufficient demand from both mainline
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Godunov junction flux solution for ramp metering model at link 
-\begin_inset Formula $2\left(\link-1\right)$
+Godunov junction flux solution for ramp metering model at junction 
+\begin_inset Formula $\jup{2\link}$
 \end_inset
 
 .
+ The rectangular region represents the feasible flux values for 
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\god_{\jup{2\link}}\right)_{2\link-1}$
+\end_inset
+
+ as determined by the upstream demand, while the line with slope
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Godunov-junction-flux"
 
 \end_inset
 
+ 
+\begin_inset Formula $\frac{1}{\splitratio_{2\left(\link-1\right)}}$
+\end_inset
 
+ represents feasible flux values as determined by mass balance.
+ The 
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}$
+\end_inset
+
+ term accounts for only the flux out of link 
+\begin_inset Formula $2\left(\link-1\right)$
+\end_inset
+
+ that stays on the mainline.
+ The flux solution, represented by the red circle, is the point on the feasible
+ region that minimizes the distance from the priority line 
+\begin_inset Formula $\splitratio_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}=p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link-1}$
+\end_inset
+
+.
 \end_layout
 
 \end_inset
@@ -1379,7 +1407,7 @@ reference "eq:last-ramp"
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
 \pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\demand_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
-\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\left(\link-1\right)}^{\tind}\\
+\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\rampDemand_{2\link-1}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\left(\link-1\right)}^{\tind}\\
 \frac{p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link} & \text{otherwise}
 \end{cases}\\
 \pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}
