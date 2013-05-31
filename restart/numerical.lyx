@@ -70,5 +70,157 @@ name "sec:Numerical-results-for"
 
 \end_layout
 
+\begin_layout Subsection
+Network
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Network"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+I15s
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+20 miles
+\end_layout
+
+\begin_layout Itemize
+3 hour open loop
+\end_layout
+
+\begin_layout Itemize
+created using scenarioEditor
+\end_layout
+
+\begin_layout Itemize
+meters on every onramp
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+calibrated, PEMS boundary data
+\end_layout
+
+\begin_layout Subsection
+Descent algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Descent-algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+fmincon, ipopt
+\end_layout
+
+\begin_layout Itemize
+multistart
+\end_layout
+
+\begin_layout Itemize
+bounds
+\end_layout
+
+\begin_layout Itemize
+Modifications for practical considerations
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+queue length
+\end_layout
+
+\begin_layout Itemize
+minimum metering rates
+\end_layout
+
+\begin_layout Itemize
+fairness
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Finite-horizon optimal control
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Finite-horizon-optimal-control"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+no MPC, known boundary, ic
+\end_layout
+
+\begin_layout Itemize
+comparison against
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+no control
+\end_layout
+
+\begin_layout Itemize
+no gradient
+\end_layout
+
+\begin_layout Itemize
+alinea
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+running time
+\end_layout
+
+\begin_layout Itemize
+delay
+\end_layout
+
+\begin_layout Subsection
+Model predictive control
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Model-predictive-control"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+artificial noise on demand data and initial condition
+\end_layout
+
+\begin_layout Itemize
+degradation of performance with noise
+\end_layout
+
+\begin_layout Itemize
+scalability
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+network size
+\end_layout
+
+\begin_layout Itemize
+time horizon
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

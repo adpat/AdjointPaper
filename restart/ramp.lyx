@@ -104,11 +104,11 @@ Consider a freeway section with links
 \begin_inset Formula $t=\tind\Delta t,0\le\tind\le\ntime-1$
 \end_inset
 
-, mainline links 
+, mainline link 
 \begin_inset Formula $2\link\in\links,i\in\intrange 1{\nlinks}$
 \end_inset
 
- have a downstream junction 
+ has a downstream junction 
 \begin_inset Formula $\jdown{2\link}=\jup{2\left(\link+1\right)}$
 \end_inset
 
@@ -116,11 +116,11 @@ Consider a freeway section with links
 \begin_inset Formula $\jup{2\link}=\jdown{2\left(\link-1\right)}$
 \end_inset
 
-, while onramps 
+, while onramp 
 \begin_inset Formula $2\link-1\in\links,i\in\intrange 1{\nlinks}$
 \end_inset
 
- have a downstream junction 
+ has a downstream junction 
 \begin_inset Formula $\jdown{2\link-1}=\jup{2\link}=\jdown{2\left(\link-1\right)}$
 \end_inset
 
@@ -148,13 +148,26 @@ The offramp directly downstream of link
 \begin_inset Formula $2\link,i\in\intrange 1{\nlinks}$
 \end_inset
 
- is modeled by a split ratio 
+ has, at time-step 
+\begin_inset Formula $\tind$
+\end_inset
+
+, a split ratio 
 \begin_inset Formula $\splitratio_{2\link}^{\tind}$
 \end_inset
 
- representing the ratio of cars who stay on the freeway vs.
- total cars leaving the upstream mainline of junction 
+ representing the ratio of cars which stay on the freeway over the total
+ cars leaving the upstream mainline of junction 
 \begin_inset Formula $\jdown{2\link}$
+\end_inset
+
+.
+ The model assumes that all flux from onramp 
+\begin_inset Formula $2\link-1$
+\end_inset
+
+ enters downstream mainline 
+\begin_inset Formula $2\link$
 \end_inset
 
 .
@@ -167,7 +180,11 @@ The offramp directly downstream of link
 \begin_inset Formula $\jdown{2\nlinks}$
 \end_inset
 
- has no downstream mainline or onramp.
+ has no downstream mainline or onramp (
+\begin_inset Formula $\splitratio_{2\nlinks}^{\tind}=0$
+\end_inset
+
+).
  Each link 
 \begin_inset Formula $\link\in\links$
 \end_inset
@@ -180,7 +197,7 @@ The offramp directly downstream of link
 \begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
 \end_inset
 
- represents the density of vehicles on the link.
+, that represents the density of vehicles on the link.
  These values are depicted in Figure
 \begin_inset space ~
 \end_inset
@@ -211,7 +228,7 @@ reference "fig:Freeway-network-junction"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -228,21 +245,29 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Freeway network junction 
-\begin_inset Formula $J_{i}$
+Freeway network model.
+ For a junction 
+\begin_inset Formula $\jdown{2\link-1}=\jdown{2\left(\link-1\right)}=\jup{2\link}$
 \end_inset
 
-.
- Mainline densities represented by 
-\begin_inset Formula $\densitydiscrete{\link}{\tind}\text{Out}=\densitydiscrete{\link+1}{\tind}\text{Inc}$
+ at time-step 
+\begin_inset Formula $\tind\in\intrange 0{\ntime-1}$
 \end_inset
 
-, onramp densities by 
-\begin_inset Formula $\densitydiscrete{\link}{\tind}\text{On}$
+, the upstream mainline density are represented by 
+\begin_inset Formula $\densitydiscrete{2\left(\link-1\right)}{\tind}$
 \end_inset
 
-, and offramp split ratios by 
-\begin_inset Formula $\splitratio_{\link}^{\tind}$
+, the downstream mainline density by 
+\begin_inset Formula $\densitydiscrete{2\link}{\tind}$
+\end_inset
+
+, the onramp density by 
+\begin_inset Formula $\densitydiscrete{2\link-1}{\tind}$
+\end_inset
+
+, and the offramp split ratio by 
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}^{\tind}$
 \end_inset
 
 .
@@ -290,7 +315,7 @@ reference "eq:cons-smooth"
 \begin_inset Formula $f$
 \end_inset
 
- is the derivative of the flux function (or fundamental diagram) 
+ is the flux function (or fundamental diagram) 
 \begin_inset Formula $f\left(\density\right)$
 \end_inset
 
@@ -312,7 +337,7 @@ key "lighthill1955kinematic,richards1956shock"
 \begin_inset Formula $f$
 \end_inset
 
- is typically assumed to be concave, and have a bounded domain of 
+ is typically assumed to be concave, and has a bounded domain 
 \begin_inset Formula $\left[0,\density^{\max}\right]$
 \end_inset
 
@@ -320,13 +345,13 @@ key "lighthill1955kinematic,richards1956shock"
 \begin_inset Formula $F^{\max}$
 \end_inset
 
- obtained at a critical density of 
+ attained at a critical density 
 \begin_inset Formula $\density^{c}:f\left(\density^{c}\right)=F^{\max}$
 \end_inset
 
 .
- We assume the fundamental diagram has a trapezoidal form as depicted in
- Figure
+ We assume that the fundamental diagram has a trapezoidal form as depicted
+ in Figure
 \begin_inset space ~
 \end_inset
 
@@ -429,8 +454,8 @@ As control input, an onramp
  which limits the flux of vehicles leaving the onramp.
  Intuitively, the metering rate acts as a fractional decrease in the flow
  leaving the onramp and entering the mainline freeway.
- The bounded domain of the metering control is to force the control to neither
- impose negative flows nor send more vehicles than present in a queue.
+ The domain of the metering control is to force the control to neither impose
+ negative flows nor send more vehicles than present in a queue.
  Its mathematical model is expressed in
 \begin_inset space ~
 \end_inset
@@ -446,7 +471,7 @@ reference "eq:ramp-eqn"
 \end_layout
 
 \begin_layout Standard
-For notational simplicity we define the set of densities of links adjacent
+For notational simplicity we define the set of densities of links incident
  to 
 \begin_inset Formula $\jup{2\link}=\jdown{2\left(\link-1\right)}$
 \end_inset
@@ -498,14 +523,14 @@ reference "eq:main-ge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\syseq_{2\link}^{\tind}(\state,\control) & =\discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
- &  & -\dfrac{\Delta t}{\length_{\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber 
+\syseq_{2\link}^{\tind}(\state,\control) & =\discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
+ &  & -\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber 
 \end{eqnarray}
 
 \end_inset
 
 where 
-\begin_inset Formula $\length_{\link}$
+\begin_inset Formula $\length_{2\link}$
 \end_inset
 
  is the length of link 
@@ -547,7 +572,7 @@ key "Monache2013"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\syseq_{2\link-1}^{\tind}(\state,\control)=\discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{\link}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind}\right)=0\label{eq:onramp-update}
+\syseq_{2\link-1}^{\tind}(\state,\control)=\discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind}\right)=0\label{eq:onramp-update}
 \end{equation}
 
 \end_inset
@@ -592,7 +617,7 @@ The onramp model in
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:onramp-update"
 
 \end_inset
@@ -663,30 +688,37 @@ key "Walid,ML"
 \begin_inset Formula $\jup{2\link}$
 \end_inset
 
-, we add two modeling decisions: the flux solution maximizes the outgoing
- mainline flux 
+, we add two modeling decisions:
+\end_layout
+
+\begin_layout Enumerate
+The flux solution maximizes the outgoing mainline flux 
 \begin_inset Formula $\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link}$
 \end_inset
 
-, and any remaining non-uniqueness in the incoming flux is resolved using
- a merging parameter 
+.
+\end_layout
+
+\begin_layout Enumerate
+Subject to (1), the flux solution attempts to satisfy 
+\begin_inset Formula $\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)}=p_{2(\link-1)}*\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1}$
+\end_inset
+
+, where 
 \begin_inset Formula $p_{2(\link-1)}\in\mathbb{R}_{+}$
 \end_inset
 
-, which models the manner in which vehicles merge from two roads to one,
- shown in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:merge"
-
+ is a merging parameter for junction 
+\begin_inset Formula $\jup{2\link}$
 \end_inset
 
 .
- This leads to the following system of equations that gives the flux solution
+ Since (1) allows multiple flux solutions at the junction, (2) is necessary
+ to obtain a unique solution.
+\end_layout
+
+\begin_layout Standard
+This leads to the following system of equations that gives the flux solution
  of the Riemann solver at time-step 
 \begin_inset Formula $k\in\intrange 1{\ntime-1}$
 \end_inset
@@ -728,7 +760,7 @@ where, for notational simplicity, at the edges of of the range for
 \begin_inset Formula $\densitydiscrete 0{\tind}$
 \end_inset
 
-) are assumed to be zero.
+) are assumed to be zero by convention.
  Equations
 \begin_inset space ~
 \end_inset
@@ -791,7 +823,7 @@ reference "eq:fin"
 
 \end_inset
 
-, is given as hthe minimum of the 
+, is given as the minimum of the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1061,7 +1093,7 @@ reference "eq:init-ge"
 
 .
  Note that the equations can be solved sequentially via forward substitution.
- Also, we do not include the flux results for offramps explicitly here since
+ Also, we do not include the flux result for offramps explicitly here since
  its value has no bearing on further calculations, and we will henceforth
  ignore its calculation.
  To demonstrate that indeed the flux solution satisfies the flux conservation
@@ -1165,8 +1197,8 @@ on the network, expressed by the cost function
 \end_layout
 
 \begin_layout Standard
-The optimal coordinated ramp-metering problem can be formulated as a network
- PDE-constrained optimization problem:
+The optimal coordinated ramp-metering problem can be formulated as an optimizati
+on problem with PDE-network constraints:
 \end_layout
 
 \begin_layout Standard
@@ -1190,8 +1222,8 @@ reference "sec:Adjoint-method"
 
 \end_inset
 
- does not permit inequalities in the constraints, we add barrier penalties
- to the cost function
+ only deals with equality constraints, we add barrier penalties to the cost
+ function
 \begin_inset space ~
 \end_inset
 
@@ -1207,9 +1239,9 @@ key "Boyd2010,Bayen2006"
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-\tilde{\cost}\left(\state,\control,\epsilon\right)=\cost\left(\state,\control\right)-\barrierTerm\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)
-\]
+\begin{equation}
+\tilde{\cost}\left(\state,\control,\epsilon\right)=\cost\left(\state,\control\right)-\barrierTerm\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)\label{eq:full-tilde}
+\end{equation}
 
 \end_inset
 
@@ -1221,12 +1253,26 @@ As
 \begin_inset Formula $\barrierTerm\in\mathbb{R}^{+}$
 \end_inset
 
- tends to zero, 
-\begin_inset Formula $\tilde{\cost}$
+ tends to zero, the solution to
+\begin_inset space ~
 \end_inset
 
- tends towards 
-\begin_inset Formula $\cost$
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:full-tilde"
+
+\end_inset
+
+ will approach the solution to the original problem
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:full"
+
 \end_inset
 
 .
@@ -1289,7 +1335,7 @@ reference "sec:Adjoint-method"
 
 \end_inset
 
-, we need to compute the partial matrices 
+, we need to compute the partial derivative matrices 
 \begin_inset Formula $\Hx$
 \end_inset
 
@@ -1323,7 +1369,7 @@ reference "sec:Adjoint-method"
 \end_layout
 
 \begin_layout Standard
-To compute the partials of 
+To compute the partial derivatives of 
 \begin_inset Formula $\sys$
 \end_inset
 
@@ -1360,7 +1406,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
 .
- We calculate the partial derivatives of the variables in
+ We calculate the partial derivatives of the functions in
 \begin_inset space ~
 \end_inset
 
@@ -1469,7 +1515,7 @@ reference "eqdhdvgod"
 
 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:adjoint"
 
 \end_inset

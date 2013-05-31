@@ -65,7 +65,7 @@ Nomenclature
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="37" columns="3">
+<lyxtabular version="3" rows="47" columns="3">
 <features islongtable="true" longtabularalignment="center">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -116,7 +116,7 @@ Meaning
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathbb{R}^{+}$
+\begin_inset Formula $\mathbb{R}_{+}$
 \end_inset
 
  
@@ -288,7 +288,7 @@ Set of links
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathbb{R}^{+}$
+\begin_inset Formula $\mathbb{R}_{+}$
 \end_inset
 
  
@@ -348,6 +348,41 @@ conserved quantity for link
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\initstate$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $BV\cap L_{\text{loc}}^{1}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+continuous intialial condition
 \end_layout
 
 \end_inset
@@ -579,7 +614,7 @@ Point of discontinuity in Riemann problem
 \begin_inset Formula $\ssvar$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -748,7 +783,7 @@ Set of outgoing links at a junction J
 \begin_inset Formula $\jup{\link}\in\jns$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -784,7 +819,7 @@ Upstream junction for the link
 \begin_inset Formula $\jdown{\link}\in\jns$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -820,7 +855,7 @@ Downstream junction for the link
 \begin_inset Formula $\RS$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -832,7 +867,7 @@ Downstream junction for the link
 \begin_inset Formula $\mathbb{R}^{m+n}\rightarrow\mathbb{R}^{m+n}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -855,7 +890,7 @@ Riemann Solver
 \begin_inset Formula $\trace{\cvar}_{\link}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -867,7 +902,7 @@ Riemann Solver
 \begin_inset Formula $\mathbb{R}^{m+n}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -894,7 +929,7 @@ Trace for a link
 \begin_inset Formula $\Delta t$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -906,7 +941,7 @@ Trace for a link
 \begin_inset Formula $\mathbb{R}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -929,7 +964,7 @@ Time grid size
 \begin_inset Formula $\Delta x$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -941,7 +976,7 @@ Time grid size
 \begin_inset Formula $\mathbb{R}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -964,7 +999,7 @@ Space grid size
 \begin_inset Formula $t^{\tind}=k\Delta t$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -976,7 +1011,7 @@ Space grid size
 \begin_inset Formula $k\in\mathbb{N}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -999,7 +1034,7 @@ Time grid points
 \begin_inset Formula $t^{\xind}=l\Delta x$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1011,7 +1046,7 @@ Time grid points
 \begin_inset Formula $l\in\mathbb{Z}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1034,7 +1069,7 @@ Space grid points
 \begin_inset Formula $\lambda^{\max}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1046,7 +1081,7 @@ Space grid points
 \begin_inset Formula $\mathbb{R}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1069,7 +1104,7 @@ Wave speed
 \begin_inset Formula $\juncstate{\jn}{\tind}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1081,7 +1116,7 @@ Wave speed
 \begin_inset Formula $\mathbb{R}^{m_{\jn}+n_{\jn}}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1112,7 +1147,7 @@ state variables at a junction
 \begin_inset Formula $T$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1124,7 +1159,7 @@ state variables at a junction
 \begin_inset Formula $\mathbb{N}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1147,7 +1182,7 @@ Number of time steps
 \begin_inset Formula $\junctrace{\jn}{}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1159,7 +1194,7 @@ Number of time steps
 \begin_inset Formula $\mathbb{R}^{m_{\jn}+n_{\jn}}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1194,7 +1229,7 @@ solution of
 \begin_inset Formula $\junccon{\jn}{\tind}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1206,7 +1241,7 @@ solution of
 \begin_inset Formula $\mathbb{R}^{\ncontrols_{\jn}}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1237,7 +1272,7 @@ control variables at a junction
 \begin_inset Formula $\syseq_{\link}^{\tind}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1249,7 +1284,7 @@ control variables at a junction
 \begin_inset Formula $\mathbb{R}^{\nlinks\ntime}\times\mathbb{R}^{\ncontrols\ntime}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1272,7 +1307,7 @@ update equation
 \begin_inset Formula $\cost$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1284,7 +1319,7 @@ update equation
 \begin_inset Formula $\mathbb{R}^{\nlinks T}\times\mathbb{R}^{N_{\control}T}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1307,7 +1342,7 @@ cost function
 \begin_inset Formula $\lambda$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1319,7 +1354,7 @@ cost function
 \begin_inset Formula $\mathbb{R}^{\nlinks\ntime}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1342,7 +1377,7 @@ adjoint variable
 \begin_inset Formula $D_{\state}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1354,7 +1389,7 @@ adjoint variable
 \begin_inset Formula $\mathbb{N}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
@@ -1370,26 +1405,335 @@ maximum junction degree on the network
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $D_{\control}$
 \end_inset
 
-
+ 
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $\mathbb{N}$
 \end_inset
 
+ 
+\end_layout
 
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+maximum number of constraints 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\splitratio_{2\link}^{\tind}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[0,1]$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+offramp split ratio 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boundaryDemand{2\link-1}{\tind}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+flux demand at the boundary of onramp 
+\begin_inset Formula $2\link-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\barrierTerm$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+barrier penalty coefficient 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\demand_{2\left(\link-1\right)}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+demand on the link 
+\begin_inset Formula $2(i-1)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rampDemand_{2\link-1}^{\tind}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+demand from onramp 
+\begin_inset Formula $2\link-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\supply_{2\link}^{\tind}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+supply on the link 
+\begin_inset Formula $2i$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ffspeed_{\link}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}_{+}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+free flow speed for link 
+\begin_inset Formula $\link$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\congspeed_{\link}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+[0,1] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+congestion speed 
+\begin_inset Formula $\link$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $p_{2\left(\link-1\right)}$
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
@@ -1398,7 +1742,16 @@ maximum junction degree on the network
 \begin_inset Text
 
 \begin_layout Plain Layout
-maximum number of constraints 
+[0,1] 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+merging parameter 
 \end_layout
 
 \end_inset
