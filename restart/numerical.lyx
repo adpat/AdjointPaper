@@ -304,7 +304,7 @@ reference "fig:Model-of-section"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -633,7 +633,7 @@ name "fig:long-sim-queue"
 Profile differences for mainline densities and onramp queues.
  Evidenced by the mainly negative differences in the mainline densities
  and the mainly positive differences in the onramp queue lengths, the adjoint
- ramp metering algorithm effectively limits onramp flows in orde to reduce
+ ramp metering algorithm effectively limits onramp flows in order to reduce
  mainly congestion.
 \begin_inset CommandInset label
 LatexCommand label
@@ -855,8 +855,79 @@ where
  The noise factor was applied to both initial and boundary conditions.
 \end_layout
 
+\begin_layout Standard
+Two different experiments were conducted:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Real-time I15 South
+\series default
+: MPC is run for the I15 South network with 
+\begin_inset Formula $T_{h}=27$
+\end_inset
+
+ minutes and 
+\begin_inset Formula $T_{u}=14$
+\end_inset
+
+ minutes.
+ A noise factor of 2% was chosen for the initial and boundary conditions.
+ The number of iterations was chosen in order to ensure that each MPC iteration
+ finished in the pre-determined update time 
+\begin_inset Formula $T_{u}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Noise Robustness
+\series default
+: MPC is for over a synthetic network with length 5 miles and boundary condition
+s over 50 minutes.
+ The experiments are run over a profile of noise factors between 1% and
+ 200%.
+\end_layout
+
 \begin_layout Paragraph
 Results
+\end_layout
+
+\begin_layout Subparagraph
+Real-time I15 South
+\end_layout
+
+\begin_layout Standard
+The results are summarized in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MPC-performance-on"
+
+\end_inset
+
+.
+ The adjoint method applied once to the entire horizon with perfect boundary
+ and initial condition information serves as a baseline performance for
+ the other simulations, which had noisy input data and limited knowledge
+ of predicted boundary conditions.
+ The adjoint method still performs well under the more realistic conditions
+ of the MPC loop with noise, resulting in 75% delay as compared to the no
+ control scenario as compared to the 71% delay achieved by the perfect-knowledge
+ adjoint control.
+ Alinea performed worse than adjoint method, only achieving a 95% delay
+ as compared to no control.
+ The results indicate that under a realistic assumption of a 2% noise factor
+ in the sensor information, the ability to consider boundary conditions
+ in producing ramp metering policies as an improvement upon strictly reactive
+ policies, such as Alinea.
 \end_layout
 
 \begin_layout Standard
@@ -866,9 +937,15 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
 \begin_inset Graphics
-	filename images/noiseplot.pdf
-	width 65col%
+	filename images/longmpc.pdf
+	width 45col%
 
 \end_inset
 
@@ -879,10 +956,10 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Ramp metering performance with increasing sensor noise
+MPC performance on I15 South network.
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Ramp-metering-performance"
+name "fig:MPC-performance-on"
 
 \end_inset
 
@@ -897,25 +974,68 @@ name "fig:Ramp-metering-performance"
 \end_inset
 
 
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/noiseplot.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+MPC performance with increasing sensor noise.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ramp-metering-performance-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph
+Noise Robustness
 \end_layout
 
 \begin_layout Standard
-
-\series bold
-*Note - these results are produced for a synthetic network of realistic
- size.
- Still working on producing similar results for the I15 network.
-\end_layout
-
-\begin_layout Standard
-Simulation results with varying levels of noise are shown in Figure
+Simulation results on the synthetic network with varying levels of noise
+ are shown in Figure
 \begin_inset space ~
 \end_inset
 
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Ramp-metering-performance"
+reference "fig:Ramp-metering-performance-1"
 
 \end_inset
 
@@ -925,10 +1045,10 @@ reference "fig:Ramp-metering-performance"
 ned loop detectors.
  As the initial and boundary condition data deteriorates, the adjoint method
  becomes useless.
- Since Alinea does not rely on boundary data, it is able to perform well,
- even with severely noisy data.
- The results demonstrate that the adjoint method can outperform Alinea under
- reasonable assumptions on sensor data.
+ Since Alinea does not rely on boundary data, it is able to produce improvements
+, even with severely noisy data.
+ The results indicate that the adjoint method will outperform Alinea under
+ reasonable noise levels in the sensor data.
 \end_layout
 
 \end_body
