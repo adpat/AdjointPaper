@@ -523,22 +523,35 @@ reference "eq:main-ge"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
-\syseq_{2\link}^{\tind}(\state,\control) & =\discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
- &  & -\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber 
+\syseq_{2\link}^{\tind}(\state,\control)= & \discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
+ &  & -\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber \\
+= & \discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\frac{\Delta t}{\length_{2\link}}\left(\fout{2\link}{\tind-1}-\fin{2\link}{\tind-1}\right)=0
 \end{eqnarray}
 
 \end_inset
 
-where 
-\begin_inset Formula $\length_{2\link}$
+where we have introduced some substitutions to reduce the notational burden
+ of this section: 
+\begin_inset Formula $\fout{\link}{\tind}$
 \end_inset
 
- is the length of link 
-\begin_inset Formula $2\link\in\links$
+ is the Godunov flux at time-step 
+\begin_inset Formula $\tind$
 \end_inset
 
-.
- We also make the assumption that onramps have infinite capacity and a free-flow
+ exiting a link 
+\begin_inset Formula $\link$
+\end_inset
+
+ at the downstream boundary of the link, and 
+\begin_inset Formula $\fin{\link}{\tind}$
+\end_inset
+
+ is the Godunov flux entering the link at the upstream boundary.
+\end_layout
+
+\begin_layout Standard
+We also make the assumption that onramps have infinite capacity and a free-flow
  velocity 
 \begin_inset Formula $\ffspeed_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
 \end_inset
@@ -571,25 +584,23 @@ key "Monache2013"
 
 \begin_layout Standard
 \begin_inset Formula 
-\begin{equation}
-\syseq_{2\link-1}^{\tind}(\state,\control)=\discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind}\right)=0\label{eq:onramp-update}
-\end{equation}
+\begin{eqnarray}
+\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:onramp-update}\\
+ & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\fout{2\link-1}{\tind-1}-\boundaryDemand{2\link-1}{\tind-1}\right)=0
+\end{eqnarray}
 
 \end_inset
 
 where 
-\begin_inset Formula $\boundaryDemand{2\link-1}{\tind}$
+\begin_inset Formula $\boundaryDemand{2\link-1}{\tind-1}$
 \end_inset
 
  is the onramp 
 \emph on
 flux 
 \emph default
-demand, where 
-\begin_inset Formula $\link\in\intrange 1{\nlinks}$
-\end_inset
-
-.
+demand, and the same notational simplification has been used for the downstream
+ flux.
  This formulation results in 
 \begin_inset Quotes eld
 \end_inset
@@ -693,7 +704,7 @@ key "Walid,ML"
 
 \begin_layout Enumerate
 The flux solution maximizes the outgoing mainline flux 
-\begin_inset Formula $\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link}$
+\begin_inset Formula $\fin{2\link}{\tind}$
 \end_inset
 
 .
@@ -701,7 +712,7 @@ The flux solution maximizes the outgoing mainline flux
 
 \begin_layout Enumerate
 Subject to (1), the flux solution attempts to satisfy 
-\begin_inset Formula $\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)}=p_{2(\link-1)}*\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1}$
+\begin_inset Formula $\fout{2\left(\link-1\right)}{\tind}=p_{2(\link-1)}\fout{2\link-1}{\tind}$
 \end_inset
 
 , where 
@@ -709,7 +720,7 @@ Subject to (1), the flux solution attempts to satisfy
 \end_inset
 
  is a merging parameter for junction 
-\begin_inset Formula $\jup{2\link}$
+\begin_inset Formula $\jdown{2\left(\link-1\right)}$
 \end_inset
 
 .
@@ -740,13 +751,13 @@ This leads to the following system of equations that gives the flux solution
 \demand_{2\left(\link-1\right)}^{\tind} & = & \min\left(\ffspeed_{2\left(i-1\right)}\densitydiscrete{2\left(\link-1\right)}{\tind},F_{2\left(\link-1\right)}^{\max}\right)\label{eq:first-ramp}\\
 \supply_{2\link}^{\tind} & = & \min\left(\congspeed_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right),F_{2i}^{\max}\right)\label{eq:supply}\\
 \rampDemand_{2\link-1}^{\tind} & = & \ramp_{2\link-1}^{\tind}\min\left(\frac{\length_{2\link-1}}{\Delta t}\densitydiscrete{2\link-1}{\tind},F_{2i-1}^{\max}\right)\label{eq:ramp-eqn}\\
-\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \min\left(\splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind},\supply_{2\link}^{\tind}\right)\label{eq:fin}\\
-\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
-\demand_{2\left(\link-1\right)}^{\tind} & \frac{p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\demand_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
-\frac{\left(\god_{\jup{2\link}}\right)_{2\link}-\rampDemand_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
-\frac{p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link}}{\left(1+p_{2(\link-1)}\right)\splitratio_{2\left(\link-1\right)}^{\tind}} & \text{otherwise}\hfill[\text{Case 3]}
+\fin{2\link}{\tind} & = & \min\left(\splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind},\supply_{2\link}^{\tind}\right)\label{eq:fin}\\
+\fout{2\left(\link-1\right)}{\tind} & = & \begin{cases}
+\demand_{2\left(\link-1\right)}^{\tind} & \frac{p_{2(\link-1)}\fin{2\link}{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\ge\demand_{2\left(\link-1\right)}^{\tind}\hfill\text{[Case 1]}\\
+\frac{\fin{2\link}{\tind}-\rampDemand_{2\link-1}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}} & \frac{\fin{2\link}{\tind}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\link-1}^{\tind}\hfill\text{[Case 2}]\\
+\frac{p_{2(\link-1)}\fin{2\link}{\tind}}{\left(1+p_{2(\link-1)}\right)\splitratio_{2\left(\link-1\right)}^{\tind}} & \text{otherwise}\hfill[\text{Case 3]}
 \end{cases}\label{eq:merge}\\
-\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}\label{eq:last-ramp}
+\fout{2\link-1}{\tind} & = & \fin{2\link}{\tind}-\splitratio_{2\left(\link-1\right)}^{\tind}\fout{2\left(\link-1\right)}{\tind}\label{eq:last-ramp}
 \end{eqnarray}
 
 \end_inset
@@ -879,7 +890,7 @@ reference "fig:Godunov-junction-flux"
 
 \end_inset
 
-, which demonstrates how the flux solution depends upon the relative demands
+, which demonstrates how the flux solution depends upon the respective demands
  and the merging parameter 
 \begin_inset Formula $p_{2\left(\link-1\right)}$
 \end_inset
@@ -912,7 +923,7 @@ reference "eq:last-ramp"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -1028,11 +1039,11 @@ Godunov junction flux solution for ramp metering model at junction
 
 .
  The rectangular region represents the feasible flux values for 
-\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}$
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\fout{2\left(\link-1\right)}{}$
 \end_inset
 
  and 
-\begin_inset Formula $\left(\god_{\jup{2\link}}\right)_{2\link-1}$
+\begin_inset Formula $\fout{2\link-1}{}$
 \end_inset
 
  as determined by the upstream demand, while the line with slope
@@ -1048,7 +1059,7 @@ name "fig:Godunov-junction-flux"
 
  represents feasible flux values as determined by mass balance.
  The 
-\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}$
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\fout{2\left(\link-1\right)}{}$
 \end_inset
 
  term accounts for only the flux out of link 
@@ -1058,7 +1069,7 @@ name "fig:Godunov-junction-flux"
  that stays on the mainline.
  The flux solution, represented by the red circle, is the point on the feasible
  region that minimizes the distance from the priority line 
-\begin_inset Formula $\splitratio_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}=p_{2(\link-1)}\left(\god_{\jup{2\link}}\right)_{2\link-1}$
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}\fout{2\left(\link-1\right)}{}=p_{2(\link-1)}\fout{2\link-1}{}$
 \end_inset
 
 .
@@ -1098,7 +1109,7 @@ reference "eq:init-ge"
  ignore its calculation.
  To demonstrate that indeed the flux solution satisfies the flux conservation
  property, the offramp flux is trivially determined to be 
-\begin_inset Formula $\splitratio_{2\left(\link-1\right)}^{\tind}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)}$
+\begin_inset Formula $\splitratio_{2\left(\link-1\right)}^{\tind}\fout{2\left(\link-1\right)}{\tind}$
 \end_inset
 
 .
@@ -1447,16 +1458,16 @@ reference "eq:last-ramp"
 \min\left(\densitydiscrete{2\link-1}{\tind},F_{2i-1}^{\max}\right) & s=\ramp_{2\link-1}^{\tind}\\
 0 & \text{otherwise}
 \end{cases}\\
-\pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link} & = & \begin{cases}
+\pfrac{}s\fin{2\link}{\tind} & = & \begin{cases}
 \splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s+\pfrac{\rampDemand_{2\left(\link-1\right)}^{\tind}}s & \splitratio_{2\left(\link-1\right)}^{\tind}\demand_{2\left(\link-1\right)}^{\tind}+\rampDemand_{2\link-1}^{\tind}\le\supply_{2\link}^{\tind}\\
 \pfrac{\supply_{2\link}^{\tind}}s & \text{otherwise}
 \end{cases}\\
-\pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\left(\link-1\right)} & = & \begin{cases}
-\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\demand_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
-\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\pfrac{\rampDemand_{2\link-1}^{\tind}}s\right) & \frac{\left(\god_{\jup{2\link}}\right)_{2\link}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\left(\link-1\right)}^{\tind}\\
-\frac{p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link} & \text{otherwise}
+\pfrac{}s\fout{2\left(\link-1\right)}{} & = & \begin{cases}
+\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & \frac{\fin{2\link}{\tind}p_{2(\link-1)}}{1+p_{2(\link-1)}}\ge\frac{\demand_{2\left(\link-1\right)}^{\tind}}{\splitratio_{2\left(\link-1\right)}^{\tind}}\\
+\frac{1}{\splitratio_{2\left(\link-1\right)}^{\tind}}\left(\pfrac{}s\fin{2\link}{\tind}-\pfrac{\rampDemand_{2\link-1}^{\tind}}s\right) & \frac{\fin{2\link}{\tind}}{1+p_{2(\link-1)}}\ge\rampDemand_{2\left(\link-1\right)}^{\tind}\\
+\frac{p_{2(\link-1)}}{\splitratio_{2\left(\link-1\right)}^{\tind}\left(1+p_{2(\link-1)}\right)}\pfrac{}s\fin{2\link}{\tind} & \text{otherwise}
 \end{cases}\\
-\pfrac{}s\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)\right)_{2\link-1} & = & \pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\link}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\left(\god_{\jup{2\link}}\right)_{2\left(\link-1\right)}
+\pfrac{}s\fout{2\link-1}{} & = & \pfrac{}s\fin{2\link}{\tind}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\fout{2\left(\link-1\right)}{}
 \end{eqnarray*}
 
 \end_inset

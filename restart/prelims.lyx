@@ -735,7 +735,7 @@ key "godunov1959"
 .
  Given an initial condition that is piecewise-constant, Godunov's scheme
  gives a procedure to advance the system one time-step forward.
- This process can be repeated 
+ Under suitable stability conditions, this process can be repeated 
 \emph on
 ad infinum 
 \emph default
@@ -748,17 +748,17 @@ We define a numerical grid using the following notations
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\Delta t$
-\end_inset
-
- is the fixed time grid size, 
-\end_layout
-
-\begin_layout Itemize
 \begin_inset Formula $\Delta x$
 \end_inset
 
- is the fixed space grid size chosen with respect to the The Courant–Friedrichs–
+ is the fixed space grid size,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Delta t$
+\end_inset
+
+ is the fixed time grid size, chosen with respect to the The Courant–Friedrichs–
 Lewy (CFL) condition
 \begin_inset Foot
 status collapsed
@@ -774,7 +774,7 @@ This method can be generalized to non-uniform grid sizes, but is chosen
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $(t^{\tind},x^{\xind})=(k\Delta t,\xind\Delta x)$
+\begin_inset Formula $(t^{\tind},\xdis{\xind})=(k\Delta t,\xind\Delta x)$
 \end_inset
 
  for 
@@ -837,7 +837,7 @@ For a function
 \end_inset
 
  defined at the grid we write 
-\begin_inset Formula $\discrete{\xind}{\tind}=\dvar(t^{\tind},x^{\xind})$
+\begin_inset Formula $\discrete{\xind}{\tind}=\dvar(t^{\tind},\xdis{\xind})$
 \end_inset
 
  for 
@@ -973,7 +973,7 @@ reference "eq:godproj"
  
 \begin_inset Formula 
 \begin{equation}
-\discrete{\xind}{\tind}=\dfrac{1}{\Delta x}\int_{x^{\xind-1}}^{x^{\xind}}\dvar^{\Delta}(t^{k+1},x)dx.\label{eq:godproj}
+\discrete{\xind}{\tind}\approxeq\dfrac{1}{\Delta x}\int_{\xdis{\xind-\frac{1}{2}}}^{\xdis{\xind+\frac{1}{2}}}\dvar^{\Delta}(t^{k},x)dx.\label{eq:godproj}
 \end{equation}
 
 \end_inset
@@ -1044,7 +1044,7 @@ citation
 .
  Under the CFL condition, the solutions are locally given by the solutions
  of the Riemann problems and, in particular, the flux at 
-\begin_inset Formula $x=x^{\xind}$
+\begin_inset Formula $x=\xdis{\xind+\frac{1}{2}}$
 \end_inset
 
  for 
@@ -1054,13 +1054,20 @@ citation
  is given by 
 \begin_inset Formula 
 \[
-f(\cvar(t,x^{\xind}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
+f(\cvar(t,\xdis{\xind}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
 \]
 
 \end_inset
 
 This flux solution is depicted in Figure
 \begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Self-similar-solution-for"
+
 \end_inset
 
 
@@ -1099,6 +1106,13 @@ Self-similar solution for Riemann problem with initial data
 \end_inset
 
 ), gives the flux solution to the discretized problem in the bottom diagram.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Self-similar-solution-for"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1109,7 +1123,7 @@ Self-similar solution for Riemann problem with initial data
 \end_inset
 
 .The flux at 
-\begin_inset Formula $x=x^{\xind-1}$
+\begin_inset Formula $x=\xdis{\xind-\frac{1}{2}}$
 \end_inset
 
  for 
@@ -1119,7 +1133,7 @@ Self-similar solution for Riemann problem with initial data
  is given by 
 \begin_inset Formula 
 \[
-f(\cvar(t,x^{\xind-1}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})).
+f(\cvar(t,\xdis{\xind-\frac{1}{2}}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})).
 \]
 
 \end_inset
@@ -1128,7 +1142,8 @@ As the flux is constant at
 \begin_inset Formula $x=0$
 \end_inset
 
-, we can put it out of the integral and, setting 
+ for the Riemann problem, we can put it out of the integral and, setting
+ 
 \begin_inset Formula $\god(u,v)=f(W_{R}(0;u,v))$
 \end_inset
 
@@ -1178,7 +1193,7 @@ The scheme just discussed applies to the case in which a single cell is
  For incoming links near the junction, we have: 
 \begin_inset Formula 
 \begin{align*}
-\discrete{\length_{\link}^{\Delta}}{\tind+1}=\discrete{\length_{\link}^{\Delta}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\dvar}_{\length_{\link}^{\Delta}}^{\tind})-\god(\discrete{L_{i}^{\Delta}-1}{\tind},\discrete{L_{i}^{\Delta}}{\tind})), & \link\in\left\{ 1,\ldots,\ninc\right\} 
+\discrete{\length_{\link}^{\Delta}}{\tind+1}=\discrete{\length_{\link}^{\Delta}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\dvar}_{\length_{\link}^{\Delta}}^{\tind})-\god(\discrete{L_{i}^{\Delta}-1}{\tind},\discrete{L_{i}^{\Delta}}{\tind})), &  & \link\in\left\{ 1,\ldots,\ninc\right\} 
 \end{align*}
 
 \end_inset
@@ -1199,7 +1214,7 @@ where
  The same can be done for the outgoing links: 
 \begin_inset Formula 
 \begin{align*}
-\discrete 1{\tind+1}=\discrete 1{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 1{\tind},\discrete 2{\tind})-f(\trace{\dvar}_{1}^{\tind})), & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
+\discrete 1{\tind+1}=\discrete 1{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 1{\tind},\discrete 2{\tind})-f(\trace{\dvar}_{1}^{\tind})), &  & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
 \end{align*}
 
 \end_inset
@@ -1208,7 +1223,7 @@ where
 \end_layout
 
 \begin_layout Remark
-Using the Godunov scheme, each mesh grid along a given 
+Using the Godunov scheme, each mesh grid at a given 
 \begin_inset Formula $t^{\tind}$
 \end_inset
 
@@ -1235,7 +1250,7 @@ Using the Godunov scheme, each mesh grid along a given
 The previous remark allows us to develop a generalized update step for all
  discrete state variables.
  We first introduce a definition in order to reduce the cumbersome nature
- of the proceeding notation.
+ of the preceding notation.
  Let the state variables adjacent to a junction 
 \begin_inset Formula $\jn\in\jns$
 \end_inset
@@ -1599,7 +1614,7 @@ reference "algo:rs-alg"
 
 \end_inset
 
- is more suitable if one uses Riemann solver at junctions.
+ is more suitable if one uses a Riemann solver at junctions.
 \end_layout
 
 \end_body

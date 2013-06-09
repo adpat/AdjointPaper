@@ -818,6 +818,31 @@ reference "fig:genneta"
 \end_inset
 
  shows the underlying graphical structure for an arbitrary PDE network.
+ Some control parameter 
+\begin_inset Formula $\convar_{1}$
+\end_inset
+
+ has influence over junctions 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+, and 
+\begin_inset Formula $F$
+\end_inset
+
+, while another control parameter 
+\begin_inset Formula $\convar_{2}$
+\end_inset
+
+ has influence over only junction 
+\begin_inset Formula $C$
+\end_inset
+
+.
  Figure
 \begin_inset space ~
 \end_inset

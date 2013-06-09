@@ -70,6 +70,147 @@ name "sec:Numerical-results-for"
 
 \end_layout
 
+\begin_layout Standard
+To demonstrate the effectiveness of using the adjoint ramp metering method
+ to compute gradients, we implemented the algorithm in MATLAB
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+citation
+\end_layout
+
+\end_inset
+
+.
+ The algorithm can then be used as a gradient computation subroutine inside
+ any descent-method optimization solver that takes advantage of first-order
+ gradient information.
+ Our implementation makes use of the open-source 
+\emph on
+IpOpt
+\emph default
+ solver
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Andreas2005"
+
+\end_inset
+
+.
+ To serve as comparisons, three other methods were implemented:
+\end_layout
+
+\begin_layout Enumerate
+No control: the metering rate is set to 1 on all onramps at all times.
+\end_layout
+
+\begin_layout Enumerate
+Alinea
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Papageorgiou1991"
+
+\end_inset
+
+: a popular, feedback-based ramp metering algorithm.
+ Alinea is computationally efficient and decentralized, making it a popular
+ choice for large networks, but does not take estimated boundary flow data
+ as input.
+ Since Alinea has a number of tuning parameters, we perform a 
+\emph on
+modified
+\emph default
+ grid-search technique over the different parameters that scales linearly
+ with the number of onramps, and select the best-performing parameters.
+ A 
+\emph on
+full
+\emph default
+ grid-search approach scales exponentially with the number of onramps, rendering
+ it infeasible for moderate-size freeway networks.
+\end_layout
+
+\begin_layout Enumerate
+Descent method without gradient information: in the absence of gradient
+ information, the descent-method solver will estimate the gradient by perturbing
+ control parameters and recomputing the objective function.
+\end_layout
+
+\begin_layout Standard
+The descent method proved to be infeasible for even small, synthetic networks.
+ Running ramp metering on even a network of 4 links over 6 time-steps for
+ only 5 gradient steps took well over 4 minutes.
+ Already, the method cannot be used in real-time for freeway networks.
+ The comparison of running times with and without gradient computations
+ is given in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Running-time-of"
+
+\end_inset
+
+.
+ We do not consider the method without gradient computations in further
+ results, due to the impractically large running times, which only becomes
+ worse as the problem scales to larger networks and time horizons.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/itergrad.pdf
+	width 65col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Running time of metering algorithm with and without gradient computations.
+ Network consists of 4 links and 6 time-steps with synthetic boundary flux
+ data.
+ The method using gradient computations via the adjoint method converged
+ well before the first step was completed with the method that used perturbation
+s to compute the gradient.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Running-time-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Network
 \begin_inset CommandInset label
@@ -81,73 +222,287 @@ name "sub:Network"
 
 \end_layout
 
-\begin_layout Itemize
-I15s
-\end_layout
+\begin_layout Standard
+As input into the optimization problem, we constructed a model of a 
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwLength"
 
-\begin_deeper
-\begin_layout Itemize
-20 miles
-\end_layout
+\end_inset
 
-\begin_layout Itemize
-3 hour open loop
-\end_layout
+ stretch of the I15 South freeway in San Diego, California between San Marcos
+ and Mira Mesa.The network has 
+\begin_inset Formula $\nlinks=$
+\end_inset
 
-\begin_layout Itemize
-created using scenarioEditor
-\end_layout
+ 
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwNLinks"
 
-\begin_layout Itemize
-meters on every onramp
-\end_layout
+\end_inset
 
-\end_deeper
-\begin_layout Itemize
-calibrated, PEMS boundary data
-\end_layout
+ links, 
+\begin_inset Formula $\ncontrols=$
+\end_inset
 
-\begin_layout Subsection
-Descent algorithm
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Descent-algorithm"
+
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwNRamps"
+
+\end_inset
+
+ onramps, with boundary data specified for 
+\begin_inset Formula $\ntime=$
+\end_inset
+
+ 
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwNTime"
+
+\end_inset
+
+ time-steps, for a time horizon of 
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwTimeHorizon"
+
+\end_inset
+
+ given 
+\begin_inset Formula $\Delta t=$
+\end_inset
+
+ 
+\begin_inset CommandInset include
+LatexCommand input
+preview true
+filename "fwdt"
+
+\end_inset
+
+.
+ The network is shown in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Model-of-section"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/map.png
+	width 70col%
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Itemize
-fmincon, ipopt
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Model of section of I15 South in San Diego, California.
+ The freeway section spanning
+\begin_inset space ~
+\end_inset
+
+19.4 miles was split into
+\begin_inset space ~
+\end_inset
+
+125 links with 9 onramps.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Model-of-section"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-multistart
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-bounds
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-Modifications for practical considerations
+\begin_layout Standard
+Link length data was obtained using the Scenario Editor software developed
+ as part of the Connected Corridors project, a collaboration between UC
+ Berkeley and PATH research institute in Berkeley, California
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+citation
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-queue length
+\end_inset
+
+.
+ Fundamental diagram parameters, split ratios, and boundary data were also
+ obtained using calibration techniques developed by Connected Corridors.
+ Densities resulting in free-flow speeds were chosen as initial conditions
+ on the mainline and onramps.
+ The data used in calibration was taken from PeMS sensor data during a morning
+ rush hour period, scaled to generate congested conditions.
+ The input data was chosen to demonstrate the effectiveness of the adjoint
+ ramp metering method in a real-world setting.
+ A profile of the mainline and onramps during a forward simulation of the
+ network is shown in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Density-and-queue"
+
+\end_inset
+
+ under the described boundary conditions.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/ncdensity.pdf
+	width 45col%
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-minimum metering rates
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Density profile.
+ The units are the ratio of a link's vehicle density to a link's critical
+ density.
+ Values less than 1 represent free flow, while values greater than 1 represent
+ congestion.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Density-profile."
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-fairness
+\end_inset
+
+
 \end_layout
 
-\end_deeper
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/ncqueue.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Onramp queue profile in units of vehicles.
+ The onramps are only present at certain junctions, thus why the nonzero
+ queue lengths are sparse in this diagram.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Density-profile.-2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Density and queue profile of no-control freeway simulation.
+ In the first 80 minutes, congestion pockets form on the freeway and queues
+ form on the onramps, then eventually clear out before 120 minutes.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Density-and-queue"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Finite-horizon optimal control
 \begin_inset CommandInset label
@@ -159,34 +514,240 @@ name "sub:Finite-horizon-optimal-control"
 
 \end_layout
 
-\begin_layout Itemize
-no MPC, known boundary, ic
+\begin_layout Paragraph
+Experimental setup
 \end_layout
 
-\begin_layout Itemize
-comparison against
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-no control
-\end_layout
-
-\begin_layout Itemize
-no gradient
-\end_layout
-
-\begin_layout Itemize
-alinea
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-running time
-\end_layout
-
-\begin_layout Itemize
+\begin_layout Standard
+The adjoint ramp metering algorithm is compared to the reactive Alinea scheme,
+ where we assume perfect boundary conditions and initial conditions are
+ available.
+ The actual cost used to compare the performances of the different methods
+ is 
+\emph on
 delay
+\emph default
+, or the total travel time minus the free-flow total travel time.
+ The free-flow total travel time is computed by assuming the critical density
+ is infinite for all links, thus no backwards moving congestion results
+ from high density.
+ The delay gives an indication of how much improvement is possible, given
+ that total travel time cannot be zero at optimum.
+\end_layout
+
+\begin_layout Paragraph
+Results
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/densdiff.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Density difference profile in units of vehicles per mile.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:long-sim-density"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/queuediff.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Queue difference profile in units of vehicles.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:long-sim-queue"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Profile differences for mainline densities and onramp queues.
+ Evidenced by the mainly negative differences in the mainline densities
+ and the mainly positive differences in the onramp queue lengths, the adjoint
+ ramp metering algorithm effectively limits onramp flows in orde to reduce
+ mainly congestion.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:long-sim"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:long-sim"
+
+\end_inset
+
+ shows a difference profile between the no control simulation and the simulation
+ applying the ramp metering policy generated from the adjoint method.
+ Negative differences in Figures
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:long-sim-density"
+
+\end_inset
+
+ and
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:long-sim-queue"
+
+\end_inset
+
+ indicate where the adjoint method resulted in fewer vehicles for the specific
+ link and time-step.
+ The adjoint method was successful in intelligently deciding which ramps
+ should be metered in order to improve throughput for the mainline.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/longsim.pdf
+	width 65col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Performance versus simulation time for freeway network.
+ The results indicate that the algorithm can run with performance better
+ than Alinea if given an update time around 15 minutes.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Running time analysis shows that the adjoint method can produce beneficial
+ results running in real time.
+ After just a few gradient steps, the adjoint method outperforms the Alinea
+ method.
+ Given that the time horizon of two hours is longer than the period of time
+ one can expect reasonable estimates of boundary conditions, more practical
+ simulations with shorter time horizons should permit more gradient steps
+ in a real-time setting.
+\end_layout
+
+\begin_layout Standard
+While the queue length contains a considerable number of cars in some onramps
+ for the adjoint method, this problem can be accounted for by introducing
+ barrier terms into the cost function that limit the maximum queue length.
+ The Alinea method tested for the I15 network had no prescribed maximum
+ queue lengths as well, but was not able to produce significant improvements,
+ while the adjoint method was more successful in optimizing the road network
+ under the set of constraints.
 \end_layout
 
 \begin_layout Subsection
@@ -200,27 +761,175 @@ name "sub:Model-predictive-control"
 
 \end_layout
 
-\begin_layout Itemize
-artificial noise on demand data and initial condition
+\begin_layout Standard
+To study the performance of the algorithm under noisy input data, we embed
+ both our adjoint ramp metering algorithm and the Alinea algorithm inside
+ of a 
+\emph on
+Model predictive control 
+\emph default
+(MPC) loop
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+citation?
 \end_layout
 
-\begin_layout Itemize
-degradation of performance with noise
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Itemize
-scalability
+\begin_layout Paragraph
+Experimental setup
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-network size
+\begin_layout Standard
+The MPC loop begins at a time 
+\begin_inset Formula $t$
+\end_inset
+
+ by estimating the initial conditions of the traffic on the freeway network
+ and the predicted boundary fluxes over a certain time horizon 
+\begin_inset Formula $T_{h}$
+\end_inset
+
+.
+ These values are noisy, as exact estimation of these parameters is not
+ possible on real freeway networks.
+ The estimated conditions are then passed to the ramp metering algorithm
+ to compute an optimal control policy over the 
+\begin_inset Formula $T_{h}$
+\end_inset
+
+ time period.
+ The system is then forward simulated over an update period of 
+\begin_inset Formula $T_{u}\le T_{h}$
+\end_inset
+
+, using the exact initial conditions and boundary conditions, as opposed
+ to the noisy data used to compute control parameters.
+ The state of the system and boundary conditions at 
+\begin_inset Formula $t+T_{u}$
+\end_inset
+
+ are then estimated (with noise) and the process is repeated.
 \end_layout
 
-\begin_layout Itemize
-time horizon
+\begin_layout Standard
+A non-negative
+\emph on
+ noise factor
+\emph default
+ is used to study how the adjoint method and Alinea perform as the quality
+ of estimated data decreases.
+ The noise factor can be summarized as follows:
 \end_layout
 
-\end_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bar{\discrete{}{}}=\discrete{}{}*(1+noise\_factor*R)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $R$
+\end_inset
+
+ is a uniformly distributed random variable with mean 
+\begin_inset Formula $0$
+\end_inset
+
+ and domain 
+\begin_inset Formula $\left[-0.5,0.5\right]$
+\end_inset
+
+.
+ The noise factor was applied to both initial and boundary conditions.
+\end_layout
+
+\begin_layout Paragraph
+Results
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/noiseplot.pdf
+	width 65col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Ramp metering performance with increasing sensor noise
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ramp-metering-performance"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+*Note - these results are produced for a synthetic network of realistic
+ size.
+ Still working on producing similar results for the I15 network.
+\end_layout
+
+\begin_layout Standard
+Simulation results with varying levels of noise are shown in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Ramp-metering-performance"
+
+\end_inset
+
+.
+ The adjoint method is able to outperform the Alinea method when the noise
+ level is less than .8, a reasonable assumption for data provided by well-maintai
+ned loop detectors.
+ As the initial and boundary condition data deteriorates, the adjoint method
+ becomes useless.
+ Since Alinea does not rely on boundary data, it is able to perform well,
+ even with severely noisy data.
+ The results demonstrate that the adjoint method can outperform Alinea under
+ reasonable assumptions on sensor data.
+\end_layout
+
 \end_body
 \end_document

@@ -69,6 +69,22 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\uptext}{\text{U}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\downtext}{\text{D}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\initvar}[1]{\bar{#1}}
 \end_inset
 
@@ -405,7 +421,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jup}[1]{\jn_{#1}^{\text{Up}}}
+\newcommand{\jup}[1]{\jn_{#1}^{\uptext}}
 \end_inset
 
 
@@ -413,7 +429,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\jdown}[1]{\jn_{#1}^{\text{Down}}}
+\newcommand{\jdown}[1]{\jn_{#1}^{\downtext}}
 \end_inset
 
 
@@ -445,7 +461,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
+\newcommand{\juncvar}[3]{\vec{#1}_{#2}^{#3}}
 \end_inset
 
 
@@ -453,7 +469,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
+\newcommand{\juncstate}[2]{\juncvar{\dvar}{#1}{#2}}
 \end_inset
 
 
@@ -461,7 +477,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
+\newcommand{\junctrace}[2]{\juncvar{\trace{\dvar}}{#1}{#2}}
 \end_inset
 
 
@@ -469,7 +485,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
+\newcommand{\junccon}[2]{\juncvar{\convar}{#1}{#2}}
 \end_inset
 
 
@@ -477,7 +493,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ssvar}{W_{R}}
+\newcommand{\ssvar}{W_{R}}
 \end_inset
 
 
@@ -485,7 +501,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\renewcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
+\newcommand{\ss}[3]{\ssvar\left(#1;#2,#3\right)}
 \end_inset
 
 
@@ -581,7 +597,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\supply}{\sigma}
+\renewcommand{\supply}{\sigma}
 \end_inset
 
 
@@ -589,7 +605,7 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\ffspeed}{v}
+\renewcommand{\ffspeed}{v}
 \end_inset
 
 
@@ -597,7 +613,39 @@
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\congspeed}{w}
+\renewcommand{\congspeed}{w}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\xdis}[1]{x_{#1}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\fin}[2]{g_{#1,\uptext}^{#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\fout}[2]{g_{#1,\downtext}^{#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\framp}[2]{g_{#1,\downtext}^{#2}}
 \end_inset
 
 
