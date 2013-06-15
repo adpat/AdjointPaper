@@ -1041,8 +1041,8 @@ reference "fig:Ramp-metering-performance-1"
 
 .
  The adjoint method is able to outperform the Alinea method when the noise
- level is less than .8, a reasonable assumption for data provided by well-maintai
-ned loop detectors.
+ level is less than 80%, a reasonable assumption for data provided by well-maint
+ained loop detectors.
  As the initial and boundary condition data deteriorates, the adjoint method
  becomes useless.
  Since Alinea does not rely on boundary data, it is able to produce improvements
