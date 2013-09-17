@@ -13,12 +13,12 @@ For a junction $\jn$, let each link $\link \in Inc(\jn)\cup Out(\jn)$ have const
 \begin{frame}
 
 Define a \textbf{Riemann Solver} $\RS$:
+\begin{eqnarray*}
+\RS: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
+ & \tuple{\initstate_{1}}{\initstate_{\ninc+\nout}} & \mapsto\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
+\end{eqnarray*}
 
-\begin{align}
-\RS:&\mathbb{R}^{m+n}&\rightarrow\mathbb{R}^{m+n}\\&\mathbf{\cvar}_{\jn}^{0}&\mapsto\RS\left(\mathbf{\cvar}_{\jn}^{0}\right)=\hat{\mathbf{\cvar}}_{\jn}
-\end{align}
-
-where $\hat{\cvar}^{\link}_{\jn} \in \hat{\mathbf{\cvar}}_{\jn}$ is the boundary condition at the junction interface for link $\link$.
+where $\trace{\cvar}_{\link}$ provides the trace for link $\link$ for $t \ge 0$.
 
 \begin{itemize}
     \item<2-3> Consider a specific link
@@ -37,23 +37,25 @@ where $\hat{\cvar}^{\link}_{\jn} \in \hat{\mathbf{\cvar}}_{\jn}$ is the boundary
 
 \begin{itemize}
     \item<1-> Self-similar
-    \begin{equation}\RS\left(\mathbf{\cvar}_{\jn}\right)=\RS\left(\mathbf{\hat{\cvar}}_{\jn}\right)=\mathbf{\hat{\cvar}}_{\jn}\end{equation}
+    \[
+\RS\left(\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
+\]
     \item<2-> All shockwaves must emanate outward from junction
     \begin{figure}
     \includegraphics[width=.5\columnwidth]{figs-gen/shock}
     \end{figure}
     \item<3-> Conservation of mass
-    \begin{equation}
-    \sum_{i\in Inc\left(\jn\right)}f\left(\left\{ \mathbf{\hat{\cvar}}_{\jn}\right\} _{i}\right)=\sum_{j\in Out\left(\jn\right)}f\left(\left\{ \mathbf{\hat{\cvar}}_{\jn}\right\} _{j}\right)
-    \end{equation}
+    \[
+\sum_{i\in\Inc\left(\jn\right)}f\left(\trace{\cvar}_{\link}\right)=\sum_{j\in\Out\left(\jn\right)}f\left(\trace{\cvar}_{j}\right)
+\]
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Riemann solver for linear flux function}
-\begin{example}
-On board...
-\end{example}
-\end{frame}
+% \begin{frame}
+% \frametitle{Riemann solver for linear flux function}
+% \begin{example}
+% On board...
+% \end{example}
+% \end{frame}

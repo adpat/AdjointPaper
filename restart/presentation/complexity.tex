@@ -10,57 +10,71 @@
 
 \begin{block}{Solving adjoint system}
 \begin{equation}
-    H_x^T \lambda = -J_x
+    \Hx^T \lambda = -\Jx^T
 \end{equation}
-From previous result, $H_x$ has following properties:
+From previous result, $\Hx$ has following properties:
 
 \begin{itemize}
-    \item size $|\links|T\times|\links|T$
+    \item size $\ntime\nlinks \times \ntime\nlinks$
     \item lower triangular
-    \item $card\,H_x = O(|\links|TD_x)$: $D_{x}=\max_{\jn\in\jns}|Inc\left(J\right)\cup Out\left(\jn\right)|$
+    \item $card\,\Hx = O(\nlinks\ntime\degree{\state})$: $\degree{\state}=\max_{\jn\in\jns}\left(\ninc_{\jn}+\nout_{\jn}\right)$
 \end{itemize}
 
-Efficiently solve $\lambda$ via backward-substitution in time $O(card\,H_x)=O(|\links|TD_x)$, or \textbf{linear in $|\links T|$}.
+Efficiently solve $\lambda$ via backward-substitution in time $O(\ntime \nlinks \degree{\state})$, or \textbf{linear in $\ntime \nlinks$}.
+\end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Complexity of solving gradient}
+
+\begin{block}{Solving $\nabla \cost$}
+\begin{equation}
+    \nabla \cost = \lambda^T \Hu + \Ju
+\end{equation}
+
+From previous result, $\Hu$ has following properties:
+
+\begin{itemize}
+    \item size $\ntime\nlinks \times  \ntime \ncontrols$
+    \item $card\,\Hu = O(\ntime \nlinks \degree{\control})$: $\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\left(\ninc_{\jn}+\nout_{\jn}\right)$
+\end{itemize}
+
+Sparse matrix multiplication has total cost $O(\ntime \ncontrols \degree{\control})$.
 \end{block}
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{Complexity of solving gradient}
-    
+\begin{frame}
+\begin{figure}
+\begin{centering}
+\subfloat[\label{fig:genneta}]{\begin{centering}
+\includegraphics[width=0.33\columnwidth]{../figs-gen/gen-net}
+\par\end{centering}
 
+}\subfloat[\label{fig:gennetb}]{\begin{centering}
+\includegraphics[width=0.33\columnwidth]{../figs-gen/gen-net-dx}
+\par\end{centering}
 
+}\subfloat[\label{fig:gennetc}]{\begin{centering}
+\includegraphics[width=0.33\columnwidth]{../figs-gen/gen-net-dv}
+\par\end{centering}
 
-
-\begin{block}{Solving $\nabla J$}
-\begin{equation}
-    \nabla J = \lambda^T H_{\control} + J_{\control}
-\end{equation}
-
-From previous result, $H_{\control}$ has following properties:
-
-\begin{itemize}
-    \item size $|\links|T\times N_{\control}T$
-    \item $card\,H_{\control} = O(|\links|TD_{\control})$: $D_{\control}=\max_{v_{i,k}\in\mathbf{\control}}|\bigcup Inc\left(\jn\right)\cup Out\left(\jn\right):\control_{i,k}\in\mathbf{\control}_{\jn,k}|$
-\end{itemize}
-
-Sparse matrix multiplication has total cost $O(D_{\control}N_{\control}T)$, typically of smaller order than solving $H_{\control}$.
-\end{block}
-
+}
+\par\end{centering}
+\end{figure}
 \end{frame}
 
 
 \begin{frame}[t]\frametitle{Complexity of solving gradient}
     
 \begin{block}{Total complexity of computing gradient via discrete adjoint}
-\begin{equation}
-    O(|\mathbf{x}|D_x + |\mathbf{\control}|D_{\control})
-\end{equation}
+\[
+O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))
+\]
 \end{block}
 
 \begin{figure}
 \includegraphics[width=.8\columnwidth]{figs-gen/complexity}
 \end{figure}
-
 \end{frame}
 
 

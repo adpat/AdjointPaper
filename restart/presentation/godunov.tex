@@ -43,46 +43,91 @@
 \begin{frame}
 \frametitle{Derivation of Godunov's method}
 
-Take discrete initial condition $\dvar_i$ at cell $i$. We want $\bar{\dvar})_i$, the average value at cell $i$ at time $\Delta t$:
+Take a discrete initial condition $\initstate^{\Delta}$. We want $\discrete{\xind}{\Delta t}$, the average value at cell ${\xind}$ at time $\Delta t$:
 
 \begin{equation}
-    \bar{\dvar}_{i}=\dvar_{i}-\frac{1}{x_{i+1}-x_{i}}\int_{0}^{\Delta t}\left(f\left(u\left(t,x_{i+1}\right)\right)-f\left(u\left(t,x_{i}\right)\right)\right)dt
+\discrete{\xind}{\Delta t}\approxeq\dfrac{1}{\Delta x}\int_{\xdis{\xind-\frac{1}{2}}}^{\xdis{\xind+\frac{1}{2}}}\dvar^{\Delta}(\Delta t,x)dx.
 \end{equation}
 
+where $\dvar^{\Delta}(\Delta t,x)$ is an exact solution of the Cauchy problem
+with initial condition $\initstate^{\Delta}$.
 
-This requires solution of $\cvar(x,t)$ over $[0,\Delta x]\times [0,\Delta t]$. 
+
+
+This requires solution of $\cvar(x,t)$ over $[\xdis{\xind - \frac{1}{2}},\xdis{\xind + \frac{1}{2}}]\times [0,\Delta t]$.
+
+\begin{figure}
+\centering
+\subfloat[Space discretization for a link $\link\in\links$]{%
+      \includegraphics[width=0.8\columnwidth]{../figs-gen/dx}
+    }
+\end{figure}
+
+\end{frame}
+\begin{frame}
 
 
 But since Riemann problems are self-similar, fluxes across boundaries are constant:
 
-\begin{equation}
-    \int_{0}^{\Delta t}f\left(u\left(t,x_{i}\right)\right)dt\approx\Delta tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
-\end{equation}
+\[
+f(\cvar(t,\xdis{\xind + \frac{1}{2}}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
+\]
 
-where $g^G$ is the flux across cell boundaries obtained via sln of Riemann problem.
+\[
+f(\cvar(t,\xdis{\xind-\frac{1}{2}}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})).
+\]
 
-Now only function of discrete values:
+\begin{figure}
+\centering
+\includegraphics[width=0.5\columnwidth]{../figs-gen/dx-to-riemann}
+\end{figure}
 
-\begin{equation}
-\bar{\dvar}_{i}=\dvar_{i}-\frac{\Delta t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)    
-\end{equation}
+% \begin{equation}
+%     \int_{0}^{\Delta t}f\left(u\left(t,x_{i}\right)\right)dt\approx\Delta tg^{G}\left(\dvar_{i},\dvar_{i+1}\right)
+% \end{equation}
+
+% where $g^G$ is the flux across cell boundaries obtained via sln of Riemann problem.
+
+% Now only function of discrete values:
+
+% \begin{equation}
+% \bar{\dvar}_{i}=\dvar_{i}-\frac{\Delta t}{x_{i+1}-x_{i}}\left(g^{G}\left(\dvar_{i},\dvar_{i+1}\right)-g^{G}\left(\dvar_{i-1},\dvar_{i}\right)\right)    
+% \end{equation}
 
 
 \end{frame}
 
-\begin{frame}[t]\frametitle{CFL condition}
-
-In previous derivation, it is assumed no solution from one Riemann problem influences another at the discrete boundaries.
-
-This limits how large the time-step to guarantee convergence of Godunov scheme to continuous solution.
-
-\begin{block}{The Courant Friedrichs Lewy (CFL) condition}
-\begin{equation}
-    \lambda^{\max}\le\frac{\Delta x}{\Delta t}
+\begin{frame}
+    \begin{equation}
+\discrete{\xind}{\tind+1}=\discrete{\xind}{\tind}-\frac{\Delta t}{\Delta x}(\god(\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})-\god(\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})),\label{eq:godscheme}
 \end{equation}
-\end{block}
+where $g^{G}$ is the numerical flux:
+\[
+\god\left(\discrete{\xind}{},\discrete{\xind+1}{}\right)=f(W_{R}(0;\discrete{\xind}{},\discrete{\xind+1}{}))
+\]
+
+\textbf{No longer depends on solution of continuous function.}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\columnwidth]{../figs-gen/dx-to-riemann}
+\end{figure}
 
 \end{frame}
+
+% \begin{frame}[t]\frametitle{CFL condition}
+
+% In previous derivation, it is assumed no solution from one Riemann problem influences another at the discrete boundaries.
+
+% This limits how large the time-step to guarantee convergence of Godunov scheme to continuous solution.
+
+% \begin{block}{The Courant Friedrichs Lewy (CFL) condition}
+% \begin{equation}
+%     \lambda^{\max}\le\frac{\Delta x}{\Delta t}
+% \end{equation}
+% \end{block}
+
+% \end{frame}
 
 \subsection{Discretizing PDE network} % (fold)
 \label{sub:discretizing_pde_network}
@@ -103,35 +148,53 @@ Solving for Godunov flux easy for $1$-to-$1$ junctions. What about $n$-to-$m$?
 
 \end{frame}
 
+% \begin{frame}
+% \frametitle{Summary of Godunov scheme for PDE networks}
+
+
+% \begin{enumerate}
+% \item<1-> Begin with initial condition ($t=0$) $\left\{ \initstate_{\link}:\link\in\links\right\} $.
+% \item<2-> For every junction $\jn\in\jns$:
+% \begin{enumerate}
+% \item<2-> Apply the Riemann solver to Riemann data to obtain the boundary condition
+% $\hat{\mathbf{\dvar}}_{\jn}=$\RS\tuple{\discrete 1{\tind}}{\discrete{\ninc+\nout}{\tind}}$.
+% \end{enumerate}
+% \item<3-> For every link $\link\in\links$:
+
+% \begin{enumerate}
+% \item<3-> Letting $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
+% and $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$,
+% the discrete value over link $\link$ at time $\Delta t$, $\bar{\dvar}_{\link}$,
+% is given by:
+% \end{enumerate}
+
+% \[
+% \bar{\dvar}_{\link}=\dvar_{\link}-\frac{\Delta t}{L_{\link}}\left(f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
+% \]
+
+% \end{enumerate}
+
+% \end{frame}
+
 \begin{frame}
 \frametitle{Summary of Godunov scheme for PDE networks}
 
+\begin{algorithm}[H]
+\caption{\texttt{Riemann solver update procedure}}
+\lstinputlisting[basicstyle={\ttfamily\footnotesize},breaklines=true,label={algo:rs-alg},mathescape=true]{../rs-alg}
+\end{algorithm}
 
-\begin{enumerate}
-\item<1-> Begin with initial condition ($t=0$) $\left\{ \dvar_{\link}:\link\in\links\right\} $.
-\item<2-> For every junction $\jn\in\jns$:
-\begin{enumerate}
-\item<2-> Apply the Riemann solver to Riemann data to obtain the boundary condition
-$\hat{\mathbf{\dvar}}_{\jn}=\RS\left(\mathbf{\dvar}_{\jn}\right)$.
-\end{enumerate}
-\item<3-> For every link $\link\in\links$:
+\end{frame}
 
-\begin{enumerate}
-\item<3-> Letting $\jn_{\link}^{\text{Up}}=\jn\in\jns:\link\in Out\left(\jn\right)$
-and $\jn_{\link}^{\text{Down}}=\jn\in\jns:\link\in In\left(\jn\right)$,
-the discrete value over link $\link$ at time $\Delta t$, $\bar{\dvar}_{\link}$,
-is given by:
-\end{enumerate}
+\begin{frame}
+\frametitle{Summary of Godunov scheme for PDE networks}
 
-\[
-\bar{\dvar}_{\link}=\dvar_{\link}-\frac{\Delta t}{L_{\link}}\left(f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Down}}}\right\} _{\link}\right)-f\left(\left\{ \mathbf{\hat{\dvar}}_{\jn_{\link}^{\text{Up}}}\right\} _{\link}\right)\right)
-\]
+Or by using the flux solution directly...
 
-\end{enumerate}
-
-\begin{example}<4>
-On board...
-\end{example}
+\begin{algorithm}[H]
+\caption{\texttt{Godunov junction flux update procedure}}
+\lstinputlisting[basicstyle={\ttfamily\footnotesize},breaklines=true,label={algo:god-alg},mathescape=true]{../god-alg}
+\end{algorithm}
 
 \end{frame}
 

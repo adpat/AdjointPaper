@@ -569,7 +569,7 @@ We define
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-D_{\state}=\max_{\jn\in\jns}\left(\ninc_{\jn}+\nout_{\jn}\right),\label{eq:dx}
+\degree{\state}=\max_{\jn\in\jns}\left(\ninc_{\jn}+\nout_{\jn}\right),\label{eq:dx}
 \end{equation}
 
 \end_inset
@@ -1427,7 +1427,7 @@ reference "eq:main-ge"
 
 .
  For 
-\begin_inset Formula $\tind\in\intrange 1{\ntime-1}$
+\begin_inset Formula $\tind\in\intrange1{\ntime-1}$
 \end_inset
 
 , we have that 

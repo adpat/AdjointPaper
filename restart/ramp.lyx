@@ -731,7 +731,7 @@ Subject to (1), the flux solution attempts to satisfy
 \begin_layout Standard
 This leads to the following system of equations that gives the flux solution
  of the Riemann solver at time-step 
-\begin_inset Formula $k\in\intrange 1{\ntime-1}$
+\begin_inset Formula $k\in\intrange1{\ntime-1}$
 \end_inset
 
  and junction 
@@ -739,7 +739,7 @@ This leads to the following system of equations that gives the flux solution
 \end_inset
 
  for 
-\begin_inset Formula $\link\in\intrange 1{\nlinks}$
+\begin_inset Formula $\link\in\intrange1{\nlinks}$
 \end_inset
 
 :
@@ -768,7 +768,7 @@ where, for notational simplicity, at the edges of of the range for
 
 , any undefined state values (e.g.
  
-\begin_inset Formula $\densitydiscrete 0{\tind}$
+\begin_inset Formula $\densitydiscrete0{\tind}$
 \end_inset
 
 ) are assumed to be zero by convention.
@@ -1401,7 +1401,7 @@ reference "par:Calculating-the-gradient"
 \end_inset
 
  and time-step 
-\begin_inset Formula $k\in\intrange 1{\ntime-1}$
+\begin_inset Formula $k\in\intrange1{\ntime-1}$
 \end_inset
 
 , we only need to compute the partial derivatives of the flux solver 

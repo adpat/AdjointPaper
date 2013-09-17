@@ -7,24 +7,19 @@ Define a \textbf{Riemann problem} as a Cauchy problem:
 \begin{equation}
 \begin{cases}
 \cvar_{t}+f\left(\cvar\right)_{x} & =0\\
-\cvar\left(0,x\right) & =\cvar_{0}\left(x\right)
+\cvar\left(0,x\right) & =\initvar{\cvar}\left(x\right)
 \end{cases}
 \end{equation}
 
 where:
 
-\begin{equation}
-\cvar_{0}\left(x\right) = 
-\begin{cases}
-\cvar_l & x < 0 \\ 
-\cvar_r & x \ge 0 \\ 
-\end{cases}
-\end{equation}
-%
 
-\begin{example}
-On board...
-\end{example}
+\[
+\initvar{\cvar}\left(x\right)=\begin{cases}
+\cvar_{-} & x<\initvar x\\
+\cvar_{+} & x\ge\initvar x
+\end{cases}
+\]
 
 \end{frame}
 

@@ -174,7 +174,7 @@ filename "conclusions.lyx"
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "/Users/jdr/Documents/School/Papers/bibs/AdjointPaper"
+bibfiles "/Users/jdr/Documents/articles/AdjointPaper"
 options "plain"
 
 \end_inset
