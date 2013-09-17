@@ -1,22 +1,16 @@
 
 PAPER	= restart.pdf
-SRC = restart.lyx
+SRC = restart.tex
 UNOCONV	= unoconv -f pdf 
 PFIGS = $(wildcard presfigs-gen/*.pdf)
 FIGS = $(wildcard figs-gen/*.pdf)
-TEX_FOLDER=tex
 ZIPFILE=paper.tar.gz
 
 
 all: $(PAPER)
 
-
-lyx:
-	/Applications/Lyx.app/Contents/MacOS/lyx --export pdf $(SRC)
-
-restart.lyx: lyx
-
-$(PAPER): figures presfigs $(SRC) 
+$(PAPER): figures presfigs $(SRC)
+	pdflatex $(SRC); pdflatex $(SRC)
 
 clean:
 	rm -f *~
@@ -25,7 +19,6 @@ clean:
 	rm -f *aux
 	rm -f *bbl
 	rm -f *blg
-	rm -f *tex
 	rm -rf *gz
 
 auxclean: clean
@@ -36,9 +29,6 @@ auxclean: clean
 	rm -rf *blg
 	rm -rf *synctex.gz
 	rm -rf *blg
-
-tex: auxclean figures presfigs
-	/Applications/Lyx.app/Contents/MacOS/lyx --export pdflatex $(SRC) $(TEX_FOLDER)
 
 zip: tex
 	tar -zcvf $(ZIPFILE) ./

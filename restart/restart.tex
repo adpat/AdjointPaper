@@ -1,0 +1,84 @@
+%% LyX 2.0.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{esint}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\providecommand{\algorithmname}{Algorithm}
+\floatname{algorithm}{\protect\algorithmname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+  \theoremstyle{definition}
+  \newtheorem{defn}[thm]{\protect\definitionname}
+  \theoremstyle{remark}
+  \newtheorem{rem}[thm]{\protect\remarkname}
+  \theoremstyle{remark}
+  \newtheorem{note}[thm]{\protect\notename}
+  \theoremstyle{plain}
+  \newtheorem{prop}[thm]{\protect\propositionname}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{fullpage}
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\usepackage{babel}
+  \providecommand{\definitionname}{Definition}
+  \providecommand{\notename}{Note}
+  \providecommand{\propositionname}{Proposition}
+  \providecommand{\remarkname}{Remark}
+\providecommand{\theoremname}{Theorem}
+
+\begin{document}
+
+\title{Adjoint-based optimization on a network of discretized scalar conservation
+law PDE's with applications to coordinated ramp metering}
+
+
+\author{Jack}
+\maketitle
+\begin{abstract}
+The adjoint method provides a computationally efficient means of calculating
+the gradient for applications in constrained optimization. In this
+article, we consider a network of scalar conservation law PDE's with
+general topology, whose behavior is modified by a set of control parameters
+in order to minimize some objective. After discretizing the PDE system
+via the Godunov scheme, we detail the computation of the gradient
+of the discretized system with respect to the control parameters and
+show that the complexity of its computation scales linearly with the
+number of discrete state variables for networks with small vertex
+degree. The method is applied to solve the problem of coordinated
+ramp metering on freeway networks and is shown to improve the performance
+and running time over existing methods.
+\end{abstract}
+\input{commands.tex}\input{nomenclature.tex}\input{prelims.tex}\input{system.tex}\input{adjoint.tex}\input{ramp.tex}\input{numerical.tex}\input{conclusions.tex}
+
+\bibliographystyle{plain}
+\bibliography{/Users/jdr/Documents/articles/AdjointPaper}
+
+\end{document}
