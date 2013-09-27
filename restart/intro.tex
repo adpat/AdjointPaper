@@ -1,0 +1,79 @@
+%!TEX root = restart.tex
+\section{Introduction}
+\begin{itemize}
+  \item Control of PDE's with adjoint method \cite{Reuther1996}
+  \begin{itemize}
+    \item continuous \cite{Strub2006,Reuther1996,Raffard2008}
+    \item discrete \cite{Gugat2005}
+    \item numerical (no citations for this yet, automatic differentiation work being done by TAPENADE at INRIA)
+  \end{itemize}
+  \item Tradeoffs (great overview in \cite{Reuther1996})
+  \begin{itemize}
+    \item wellposedness
+    \item Compactness of formulation
+  \end{itemize}
+  \item Estimation \cite{Raffard2008,Jacquet}
+  \item introduce adjoint methods
+  \begin{itemize}
+    \item aircraft optimization \cite{Giles2000}
+    \item air traffic control \cite{Bayen2006}
+    \item Burger \cite{Bardos2002}
+    \item jacquet stuff w/ continuous ramp metering \cite{Jacquet2005}
+    \item Water \cite{Castaings2006,Strub2009}
+    \item EnKF data assimilation \cite{Bewley2001,Bewley1998}
+  \end{itemize}
+  \item talk about where we fit in here
+  Our approach allows for nonlinear solvers to take advantage of gradient information with no relaxation of model. Additionally, it can be incorporated in an MPC framework to act as a predictive controller with feedback.
+  \item Challenges of optimal control constrained by Godunov
+  \begin{itemize}
+    \item Nonlinearities removed using LP formulations
+    \begin{itemize}
+      \item Horowitz uses FD relaxation and introduces VSL \cite{gomes2006optimal,Muralidharana}
+      \item Ziliaskoupolis relaxes FD in DTA problem \cite{ziliaskopoulos2000linear}
+    \end{itemize}
+  \end{itemize}
+  \item Freeway control overview
+  \begin{itemize}
+  \item Microscopic \cite{Ben-Akiva2003}
+  \item Local strategies: Alinea \cite{Papageorgiou1991}, Feedback \cite{Kachroo2003}
+    \item Feedback - HERO \cite{Papamichail2008}
+    \item LP formulations
+    \begin{itemize}
+      \item ACTM \cite{gomes2006optimal}
+      \item LN-CTM \cite{Muralidharana}
+    \end{itemize}
+    \item NL Control
+    \begin{itemize}
+          \item \cite{Kotsialos2004,Chen1997} Papageorgiou, Ben-Akiva
+          \item cooperative, decentralized \cite{Ramon2013,Frejo2011}
+        \end{itemize}
+  \end{itemize}
+  \item overview of rest of paper
+  \begin{itemize}
+    \item model
+    \item objectives
+    \item adjoint method
+    \item numerical methods
+    \item evaluations
+    \item conclusion
+  \end{itemize}
+\end{itemize}
+
+
+Networks of scalar conservation law PDEs are useful in their ability to model such physical systems as gas pipeline flow or freeway traffic evolution~\cite{garavello2006traffic,work2010traffic}. Optimization and control of these networks is also an active field of research~\cite{Gugat2005,Bayen2006,Kotsialos2004}. This article develops a framework for efficient control of discretized conservation law PDE networks using the adjoint method~\cite{Giles2000,Pironneau1974} via Godunov discretization~\cite{godunov1959}, while detailing its application to coordinated ramp metering on freeway networks.
+
+The adjoint method, as used in the optimization and estimation of PDE-constrained systems, comes in a variety of flavors. The continuous adjoint method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} results in a continuous time PDE called the adjoint system, which when solved, gives the gradient solution at a particular point in the control space. The discrete adjoint method~\cite{Giles2000,Gugat2005,Kotsialos2004} first discretizes a continuous-time PDE and then requires the solution of a set of linear equations to solve for the gradient. Finally, a third flavor exists, which uses automatic differentiation techniques to automatically generate an adjoint solver from the numerical represenation of the forward system~\cite{Giering1998,Muller2005}.
+
+While the continuous adjoint formulation results in a compact formulation, better intuition into the system's sensitivities with respect to the objective, and well-posedness of the control's solution, it is often difficult or tedious to derive its solution by hand for each physical system and objective. Additionally, the continuous adjoint must eventually be discretized in order to produce numerical solutions for the optimization problem. The discrete adjoint doesn't give analytical results as strong as the continuous version, but its derivation is often simpler and formulaic. Automatic differentiation techniques can simplify the repetetive steps of the discrete adjoint derivation, but sometimes at the cost of sub-optimal code implementations with respect to memory and CPU consumption. A more-detailed analysis of the trade-offs associated with each method is given in~\cite{Giles}. This article investigates how the discrete adjoint method can be efficiently implemented for the class of networks of discretized conservation laws.
+
+There exist many applications of the adjoint method to the control and estimation of physical systems in engineering. Shape optimization of aircraft~\cite{Reuther1996,Giles1997,Moin1994} has applied the method effectively to reduce the computational cost in gradient methods associated with the large number of optimization parameters. The technique has also been applied in parameter identification of biological systems~\cite{Raffard2008}. State estimation problems can be phrased as optimal control problems by setting the unknown state variables as control parameters and penalizing errors in resulting state predictions from known values. This approach has been applied to such problems as open water state estimation~\cite{Castaings2006,Strub2009} and freeway traffic state estimation~\cite{Jacqueta}.
+
+Since conservation laws may be nonlinear by nature, fewer efficient optimization techniques exist for the discretized version of these problems than compared to, for instance, linear or quadratic programs. One approach is to approximate the system with a ``linearized'' version in order to use very efficient linear programming techniques. In transportation, by relaxing the Godunov discretization scheme, the linearization approach was used in~\cite{gomes2006optimal} for optimal ramp metering, and in~\cite{ziliaskopoulos2000linear} for optimal route assignment. The ramp metering technique in~\cite{Muralidharana} uses an additional control parameter (variable speed limits) to mimic the linearized freeway dynamics. While the upside of these methods is reduced computational complexity and the guarantee of finding a globally optimal solution, the downside is that the model of the linearized physical system may greatly differ from the actual system to which the control policies would be applied.
+
+Alternatively, nonlinear optimization techniques can be applied to the discretized system without any modification to the underlying dynamics. This approach leads to more expensive optimization algorithms, such as gradient descent, and no guarantee of finding a global optimum. The difficulty in this approach comes in the computation of the gradient, which, if using finite differences, requires a full forward-simulation for each perturbation of a control parameter. This approach is taken in~\cite{Ramon2013,Frejo2011} for computing decentralized ramp metering strategies, and is shown to be infeasible for realistic network sizes.
+
+This article shows how the complexity of the gradient computation in nonlinear optimal control problems can be greatly decreased by using the discrete adjoint method and exploiting the decoupling nature of the problem's network structure, leading to efficient gradient descent methods. After giving a general framework for computing the gradient over the class of scalar conservation law networks, we show that the system's partial derivatives have a sparsity structure resulting in gradient computation times linear in the number of state and control variables. The results are demonstrated by running a coordinated ramp metering strategy on a 19 mile freeway stretch in California in a fraction of real-time, while giving traffic performance superior to that of popular alternative metering algorithms.
+
+Ramp metering is a popular freeway control strategy, providing a means of dynamically controlling freeway throughput without directly impeding mainline flow or implementing complex tolling systems. While metering strategies have been developed using microscopic models~\cite{Ben-Akiva2003}, most strategies are based off macroscopic state parameters, such as vehicle density and the density's relation to speed~\cite{richards1956shock,lighthill1955kinematic,daganzo1995cell}. Reactive metering strategies~\cite{Papageorgiou1991,Papamichail,Kachroo2003} use feedback from freeway loop detectors to target a desired mainline density, while predictive metering strategies~\cite{Frejo2011,Kotsialos2004,gomes2006optimal,Chen1997} use a physical model with predicted boundary flow data to generate policies over a finite time horizon into the future, often embedded within a model predictive control loop~\cite{Muralidharana}.
+
+The article is organized as follows. Section~\ref{sec:Preliminaries} gives an overview of scalar conservation law networks and their discretization via the Godunov method, while introducing the nonlinear, finite-horizon optimal control problem. Section~\ref{sec:Adjoint-method} details the adjoint method derivation for this class of problems and shows how it can be used to compute the gradient in linear time in the number of discrete state and control variables.  Section~\ref{sec:Applications-to-Optimal} shows how the adjoint method can be applied to the problem of optimal coordinated ramp metering, with numerical results on a real freeway network in California shown in Section~\ref{sec:Numerical-results-for}. Finally, some concluding remarks are given in Section~\ref{sec:Conclusions}.
