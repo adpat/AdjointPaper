@@ -28,7 +28,7 @@ of running times of finite differences versus the adjoint method is given in
 Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in further results, due to the impractically large running times, which only becomes worse as the problem scales to larger networks and time horizons.
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.65\columnwidth]{images/itergrad}
+\includegraphics[width=0.5\columnwidth]{images/itergrad}
 \par\end{centering}
 
 \caption{Running time of metering algorithm with and without gradient computations.
@@ -51,7 +51,7 @@ for a time horizon of \input{fwTimeHorizon} given $\Delta t=$ \input{fwdt}.
 The network is shown in Figure~\ref{fig:Model-of-section}.
 \begin{figure}
 \begin{centering}
-\includegraphics[width=0.7\columnwidth]{images/map}
+\includegraphics[width=0.5\columnwidth]{images/map}
 \par\end{centering}
 
 \caption{Model of section of I15 South in San Diego, California. The freeway
@@ -72,7 +72,7 @@ to demonstrate the effectiveness of the adjoint ramp metering method
 in a real-world setting. A profile of the mainline and onramps during
 a forward simulation of the network is shown in Figure~\ref{fig:Density-and-queue}
 under the described boundary conditions.
-\begin{figure}
+\begin{figure}[b]
 \subfloat[Density profile. The units are the ratio of a link's vehicle density
 to a link's critical density. Values less than 1 represent free flow,
 while values greater than 1 represent congestion.\label{fig:Density-profile.}]{\includegraphics[width=0.45\columnwidth]{images/ncdensity}
@@ -108,7 +108,7 @@ that total travel time cannot be zero at optimum.
 
 \paragraph{Results}
 
-\begin{figure}
+\begin{figure}[t]
 \subfloat[Density difference profile in units of vehicles per mile.\label{fig:long-sim-density}]{\includegraphics[width=0.45\columnwidth]{images/densdiff}
 
 }\hfill{}\subfloat[Queue difference profile in units of vehicles.\label{fig:long-sim-queue}]{\includegraphics[width=0.45\columnwidth]{images/queuediff}
