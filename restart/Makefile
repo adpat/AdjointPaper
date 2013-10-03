@@ -10,7 +10,7 @@ ZIPFILE=paper.tar.gz
 all: $(PAPER)
 
 $(PAPER): figures presfigs $(SRC)
-	pdflatex $(SRC); pdflatex $(SRC)
+	pdflatex $(SRC); pdflatex $(SRC); pdflatex $(SRC)
 
 clean:
 	rm -f *~

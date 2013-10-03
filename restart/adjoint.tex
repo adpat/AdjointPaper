@@ -18,7 +18,7 @@ which returns a scalar that serves as a metric of performance of the
 state and control values of the system. We wish to minimize the quantity
 $\cost$ over the set of control parameters $\control$, while constraining
 the state of the system to satisfy the governing equations $\sys\left(\state,\control\right)=0$,
-which is, again, the concatenated version of~\ref{eq:main-ge} or~\ref{eq:syseq-god}.
+which is, again, the concatenated version of~\eqref{eq:main-ge} or~\eqref{eq:syseq-god}.
 We summarize this with the following optimization problem:
 
 \begin{eqnarray}
@@ -35,7 +35,7 @@ this problem.
 
 We wish to use gradient information in order to find control values
 $\control^{*}$ that give locally optimal costs $\cost^{*}=\cost\left(\state\left(\control^{*}\right),\control^{*}\right)$.
-Since there may exist many local minima for this optimization problem~(\ref{eq:op-problem})
+Since there may exist many local minima for this optimization problem~\eqref{eq:op-problem}
 (which is non-convex in general), gradient\emph{ }methods do not guarantee
 global optimality of $\control^{*}$\emph{. }Still, nonlinear optimization
 methods such as interior point optimization utilize gradient information
@@ -67,7 +67,7 @@ details provided in Section~\ref{sub:Evaluating--and}) and then
 treated as constant matrices. Thus, in order to evaluate $d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)\in\mathbb{R}^{\ncontrols\ntime}$,
 we must solve a coupled system of matrix equations.
 \begin{note}
-In~(\ref{eq:h-v}), $\Hx$ and $\Hu$ might not necessarily by defined,
+In~\eqref{eq:h-v}, $\Hx$ and $\Hu$ might not necessarily by defined,
 either because $f$ itself is not smooth (note that we took $f$ to
 be $C^{2}$ to avoid this problem), and/or because $\god$ is not
 smooth. The derivations below are valid when the partials $\Hx$ and
@@ -78,7 +78,7 @@ conditions for differentiability are satisfied, see in particular~\cite{Gugat200
 \paragraph{Forward system.\label{par:Forward-system}}
 
 If we solve for $\Dfrac{\state}{\control}\in\mathbb{R}^{\nlinks\ntime\times\ncontrols\ntime}$
-in~(\ref{eq:h-v}), which we call the \emph{forward system}:
+in~\eqref{eq:h-v}, which we call the \emph{forward system}:
 
 \[
 \Hx\Dfrac{\state}{\control}=-\Hu,
@@ -86,7 +86,7 @@ in~(\ref{eq:h-v}), which we call the \emph{forward system}:
 
 
 then we can substitute the solved value for $\Dfrac{\state}{\control}$
-into~(\ref{eq:j-v}) to obtain the full expression for the gradient.
+into~\eqref{eq:j-v} to obtain the full expression for the gradient.
 Section~\ref{sub:Evaluating--and} below gives details on the invertibility
 of $\Hx$, guaranteeing a solution for $\Dfrac{\state}{\control}$.
 
@@ -199,7 +199,7 @@ by applying the chain rule:
 \end{align}
 
 
-or if we consider the composed Riemann flux solver $\god_{\jn}$ in~(\ref{eq:god-jn}):
+or if we consider the composed Riemann flux solver $\god_{\jn}$ in~\eqref{eq:god-jn}:
 
 \begin{equation}
 \pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl}+\frac{\Delta t}{L_{i}}\left(\pfrac{}{\discrete jl}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\pfrac{}{\discrete jl}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right)\label{eq:dhdugod}
@@ -240,15 +240,15 @@ or for the composed Godunov junction flux solver $\god_{\jn}$:
 \end{equation}
 
 
-Analyzing~(\ref{eq:dhdufull}), the only partial terms that are not
+Analyzing~\eqref{eq:dhdufull}, the only partial terms that are not
 trivial to compute are $\pfrac{}{\discrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)$
 and $\pfrac{}{\discrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)$.
-Similarly for~(\ref{eq:dhdvfull}), the only nontrivial terms are
+Similarly for~\eqref{eq:dhdvfull}, the only nontrivial terms are
 $\pfrac{}{\condiscrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)$
 and $\pfrac{}{\condiscrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)$.
 Once one obtains the solutions to these partial terms, then one can
-construct the full $\Hx$ and $\Hu$ matrices and use~(\ref{eq:adjoint})
-and~(\ref{eq:adjoint-grad}) to obtain the gradient value.
+construct the full $\Hx$ and $\Hu$ matrices and use~\eqref{eq:adjoint}
+and~\eqref{eq:adjoint-grad} to obtain the gradient value.
 
 As these expressions are written for a general scalar conservation
 law, the only steps in computing the gradient that are specific to
@@ -264,7 +264,7 @@ problem of optimal ramp metering in Section~(\ref{sec:Applications-to-Optimal}).
 \paragraph{Structure and sparsity.\label{par:Structure-and-sparsity}}
 
 We can show the lower-triangular structure and invertibility of $\Hx$
-by examining~(\ref{eq:init-ge}) and~(\ref{eq:main-ge}). For $\tind\in\intrange 1{\ntime-1}$,
+by examining~\eqref{eq:init-ge} and~\eqref{eq:main-ge}. For $\tind\in\intrange 1{\ntime-1}$,
 we have that $\syseq_{\link}^{\tind}$ is only a function of $\discrete{\link}{\tind}$
 and of the state variables from the previous time-step $\tind-1$.
 Thus, based on our ordering scheme in Section~\ref{sec:State,-control,-and}
@@ -276,14 +276,14 @@ values). These two conditions demonstrate both that $\Hx$ is lower-triangular
 and is also invertible due to the identity matrix block-diagonal terms.
 
 Additionally, if we consider taking partial derivatives with respect
-to the variable $\discrete jl$, then we can deduce from Equation~(\ref{eq:main-ge})
+to the variable $\discrete jl$, then we can deduce from Equation~\eqref{eq:main-ge}
 that all partial terms will be zero except for the diagonal term,
 and those terms involving constraints at time $j+1$ with links connecting
 to the downstream and upstream junctions $\jdown j$ and $\jup j$
 respectively. To summarize, $\Hx$ matrices for systems described
 in Section~\ref{sec:State,-control,-and} will be square, invertible,
 lower-triangular and each column will have a maximum cardinality equal
-to $\degree{\state}$ in~(\ref{eq:dx}). The sparsity structure of
+to $\degree{\state}$ in~\eqref{eq:dx}. The sparsity structure of
 $\Hx$ is depicted in Figure~(\ref{fig:sparsity-diagram}).
 
 Using the same line of argument for maximum cardinality in $\Hx$,
@@ -291,13 +291,13 @@ we can bound the maximum cardinality of each column of $\Hu$. Taking
 a single control variable $\condiscrete jl$, the variable can only
 appear in constraints at time-step $j+1$ that correspond to a link
 that connects to a junction $\jn$ such that $\condiscrete jl\in\junccon{\jn}{l+1}$.
-These conditions give us the expression for $\degree{\control}$ in~(\ref{eq:dv}),
+These conditions give us the expression for $\degree{\control}$ in~\eqref{eq:dv},
 or the maximum cardinality over all columns in $\Hu$.
 
 If we only consider the lower triangular form of $\Hx$, then the
 complexity of solving for the gradient using the forward system is
 $O(\left(\nlinks\ntime\right)^{2}\ncontrols\ntime)$, where the dominating
-term comes from solving~(\ref{eq:j-v}), which requires the solution
+term comes from solving~\eqref{eq:j-v}, which requires the solution
 of $\ncontrols\ntime$ separate $\nlinks\ntime\times\nlinks\ntime$
 lower-triangular systems. The lower-triangular system allows for forward
 substitution, we can be solved in $O(\left(\nlinks\ntime\right)^{2})$
@@ -306,17 +306,17 @@ The complexity of computing the gradient via the adjoint method is
 $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$,
 which is certainly more efficient than the forward-method, as long
 as $\ncontrols\ntime>1$. The efficiency is gained by considering
-that~(\ref{eq:adjoint}) only requires the solution of a single $\nlinks\ntime\times\nlinks\ntime$
+that~\eqref{eq:adjoint} only requires the solution of a single $\nlinks\ntime\times\nlinks\ntime$
 \emph{upper}-triangular system (via backward-substitution), followed
 by the multiplication of $\lambda^{T}H_{v}$, an $\nlinks\ntime\times\nlinks\ntime$
-and an $\nlinks\ntime\times\ncontrols\ntime$ matrix in~(\ref{eq:adjoint-grad}),
+and an $\nlinks\ntime\times\ncontrols\ntime$ matrix in~\eqref{eq:adjoint-grad},
 with a complexity of $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$.
 
 For the adjoint method, this complexity can be improved upon by considering
 the sparsity of the $\Hx$ and $\Hu$ matrices, as detailed in Section~\ref{par:Structure-and-sparsity}.
 For the backward-substitution step, each entry in the $\lambda$ vector
 is solved by \emph{at most} $\degree{\state}$ multiplications, and
-thus the complexity of solving~(\ref{eq:adjoint}) is reduced to
+thus the complexity of solving~\eqref{eq:adjoint} is reduced to
 $O(\degree{\state}\nlinks\ntime)$. Similarly, for the matrix multiplication
 of $\lambda^{T}H_{v}$, while $\lambda$ is not necessarily sparse,
 we know that each entry in the resulting vector requires at most $\degree{\control}$

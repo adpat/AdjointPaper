@@ -1,4 +1,4 @@
-
+%!TEX root = restart.tex
 \section{Applications to Optimal coordinated ramp metering on freeways\label{sec:Applications-to-Optimal}}
 
 
@@ -48,7 +48,7 @@ offramp split ratio by $\splitratio_{2\left(\link-1\right)}^{\tind}$.\label{fig:
 
 The vehicle flow dynamics on all links $\link$ (mainlines, onramps,
 and offramps) are modeled using the conservation law governing the
-density evolution~(\ref{eq:cons-smooth}), where $\density$ is the
+density evolution~\eqref{eq:cons}, where $\density$ is the
 density state, and $f$ is the flux function (or fundamental diagram)
 $f\left(\density\right)$. In the context of traffic, this model is
 referred to as the Lighthill-Whitham-Richards (LWR) model~\cite{lighthill1955kinematic,richards1956shock}.
@@ -57,7 +57,7 @@ has a bounded domain $\left[0,\density^{\max}\right]$ and a maximum
 flux value $F^{\max}$ attained at a critical density $\density^{c}:f\left(\density^{c}\right)=F^{\max}$.
 We assume that the fundamental diagram has a trapezoidal form as depicted
 in Figure~\ref{fig:Fundamental-diagram-with}. For the remainder
-of the article, we instantiate the conservation law in~(\ref{eq:cons-smooth})
+of the article, we instantiate the conservation law in~\eqref{eq:cons}
 with the LWR equation as it applies to traffic flow modeling.\begin{wrapfigure}{o}{0.5\columnwidth}%
 \begin{centering}
 \includegraphics[width=0.4\columnwidth]{figs-gen/fd}
@@ -77,16 +77,16 @@ the metering rate acts as a fractional decrease in the flow leaving
 the onramp and entering the mainline freeway. The domain of the metering
 control is to force the control to neither impose negative flows nor
 send more vehicles than present in a queue. Its mathematical model
-is expressed in~(\ref{eq:ramp-eqn}).
+is expressed in~\eqref{eq:ramp-eqn}.
 
 For notational simplicity we define the set of densities of links
 incident to $\jup{2\link}=\jdown{2\left(\link-1\right)}$ at time-step
 $\tind$ as $\juncstate{\jup{2\link}}{\tind}=\left\{ \discrete{2\left(\link-1\right)}{\tind},\discrete{2i-1}{\tind},\discrete{2\link}{\tind}\right\} $.
 The offramp is considered to have infinite capacity, and thus has
 no bearing on the solution of junction problems. Initial conditions
-are handled as in~(\ref{eq:init-ge}), while for $k\in\intrange 1{\ntime-1}$,
+are handled as in~\eqref{eq:init-ge}, while for $k\in\intrange 1{\ntime-1}$,
 the mainline density $\discrete{2\link}{\tind}$ using the Godunov
-scheme from~(\ref{eq:main-ge}) is given by:
+scheme from~\eqref{eq:main-ge} is given by:
 
 \begin{eqnarray}
 \syseq_{2\link}^{\tind}(\state,\control)= & \discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
@@ -118,7 +118,7 @@ conditions at the onramps which guarantees all demand enters the network.
 Details on weak versus strong boundary conditions can be found in
 \cite{Monache2013,Walid,strub2006weak,work2010traffic}.
 
-The onramp model in~(\ref{eq:onramp-update}) differs from~\cite{Monache2013,Walid}
+The onramp model in~\eqref{eq:onramp-update} differs from~\cite{Monache2013,Walid}
 in that we model the onramp as a discretized PDE with an infinite
 critical density, while~\cite{Monache2013,Walid} models the onramp
 as an ODE ``buffer''. While both models implement strong boundary
@@ -158,18 +158,18 @@ and junction $\jup{2\link}$ for $\link\in\intrange 1{\nlinks}$:
 \end{eqnarray}
 where, for notational simplicity, at the edges of of the range for
 $\link$, any undefined state values (e.g. $\densitydiscrete 0{\tind}$)
-are assumed to be zero by convention. Equations~(\ref{eq:first-ramp})
-and~(\ref{eq:ramp-eqn}) determine the maximum flux that can exit
-link $2(\link-1)$ and link $2\link-1$ respectively. Equation~(\ref{eq:supply})
+are assumed to be zero by convention. Equations~(\eqref{eq:first-ramp})
+and~\eqref{eq:ramp-eqn} determine the maximum flux that can exit
+link $2(\link-1)$ and link $2\link-1$ respectively. Equation~(\eqref{eq:supply})
 gives the maximum flux allowed into link $2\link$. The actual flux
-into link $2\link$, shown in~(\ref{eq:fin}), is given as the minimum
+into link $2\link$, shown in~\eqref{eq:fin}, is given as the minimum
 of the ``demand'' from upstream links and ``supply'' of the downstream
 link. See~\cite{Monache2013} for more details on the model for this
 equation. The flux out of link $2(\link-1)$ is split into three cases
-in~(\ref{eq:merge}). The solutions are depicted in Figure~\ref{fig:Godunov-junction-flux},
+in~\eqref{eq:merge}. The solutions are depicted in Figure~\ref{fig:Godunov-junction-flux},
 which demonstrates how the flux solution depends upon the respective
 demands and the merging parameter $p_{2\left(\link-1\right)}$. Finally,
-Equation~(\ref{eq:last-ramp}) gives the flux out of the onramp $2\link-1$,
+Equation~(\eqref{eq:last-ramp}) gives the flux out of the onramp $2\link-1$,
 which is the difference between the flux into link $2\link$ and the
 flux out of link $2\left(\link-1\right)$ the remains on the mainline.
 \begin{figure}
@@ -199,7 +199,7 @@ distance from the priority line $\splitratio_{2\left(\link-1\right)}\fout{2\left
 
 
 For $\tind=0$, the update equation is given by a pre-specified initial
-condition, as in~(\ref{eq:init-ge}). Note that the equations can
+condition, as in~\eqref{eq:init-ge}. Note that the equations can
 be solved sequentially via forward substitution. Also, we do not include
 the flux result for offramps explicitly here since its value has no
 bearing on further calculations, and we will henceforth ignore its
@@ -213,8 +213,8 @@ to be $\splitratio_{2\left(\link-1\right)}^{\tind}\fout{2\left(\link-1\right)}{\
 
 \paragraph{Optimal coordinated ramp-metering.}
 
-Including the initial conditions as specified in~(\ref{eq:init-ge})
-with~(\ref{eq:rho-update}) and~(\ref{eq:onramp-update}) gives
+Including the initial conditions as specified in~\eqref{eq:init-ge}
+with~\eqref{eq:rho-update} and~\eqref{eq:onramp-update} gives
 a complete description of the system $\sys\left(\state,\control\right)=0$,
 $\state\in\mathbb{R}^{2\nlinks}$, $\control\in\mathbb{R}$, where:
 
@@ -249,9 +249,9 @@ function~\cite{Boyd2010,Bayen2006}:
 \end{equation}
 
 
-As $\barrierTerm\in\mathbb{R}^{+}$ tends to zero, the solution to~(\ref{eq:full-tilde})
-will approach the solution to the original problem~(\ref{eq:full}).
-Thus we can solve~(\ref{eq:full}) by iteratively solving the augmented
+As $\barrierTerm\in\mathbb{R}^{+}$ tends to zero, the solution to~\eqref{eq:full-tilde}
+will approach the solution to the original problem~\eqref{eq:full}.
+Thus we can solve~\eqref{eq:full} by iteratively solving the augmented
 problem:
 
 \begin{eqnarray}
@@ -284,7 +284,7 @@ we only need to compute the partial derivatives of the flux solver
 $\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)_{\text{}}$
 with respect to the adjacent state variables $\juncstate{\jn_{\link}}{\tind}$
 and ramp metering control $\ramp_{\link}^{\tind}$. We calculate the
-partial derivatives of the functions in~(\ref{eq:first-ramp})-(\ref{eq:last-ramp})
+partial derivatives of the functions in~(\eqref{eq:first-ramp})-(\eqref{eq:last-ramp})
 with respect to either a state or control variable$s\in\state\cup\control$:
 
 \begin{eqnarray*}
@@ -315,9 +315,9 @@ with respect to either a state or control variable$s\in\state\cup\control$:
 
 
 These expressions fully quantify the partial derivative values needed
-in~(\ref{eq:dhdugod}) and~(\ref{eqdhdvgod}). Thus we can construct
+in~\eqref{eq:dhdugod} and~\eqref{eqdhdvgod}. Thus we can construct
 the $\Hx$ and $\Hu$ matrices. With these matrices and $\Jx$ and
 $\Ju$, we can solve for the adjoint variable $\lambda\in\mathbb{R}^{2\nlinks\ntime}$
-in~(\ref{eq:adjoint}) and substitute its value into~\ref{eq:adjoint-grad}
+in~\eqref{eq:adjoint} and substitute its value into~\eqref{eq:adjoint-grad}
 to obtain the gradient of the cost function $\cost$ with respect
 to the control parameter $\control$.

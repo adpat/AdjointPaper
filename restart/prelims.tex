@@ -48,7 +48,7 @@ For further details regarding the theory of hyperbolic conservation laws we refe
 %where $\cvar:\left[0,\infty\right)\times\mathbb{R}\rightarrow\mathbb{R}$
 %is the scalar ``conserved'' quantity, and $f:\mathbb{R}\rightarrow\mathbb{R}$
 %is the flux function. If we assume $f$ to be $C^{2}$, we can rewrite
-%Equation~(\ref{eq:cons}) as:
+%Equation~(\eqref{eq:cons}) as:
 %
 %\begin{equation}
 %\cvar_{t}+f\left(\cvar\right)_{x}=0\label{eq:cons-smooth}
@@ -67,7 +67,7 @@ For further details regarding the theory of hyperbolic conservation laws we refe
 %More details on weak solutions to hyperbolic PDEs are available, in
 %particular, in~\cite{garavello2006traffic,Evans1998}. It can be
 %shown that there exists a unique weak solution exists to a Cauchy
-%problem of the form in~(\ref{eq:cauchy}).
+%problem of the form in~\eqref{eq:cauchy}.
 \begin{defn}
 \label{def:Riemann-Problem}Riemann Problem.
 
@@ -91,7 +91,7 @@ We denote the self-similar entropy weak solutions between $\cvar_{-}$ and $\cvar
 \subsection{Network of PDEs\label{sub:Network-of-PDE's}}
 
 A network
-% of hyperbolic conservation laws such as~(\ref{eq:cons})
+% of hyperbolic conservation laws such as~(\eqref{eq:cons})
 is defined as a set of $\nlinks$ links $\links=\intrange 1{\nlinks}$,
 with junctions $\jns$. Each junction $\jn\in\jns$ is defined
 as the union of  two non-empty sets: the set of $\ninc_{\jn}$ incoming links $\Inc\left(\jn\right)=\tuple{\jlink{\jn}1}{\jlink{\jn}{\ninc_{\jn}}}\subset\links$
@@ -118,7 +118,7 @@ $i$ is directly upstream of link $j$, then we have $\jdown{\link}=\jup j$.
 See Figure~\ref{fig:Space-discretization-for}.
 \end{rem}
 While the dynamics on each link $\cvar_{\link}\left(t,x\right)$ is
-determined by~(\ref{eq:CP}), the dynamics at junctions
+determined by~\eqref{eq:CP}, the dynamics at junctions
 still needs to be defined.
 \begin{defn}
 Riemann problem at junctions. 
@@ -236,7 +236,7 @@ where $g^{G}$ is the Godunov numerical flux given by
 \end{eqnarray*}
 
 
-%To approximate a hyperbolic PDE of the form in~(\ref{eq:cons-smooth})
+%To approximate a hyperbolic PDE of the form in~(\eqref{eq:cons-smooth})
 %with a discretization in both space and time, we use Godunov's scheme~\cite{godunov1959}.
 %Given an initial condition that is piecewise-constant, Godunov's scheme
 %gives a procedure to advance the system one time-step forward. Under
@@ -277,20 +277,20 @@ the state between $x_{\xind-\frac{1}{2}}$ and $x_{\xind + \frac{1}{2}}$.\label{f
 \end{figure}
 
 %Consider a hyperbolic equation together with an initial condition
-%as expressed in~(\ref{eq:cauchy}). A solution of the discretized
+%as expressed in~\eqref{eq:cauchy}. A solution of the discretized
 %problem is constructed by taking a piecewise constant approximation
 %of the initial data $\initvar{\dvar}^{\Delta}$ and then constructing
-%the solution iteratively from the approximate initial data as in~(\ref{eq:godproj}).
+%the solution iteratively from the approximate initial data as in~\eqref{eq:godproj}.
 %\begin{equation}
 %\discrete{\xind}{\tind}\approxeq\dfrac{1}{\Delta x}\int_{\xdis{\xind-\frac{1}{2}}}^{\xdis{\xind+\frac{1}{2}}}\dvar^{\Delta}(t^{k},x)dx.\label{eq:godproj}
 %\end{equation}
 %
 %
-%where $\cvar^{\Delta}\left(t,x\right)$ is an exact solution of~(\ref{eq:cauchy})
+%where $\cvar^{\Delta}\left(t,x\right)$ is an exact solution of~\eqref{eq:cauchy}
 %with initial condition $\initstate^{\Delta}$.
 %
-%Since $\cvar^{\Delta}$ in~(\ref{eq:godproj}) is an exact solution
-%of~(\ref{eq:cons-smooth}) we can use the Gauss-Green formula to
+%Since $\cvar^{\Delta}$ in~\eqref{eq:godproj} is an exact solution
+%of~(\eqref{eq:cons-smooth}) we can use the Gauss-Green formula to
 %compute this value. Under the CFL condition, the solutions are locally
 %given by the solutions of the Riemann problems and, in particular,
 %the flux at $x=\xdis{\xind+\frac{1}{2}}$ for $t\in(t^{k},t^{k+1})$
@@ -422,7 +422,7 @@ The algorithm first iterates over all junctions $\jn$, calculating
 all the boundary conditions, $\junctrace{\jn}{\tind}$. Then, the
 algorithm iterates over all links $\link\in\links$ to compute the
 updated state $\discrete{\link}{\tind+1}$ using the previously computed
-boundary conditions, as in~\ref{eq:reg-update}.
+boundary conditions, as in~\eqref{eq:reg-update}.
 
 \begin{algorithm}[h]
 \caption{\texttt{Godunov junction flux update procedure}}
@@ -435,7 +435,7 @@ boundary conditions, as in~\ref{eq:reg-update}.
 Algorithm~\ref{algo:god-alg} is similar to Algorithm~\ref{algo:rs-alg},
 except that the boundary conditions $\junctrace{\jn}{\tind}$ are
 not explicitly computed, but rather the Godunov flux solution is used
-to update the state, as in~\ref{eq:composed-flux}. Algorithm~\ref{algo:god-alg}
+to update the state, as in~\eqref{eq:composed-flux}. Algorithm~\ref{algo:god-alg}
 is more suitable if a Godunov flux solution is derived for solving
 junctions, while Algorithm~\ref{algo:rs-alg} is more suitable if
 one uses a Riemann solver at junctions.
