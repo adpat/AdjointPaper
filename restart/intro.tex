@@ -15,11 +15,13 @@ control of continuous and discrete PDE's. e.g. Miroslav, Demetriou, Fahroo
 
 The adjoint method, as used in the optimization and estimation of 
 PDE-constrained systems, can be applied in various ways depending on the 
-framework of interest (PDE, discr. The continuous adjoint 
+framework of interest (PDE, discretization of the PDE, or code implementing the 
+discretization of the PDE. The continuous adjoint 
 method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on 
-the PDE and a so called adjoint PDE system, which when solved gives an explicit 
-expression of the gradient of the underlying optimization problem at a 
-particular point in the control space. Conversely, the discrete adjoint 
+the PDE and a so-called adjoint PDE system, which when solved can be used to 
+obtain an explicit 
+expression of the gradient of the underlying optimization problem. Conversely, 
+the discrete adjoint 
 method~\cite{Giles2000,Gugat2005,Kotsialos2004} first discretizes a 
 continuous-time PDE and then requires the solution of a set of linear equations 
 to solve for the gradient. Finally, a third approach exists, which uses 
@@ -29,19 +31,19 @@ system~\cite{Muller2005,Giering1998}.
 
 While the continuous adjoint formulation results in a compact formulation, 
 better intuition into the system's sensitivities with respect to the objective, 
-and well-posedness of the control's solution, it is often difficult or tedious 
-to derive its solution by hand for each physical system and objective. 
+and well-posedness of the control's solution (when it can be proved), it is 
+often difficult to derive for systems of hyperbolic nonlinear PDEs controlled 
+by boundary condition, when these boundary conditions have to be written in the 
+weak sense.
 Additionally, the continuous adjoint must eventually be discretized in order to 
 produce numerical solutions for the optimization problem. Finally, the 
 differentiation of the forward PDE is sometimes problematic due to the lack of 
-regularity of the solution~\cite{work2010traffic,garavello2006traffic}. The 
-discrete adjoint does not provide an explicit formulation of the gradient of 
-the discretized optimization problem, \textbf{We need to include the pros of 
-	the method, but your last round of edits deleted the pro without 
-	suggesting a 
-	replacement. Previously it said, but its derivation is often simplier 
-	and 
-formulaic}. Automatic differentiation techniques can simplify the repetetive 
+regularity of the solution~\cite{work2010traffic,garavello2006traffic} which 
+makes the formal definition of the adjoint problem more difficult.
+The discrete adjoint approach derives the gradient directly from the 
+discretized system, thus avoiding working directly with weak boundary 
+conditions in the continuous system. Automatic differentiation techniques can 
+simplify the repetetive 
 steps of the discrete adjoint derivation, but sometimes at the cost of 
 sub-optimal code implementations with respect to memory and CPU 
 consumption~\cite{Giles}. A more-detailed analysis of the trade-offs associated 
