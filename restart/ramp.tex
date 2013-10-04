@@ -36,7 +36,7 @@ the split ratio to 1.
 	\begin{centering}
 		\includegraphics[width=1\columnwidth]{figs-gen/rm-junction-2}
 		\par\end{centering}
-		
+				
 		\caption{Freeway network model. For a junction $\jdown{2\link-1}=\jdown{2\left(\link-1\right)}=\jup{2\link}$
 			at time-step $\tind\in\intrange 0{\ntime-1}$, the upstream mainline
 			density are represented by $\densitydiscrete{2\left(\link-1\right)}{\tind}$,
@@ -44,8 +44,8 @@ the split ratio to 1.
 			the onramp density by $\densitydiscrete{2\link-1}{\tind}$, and the
 			offramp split ratio by $\splitratio_{2\left(\link-1\right)}^{\tind}$.\label{fig:Freeway-network-junction}}
 		\end{figure}
-		
-		
+				
+				
 		The vehicle flow dynamics on all links $\link$ (mainlines, onramps,
 		and offramps) are modeled using the conservation law governing the
 		density evolution~\eqref{eq:cons}, where $\density$ is the
@@ -62,14 +62,14 @@ the split ratio to 1.
 		\begin{centering}
 			\includegraphics[width=0.4\columnwidth]{figs-gen/fd}
 			\par\end{centering}
-			
+						
 			\caption{Fundamental diagram (the name of the flux function in transportation
 				literature) with free-flow speed $v$, congestion wave speed $w$,
 				max flux $F^{\max}$, critical density $\density^{c}$, and max density
 				$\density^{\max}$.\label{fig:Fundamental-diagram-with}}
 			\end{wrapfigure}%
-			
-			
+						
+						
 			As control input, an onramp $2\link-1\in\links,\link\in\intrange 1{\nlinks}$
 			at time-step $k\in\intrange 0{\ntime-1}$ has a metering rate $\ramp_{2\link-1}^{\tind}\in\left[0,1\right]$
 			which limits the flux of vehicles leaving the onramp. Intuitively,
@@ -78,7 +78,7 @@ the split ratio to 1.
 			control is to force the control to neither impose negative flows nor
 			send more vehicles than present in a queue. Its mathematical model
 			is expressed in~\eqref{eq:ramp-eqn}.
-			
+						
 			For notational simplicity we define the set of densities of links
 			incident to $\jup{2\link}=\jdown{2\left(\link-1\right)}$ at time-step
 			$\tind$ as $\juncstate{\jup{2\link}}{\tind}=\left\{ \discrete{2\left(\link-1\right)}{\tind},\discrete{2i-1}{\tind},\discrete{2\link}{\tind}\right\} $.
@@ -87,7 +87,7 @@ the split ratio to 1.
 			are handled as in~\eqref{eq:init-ge}, while for $k\in\intrange 1{\ntime-1}$,
 			the mainline density $\discrete{2\link}{\tind}$ using the Godunov
 			scheme from~\eqref{eq:main-ge} is given by:
-			
+						
 			\begin{eqnarray}
 				\syseq_{2\link}^{\tind}(\state,\control)= & \discrete{2\link}{\tind}-\discrete{2\link}{\tind-1} & +\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jdown{2\link}}\left(\juncstate{\jdown{2\link}}{\tind-1},\ramp_{2\link+1}^{\tind-1}\right)\right)_{2\link}\label{eq:rho-update}\\
 				&  & -\dfrac{\Delta t}{\length_{2\link}}\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link}\nonumber \\
@@ -98,7 +98,7 @@ the split ratio to 1.
 			at time-step $\tind$ exiting a link $\link$ at the downstream boundary
 			of the link, and $\fin{\link}{\tind}$ is the Godunov flux entering
 			the link at the upstream boundary.
-			
+						
 			We also make the assumption that onramps have infinite capacity and
 			a free-flow velocity $\ffspeed_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
 			to prevent the ramp congestion from blocking demand from ever entering
@@ -106,7 +106,7 @@ the split ratio to 1.
 			is chosen arbitrarily and the ``virtual'' velocity chosen above
 			is chosen to replicate the dynamics in~\cite{Monache2013}. We can
 			then simplify the onramp update equation to be:
-			
+						
 			\begin{eqnarray}
 				\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:onramp-update}\\
 				& = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\fout{2\link-1}{\tind-1}-\boundaryDemand{2\link-1}{\tind-1}\right)=0
@@ -117,17 +117,17 @@ the split ratio to 1.
 			conditions at the onramps which guarantees all demand enters the network.
 			Details on weak versus strong boundary conditions can be found in
 			\cite{Monache2013,Walid,strub2006weak,work2010traffic}.
-			
+						
 			The onramp model in~\eqref{eq:onramp-update} differs from~\cite{Monache2013,Walid}
 			in that we model the onramp as a discretized PDE with an infinite
 			critical density, while~\cite{Monache2013,Walid} models the onramp
 			as an ODE ``buffer''. While both models implement strong boundary
 			conditions, the discretized PDE model makes the freeway network more
 			aligned with the PDE network framework presented in this article.
-			
-			
+						
+						
 			\paragraph{Riemann solver.}
-			
+						
 			For the ramp metering problem, there are many potential Riemann solvers
 			that satisfy the properties required in Section~\ref{sub:Network-of-PDE's}.
 			Following the model of \cite{Walid,ML}, for each junction $\jup{2\link}$,
@@ -143,7 +143,7 @@ the split ratio to 1.
 			This leads to the following system of equations that gives the flux
 			solution of the Riemann solver at time-step $k\in\intrange 1{\ntime-1}$
 			and junction $\jup{2\link}$ for $\link\in\intrange 1{\nlinks}$:
-			
+						
 			\begin{eqnarray}
 				\demand_{2\left(\link-1\right)}^{\tind} & = & \min\left(\ffspeed_{2\left(i-1\right)}\densitydiscrete{2\left(\link-1\right)}{\tind},F_{2\left(\link-1\right)}^{\max}\right)\label{eq:first-ramp}\\
 				\supply_{2\link}^{\tind} & = & \min\left(\congspeed_{2i}\left(\density_{2i}^{\max}-\densitydiscrete{2\link}{\tind}\right),F_{2i}^{\max}\right)\label{eq:supply}\\
@@ -175,15 +175,15 @@ the split ratio to 1.
 			\begin{figure}
 				\subfloat[Case 1: Priority violated due to limited upstream mainline demand
 					entering downstream mainline.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-1}
-							
+														
 							}\hfill{}\subfloat[Case 2: Priority violated due to limited onramp demand entering downstream
 						mainline.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-2-slim}
-								
+																
 								}\hfill{}\subfloat[Case 3: Priority rule satisfied due to sufficient demand from both
 							mainline and onramp.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-3-slim}
-									
+																		
 								}
-								
+																
 								\caption{Godunov junction flux solution for ramp metering model at junction
 									$\jup{2\link}$. The rectangular region represents the feasible flux
 									values for $\splitratio_{2\left(\link-1\right)}\fout{2\left(\link-1\right)}{}$
@@ -196,8 +196,8 @@ the split ratio to 1.
 									red circle, is the point on the feasible region that minimizes the
 									distance from the priority line $\splitratio_{2\left(\link-1\right)}\fout{2\left(\link-1\right)}{}=p_{2(\link-1)}\fout{2\link-1}{}$.}
 							\end{figure}
-							
-							
+														
+														
 							For $\tind=0$, the update equation is given by a pre-specified initial
 							condition, as in~\eqref{eq:init-ge}. Note that the equations can
 							be solved sequentially via forward substitution. Also, we do not include
@@ -206,35 +206,35 @@ the split ratio to 1.
 							calculation. To demonstrate that indeed the flux solution satisfies
 							the flux conservation property, the offramp flux is trivially determined
 							to be $\splitratio_{2\left(\link-1\right)}^{\tind}\fout{2\left(\link-1\right)}{\tind}$.
-							
-							
+														
+														
 							\subsection{Formulation of the optimal control problem}
-							
-							
+														
+														
 							\paragraph{Optimal coordinated ramp-metering.}
-							
+														
 							Including the initial conditions as specified in~\eqref{eq:init-ge}
 							with~\eqref{eq:rho-update} and~\eqref{eq:onramp-update} gives
 							a complete description of the system $\sys\left(\state,\control\right)=0$,
 							$\state\in\mathbb{R}^{2\nlinks}$, $\control\in\mathbb{R}$, where:
-							
+														
 							\begin{eqnarray*}
 								\state_{2\nlinks\tind+\link}\defeq & \densitydiscrete{\link}{\tind} & 1\le i\le2\nlinks,0\le k\le T-1\\
 								\control_{\nlinks\tind+\link}\defeq & \ramp_{2\link}^{\tind} & 1\le i\le\nlinks,0\le k\le T-1
 							\end{eqnarray*}
-							
-							
+														
+														
 							The objective of the control is to minimize the \emph{total travel
 								time }on the network, expressed by the cost function $\cost$:
-							
+														
 							\[
 								\cost\left(\state,\control\right)=\Delta t\sum_{k=1}^{T}\sum_{i=1}^{2\nlinks}L_{i}\densitydiscrete{\link}{\tind}
 							\]
-							
-							
+														
+														
 							The optimal coordinated ramp-metering problem can be formulated as
 							an optimization problem with PDE-network constraints:
-							
+														
 							\begin{eqnarray}
 								\min_{\control} & \cost\left(\state,\control\right)\label{eq:full}\\
 								\text{subject to:} & \sys\left(\state,\control\right) & =0\nonumber \\
@@ -243,40 +243,40 @@ the split ratio to 1.
 							Since the adjoint method in Section~\ref{sec:Adjoint-method} only
 							deals with equality constraints, we add barrier penalties to the cost
 							function~\cite{Boyd2010,Bayen2006}:
-							
+														
 							\begin{equation}
 								\tilde{\cost}\left(\state,\control,\epsilon\right)=\cost\left(\state,\control\right)-\barrierTerm\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)\label{eq:full-tilde}
 							\end{equation}
-							
-							
+														
+														
 							As $\barrierTerm\in\mathbb{R}^{+}$ tends to zero, the solution to~\eqref{eq:full-tilde}
 							will approach the solution to the original problem~\eqref{eq:full}.
 							Thus we can solve~\eqref{eq:full} by iteratively solving the augmented
 							problem:
-							
+														
 							\begin{eqnarray}
 								\min_{\control} & \tilde{\cost}\left(\state,\control,\epsilon\right)\label{eq:full-1}\\
 								\text{subject to:} & \sys\left(\state,\control\right) & =0\nonumber 
 							\end{eqnarray}
-							
-							
+														
+														
 							with decreasing values of $\barrierTerm$. As a result, $\tilde{\cost}$
 							will approach $\cost$ as the number of iterations increases.
-							
-							
+														
+														
 							\paragraph{Applying the adjoint method.}
-							
+														
 							To use the adjoint method as described in Section~\ref{sec:Adjoint-method},
 							we need to compute the partial derivative matrices $\Hx$, $\Hu$,
 							$\tilde{C}_{\state}$ and $\tilde{C}_{\control}$. Computing the partial
 							derivatives with respect to the cost function is straight forward:
-							
+														
 							\begin{eqnarray*}
 								\pfrac{\tilde{\cost}}{\discrete{\link}{\tind}}= & \Delta tL_{i} & 1\le i\le2\nlinks,0\le k\le T-1\\
 								\pfrac{\tilde{\cost}}{\ramp_{2\link}^{\tind}}= & \barrierTerm\left(\frac{-1}{1-\ramp_{2\link}^{\tind}}+\frac{1}{\ramp_{2\link}^{\tind}}\right) & 1\le i\le\nlinks,0\le k\le T-1
 							\end{eqnarray*}
-							
-							
+														
+														
 							To compute the partial derivatives of $\sys$, we follow the procedure
 							in Section~\ref{par:Calculating-the-gradient}. For an upstream junction
 							$\jup{2\link}\in\jns$ and time-step $k\in\intrange 1{\ntime-1}$,
@@ -286,7 +286,7 @@ the split ratio to 1.
 							and ramp metering control $\ramp_{\link}^{\tind}$. We calculate the
 							partial derivatives of the functions in~(\eqref{eq:first-ramp})-(\eqref{eq:last-ramp})
 							with respect to either a state or control variable$s\in\state\cup\control$:
-							
+														
 							\begin{eqnarray*}
 								\pfrac{\demand_{2\left(\link-1\right)}^{\tind}}s & = & \begin{cases}
 								\ffspeed_{2\left(i-1\right)} & s=\densitydiscrete{2\left(\link-1\right)}{\tind},\ffspeed_{i}\densitydiscrete{2\left(\link-1\right)}{\tind}\le F_{2\left(i-1\right)}^{\max}\\
@@ -312,8 +312,8 @@ the split ratio to 1.
 								\end{cases}\\
 								\pfrac{}s\fout{2\link-1}{} & = & \pfrac{}s\fin{2\link}{\tind}-\splitratio_{2\left(\link-1\right)}^{\tind}\pfrac{}s\fout{2\left(\link-1\right)}{}
 							\end{eqnarray*}
-							
-							
+														
+														
 							These expressions fully quantify the partial derivative values needed
 							in~\eqref{eq:dhdugod} and~\eqref{eqdhdvgod}. Thus we can construct
 							the $\Hx$ and $\Hu$ matrices. With these matrices and $\Jx$ and

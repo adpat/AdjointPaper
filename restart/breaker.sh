@@ -1,5 +1,1 @@
-for i in intro.tex
-do
-  fold -sw 80 $i > $i.out
-  mv $i.out $i
-done
+fold -sw 80 $1 > $1.out; mv $1.out $1; ./indenter/latexindent.pl -w $1

@@ -70,9 +70,9 @@ For further details regarding the theory of hyperbolic conservation laws we refe
 %problem of the form in~\eqref{eq:cauchy}.
 \begin{defn}
 	\label{def:Riemann-Problem}Riemann Problem.
-	
+		
 	A Riemann problem is a Cauchy problem with a piecewise-constant initial data (called the Riemann data):
-	
+		
 	\[
 		\initstate(x)=\begin{cases}
 		\cvar_{-} & x<0\\
@@ -122,9 +122,9 @@ determined by~\eqref{eq:CP}, the dynamics at junctions
 still needs to be defined.
 \begin{defn}
 	Riemann problem at junctions. 
-	
+		
 	A Riemann problem at $\jn$ is a Cauchy problem corresponding to an initial data $\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\in\mathbb{R}^{\ninc+\nout}$ which is constant on each link $\link$ .
-	
+		
 	%Let all links $\link$ have a constant initial profile $\cvar_{\link}\left(0,x\right)=\initstate_{\link}\in\mathbb{R}$
 	%(called the Riemann data) with incoming links having a spatial domain
 	%$\left(-\infty,0\right)$ and outgoing links having a spatial domain
@@ -135,14 +135,14 @@ still needs to be defined.
 \end{defn}
 \begin{defn}
 	A Riemann solver is a map that assigns a solution to each Riemann initial data. For each junction $\jn$ it is a function
-	
+		
 	\begin{eqnarray*}
 		\RS: & \mathbb{R}^{m+n} & \rightarrow\mathbb{R}^{m+n}\\
 		& \tuple{\initstate_{1}}{\initstate_{\ninc+\nout}} & \mapsto\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
 	\end{eqnarray*}
 	where $\trace{\cvar}_{\link}$ provides the trace for link $\link$
 	at the junction for all time $t\ge0$.
-	
+		
 \end{defn}
 For a link $i\in\Inc\left(\jn\right)$,
 the solution $\cvar_{i}\left(t,x\right)$ over its spatial domain
@@ -174,13 +174,13 @@ gives a depiction of Riemann solution at the junction%
 	\begin{centering}
 		\includegraphics[width=0.5\columnwidth]{presentation/figs-gen/junctions-riemann-rs} 
 		\par\end{centering}
-		
+				
 		\caption{Solution of boundary conditions at junction. The boundary conditions
 			$\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{5}}$ are produced by applying
 			the Riemann solver to the initial conditions, $\tuple{\initstate_{1}}{\initstate_{5}}$.\label{fig:Solution-of-boundary}}
 		\end{figure}
-		
-		
+				
+				
 		Note that the following properties for the Riemann Solver holds:
 		\begin{itemize}
 			\item All waves produced from the solution to Riemann problems on all links,
@@ -200,15 +200,15 @@ gives a depiction of Riemann solution at the junction%
 				\RS\left(\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}\right)=\RS\tuple{\initstate_{1}}{\initstate_{\ninc+\nout}}=\tuple{\trace{\cvar}_{1}}{\trace{\cvar}_{\ninc+\nout}}
 			\]
 		\end{itemize}
-		
+				
 		The justification for these conditions can be found in~\cite{garavello2006traffic}.
-		
-		
+				
+				
 		\subsection{Godunov Discretization\label{sub:Godunov-Discretization}}
-		
+				
 		In order to find approximate solutions we use the classical Godunov scheme~\cite{godunov1959}. We use the following notation: $x_{j+\frac{1}{2}}$ are the cell interfaces and   $t^{\tind}=k\Delta t$ the time with $\tind\in\mathbb{N}$ and $\xind\in\mathbb{Z}$. $x_{\xind}$ is the center of the cell, $\Delta x=x_{j+\frac{1}{2}}-x_{j-\frac{1}{2}}$ the cell width and $\Delta t$ is the time step. 
 		\paragraph{Godunov scheme for a single link.}
-		
+				
 		The Godunov scheme is based on the solutions of exact Riemann problems. The main idea of this method is to approximate the initial datum by a piecewise constant function, then the corresponding Riemann problems are solved exactly and a global solution is found by piecing them together. Finally one takes the mean on the cell and proceed by iteration. Given $\cvar(t,x),$ the cell average of $\cvar$ at time $t^{\tind}$ in the cell $C_{\xind}=]x_{j-\frac{1}{2}},x_{j+\frac{1}{2}}]$ is given by 
 		\begin{equation}
 			\discrete{\xind}{\tind}=\dfrac{1}{\Delta x}\int_{\xdis{\xind-\frac{1}{2}}}^{\xdis{\xind+\frac{1}{2}}}\dvar(t^{k},x)dx.\label{eq:godproj}
@@ -218,7 +218,7 @@ gives a depiction of Riemann solution at the junction%
 			\item We solve the Riemann problem at each cell interface $x_{j+\frac{1}{2}}$ with initial data $(\dvar^{\tind}_{\xind-1},\dvar^{\tind}_{\xind}).$
 			\item Compute the cell average at time $t^{\tind +1}$ in each computational cell and obtain $\dvar^{\tind +1}_{\xind}.$ 
 		\end{enumerate}
-		
+				
 		We remark that waves in two neighbouring cells do not intersect before $\Delta t$ if the following Courant\textendash{}Friedrichs\textendash{}Lewy (CFL) condition holds:
 		\begin{equation}\label{eq:CFL}
 			\lambda^{\max}\le\frac{\Delta x}{\Delta t},
@@ -229,13 +229,13 @@ gives a depiction of Riemann solution at the junction%
 			\discrete{\xind}{\tind+1}=\discrete{\xind}{\tind}-\frac{\Delta t}{\Delta x}(\god(\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})-\god(\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})),\label{eq:godscheme}
 		\end{equation}
 		where $g^{G}$ is the Godunov numerical flux given by
-		
+				
 		\begin{eqnarray*}
 			\god: & \mathbb{R}\times\mathbb{R} & \rightarrow\mathbb{R}\\
 			& \left(\discrete{\xind}{},\discrete{\xind+1}{}\right) & \mapsto\god\left(\discrete{\xind}{},\discrete{\xind+1}{}\right)=f(W_{R}(0;\discrete{\xind}{},\discrete{\xind+1}{})).
 		\end{eqnarray*}
-		
-		
+				
+				
 		%To approximate a hyperbolic PDE of the form in~(\eqref{eq:cons-smooth})
 		%with a discretization in both space and time, we use Godunov's scheme~\cite{godunov1959}.
 		%Given an initial condition that is piecewise-constant, Godunov's scheme
@@ -243,7 +243,7 @@ gives a depiction of Riemann solution at the junction%
 		%suitable stability conditions, this process can be repeated \emph{ad
 		%infinum }by applying the scheme to the new condition generated from
 		%the previous time-step.
-		
+				
 		%We define a numerical grid using the following notations 
 		%\begin{itemize}
 		%\item $\Delta x$ is the fixed space grid size,
@@ -269,13 +269,13 @@ gives a depiction of Riemann solution at the junction%
 			\begin{centering}
 				\includegraphics[width=0.6\columnwidth]{figs-gen/dx}
 				\par\end{centering}
-				
+								
 				\caption{Space discretization for a link $\link\in\links$. Step size $\Delta x$ is uniform with discrete value $\discrete{\xind}{\tind}$ representing
 					the state between $x_{\xind-\frac{1}{2}}$ and $x_{\xind + \frac{1}{2}}$.\label{fig:Space-discretization-for}}
-				
-				
+								
+								
 				\end{figure}
-				
+								
 				%Consider a hyperbolic equation together with an initial condition
 				%as expressed in~\eqref{eq:cauchy}. A solution of the discretized
 				%problem is constructed by taking a piecewise constant approximation
@@ -303,7 +303,7 @@ gives a depiction of Riemann solution at the junction%
 					\begin{centering}
 						\includegraphics[width=0.5\columnwidth]{figs-gen/dx-to-riemann}
 						\par\end{centering}
-						
+												
 						\caption{Self-similar solution for Riemann problem with initial data $\left(\discrete{\xind}{\tind},\discrete{\xind+1}{\tind}\right)$.
 							The self-similar solution at $\frac{x}{t}=0$ for the top diagram
 							(i.e. $\ss 0{\discrete{\xind}{\tind}}{\discrete{\xind+1}{\tind}}$),
@@ -326,11 +326,11 @@ gives a depiction of Riemann solution at the junction%
 						%\god: & \mathbb{R}\times\mathbb{R} & \rightarrow\mathbb{R}\\
 						% & \left(\discrete{\xind}{},\discrete{\xind+1}{}\right) & \mapsto\god\left(\discrete{\xind}{},\discrete{\xind+1}{}\right)=f(W_{R}(0;\discrete{\xind}{},\discrete{\xind+1}{}))
 						%\end{eqnarray*}
-						
-						
-						
+												
+												
+												
 						\paragraph{Godunov scheme at junctions.\label{par:Godunov-scheme-at}}
-						
+												
 						The scheme just discussed applies to the case in which a single cell
 						is adjacent to another single cell. Yet, at junctions, a cell may
 						share a boundary with more than one cell. A more general Godunov flux
@@ -346,7 +346,7 @@ gives a depiction of Riemann solution at the junction%
 						\begin{align*}
 							\discrete 1{\tind+1}=\discrete 1{\tind}-\dfrac{\Delta t}{\Delta x}(\god(\discrete 1{\tind},\discrete 2{\tind})-f(\trace{\dvar}_{1}^{\tind})), &   & \link\in\left\{ \ninc+1,\ldots,\ninc+\nout\right\} 
 						\end{align*}
-						
+												
 						\begin{rem}
 							Using the Godunov scheme, each mesh grid at a given $t^{\tind}$ can
 							be seen as a node for a 1-to-1 junction with one incoming and one
@@ -366,55 +366,55 @@ gives a depiction of Riemann solution at the junction%
 						for a link $\link\in\links$ with upstream and downstream junctions,
 						$\jup{\link}$ and $\jdown{\link}$, and time-step $\tind\in\left\{ 0,\ldots,\ntime-1\right\} $,
 						the update step becomes:
-						
+												
 						\begin{align}
 							\discrete{\link}{\tind+1} & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\RS\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}\right)-f\left(\left(\RS\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\right)\nonumber \\
 							                          & =\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(f\left(\left(\junctrace{\jdown{\link}}{}\right)_{\link}\right)-f\left(\left(\junctrace{\jup{\link}}{}\right)_{\link}\right)\right)\label{eq:reg-update}                               
 						\end{align}
-						
-						
+												
+												
 						where $\left(s\right)_{i}$ is the $i$th element of the tuple $s$.
 						This equation is thus a general way of writing the Godunov scheme
 						in a way which applies everywhere, including at junctions.
-						
-						
+												
+												
 						\paragraph{Working directly with flux solutions at junctions.\label{par:Composing-the-Riemann}}
-						
+												
 						The equations can be simplified if we do not explicitly represent
 						the solution of the Riemann solver, $\junctrace{\jn}{}$, and, instead,
 						directly calculate the flux solution from the Riemann data. We denote
 						this direct computation by $\god_{\jn}$, the Godunov flux solution
 						at a junction:
-						
+												
 						\begin{eqnarray}
 							\god_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\nonumber \\
 							& \juncstate{\jn}{} & \mapsto f\left(RS\left(\juncstate{\jn}{}\right)\right)=\left(f\left(\trace{\dvar}_{1}\right),\ldots,f\left(\trace{\dvar}_{\ninc+\nout}\right)\right)\label{eq:god-jn}
 						\end{eqnarray}
 						This gives a simplified expressions for the update step:
-						
+												
 						\begin{equation}
 							\discrete{\link}{\tind+1}=\discrete{\link}{\tind}-\dfrac{\Delta t}{\Delta x}\left(\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind}\right)\right)_{\link}-\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind}\right)\right)_{\link}\right)\label{eq:composed-flux}
 						\end{equation}
-						
-						
-						
+												
+												
+												
 						\paragraph{Full discrete solution method.\label{par:Full-solution-method}}
-						
+												
 						We assume a discrete scalar hyperbolic network of PDEs with links
 						$\links$ and junctions $\jns$, and a known discrete state at time-step
 						$\tind$, $\left(\initdiscrete_{\link}^{\tind}:\link\in\links\right)$.
 						The solution method for advancing the discrete system forward one
 						time-step is given in Algorithm~(\ref{algo:rs-alg}), or alternatively
 						Algorithm~(\ref{algo:god-alg}).
-						
+												
 						\begin{algorithm}[H]
 							\caption{\texttt{Riemann solver update procedure}}
-							
-							
+														
+														
 							\lstinputlisting[basicstyle={\ttfamily\footnotesize},breaklines=true,label={algo:rs-alg},mathescape=true]{rs-alg}
 						\end{algorithm}
-						
-						
+												
+												
 						Algorithm~\ref{algo:rs-alg} takes as input the state at a time-step
 						$\tind$ for all links $\left(\discrete{\link}{\tind}:\link\in\links\right)$
 						and returns the state advanced by one time-step $\left(\discrete{\link}{\tind+1}:\link\in\links\right)$.
@@ -423,15 +423,15 @@ gives a depiction of Riemann solution at the junction%
 						algorithm iterates over all links $\link\in\links$ to compute the
 						updated state $\discrete{\link}{\tind+1}$ using the previously computed
 						boundary conditions, as in~\eqref{eq:reg-update}.
-						
+												
 						\begin{algorithm}[h]
 							\caption{\texttt{Godunov junction flux update procedure}}
-							
-							
+														
+														
 							\lstinputlisting[basicstyle={\ttfamily\footnotesize},breaklines=true,label={algo:god-alg},mathescape=true]{god-alg}
 						\end{algorithm}
-						
-						
+												
+												
 						Algorithm~\ref{algo:god-alg} is similar to Algorithm~\ref{algo:rs-alg},
 						except that the boundary conditions $\junctrace{\jn}{\tind}$ are
 						not explicitly computed, but rather the Godunov flux solution is used

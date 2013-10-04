@@ -23,7 +23,7 @@ $(PAPER): $(TEX) figures plots
 clean:
 	rm -f *~
 	rm -f *pdf
-	rm -f *log
+	rm -f *log	
 
 figures: 
 

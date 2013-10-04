@@ -137,18 +137,18 @@ in Figure~\ref{fig:Depicting--and}
 		\subfloat[\label{fig:genneta}]{\begin{centering}
 			\includegraphics[width=0.33\columnwidth]{figs-gen/gen-net}
 			\par\end{centering}
-			
+						
 			}\subfloat[\label{fig:gennetb}]{\begin{centering}
 			\includegraphics[width=0.33\columnwidth]{figs-gen/gen-net-dx}
 			\par\end{centering}
-			
+						
 			}\subfloat[\label{fig:gennetc}]{\begin{centering}
 			\includegraphics[width=0.33\columnwidth]{figs-gen/gen-net-dv}
 			\par\end{centering}
-			
+						
 		}
 		\par\end{centering}
-		
+				
 		\caption{Depiction of $D_{\state}$ and $D_{v}$ for an arbitrary graph. Figure~\ref{fig:genneta}
 			shows the underlying graphical structure for an arbitrary PDE network.
 			Some control parameter $\convar_{1}$ has influence over junctions
@@ -173,73 +173,73 @@ in Figure~\ref{fig:Depicting--and}
 		$\ncontrols\ntime$ for freeway networks, the complexity of evaluating
 		the gradient for such networks can be considered linear for the adjoint
 		method.
-		
-		
+				
+				
 		\subsection{Evaluating the partial derivatives\label{sub:Evaluating--and}}
-		
+				
 		While no assumptions are made about the sparsity of the cost function
 		$\cost$, the networked-structure of the PDE system and the Godunov
 		discretization scheme allows us to say more about the structure and
 		sparsity of $\Hx$ and $\Hu$.
-		
-		
+				
+				
 		\paragraph{Partial derivative expressions.}
-		
+				
 		Given that the governing equations require the evaluation of a Riemann
 		solver at each step, we detail some of the necessary computational
 		steps in evaluating the $\Hx$ and $\Hu$ matrices. 
-		
+				
 		If we consider a particular governing equation $\syseq_{\link}^{\tind}\left(\state,\control\right)=0$,
 		then we may determine the partial term with respect to $\discrete jl\in\state$
 		by applying the chain rule:
-		
+				
 		\begin{align}
 			\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\Delta t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\discrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\label{eq:dhdufull} \\
 			                                                                                                                                           & -\frac{\Delta t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\discrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\nonumber                       
 		\end{align}
-		
-		
+				
+				
 		or if we consider the composed Riemann flux solver $\god_{\jn}$ in~\eqref{eq:god-jn}:
-		
+				
 		\begin{equation}
 			\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl}+\frac{\Delta t}{L_{i}}\left(\pfrac{}{\discrete jl}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\pfrac{}{\discrete jl}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right)\label{eq:dhdugod}
 		\end{equation}
-		
-		
+				
+				
 		A diagram of the structure of the $\Hx$ matrix is given in Figure~(\ref{fig:partial-ordering}).
 		\begin{figure}
 			\subfloat[\label{fig:partial-ordering}Ordering of the partial derivative terms.
 				Constraints and state variables are clustered first by time, and then
 				by cell index.]{\includegraphics[width=0.45\columnwidth]{figs-gen/dstate}
-						
+												
 						}\texttt{\hfill{}}\subfloat[\label{fig:sparsity-diagram}Sparsity structure of the $\Hx$ matrix.
 				Besides the diagonal blocks, which are identity matrices, blocks where
 				$l\neq\tind-1$ are zero.]{\includegraphics[width=0.45\columnwidth]{figs-gen/sparsity-two}
-						
+												
 						\texttt{}
-						
+												
 					}
-					
+										
 					\caption{Structure of the $\Hx$ matrix.}
-					
-					
+										
+										
 				\end{figure}
 				Similarly for $H_{v}$, we take a control parameter $\condiscrete jl\in\control$,
 				and derive the expression:
-				
+								
 				\begin{align}
 					\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\Delta t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\condiscrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\label{eq:dhdvfull} \\
 					                                                 & -\frac{\Delta t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\condiscrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\nonumber                       
 				\end{align}
-				
-				
+								
+								
 				or for the composed Godunov junction flux solver $\god_{\jn}$:
-				
+								
 				\begin{equation}
 					\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}=\frac{\Delta t}{L_{i}}\left(\pfrac{}{\condiscrete jl}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\pfrac{}{\condiscrete jl}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right)\label{eqdhdvgod}
 				\end{equation}
-				
-				
+								
+								
 				Analyzing~\eqref{eq:dhdufull}, the only partial terms that are not
 				trivial to compute are $\pfrac{}{\discrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)$
 				and $\pfrac{}{\discrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)$.
@@ -249,20 +249,20 @@ in Figure~\ref{fig:Depicting--and}
 				Once one obtains the solutions to these partial terms, then one can
 				construct the full $\Hx$ and $\Hu$ matrices and use~\eqref{eq:adjoint}
 				and~\eqref{eq:adjoint-grad} to obtain the gradient value.
-				
+								
 				As these expressions are written for a general scalar conservation
 				law, the only steps in computing the gradient that are specific to
 				a particular conservation law and Riemann solver are computing the
 				derivative of the flux function $f$ and the partial derivative terms
 				just discussed. These expressions are explicitly calculated for the
 				problem of optimal ramp metering in Section~(\ref{sec:Applications-to-Optimal}).
-				
-				
+								
+								
 				\subsection{Complexity of solving gradient via forward method vs. adjoint method\label{sub:Complexity-of-solving}}
-				
-				
+								
+								
 				\paragraph{Structure and sparsity.\label{par:Structure-and-sparsity}}
-				
+								
 				We can show the lower-triangular structure and invertibility of $\Hx$
 				by examining~\eqref{eq:init-ge} and~\eqref{eq:main-ge}. For $\tind\in\intrange 1{\ntime-1}$,
 				we have that $\syseq_{\link}^{\tind}$ is only a function of $\discrete{\link}{\tind}$
@@ -274,7 +274,7 @@ in Figure~\ref{fig:Depicting--and}
 				terms correspond to constraints with a dependence of \emph{future}
 				values). These two conditions demonstrate both that $\Hx$ is lower-triangular
 				and is also invertible due to the identity matrix block-diagonal terms.
-				
+								
 				Additionally, if we consider taking partial derivatives with respect
 				to the variable $\discrete jl$, then we can deduce from Equation~\eqref{eq:main-ge}
 				that all partial terms will be zero except for the diagonal term,
@@ -285,7 +285,7 @@ in Figure~\ref{fig:Depicting--and}
 				lower-triangular and each column will have a maximum cardinality equal
 				to $\degree{\state}$ in~\eqref{eq:dx}. The sparsity structure of
 				$\Hx$ is depicted in Figure~(\ref{fig:sparsity-diagram}).
-				
+								
 				Using the same line of argument for maximum cardinality in $\Hx$,
 				we can bound the maximum cardinality of each column of $\Hu$. Taking
 				a single control variable $\condiscrete jl$, the variable can only
@@ -293,7 +293,7 @@ in Figure~\ref{fig:Depicting--and}
 				that connects to a junction $\jn$ such that $\condiscrete jl\in\junccon{\jn}{l+1}$.
 				These conditions give us the expression for $\degree{\control}$ in~\eqref{eq:dv},
 				or the maximum cardinality over all columns in $\Hu$.
-				
+								
 				If we only consider the lower triangular form of $\Hx$, then the
 				complexity of solving for the gradient using the forward system is
 				$O(\left(\nlinks\ntime\right)^{2}\ncontrols\ntime)$, where the dominating
@@ -311,7 +311,7 @@ in Figure~\ref{fig:Depicting--and}
 				by the multiplication of $\lambda^{T}H_{v}$, an $\nlinks\ntime\times\nlinks\ntime$
 				and an $\nlinks\ntime\times\ncontrols\ntime$ matrix in~\eqref{eq:adjoint-grad},
 				with a complexity of $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$.
-				
+								
 				For the adjoint method, this complexity can be improved upon by considering
 				the sparsity of the $\Hx$ and $\Hu$ matrices, as detailed in Section~\ref{par:Structure-and-sparsity}.
 				For the backward-substitution step, each entry in the $\lambda$ vector
@@ -324,4 +324,4 @@ in Figure~\ref{fig:Depicting--and}
 				\begin{prop}
 					\textup{The total complexity for the adjoint method on a scalar hyperbolic
 						network of PDEs is }$O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$.\end{prop}
-		
+				

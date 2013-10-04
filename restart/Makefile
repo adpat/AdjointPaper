@@ -20,6 +20,10 @@ clean:
 	rm -f *bbl
 	rm -f *blg
 	rm -rf *gz
+	sh breaker.sh intro.tex
+	sh breaker.sh conclusions.tex
+	sh breaker.sh abstract.tex
+	rm -f *bak*
 
 auxclean: clean
 	rm -f *fls
