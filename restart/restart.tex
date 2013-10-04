@@ -63,20 +63,7 @@ law PDE's with applications to coordinated ramp metering}
 
 \author{Jack}
 \maketitle
-\begin{abstract}
-The adjoint method provides a computationally efficient means of calculating
-the gradient for applications in constrained optimization. In this
-article, we consider a network of scalar conservation law PDE's with
-general topology, whose behavior is modified by a set of control parameters
-in order to minimize some objective. After discretizing the PDE system
-via the Godunov scheme, we detail the computation of the gradient
-of the discretized system with respect to the control parameters and
-show that the complexity of its computation scales linearly with the
-number of discrete state variables for networks with small vertex
-degree. The method is applied to solve the problem of coordinated
-ramp metering on freeway networks and is shown to improve the performance
-and running time over existing methods.
-\end{abstract}
+\input{abstract.tex}
 \input{commands.tex}\input{nomenclature.tex}\input{intro.tex}\input{prelims.tex}\input{system.tex}\input{adjoint.tex}\input{ramp.tex}\input{numerical.tex}\input{conclusions.tex}
 
 \bibliographystyle{plain}
