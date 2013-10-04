@@ -1,26 +1,26 @@
 %!TEX root = restart.tex
-\section{Numerical results for model predictive control simulations\label{sec:Numerical-results-for}}
+\section{Numerical results for model predictive control implementations\label{sec:Numerical-results-for}}
 
 To demonstrate the effectiveness of using the adjoint ramp metering
-method to compute gradients, we implemented the algorithm in MATLAB.
+method to compute gradients, we implemented the algorithm on practical scenarios with field experimental data.
 The algorithm can then be used as a gradient computation subroutine
 inside any descent-method optimization solver that takes advantage
 of first-order gradient information. Our implementation makes use
-of the open-source \emph{IpOpt} solver~\cite{Andreas2005}. To serve
-as comparisons, two other metering schemes were run:
+of the open-source \emph{IpOpt} solver~\cite{Andreas2005}, an interior point, nonlinear program optimizer. To serve
+as comparisons, two other case scenarios were run:
 \begin{enumerate}
 	\item No control: the metering rate is set to 1 on all onramps at all times.
-	\item Alinea~\cite{Papageorgiou1991}: a popular, feedback-based ramp metering
-	algorithm. Alinea is computationally efficient and decentralized,
+	\item Alinea~\cite{Papageorgiou1991}: a well-adopted, feedback-based ramp metering
+	algorithm commonly used in the practicioner's community. Alinea is computationally efficient and decentralized,
 	making it a popular choice for large networks, but does not take estimated
 	boundary flow data as input. Since Alinea has a number of tuning parameters,
 	we perform a \emph{modified} grid-search technique over the different
 	parameters that scales linearly with the number of onramps, and select
-	the best-performing parameters. A \emph{full} grid-search approach
+	the best-performing parameters, in order to be fair to this framework. A \emph{full} grid-search approach
 	scales exponentially with the number of onramps, rendering it infeasible
 	for moderate-size freeway networks.
 \end{enumerate}
-\textbf{Note: } We also implemented gradient descent using a finite differences approach to compute the gradient, similar to~\cite{Frejo2011,Ramon2013}, but it proved to be computationally infeasible for even small, synthetic
+\textbf{Note: } To demonstrate the reduced computation time associated with the adjoint approach, we also implemented gradient descent using a finite differences approach to compute the gradient, similar to~\cite{Frejo2011,Ramon2013}, but it proved to be computationally infeasible for even small, synthetic
 networks. Running ramp metering on even a network of 4 links over
 6 time-steps for 5 gradient steps took well over 4 minutes,
 rendering the method useless for real-time applications. The comparison
@@ -40,7 +40,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 				
 				
 				
-		\subsection{Network\label{sub:Network}}
+		\subsection{Implementation on I15S in San Diego\label{sub:Network}}
 				
 		As input into the optimization problem, we constructed a model of
 		a \input{fwLength} stretch of the I15 South freeway in San Diego,
@@ -51,7 +51,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 		The network is shown in Figure~\ref{fig:Model-of-section}.
 		\begin{figure}
 			\begin{centering}
-				\includegraphics[width=0.5\columnwidth]{images/map}
+				\includegraphics[width=0.7\columnwidth]{images/map}
 				\par\end{centering}
 								
 				\caption{Model of section of I15 South in San Diego, California. The freeway
@@ -60,17 +60,17 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								
 								
 				Link length data was obtained using the Scenario Editor software developed
-				as part of the Connected Corridors project, a collaboration between
+				as part of the \textit{Connected Corridors} project, a collaboration between
 				UC Berkeley and PATH research institute in Berkeley, California.
 				Fundamental diagram parameters, split ratios, and boundary data were
 				also obtained using calibration techniques developed by Connected
 				Corridors. Densities resulting in free-flow speeds were chosen as
 				initial conditions on the mainline and onramps. The data used in calibration
-				was taken from PeMS sensor data during a morning rush hour period,
+				was taken from PeMS sensor data~\cite{Chen2003} during a morning rush hour period,
 				scaled to generate congested conditions. The input data was chosen
 				to demonstrate the effectiveness of the adjoint ramp metering method
 				in a real-world setting. A profile of the mainline and onramps during
-				a forward simulation of the network is shown in Figure~\ref{fig:Density-and-queue}
+				a forward-simulation of the network is shown in Figure~\ref{fig:Density-and-queue}
 				under the described boundary conditions.
 				\begin{figure}[b]
 					\subfloat[Density profile. The units are the ratio of a link's vehicle density
@@ -93,10 +93,10 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 							\subsection{Finite-horizon optimal control\label{sub:Finite-horizon-optimal-control}}
 														
 														
-							\paragraph{Experimental setup}
+							\paragraph{Experimental setup.}
 														
 							The adjoint ramp metering algorithm is compared to the reactive Alinea
-							scheme, where we assume perfect boundary conditions and initial conditions
+							scheme, for which we assume that perfect boundary conditions and initial conditions
 							are available. The actual cost used to compare the performances of
 							the different methods is \emph{delay}, or the total travel time minus
 							the free-flow total travel time. The free-flow total travel time is
@@ -106,7 +106,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 							that total travel time cannot be zero at optimum.
 														
 														
-							\paragraph{Results}
+							\paragraph{Results.}
 														
 							\begin{figure}[t]
 								\subfloat[Density difference profile in units of vehicles per mile.\label{fig:long-sim-density}]{\includegraphics[width=0.45\columnwidth]{images/densdiff}
@@ -123,13 +123,13 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 							\end{figure}
 														
 														
-							Figure~\ref{fig:long-sim} shows a difference profile between the
+							Figure~\ref{fig:long-sim} shows a difference profile for both density and queue lengths between the
 							no control simulation and the simulation applying the ramp metering
 							policy generated from the adjoint method. Negative differences in
 							Figures~\ref{fig:long-sim-density} and~\ref{fig:long-sim-queue}
 							indicate where the adjoint method resulted in fewer vehicles for the
 							specific link and time-step. The adjoint method was successful in
-							intelligently deciding which ramps should be metered in order to improve
+							appropriately deciding which ramps should be metered in order to improve
 							throughput for the mainline.
 							\begin{figure}
 								\begin{centering}
@@ -142,7 +142,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 																
 																
 								Running time analysis shows that the adjoint method can produce beneficial
-								results in real time applications. Figure~\ref{fig:running-time} details the improvement of the adjoint method as a function of the overall running time of the algorithm. After just a few gradient steps, the
+								results in real-time applications. Figure~\ref{fig:running-time} details the improvement of the adjoint method as a function of the overall running time of the algorithm. After just a few gradient steps, the
 								adjoint method outperforms the Alinea method. Given that the time
 								horizon of two hours is longer than the period of time one can expect
 								reasonably accurate boundary flow estimates, more practical simulations
@@ -152,7 +152,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								While the adjoint method leads to queues with a considerable number of cars in some onramps, this can be addressed by introducing barrier terms into the cost function that limit the
 								maximum queue length. The Alinea method tested for the I15 network
 								had no prescribed maximum queue lengths as well, but was not able
-								to produce significant improvements, while the adjoint method was
+								to produce significant improvements in total travel time reduction, while the adjoint method was
 								more successful.
 																
 																
@@ -163,7 +163,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								inside of a \emph{Model predictive control }(MPC) loop.
 																
 																
-								\paragraph{Experimental setup}
+								\paragraph{Experimental setup.}
 																
 								The MPC loop begins at a time $t$ by estimating the initial conditions
 								of the traffic on the freeway network and the predicted boundary fluxes
@@ -171,21 +171,17 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								estimation of these parameters is not possible on real freeway networks.
 								The estimated conditions are then passed to the ramp metering algorithm
 								to compute an optimal control policy over the $T_{h}$ time period.
-								The system is then forward simulated over an update period of $T_{u}\le T_{h}$,
+								The system is then forward-simulated over an update period of $T_{u}\le T_{h}$,
 								using the exact initial conditions and boundary conditions, as opposed
 								to the noisy data used to compute control parameters. The state of
 								the system and boundary conditions at $t+T_{u}$ are then estimated
 								(with noise) and the process is repeated.
 																
-								A non-negative\emph{ noise factor} is used to study how the adjoint
-								method and Alinea perform as the quality of estimated data decreases.
-								The noise factor can be summarized as follows:
-																
+								A non-negative\emph{ noise factor}, $\noiseFactor \in \Rbb_+$, is used to study how the adjoint
+								method and Alinea perform as the quality of estimated data decreases. If $\density$ is the actual density for a cell and timestep, then the density $\bar{\density}$ passed to the control schemes is given by:
 								\[
-									\bar{\discrete{}{}}=\discrete{}{}*(1+noise\_factor*R)
+									\bar{\discrete{}{}}=\discrete{}{}*(1+\noiseFactor*R)
 								\]
-																
-																
 								where $R$ is a uniformly distributed random variable with mean $0$
 								and domain $\left[-0.5,0.5\right]$. The noise factor was applied
 								to both initial and boundary conditions.
