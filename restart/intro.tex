@@ -110,14 +110,17 @@ The present article develops a framework for efficient control of discretized
 conservation law PDE networks using the adjoint 
 method~\cite{Giles2000,Pironneau1974} via Godunov 
 discretization~\cite{godunov1959}, while detailing its application to 
-coordinated ramp metering on freeway networks. Note that the method can be extended without significant difficulty to other numerical schemes commonly used to discretize hyperbolic PDEs. We show how the complexity of 
+coordinated ramp metering on freeway networks. Note that the method can be 
+extended without significant difficulty to other numerical schemes commonly 
+used to discretize hyperbolic PDEs. We show how the complexity of 
 the gradient computation in nonlinear optimal control problems can be greatly 
 decreased by using the discrete adjoint method and exploiting the decoupling 
 nature of the problem's network structure, leading to efficient gradient 
 descent methods. After giving a general framework for computing the gradient 
 over the class of scalar conservation law networks, we show that the system's 
 partial derivatives have a sparsity structure resulting in gradient computation 
-times linear in the number of state and control variables for networks of small vertex degree. The results are 
+times linear in the number of state and control variables for networks of small 
+vertex degree. The results are 
 demonstrated by running a coordinated ramp metering strategy on a 19 mile 
 freeway stretch in California faster than real-time, while giving traffic 
 performance superior to that of state of the art practicioners tools.
