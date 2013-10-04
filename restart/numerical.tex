@@ -177,8 +177,8 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								the system and boundary conditions at $t+T_{u}$ are then estimated
 								(with noise) and the process is repeated.
 																
-								A non-negative\emph{ noise factor}, $\noiseFactor \in \Rbb_+$, is used to study how the adjoint
-								method and Alinea perform as the quality of estimated data decreases. If $\density$ is the actual density for a cell and timestep, then the density $\bar{\density}$ passed to the control schemes is given by:
+								A non-negative\emph{ noise factor}, $\noiseFactor \in \R_+$, is used to study how the adjoint
+								method and Alinea perform as the quality of estimated data decreases. If $\discrete{}{}$ is the actual density for a cell and timestep, then the density $\bar{\discrete{}{}}$ passed to the control schemes is given by:
 								\[
 									\bar{\discrete{}{}}=\discrete{}{}*(1+\noiseFactor*R)
 								\]
