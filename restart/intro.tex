@@ -62,13 +62,15 @@ to such problems as open water state estimation~\cite{Castaings2006,Strub2009}
 and freeway traffic state estimation~\cite{Jacqueta}.
 
 Since conservation laws may be nonlinear by nature and lead to nonconvex or 
-nonlinear formulations, fewer efficient optimization techniques exist for the 
+nonlinear formulations of the corresponding optimization problem, fewer 
+efficient optimization techniques exist for the 
 discretized version of these problems than for convex problems for example. One 
 approach is to approximate the system with a ``linearized'' version in order to 
-use very efficient linear programming techniques. In transportation, by 
+use efficient linear programming techniques. In transportation, by 
 relaxing the Godunov discretization scheme, the linearization approach was used 
 in~\cite{gomes2006optimal} for optimal ramp metering, and 
-in~\cite{ziliaskopoulos2000linear} for optimal route assignment. The ramp 
+in~\cite{ziliaskopoulos2000linear} for optimal route assignment which is exact 
+when the relaxation gap can be shown to be zero. The ramp 
 metering technique in~\cite{Muralidharana} uses an additional control parameter 
 (variable speed limits) to mimic the linearized freeway dynamics. While the 
 upside of these methods is reduced computational complexity and the guarantee 
@@ -82,11 +84,13 @@ approach leads to more expensive optimization algorithms, such as gradient
 descent, and no guarantee of finding a global optimum. The difficulty in this 
 approach comes in the computation of the gradient, which, if using finite 
 differences, requires a full forward-simulation for each perturbation of a 
-control parameter. This approach is taken in~\cite{Ramon2013,Frejo2011} for 
-computing decentralized ramp metering strategies, and is shown to be infeasible 
-for realistic network sizes.
+control parameter. This approach is taken in~\cite{Ramon2013,Frejo2011} to 
+compute several types of decentralized ramp metering strategies. The increased 
+complexity of the finite differences approach for each additional control 
+parameter makes the method unsuitable for real-time application on 
+moderately-sized freeway networks.
 
-Ramp metering is a popular freeway control strategy, providing a means of 
+Ramp metering is a common freeway control strategy, providing a means of 
 dynamically controlling freeway throughput without directly impeding mainline 
 flow or implementing complex tolling systems. While metering strategies have 
 been developed using microscopic models~\cite{Ben-Akiva2003}, most strategies 
@@ -102,21 +106,21 @@ finite time horizon. Predictive methods are often embedded within a model
 predictive control loop to handle uncertainties in the boundary data and 
 cumulative model errors~\cite{Muralidharana}.
 
-This article develops a framework for efficient control of discretized 
+The present article develops a framework for efficient control of discretized 
 conservation law PDE networks using the adjoint 
 method~\cite{Giles2000,Pironneau1974} via Godunov 
 discretization~\cite{godunov1959}, while detailing its application to 
-coordinated ramp metering on freeway networks. We show how the complexity of 
+coordinated ramp metering on freeway networks. Note that the method can be extended without significant difficulty to other numerical schemes commonly used to discretize hyperbolic PDEs. We show how the complexity of 
 the gradient computation in nonlinear optimal control problems can be greatly 
 decreased by using the discrete adjoint method and exploiting the decoupling 
 nature of the problem's network structure, leading to efficient gradient 
 descent methods. After giving a general framework for computing the gradient 
 over the class of scalar conservation law networks, we show that the system's 
 partial derivatives have a sparsity structure resulting in gradient computation 
-times linear in the number of state and control variables. The results are 
+times linear in the number of state and control variables for networks of small vertex degree. The results are 
 demonstrated by running a coordinated ramp metering strategy on a 19 mile 
-freeway stretch in California in a fraction of real-time, while giving traffic 
-performance superior to that of popular alternative metering algorithms.
+freeway stretch in California faster than real-time, while giving traffic 
+performance superior to that of state of the art practicioners tools.
 
 The article is organized as follows. Section~\ref{sec:Preliminaries} gives an 
 overview of scalar conservation law networks and their discretization via the 
