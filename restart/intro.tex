@@ -2,37 +2,31 @@
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-% section introduction (end)
-Networks of scalar conservation law \textit{partial differential 
-equations}~(PDEs) are an efficient framework for modeling physical phenomena, 
-such as gas pipeline flow~\cite{Rothfarb1970}, supply 
-chain~\cite{Brunnermeier1999}, water distribution~\cite{Nguyen}, or freeway 
-traffic evolution~\cite{garavello2006traffic,work2010traffic}. Optimization and 
-control of these networks is an active field of 
-research~\cite{Gugat2005,Bayen2006,Kotsialos2004}. More generally, many 
-techniques for control and stabilization of distributed parameter systems have 
-been studied, e.g. model reference adaptive control for system 
-identification~\cite{Bohm1998}, backstepping method for stabilization of 
-hyperbolic PDEs~\cite{Vazquez2011}, Lyapunov-based feedback laws for systems of 
-conservation laws~\cite{Coron2007a}, methods for finite horizon optimal 
-control~\cite{Fahroo2002}, and more specifically adjoint-based approaches to 
-optimal control of continuous~\cite{Reuther1996} and discretized 
-PDEs~\cite{Giles2000}.
+% section introduction (end) Networks of one-dimensional conservation laws,
+described by systems of nonlinear first-order hyperbolic \textit{partial
+differential equations}~(PDEs), are an efficient framework for modeling
+physical phenomena,  such as gas pipeline flow~\cite{Rothfarb1970}, supply
+chain~\cite{Brunnermeier1999}, water distribution~\cite{Nguyen}, or freeway
+traffic evolution~\cite{garavello2006traffic,work2010traffic}. Optimization
+and  control of these networks is an active field of
+research~\cite{Gugat2005,Bayen2006,Kotsialos2004}. More generally, numerous
+techniques exist for the control of conservation laws, such as, for example,
+backstepping~\cite{Vazquez2011}, Lyapunov-based methods~\cite{Coron2013}, and
+optimal control methods~\cite{Jacquet2006}.
 
-The adjoint method, as used in the optimization and estimation of 
-PDE-constrained systems, can be applied in various ways depending on the 
-framework of interest (PDE, discretization of the PDE, or code implementing the 
-discretization of the PDE. The continuous adjoint 
-method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on 
-the PDE and a so-called adjoint PDE system, which when solved can be used to 
-obtain an explicit 
-expression of the gradient of the underlying optimization problem. Conversely, 
-the discrete adjoint 
-method~\cite{Giles2000,Gugat2005,Kotsialos2004} first discretizes a 
-continuous-time PDE and then requires the solution of a set of linear equations 
-to solve for the gradient. Finally, a third approach exists, which uses 
-automatic differentiation techniques to automatically generate an adjoint 
-solver from the numerical representation of the forward 
+Another approach, known as the \textit{adjoint method}, as applied to optimal
+control and estimation of  PDE-constrained systems, can be applied in various
+ways depending on the  framework of interest (PDE, discretization of the PDE,
+or code implementing the  discretization of the PDE. The continuous adjoint
+method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on
+the PDE and a so-called adjoint PDE system, which when solved can be used to
+obtain an explicit  expression of the gradient of the underlying optimization
+problem. Conversely,  the discrete adjoint
+method~\cite{Giles2000,Gugat2005,Kotsialos2004} first discretizes a
+continuous-time PDE and then requires the solution of a set of linear
+equations  to solve for the gradient. Finally, a third approach exists, which
+uses  automatic differentiation techniques to automatically generate an
+adjoint  solver from the numerical representation of the forward
 system~\cite{Muller2005,Giering1998}.
 
 While the continuous adjoint formulation results in a compact formulation, 
