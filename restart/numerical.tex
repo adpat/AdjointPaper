@@ -74,12 +74,9 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 				under the described boundary conditions.
 				\begin{figure}[b]
 					\subfloat[Density profile. The units are the ratio of a link's vehicle density
-						to a link's critical density. Values less than 1 represent free flow,
-						while values greater than 1 represent congestion.\label{fig:Density-profile.}]{\includegraphics[width=0.45\columnwidth]{images/ncdensity}
+						to a link's jam density.\label{fig:Density-profile.}]{\includegraphics[width=0.45\columnwidth]{images/ncdensity}
 																
-								}\hfill{}\subfloat[Onramp queue profile in units of vehicles. The onramps are only present
-							at certain junctions, thus why the nonzero queue lengths are sparse
-							in this diagram.\label{fig:Density-profile.-2}]{\includegraphics[width=0.45\columnwidth]{images/ncqueue}
+								}\hfill{}\subfloat[Onramp queue profile in units of vehicles.\label{fig:Density-profile.-2}]{\includegraphics[width=0.45\columnwidth]{images/ncqueue}
 																		
 								}
 																
@@ -97,19 +94,18 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 														
 							The adjoint ramp metering algorithm is compared to the reactive Alinea
 							scheme, for which we assume that perfect boundary conditions and initial conditions
-							are available. The actual cost used to compare the performances of
-							the different methods is \emph{delay}, or the total travel time minus
-							the free-flow total travel time. The free-flow total travel time is
-							computed by assuming the critical density is infinite for all links,
-							thus no backwards moving congestion results from high density. The
-							delay gives an indication of how much improvement is possible, given
-							that total travel time cannot be zero at optimum.
-														
-														
+							are available. The metric we use to compare the different strategies is \emph{reduced-congestion} percentage, $\bar{c} \in \left(-\infty,100\right]$, which we define as:
+							\[
+							\bar{c} = 100 \left(1 - \frac{c_c}{c_{nc}}\right)
+							\], where $c_c, c_{nc} \in \mathbb{R}_+$ are the \emph{congestion} resulting from the \emph{control} and \emph{no-control} scenarios, respectively. We use the metric for congestion as defined in~\cite{Skabardonis2003}; for a given section of road $s$ and time period $t$, the congestion is given as
+							\[
+							c\left(s,t\right) = \sum_{\left(\sigma\in s, \tau\in t\right)} \max \left[\text{TTT}\left(\sigma,\tau\right) - \frac{\text{VMT}\left(\sigma, \tau\right)}{V_r}, 0\right]
+							\], where $\text{VMT}$ is total vehicle miles traveled, and $\text{TTT}$ is total travel time over the link $\sigma$ and time-step $\tau$. Since it is infeasible to compute the global optimum for all cases, a reduced congestion of 100\% serves as an upper bound on the possible amount of improvement.
+
 							\paragraph{Results.}
 														
 							\begin{figure}[t]
-								\subfloat[Density difference profile in units of vehicles per mile.\label{fig:long-sim-density}]{\includegraphics[width=0.45\columnwidth]{images/densdiff}
+								\subfloat[Density difference profile in units of \emph{change in density} from the control scenario to the no control scenario over the jam density of the link.\label{fig:long-sim-density}]{\includegraphics[width=0.45\columnwidth]{images/densdiff}
 																		
 									}\hfill{}\subfloat[Queue difference profile in units of vehicles.\label{fig:long-sim-queue}]{\includegraphics[width=0.45\columnwidth]{images/queuediff}
 																		
@@ -135,7 +131,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								\begin{centering}
 									\includegraphics[width=0.65\columnwidth]{images/longsim}
 									\par\end{centering}
-									\caption{Performance versus simulation time for freeway network. The results
+									\caption{Reduced congestion versus simulation time for freeway network. The results
 										indicate that the algorithm can run with performance better than Alinea
 										if given an update time around 15 minutes.}\label{fig:running-time}
 								\end{figure}
@@ -195,13 +191,13 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 									finished in the pre-determined update time $T_{u}$.
 									\item \textbf{Noise Robustness}: MPC is for over a synthetic network with
 									length 5 miles and boundary conditions over 50 minutes. The experiments
-									are run over a profile of noise factors between 1\% and 200\%.
+									are run over a profile of noise factors between 1\% and 1000\%.
 								\end{enumerate}
 																
 								\paragraph{Results}
 																
 																
-								\subparagraph{Real-time I15 South}
+								\subparagraph{Real-time I15 South.}
 																
 								The results are summarized in Figure~\ref{fig:MPC-performance-on}.
 								The adjoint method applied once to the entire horizon with perfect
@@ -209,26 +205,23 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								for the other simulations, which had noisy input data and limited
 								knowledge of predicted boundary conditions. The adjoint method still
 								performs well under the more realistic conditions of the MPC loop
-								with noise, resulting in 75\% delay as compared to the no control
-								scenario as compared to the 71\% delay achieved by the perfect-knowledge
-								adjoint control. Alinea performed worse than adjoint method, only
-								achieving a 95\% delay as compared to no control. The results indicate
+								with noise, resulting in 20\% reduced congestion (in relation to no control) as compared to the 30\% reduced congestion achieved by the adjoint method with no noise and full time horizon ($T_h=T$). \textbf{These numbers need to be updated when simulations are completed.} In comparison, the Alinea method was only able to achieve 4\% reduced congestion for both the noisy and no-noise scenarios. The results indicate
 								that under a realistic assumption of a 2\% noise factor in the sensor
 								information, the ability to consider boundary conditions in producing
 								ramp metering policies as an improvement upon strictly reactive policies,
 								such as Alinea.
 																
 								\begin{figure}
-									\subfloat[Percentage decrease in delay.\label{fig:MPC-performance-on}]{\includegraphics[width=0.45\columnwidth]{images/longmpc}
+									\subfloat[Reduced congestion.\label{fig:MPC-performance-on}]{\includegraphics[width=0.45\columnwidth]{images/longmpc}
 																				
-										}\hfill{}\subfloat[Performance with increasing sensor noise.\label{fig:Ramp-metering-performance-1}]{\includegraphics[width=0.45\columnwidth]{images/noiseplot}
+										}\hfill{}\subfloat[Reduced congestion with increasing sensor noise.\label{fig:Ramp-metering-performance-1}]{\includegraphics[width=0.45\columnwidth]{images/noiseplot}
 									}
 									\caption{Summary of ramp metering simulations on I15 South netowrks.}
 								\end{figure}
 																
 																
 																
-								\subparagraph{Robustness to noise}
+								\subparagraph{Robustness to noise.}
 																
 								Simulation results on the synthetic network with varying levels of
 								noise are shown in Figure~\ref{fig:Ramp-metering-performance-1}.
