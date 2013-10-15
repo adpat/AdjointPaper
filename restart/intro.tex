@@ -15,10 +15,10 @@ techniques exist for the control of conservation laws, such as, for example,
 backstepping~\cite{Vazquez2011}, Lyapunov-based methods~\cite{Coron2013}, and
 optimal control methods~\cite{Jacquet2006}.
 
-Another approach, known as the \textit{adjoint method}, as applied to optimal
+One such approach approach, known as the \textit{adjoint method}, as applied to optimal
 control and estimation of  PDE-constrained systems, can be applied in various
 ways depending on the  framework of interest (PDE, discretization of the PDE,
-or code implementing the  discretization of the PDE. The continuous adjoint
+or code implementing the  discretization of the PDE). The continuous adjoint
 method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on
 the PDE and a so-called adjoint PDE system, which when solved can be used to
 obtain an explicit  expression of the gradient of the underlying optimization
@@ -43,8 +43,8 @@ regularity of the solution~\cite{work2010traffic,garavello2006traffic} which
 makes the formal definition of the adjoint problem more difficult.
 The discrete adjoint approach derives the gradient directly from the 
 discretized system, thus avoiding working directly with weak boundary 
-conditions in the continuous system. Automatic differentiation techniques can 
-simplify the repetetive 
+conditions in the continuous system~\cite{work2010traffic,garavello2006traffic,strub2006weak}.
+Automatic differentiation techniques can simplify the repetetive 
 steps of the discrete adjoint derivation, but sometimes at the cost of 
 sub-optimal code implementations with respect to memory and CPU 
 consumption~\cite{Giles}. A more-detailed analysis of the trade-offs associated 
@@ -66,7 +66,7 @@ Since conservation laws may be nonlinear by nature and lead to nonconvex or
 nonlinear formulations of the corresponding optimization problem, fewer 
 efficient optimization techniques exist for the 
 discretized version of these problems than for convex problems for example. One 
-approach is to approximate the system with a ``linearized'' version in order to 
+approach is to approximate the system with a ``relaxed'' version in order to 
 use efficient linear programming techniques. In transportation, by 
 relaxing the Godunov discretization scheme, the linearization approach was used 
 in~\cite{gomes2006optimal} for optimal ramp metering, and 
@@ -126,7 +126,7 @@ demonstrated by running a coordinated ramp metering strategy on a 19 mile
 freeway stretch in California faster than real-time, while giving traffic 
 performance superior to that of state of the art practicioners tools.
 
-The article is organized as follows. Section~\ref{sec:Preliminaries} gives an 
+The rest of the article is organized as follows. Section~\ref{sec:Preliminaries} gives an 
 overview of scalar conservation law networks and their discretization via the 
 Godunov method, while introducing the nonlinear, finite-horizon optimal control 
 problem. Section~\ref{sec:Adjoint-method} details the adjoint method derivation 

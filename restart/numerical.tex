@@ -20,6 +20,9 @@ as comparisons, two other case scenarios were run:
 	scales exponentially with the number of onramps, rendering it infeasible
 	for moderate-size freeway networks.
 \end{enumerate}
+
+\textbf{Note: } All simulations were run on a 2012 commercial laptop with 8 GB of RAM and a dual-core 1.8 GHz Intel Core i5 processor.
+
 \textbf{Note: } To demonstrate the reduced computation time associated with the adjoint approach, we also implemented gradient descent using a finite differences approach to compute the gradient, similar to~\cite{Frejo2011,Ramon2013}, but it proved to be computationally infeasible for even small, synthetic
 networks. Running ramp metering on even a network of 4 links over
 6 time-steps for 5 gradient steps took well over 4 minutes,
@@ -31,11 +34,11 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 		\includegraphics[width=0.5\columnwidth]{images/itergrad}
 		\par\end{centering}
 				
-		\caption{Running time of metering algorithm with and without gradient computations.
+		\caption{Running time of metering algorithm using descent algorithms with and without gradient information.
 			Network consists of 4 links and 6 time-steps with synthetic boundary
-			flux data. The method using gradient computations via the adjoint
-			method converged well before the first step was completed with the
-			method that used perturbations to compute the gradient.\label{fig:Running-time-of}}
+			flux data. The method using gradient information via the adjoint
+			method converged well before the completion of the \textit{first} step of the finite differences descent method.
+			\label{fig:Running-time-of}}
 		\end{figure}
 				
 				
@@ -44,10 +47,9 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 				
 		As input into the optimization problem, we constructed a model of
 		a \input{fwLength} stretch of the I15 South freeway in San Diego,
-		California between San Marcos and Mira Mesa.The network has $\nlinks=$
-		\input{fwNLinks} links, $\ncontrols=$\input{fwNRamps} onramps,
-		with boundary data specified for $\ntime=$ \input{fwNTime} time-steps,
-		for a time horizon of \input{fwTimeHorizon} given $\Delta t=$ \input{fwdt}.
+		California between San Marcos and Mira Mesa.The network has $\nlinks=125$ links, $\ncontrols=9$ onramps,
+		with boundary data specified for $\ntime=1800$ time-steps,
+		for a time horizon of 120 minutes given $\Delta t=$4 seconds.
 		The network is shown in Figure~\ref{fig:Model-of-section}.
 		\begin{figure}
 			\begin{centering}
@@ -96,11 +98,11 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 							scheme, for which we assume that perfect boundary conditions and initial conditions
 							are available. The metric we use to compare the different strategies is \emph{reduced-congestion} percentage, $\bar{c} \in \left(-\infty,100\right]$, which we define as:
 							\[
-							\bar{c} = 100 \left(1 - \frac{c_c}{c_{nc}}\right)
-							\], where $c_c, c_{nc} \in \mathbb{R}_+$ are the \emph{congestion} resulting from the \emph{control} and \emph{no-control} scenarios, respectively. We use the metric for congestion as defined in~\cite{Skabardonis2003}; for a given section of road $s$ and time period $t$, the congestion is given as
+							\bar{c} = 100 \left(1 - \frac{c_\text{c}}{c_{\text{nc}}}\right)
+							\]where $c_\text{c}, c_{\text{nc}} \in \mathbb{R}_+$ are the \emph{congestion} resulting from the \emph{control} and \emph{no-control} scenarios, respectively. We use the metric for congestion as defined in~\cite{Skabardonis2003}; for a given section of road $S$ and time period $T$, the congestion is given as
 							\[
-							c\left(s,t\right) = \sum_{\left(\sigma\in s, \tau\in t\right)} \max \left[\text{TTT}\left(\sigma,\tau\right) - \frac{\text{VMT}\left(\sigma, \tau\right)}{V_r}, 0\right]
-							\], where $\text{VMT}$ is total vehicle miles traveled, and $\text{TTT}$ is total travel time over the link $\sigma$ and time-step $\tau$. Since it is infeasible to compute the global optimum for all cases, a reduced congestion of 100\% serves as an upper bound on the possible amount of improvement.
+							c\left(S,T\right) = \sum_{\left(s\in S, \tau\in T\right)} \max \left[\text{TTT}\left(s,\tau\right) - \frac{\text{VMT}\left(s, \tau\right)}{V_r}, 0\right]
+							\] where $\text{VMT}$ is total vehicle miles traveled, and $\text{TTT}$ is total travel time over the link $s$ and time-step $\tau$. Since it is infeasible to compute the global optimum for all cases, a reduced congestion of 100\% serves as an upper bound on the possible amount of improvement.
 
 							\paragraph{Results.}
 														
@@ -115,7 +117,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 									by the mainly negative differences in the mainline densities and the
 									mainly positive differences in the onramp queue lengths, the adjoint
 									ramp metering algorithm effectively limits onramp flows in order to
-									reduce mainly congestion.\label{fig:long-sim}}
+									reduce mainly congestion. \textit{Best viewed in color.}\label{fig:long-sim}}
 							\end{figure}
 														
 														
@@ -156,7 +158,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 																
 								To study the performance of the algorithm under noisy input data,
 								we embed both our adjoint ramp metering algorithm and the Alinea algorithm
-								inside of a \emph{Model predictive control }(MPC) loop.
+								inside of a \emph{model predictive control }(MPC) loop.
 																
 																
 								\paragraph{Experimental setup.}
@@ -176,7 +178,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								A non-negative\emph{ noise factor}, $\noiseFactor \in \R_+$, is used to study how the adjoint
 								method and Alinea perform as the quality of estimated data decreases. If $\discrete{}{}$ is the actual density for a cell and timestep, then the density $\bar{\discrete{}{}}$ passed to the control schemes is given by:
 								\[
-									\bar{\discrete{}{}}=\discrete{}{}*(1+\noiseFactor*R)
+								\bar{\discrete{}{}}=\discrete{}{}\cdot \left(1+\noiseFactor\cdot R\right)
 								\]
 								where $R$ is a uniformly distributed random variable with mean $0$
 								and domain $\left[-0.5,0.5\right]$. The noise factor was applied
@@ -185,17 +187,16 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								Two different experiments were conducted:
 								\begin{enumerate}
 									\item \textbf{Real-time I15 South}: MPC is run for the I15 South network
-									with $T_{h}=27$ minutes and $T_{u}=14$ minutes. A noise factor of
+									with $T_{h}=80$ minutes and $T_{u}=26$ minutes. A noise factor of
 									2\% was chosen for the initial and boundary conditions. The number
 									of iterations was chosen in order to ensure that each MPC iteration
 									finished in the pre-determined update time $T_{u}$.
 									\item \textbf{Noise Robustness}: MPC is for over a synthetic network with
-									length 5 miles and boundary conditions over 50 minutes. The experiments
-									are run over a profile of noise factors between 1\% and 1000\%.
+									length 12 miles and boundary conditions over 75 minutes. The experiments
+									are run over a profile of noise factors between 1\% and 8000\%.
 								\end{enumerate}
 																
 								\paragraph{Results}
-																
 																
 								\subparagraph{Real-time I15 South.}
 																
@@ -205,7 +206,7 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 								for the other simulations, which had noisy input data and limited
 								knowledge of predicted boundary conditions. The adjoint method still
 								performs well under the more realistic conditions of the MPC loop
-								with noise, resulting in 20\% reduced congestion (in relation to no control) as compared to the 30\% reduced congestion achieved by the adjoint method with no noise and full time horizon ($T_h=T$). \textbf{These numbers need to be updated when simulations are completed.} In comparison, the Alinea method was only able to achieve 4\% reduced congestion for both the noisy and no-noise scenarios. The results indicate
+								with noise, resulting in 2\% reduced congestion or 40 car-hours in relation to no control, as compared to the 3\% reduced (60 car-hours) congestion achieved by the adjoint method with no noise and full time horizon ($T_h=T$). In comparison, the Alinea method was only able to achieve 1.5\% reduced congestion (30 car-hours) for both the noisy and no-noise scenarios. The results indicate
 								that under a realistic assumption of a 2\% noise factor in the sensor
 								information, the ability to consider boundary conditions in producing
 								ramp metering policies as an improvement upon strictly reactive policies,
@@ -213,13 +214,10 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 																
 								\begin{figure}
 									\subfloat[Reduced congestion.\label{fig:MPC-performance-on}]{\includegraphics[width=0.45\columnwidth]{images/longmpc}
-																				
 										}\hfill{}\subfloat[Reduced congestion with increasing sensor noise.\label{fig:Ramp-metering-performance-1}]{\includegraphics[width=0.45\columnwidth]{images/noiseplot}
 									}
 									\caption{Summary of ramp metering simulations on I15 South netowrks.}
 								\end{figure}
-																
-																
 																
 								\subparagraph{Robustness to noise.}
 																
