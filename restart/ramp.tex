@@ -116,11 +116,11 @@ the split ratio to 1.
 			the downstream flux. This formulation results in ``strong'' boundary
 			conditions at the onramps which guarantees all demand enters the network.
 			Details on weak versus strong boundary conditions can be found in
-			\cite{Monache2013,Walid,strub2006weak,work2010traffic}.
+			\cite{Monache2013,strub2006weak,work2010traffic}.
 						
-			The onramp model in~\eqref{eq:onramp-update} differs from~\cite{Monache2013,Walid}
+			The onramp model in~\eqref{eq:onramp-update} differs from~\cite{Monache2013}
 			in that we model the onramp as a discretized PDE with an infinite
-			critical density, while~\cite{Monache2013,Walid} models the onramp
+			critical density, while~\cite{Monache2013} models the onramp
 			as an ODE ``buffer''. While both models implement strong boundary
 			conditions, the discretized PDE model makes the freeway network more
 			aligned with the PDE network framework presented in this article.
@@ -130,7 +130,7 @@ the split ratio to 1.
 						
 			For the ramp metering problem, there are many potential Riemann solvers
 			that satisfy the properties required in Section~\ref{sub:Network-of-PDE's}.
-			Following the model of \cite{Walid,ML}, for each junction $\jup{2\link}$,
+			Following the model of \cite{Monache2013}, for each junction $\jup{2\link}$,
 			we add two modeling decisions:
 			\begin{enumerate}
 				\item The flux solution maximizes the outgoing mainline flux $\fin{2\link}{\tind}$.

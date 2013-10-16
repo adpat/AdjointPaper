@@ -20,8 +20,7 @@ as comparisons, two other case scenarios were run:
 	scales exponentially with the number of onramps, rendering it infeasible
 	for moderate-size freeway networks.
 \end{enumerate}
-
-\textbf{Note: } All simulations were run on a 2012 commercial laptop with 8 GB of RAM and a dual-core 1.8 GHz Intel Core i5 processor.
+All simulations were run on a 2012 commercial laptop with 8 GB of RAM and a dual-core 1.8 GHz Intel Core i5 processor.
 
 \textbf{Note: } To demonstrate the reduced computation time associated with the adjoint approach, we also implemented gradient descent using a finite differences approach to compute the gradient, similar to~\cite{Frejo2011,Ramon2013}, but it proved to be computationally infeasible for even small, synthetic
 networks. Running ramp metering on even a network of 4 links over
@@ -99,10 +98,10 @@ Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in f
 							are available. The metric we use to compare the different strategies is \emph{reduced-congestion} percentage, $\bar{c} \in \left(-\infty,100\right]$, which we define as:
 							\[
 							\bar{c} = 100 \left(1 - \frac{c_\text{c}}{c_{\text{nc}}}\right)
-							\]where $c_\text{c}, c_{\text{nc}} \in \mathbb{R}_+$ are the \emph{congestion} resulting from the \emph{control} and \emph{no-control} scenarios, respectively. We use the metric for congestion as defined in~\cite{Skabardonis2003}; for a given section of road $S$ and time period $T$, the congestion is given as
+							\]where $c_\text{c}, c_{\text{nc}} \in \mathbb{R}_+$ are the \emph{congestion} resulting from the \emph{control} and \emph{no-control} scenarios, respectively. We use the metric for congestion as defined in~\cite{Skabardonis2003}; for a given section of road $S$ and time horizon $T$, the congestion is given as
 							\[
-							c\left(S,T\right) = \sum_{\left(s\in S, \tau\in T\right)} \max \left[\text{TTT}\left(s,\tau\right) - \frac{\text{VMT}\left(s, \tau\right)}{V_r}, 0\right]
-							\] where $\text{VMT}$ is total vehicle miles traveled, and $\text{TTT}$ is total travel time over the link $s$ and time-step $\tau$. Since it is infeasible to compute the global optimum for all cases, a reduced congestion of 100\% serves as an upper bound on the possible amount of improvement.
+							c\left(S,T\right) = \sum_{\left(s\in S, \tau\in T\right)} \max \left[\text{TTT}\left(s,\tau\right) - \frac{\text{VMT}\left(s, \tau\right)}{v_s}, 0\right]
+							\] where $v_s$ is the free-flow velocity, $\text{VMT}$ is total vehicle miles traveled, and $\text{TTT}$ is total travel time over the link $s$ and time-step $\tau$. Since it is infeasible to compute the global optimum for all cases, a reduced congestion of 100\% serves as an upper bound on the possible amount of improvement.
 
 							\paragraph{Results.}
 														

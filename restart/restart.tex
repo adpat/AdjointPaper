@@ -1,5 +1,5 @@
 %!TEX root = restart.tex
-\documentclass[english]{article}
+\documentclass{article}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \usepackage{listings}
@@ -11,6 +11,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{esint}
+\usepackage[backend=biber,sorting=none,url=false, firstinits=true]{biblatex}
 
 \makeatletter
 
@@ -46,7 +47,6 @@
 \usepackage{subfig}
 \makeatother
 
-\usepackage{babel}
   \providecommand{\definitionname}{Definition}
   \providecommand{\notename}{Note}
   \providecommand{\propositionname}{Proposition}
@@ -54,6 +54,8 @@
 \providecommand{\theoremname}{Theorem}
 
 \DeclareMathOperator{\sgn}{sgn}
+
+\addbibresource{/Users/jdr/Documents/articles/AdjointPaper.bib}
 
 \begin{document}
 
@@ -65,9 +67,14 @@ law PDEs with applications to coordinated ramp metering}
 \maketitle
 \input{commands.tex}
 \input{abstract.tex}
-\input{intro.tex}\input{prelims.tex}\input{system.tex}\input{adjoint.tex}\input{ramp.tex}\input{numerical.tex}\input{conclusions.tex}
-\bibliographystyle{plain}
-\bibliography{/Users/jdr/Documents/articles/AdjointPaper}
+\input{intro.tex}
+\input{prelims.tex}
+\input{system.tex}
+\input{adjoint.tex}
+\input{ramp.tex}
+\input{numerical.tex}
+\input{conclusions.tex}
+\printbibliography
 \input{nomenclature.tex}
 
 \end{document}
