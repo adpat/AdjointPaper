@@ -77,7 +77,7 @@ under the described boundary conditions.
 \subfloat[Density profile. The units are the ratio of a link's vehicle density
 to a link's jam density.\label{fig:Density-profile.}]{\includegraphics[width=0.45\columnwidth]{images/ncdensity}
 								
-}\hfill{}\subfloat[Onramp queue profile in units of vehicles.\label{fig:Density-profile.-2}]{\includegraphics[width=0.45\columnwidth]{images/ncqueue}
+}\hfill{}\subfloat[On-ramp queue profile in units of vehicles.\label{fig:Density-profile.-2}]{\includegraphics[width=0.45\columnwidth]{images/ncqueue}
 										
 }
 								
@@ -175,7 +175,7 @@ the system and boundary conditions at $t+T_{u}$ are then estimated
 (with noise) and the process is repeated.
 								
 A non-negative\emph{ noise factor}, $\noiseFactor \in \R_+$, is used to study how the adjoint
-method and Alinea perform as the quality of estimated data decreases. If $\discrete{}{}$ is the actual density for a cell and timestep, then the density $\bar{\discrete{}{}}$ passed to the control schemes is given by:
+method and Alinea perform as the quality of estimated data decreases. If $\discrete{}{}$ is the actual density for a cell and time-step, then the density $\bar{\discrete{}{}}$ passed to the control schemes is given by:
 \[
 \bar{\discrete{}{}}=\discrete{}{}\cdot \left(1+\noiseFactor\cdot R\right)
 \]

@@ -17,20 +17,20 @@ while on-ramp $2\link-1\in\links,i\in\intrange 1{\nlinks}$ has a downstream
 junction $\jdown{2\link-1}=\jup{2\link}=\jdown{2\left(\link-1\right)}$
 and an upstream junction $\jup{2\link-1}$.
 
-The offramp directly downstream of link $2\link,i\in\intrange 1{\nlinks}$
+The off-ramp directly downstream of link $2\link,i\in\intrange 1{\nlinks}$
 has, at time-step $\tind$, a split ratio $\splitratio_{2\link}^{\tind}$
 representing the ratio of cars which stay on the freeway over the
 total cars leaving the upstream mainline of junction $\jdown{2\link}$.
 The model assumes that all flux from on-ramp $2\link-1$ enters downstream
 mainline $2\link$. Since $\jup 2$ is the source of the network,
-it has no upstream mainline or offramp, and similarly $\jdown{2\nlinks}$
+it has no upstream mainline or off-ramp, and similarly $\jdown{2\nlinks}$
 has no downstream mainline or on-ramp ($\splitratio_{2\nlinks}^{\tind}=0$).
 Each link $\link\in\links$ has a discretized state value $\densitydiscrete{\link}{\tind}\in\mathbb{R}$
 at each time-step $\tind\in\intrange 0{\ntime-1}$, that represents
 the density of vehicles on the link. These values are depicted in
 Figure~\ref{fig:Freeway-network-junction}. Junctions that have no
 on-ramps can be effectively represented by adding an on-ramp with no
-demand while junctions with no offramps can be represented by setting
+demand while junctions with no off-ramps can be represented by setting
 the split ratio to 1.
 \begin{figure}
 	\begin{centering}
@@ -42,12 +42,12 @@ the split ratio to 1.
 			density are represented by $\densitydiscrete{2\left(\link-1\right)}{\tind}$,
 			the downstream mainline density by $\densitydiscrete{2\link}{\tind}$,
 			the on-ramp density by $\densitydiscrete{2\link-1}{\tind}$, and the
-			offramp split ratio by $\splitratio_{2\left(\link-1\right)}^{\tind}$.\label{fig:Freeway-network-junction}}
+			off-ramp split ratio by $\splitratio_{2\left(\link-1\right)}^{\tind}$.\label{fig:Freeway-network-junction}}
 		\end{figure}
 				
 				
 		The vehicle flow dynamics on all links $\link$ (mainlines, on-ramps,
-		and offramps) are modeled using the conservation law governing the
+		and off-ramps) are modeled using the conservation law governing the
 		density evolution~\eqref{eq:cons}, where $\density$ is the
 		density state, and $f$ is the flux function (or fundamental diagram)
 		$f\left(\density\right)$. In the context of traffic, this model is
@@ -82,7 +82,7 @@ the split ratio to 1.
 			For notational simplicity we define the set of densities of links
 			incident to $\jup{2\link}=\jdown{2\left(\link-1\right)}$ at time-step
 			$\tind$ as $\juncstate{\jup{2\link}}{\tind}=\left\{ \discrete{2\left(\link-1\right)}{\tind},\discrete{2i-1}{\tind},\discrete{2\link}{\tind}\right\} $.
-			The offramp is considered to have infinite capacity, and thus has
+			The off-ramp is considered to have infinite capacity, and thus has
 			no bearing on the solution of junction problems. Initial conditions
 			are handled as in~\eqref{eq:init-ge}, while for $k\in\intrange 1{\ntime-1}$,
 			the mainline density $\discrete{2\link}{\tind}$ using the Godunov
@@ -201,10 +201,10 @@ the split ratio to 1.
 							For $\tind=0$, the update equation is given by a pre-specified initial
 							condition, as in~\eqref{eq:init-ge}. Note that the equations can
 							be solved sequentially via forward substitution. Also, we do not include
-							the flux result for offramps explicitly here since its value has no
+							the flux result for off-ramps explicitly here since its value has no
 							bearing on further calculations, and we will henceforth ignore its
 							calculation. To demonstrate that indeed the flux solution satisfies
-							the flux conservation property, the offramp flux is trivially determined
+							the flux conservation property, the off-ramp flux is trivially determined
 							to be $\splitratio_{2\left(\link-1\right)}^{\tind}\fout{2\left(\link-1\right)}{\tind}$.
 														
 														

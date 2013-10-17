@@ -8,7 +8,7 @@ In this article we focus on scalar hyperbolic conservation laws. In particular, 
 \begin{equation}
 	\partial_t\cvar\left(t,x\right)+\partial_x f\left(\cvar\left(t,x\right)\right)=0 \quad (t,x) \in \R^+ \times \R\label{eq:cons}
 \end{equation}
-where $\cvar=\cvar(t,x) \in \; \R^+$ is the scalar conserved quantity and $f:\R^+\rightarrow \R^+$ is the flux function. Throughout the article we suppose that $f$ is a stricly concave function. \\
+where $\cvar=\cvar(t,x) \in \; \R^+$ is the scalar conserved quantity and $f:\R^+\rightarrow \R^+$ is the flux function. Throughout the article we suppose that $f$ is a strictly concave function. \\
 The Cauchy problem to solve is then 
 \begin{equation}
 	\label{eq:CP}
@@ -219,7 +219,7 @@ gives a depiction of Riemann solution at the junction%
 			\item Compute the cell average at time $t^{\tind +1}$ in each computational cell and obtain $\dvar^{\tind +1}_{\xind}.$ 
 		\end{enumerate}
 				
-		We remark that waves in two neighbouring cells do not intersect before $\Delta t$ if the following Courant\textendash{}Friedrichs\textendash{}Lewy (CFL) condition holds:
+		We remark that waves in two neighboring cells do not intersect before $\Delta t$ if the following Courant\textendash{}Friedrichs\textendash{}Lewy (CFL) condition holds:
 		\begin{equation}\label{eq:CFL}
 			\lambda^{\max}\le\frac{\Delta x}{\Delta t},
 		\end{equation}
