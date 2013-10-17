@@ -34,11 +34,12 @@ auxclean: clean
 	rm -rf *synctex.gz
 	rm -rf *blg
 
-zip: tex
-	tar -zcvf $(ZIPFILE) ./
+zip: all
+	tar -czf $(ZIPFILE) .
 
 
 dumpzip: zip
+	make clean
 	rsync $(putswitches) $(switches) $(ZIPFILE) $(remoteuser)@$(remotehost):$(remotedir)$(sd)/
 
 figures: $(FIGS)
