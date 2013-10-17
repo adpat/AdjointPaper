@@ -235,36 +235,6 @@ gives a depiction of Riemann solution at the junction%
 			& \left(\discrete{\xind}{},\discrete{\xind+1}{}\right) & \mapsto\god\left(\discrete{\xind}{},\discrete{\xind+1}{}\right)=f(W_{R}(0;\discrete{\xind}{},\discrete{\xind+1}{})).
 		\end{eqnarray*}
 				
-				
-		%To approximate a hyperbolic PDE of the form in~(\eqref{eq:cons-smooth})
-		%with a discretization in both space and time, we use Godunov's scheme~\cite{godunov1959}.
-		%Given an initial condition that is piecewise-constant, Godunov's scheme
-		%gives a procedure to advance the system one time-step forward. Under
-		%suitable stability conditions, this process can be repeated \emph{ad
-		%infinum }by applying the scheme to the new condition generated from
-		%the previous time-step.
-				
-		%We define a numerical grid using the following notations 
-		%\begin{itemize}
-		%\item $\Delta x$ is the fixed space grid size,
-		%\item $\Delta t$ is the fixed time grid size, chosen with respect to the Courant\textendash{}Friedrichs\textendash{}Lewy (CFL) condition%
-		%\footnote{This method can be generalized to non-uniform grid sizes, but is chosen
-		%to be uniform to simplify notation%
-		%}, 
-		%\item $(t^{\tind},\xdis{\xind})=(k\Delta t,\xind\Delta x)$ for $\tind\in\mathbb{N}$
-		%and $\xind\in\mathbb{Z}$ grid points%
-		%\footnote{The CFL condition, $\lambda^{\max}\le\frac{\Delta x}{\Delta t}$,
-		%guarantees that the waves in two neighboring cells do not interact
-		%at the cell boundaries before $\Delta t$. Above $\lambda^{\max}=\underset{a}{\max}|f'\left(a\right)|$
-		%is the maximum absolute wave speed. We assume henceforth that this
-		%condition always holds for the chosen step sizes.%
-		%}. For a link $\link\in\links$ with space domain $\left(0,\length_{\link}\right)$,
-		%$\xind$ takes values in $\intrange 0{\length_{\link}^{\Delta}}$.
-		%\end{itemize}
-		%For a function $\dvar$ defined at the grid we write $\discrete{\xind}{\tind}=\dvar(t^{\tind},\xdis{\xind})$
-		%for $\tind,\xind$ varying on a subset of $\mathbb{N}$ and $\mathbb{Z}$.
-		%The space discretization scheme is depicted for a link $\link\in\links$
-		%in Figure~\ref{fig:Space-discretization-for}
 		\begin{figure}
 			\begin{centering}
 				\includegraphics[width=0.6\columnwidth]{figs-gen/dx}
@@ -275,31 +245,8 @@ gives a depiction of Riemann solution at the junction%
 								
 								
 				\end{figure}
-								
-				%Consider a hyperbolic equation together with an initial condition
-				%as expressed in~\eqref{eq:cauchy}. A solution of the discretized
-				%problem is constructed by taking a piecewise constant approximation
-				%of the initial data $\initvar{\dvar}^{\Delta}$ and then constructing
-				%the solution iteratively from the approximate initial data as in~\eqref{eq:godproj}.
-				%\begin{equation}
-				%\discrete{\xind}{\tind}\approxeq\dfrac{1}{\Delta x}\int_{\xdis{\xind-\frac{1}{2}}}^{\xdis{\xind+\frac{1}{2}}}\dvar^{\Delta}(t^{k},x)dx.\label{eq:godproj}
-				%\end{equation}
-				%
-				%
-				%where $\cvar^{\Delta}\left(t,x\right)$ is an exact solution of~\eqref{eq:cauchy}
-				%with initial condition $\initstate^{\Delta}$.
-				%
-				%Since $\cvar^{\Delta}$ in~\eqref{eq:godproj} is an exact solution
-				%of~(\eqref{eq:cons-smooth}) we can use the Gauss-Green formula to
-				%compute this value. Under the CFL condition, the solutions are locally
-				%given by the solutions of the Riemann problems and, in particular,
-				%the flux at $x=\xdis{\xind+\frac{1}{2}}$ for $t\in(t^{k},t^{k+1})$
-				%is given by 
-				%\[
-				%f(\cvar(t,\xdis{\xind}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
-				%\]
-				%This flux solution is depicted in Figure~\ref{fig:Self-similar-solution-for}
-				\begin{figure}
+
+				\begin{figure}[t]
 					\begin{centering}
 						\includegraphics[width=0.5\columnwidth]{figs-gen/dx-to-riemann}
 						\par\end{centering}
@@ -308,25 +255,7 @@ gives a depiction of Riemann solution at the junction%
 							The self-similar solution at $\frac{x}{t}=0$ for the top diagram
 							(i.e. $\ss 0{\discrete{\xind}{\tind}}{\discrete{\xind+1}{\tind}}$),
 							gives the flux solution to the discretized problem in the bottom diagram.\label{fig:Self-similar-solution-for}}
-						\end{figure}
-						%.The flux at $x=\xdis{\xind-\frac{1}{2}}$ for $t\in(t^{k},t^{k+1})$
-						%is given by 
-						%\[
-						%f(\cvar(t,\xdis{\xind-\frac{1}{2}}))=f(W_{R}(0;\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})).
-						%\]
-						%As the flux is constant at $x=0$ for the Riemann problem, we can
-						%put it out of the integral and, setting $\god(u,v)=f(W_{R}(0;u,v))$,
-						%the scheme can be written as 
-						%\begin{equation}
-						%\discrete{\xind}{\tind+1}=\discrete{\xind}{\tind}-\frac{\Delta t}{\Delta x}(\god(\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})-\god(\discrete{\xind-1}{\tind},\discrete{\xind}{\tind})),\label{eq:godscheme}
-						%\end{equation}
-						%where $g^{G}$ is the numerical flux:
-						%
-						%\begin{eqnarray*}
-						%\god: & \mathbb{R}\times\mathbb{R} & \rightarrow\mathbb{R}\\
-						% & \left(\discrete{\xind}{},\discrete{\xind+1}{}\right) & \mapsto\god\left(\discrete{\xind}{},\discrete{\xind+1}{}\right)=f(W_{R}(0;\discrete{\xind}{},\discrete{\xind+1}{}))
-						%\end{eqnarray*}
-												
+						\end{figure}												
 												
 												
 						\paragraph{Godunov scheme at junctions.\label{par:Godunov-scheme-at}}

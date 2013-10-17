@@ -9,11 +9,11 @@
 
 Consider a freeway section with links $\links=\intrange 1{2\nlinks}$
 with a linear sequence of mainline links $=\intrange{2,4}{2\nlinks}$
-and connecting onramp links $=\intrange{1,3}{2\nlinks-1}$. At discrete
+and connecting on-ramp links $=\intrange{1,3}{2\nlinks-1}$. At discrete
 time $t=\tind\Delta t,0\le\tind\le\ntime-1$, mainline link $2\link\in\links,i\in\intrange 1{\nlinks}$
 has a downstream junction $\jdown{2\link}=\jup{2\left(\link+1\right)}$
 and an upstream junction $\jup{2\link}=\jdown{2\left(\link-1\right)}$,
-while onramp $2\link-1\in\links,i\in\intrange 1{\nlinks}$ has a downstream
+while on-ramp $2\link-1\in\links,i\in\intrange 1{\nlinks}$ has a downstream
 junction $\jdown{2\link-1}=\jup{2\link}=\jdown{2\left(\link-1\right)}$
 and an upstream junction $\jup{2\link-1}$.
 
@@ -21,15 +21,15 @@ The offramp directly downstream of link $2\link,i\in\intrange 1{\nlinks}$
 has, at time-step $\tind$, a split ratio $\splitratio_{2\link}^{\tind}$
 representing the ratio of cars which stay on the freeway over the
 total cars leaving the upstream mainline of junction $\jdown{2\link}$.
-The model assumes that all flux from onramp $2\link-1$ enters downstream
+The model assumes that all flux from on-ramp $2\link-1$ enters downstream
 mainline $2\link$. Since $\jup 2$ is the source of the network,
 it has no upstream mainline or offramp, and similarly $\jdown{2\nlinks}$
-has no downstream mainline or onramp ($\splitratio_{2\nlinks}^{\tind}=0$).
+has no downstream mainline or on-ramp ($\splitratio_{2\nlinks}^{\tind}=0$).
 Each link $\link\in\links$ has a discretized state value $\densitydiscrete{\link}{\tind}\in\mathbb{R}$
 at each time-step $\tind\in\intrange 0{\ntime-1}$, that represents
 the density of vehicles on the link. These values are depicted in
 Figure~\ref{fig:Freeway-network-junction}. Junctions that have no
-onramps can be effectively represented by adding an onramp with no
+on-ramps can be effectively represented by adding an on-ramp with no
 demand while junctions with no offramps can be represented by setting
 the split ratio to 1.
 \begin{figure}
@@ -41,12 +41,12 @@ the split ratio to 1.
 			at time-step $\tind\in\intrange 0{\ntime-1}$, the upstream mainline
 			density are represented by $\densitydiscrete{2\left(\link-1\right)}{\tind}$,
 			the downstream mainline density by $\densitydiscrete{2\link}{\tind}$,
-			the onramp density by $\densitydiscrete{2\link-1}{\tind}$, and the
+			the on-ramp density by $\densitydiscrete{2\link-1}{\tind}$, and the
 			offramp split ratio by $\splitratio_{2\left(\link-1\right)}^{\tind}$.\label{fig:Freeway-network-junction}}
 		\end{figure}
 				
 				
-		The vehicle flow dynamics on all links $\link$ (mainlines, onramps,
+		The vehicle flow dynamics on all links $\link$ (mainlines, on-ramps,
 		and offramps) are modeled using the conservation law governing the
 		density evolution~\eqref{eq:cons}, where $\density$ is the
 		density state, and $f$ is the flux function (or fundamental diagram)
@@ -70,11 +70,11 @@ the split ratio to 1.
 			\end{wrapfigure}%
 						
 						
-			As control input, an onramp $2\link-1\in\links,\link\in\intrange 1{\nlinks}$
+			As control input, an on-ramp $2\link-1\in\links,\link\in\intrange 1{\nlinks}$
 			at time-step $k\in\intrange 0{\ntime-1}$ has a metering rate $\ramp_{2\link-1}^{\tind}\in\left[0,1\right]$
-			which limits the flux of vehicles leaving the onramp. Intuitively,
+			which limits the flux of vehicles leaving the on-ramp. Intuitively,
 			the metering rate acts as a fractional decrease in the flow leaving
-			the onramp and entering the mainline freeway. The domain of the metering
+			the on-ramp and entering the mainline freeway. The domain of the metering
 			control is to force the control to neither impose negative flows nor
 			send more vehicles than present in a queue. Its mathematical model
 			is expressed in~\eqref{eq:ramp-eqn}.
@@ -99,28 +99,28 @@ the split ratio to 1.
 			of the link, and $\fin{\link}{\tind}$ is the Godunov flux entering
 			the link at the upstream boundary.
 						
-			We also make the assumption that onramps have infinite capacity and
+			We also make the assumption that on-ramps have infinite capacity and
 			a free-flow velocity $\ffspeed_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
 			to prevent the ramp congestion from blocking demand from ever entering
-			the network. Since the onramp is has no physical length, the length
+			the network. Since the on-ramp is has no physical length, the length
 			is chosen arbitrarily and the ``virtual'' velocity chosen above
 			is chosen to replicate the dynamics in~\cite{Monache2013}. We can
-			then simplify the onramp update equation to be:
+			then simplify the on-ramp update equation to be:
 						
 			\begin{eqnarray}
-				\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:onramp-update}\\
+				\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:on-ramp-update}\\
 				& = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\fout{2\link-1}{\tind-1}-\boundaryDemand{2\link-1}{\tind-1}\right)=0
 			\end{eqnarray}
-			where $\boundaryDemand{2\link-1}{\tind-1}$ is the onramp \emph{flux
+			where $\boundaryDemand{2\link-1}{\tind-1}$ is the on-ramp \emph{flux
 			}demand, and the same notational simplification has been used for
 			the downstream flux. This formulation results in ``strong'' boundary
-			conditions at the onramps which guarantees all demand enters the network.
+			conditions at the on-ramps which guarantees all demand enters the network.
 			Details on weak versus strong boundary conditions can be found in
 			\cite{Monache2013,strub2006weak,work2010traffic}.
 						
-			The onramp model in~\eqref{eq:onramp-update} differs from~\cite{Monache2013}
-			in that we model the onramp as a discretized PDE with an infinite
-			critical density, while~\cite{Monache2013} models the onramp
+			The on-ramp model in~\eqref{eq:on-ramp-update} differs from~\cite{Monache2013}
+			in that we model the on-ramp as a discretized PDE with an infinite
+			critical density, while~\cite{Monache2013} models the on-ramp
 			as an ODE ``buffer''. While both models implement strong boundary
 			conditions, the discretized PDE model makes the freeway network more
 			aligned with the PDE network framework presented in this article.
@@ -169,18 +169,18 @@ the split ratio to 1.
 			in~\eqref{eq:merge}. The solutions are depicted in Figure~\ref{fig:Godunov-junction-flux},
 			which demonstrates how the flux solution depends upon the respective
 			demands and the merging parameter $p_{2\left(\link-1\right)}$. Finally,
-			Equation~(\eqref{eq:last-ramp}) gives the flux out of the onramp $2\link-1$,
+			Equation~(\eqref{eq:last-ramp}) gives the flux out of the on-ramp $2\link-1$,
 			which is the difference between the flux into link $2\link$ and the
 			flux out of link $2\left(\link-1\right)$ the remains on the mainline.
 			\begin{figure}
 				\subfloat[Case 1: Priority violated due to limited upstream mainline demand
 					entering downstream mainline.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-1}
 														
-							}\hfill{}\subfloat[Case 2: Priority violated due to limited onramp demand entering downstream
+							}\hfill{}\subfloat[Case 2: Priority violated due to limited on-ramp demand entering downstream
 						mainline.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-2-slim}
 																
 								}\hfill{}\subfloat[Case 3: Priority rule satisfied due to sufficient demand from both
-							mainline and onramp.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-3-slim}
+							mainline and on-ramp.]{\includegraphics[width=0.3\columnwidth]{figs-gen/flux-sln-3-slim}
 																		
 								}
 																
@@ -214,7 +214,7 @@ the split ratio to 1.
 							\paragraph{Optimal coordinated ramp-metering.}
 														
 							Including the initial conditions as specified in~\eqref{eq:init-ge}
-							with~\eqref{eq:rho-update} and~\eqref{eq:onramp-update} gives
+							with~\eqref{eq:rho-update} and~\eqref{eq:on-ramp-update} gives
 							a complete description of the system $\sys\left(\state,\control\right)=0$,
 							$\state\in\mathbb{R}^{2\nlinks}$, $\control\in\mathbb{R}$, where:
 														
