@@ -1,6 +1,6 @@
-
-PAPER	= restart.pdf
-SRC = restart.tex
+NAME = restart
+PAPER	= $(NAME).pdf
+SRC = $(NAME).tex
 UNOCONV	= unoconv -f pdf 
 PFIGS = $(wildcard presfigs-gen/*.pdf)
 FIGS = $(wildcard figs-gen/*.pdf)
@@ -10,7 +10,10 @@ ZIPFILE=paper.tar.gz
 all: $(PAPER)
 
 $(PAPER): figures presfigs $(SRC)
-	pdflatex $(SRC); pdflatex $(SRC); pdflatex $(SRC)
+	pdflatex $(NAME);
+	biber $(NAME)
+	pdflatex $(NAME);
+	pdflatex $(NAME)
 
 clean:
 	rm -f *~
@@ -20,9 +23,6 @@ clean:
 	rm -f *bbl
 	rm -f *blg
 	rm -rf *gz
-	sh breaker.sh intro.tex
-	sh breaker.sh conclusions.tex
-	sh breaker.sh abstract.tex
 	rm -f *bak*
 
 auxclean: clean
