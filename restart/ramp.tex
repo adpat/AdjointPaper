@@ -102,14 +102,14 @@ the split ratio to 1.
 			We also make the assumption that on-ramps have infinite capacity and
 			a free-flow velocity $\ffspeed_{2\link-1}=\frac{\length_{2\link-1}}{\Delta t}$
 			to prevent the ramp congestion from blocking demand from ever entering
-			the network. Since the on-ramp is has no physical length, the length
+			the network. Since the on-ramp has no physical length, the length
 			is chosen arbitrarily and the ``virtual'' velocity chosen above
 			is chosen to replicate the dynamics in~\cite{Monache2013}. We can
 			then simplify the on-ramp update equation to be:
 						
 			\begin{eqnarray}
-				\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:on-ramp-update}\\
-				& = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}+\frac{\Delta t}{\length_{2\link-1}}\left(\fout{2\link-1}{\tind-1}-\boundaryDemand{2\link-1}{\tind-1}\right)=0
+				\syseq_{2\link-1}^{\tind}(\state,\control) & = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}-\frac{\Delta t}{\length_{2\link-1}}\left(\left(\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind-1},\ramp_{2\link-1}^{\tind-1}\right)\right)_{2\link-1}-\boundaryDemand{2\link-1}{\tind-1}\right)\label{eq:on-ramp-update}\\
+				& = & \discrete{2\link-1}{\tind}-\discrete{2\link-1}{\tind-1}-\frac{\Delta t}{\length_{2\link-1}}\left(\fout{2\link-1}{\tind-1}-\boundaryDemand{2\link-1}{\tind-1}\right)=0
 			\end{eqnarray}
 			where $\boundaryDemand{2\link-1}{\tind-1}$ is the on-ramp \emph{flux
 			}demand, and the same notational simplification has been used for
@@ -158,9 +158,9 @@ the split ratio to 1.
 			\end{eqnarray}
 			where, for notational simplicity, at the edges of of the range for
 			$\link$, any undefined state values (e.g. $\densitydiscrete 0{\tind}$)
-			are assumed to be zero by convention. Equations~(\eqref{eq:first-ramp})
+			are assumed to be zero by convention. Equations~\eqref{eq:first-ramp}
 			and~\eqref{eq:ramp-eqn} determine the maximum flux that can exit
-			link $2(\link-1)$ and link $2\link-1$ respectively. Equation~(\eqref{eq:supply})
+			link $2(\link-1)$ and link $2\link-1$ respectively. Equation~\eqref{eq:supply}
 			gives the maximum flux allowed into link $2\link$. The actual flux
 			into link $2\link$, shown in~\eqref{eq:fin}, is given as the minimum
 			of the ``demand'' from upstream links and ``supply'' of the downstream
@@ -169,7 +169,7 @@ the split ratio to 1.
 			in~\eqref{eq:merge}. The solutions are depicted in Figure~\ref{fig:Godunov-junction-flux},
 			which demonstrates how the flux solution depends upon the respective
 			demands and the merging parameter $p_{2\left(\link-1\right)}$. Finally,
-			Equation~(\eqref{eq:last-ramp}) gives the flux out of the on-ramp $2\link-1$,
+			Equation~\eqref{eq:last-ramp} gives the flux out of the on-ramp $2\link-1$,
 			which is the difference between the flux into link $2\link$ and the
 			flux out of link $2\left(\link-1\right)$ the remains on the mainline.
 			\begin{figure}
@@ -228,7 +228,7 @@ the split ratio to 1.
 								time }on the network, expressed by the cost function $\cost$:
 														
 							\[
-								\cost\left(\state,\control\right)=\Delta t\sum_{k=1}^{T}\sum_{i=1}^{2\nlinks}L_{i}\densitydiscrete{\link}{\tind}
+								\cost\left(\state,\control\right)=\Delta t\sum_{k=1}^{T}\sum_{i=1}^{2\nlinks}L_{i}\densitydiscrete{\link}{\tind}.
 							\]
 														
 														
@@ -245,7 +245,7 @@ the split ratio to 1.
 							function~\cite{Boyd2010,Bayen2006}:
 														
 							\begin{equation}
-								\tilde{\cost}\left(\state,\control,\epsilon\right)=\cost\left(\state,\control\right)-\barrierTerm\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)\label{eq:full-tilde}
+								\tilde{\cost}\left(\state,\control,\epsilon\right)=\cost\left(\state,\control\right)-\barrierTerm\sum_{\convar\in\control}\log\left(\left(1-\convar\right)\left(\convar-0\right)\right)\label{eq:full-tilde}.
 							\end{equation}
 														
 														
@@ -258,9 +258,7 @@ the split ratio to 1.
 								\min_{\control} & \tilde{\cost}\left(\state,\control,\epsilon\right)\label{eq:full-1}\\
 								\text{subject to:} & \sys\left(\state,\control\right) & =0\nonumber 
 							\end{eqnarray}
-														
-														
-							with decreasing values of $\barrierTerm$. As a result, $\tilde{\cost}$
+with decreasing values of $\barrierTerm$. As a result, $\tilde{\cost}$
 							will approach $\cost$ as the number of iterations increases.
 														
 														
@@ -284,7 +282,7 @@ the split ratio to 1.
 							$\god_{\jup{2\link}}\left(\juncstate{\jup{2\link}}{\tind},\ramp_{2\link-1}^{\tind}\right)_{\text{}}$
 							with respect to the adjacent state variables $\juncstate{\jn_{\link}}{\tind}$
 							and ramp metering control $\ramp_{\link}^{\tind}$. We calculate the
-							partial derivatives of the functions in~(\eqref{eq:first-ramp})-(\eqref{eq:last-ramp})
+							partial derivatives of the functions in~\eqref{eq:first-ramp}-\eqref{eq:last-ramp}
 							with respect to either a state or control variable$s\in\state\cup\control$:
 														
 							\begin{eqnarray*}

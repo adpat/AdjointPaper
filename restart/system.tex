@@ -27,7 +27,7 @@ the same notation as before, we express the Riemann solver as:
 
 \begin{eqnarray*}
 	\RS_{\jn}: & \mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\times\mathbb{R}^{\ncontrols_{\jn}} & \rightarrow\mathbb{R}^{\ninc_{\jn}+\nout_{\jn}}\\
-	& \left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right) & \mapsto\RS_{\jn}\left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right)=\junctrace{\jn}{\tind}
+	& \left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right) & \mapsto\RS_{\jn}\left(\juncstate{\jn}{\tind},\junccon{\jn}{\tind}\right)=\junctrace{\jn}{\tind}.
 \end{eqnarray*}
 
 
@@ -42,10 +42,8 @@ update equation $\syseq_{\link}^{\tind}$:
 
 \begin{eqnarray*}
 	\syseq_{\link}^{\tind}: & \mathbb{R}^{\nlinks\ntime}\times\mathbb{R}^{\ncontrols\ntime} & \rightarrow\mathbb{R}\\
-	& \left(\state,\control\right) & \mapsto\syseq_{\link}^{\tind}\left(\state,\control\right)=0
+	& \left(\state,\control\right) & \mapsto\syseq_{\link}^{\tind}\left(\state,\control\right)=0.
 \end{eqnarray*}
-
-
 This takes the following form:
 
 \begin{eqnarray}

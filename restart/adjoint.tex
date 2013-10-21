@@ -1,4 +1,4 @@
-
+%!TEX root = restart.tex
 \section{Adjoint based flow optimization\label{sec:Adjoint-method}}
 
 
@@ -12,8 +12,6 @@ in $C^{2}$:
 	\cost: & \mathbb{R}^{\nlinks T}\times\mathbb{R}^{\ncontrols T} & \rightarrow\mathbb{R}\\
 	& \left(\state,\control\right) & \mapsto\cost\left(\state,\control\right)
 \end{eqnarray*}
-
-
 which returns a scalar that serves as a metric of performance of the
 state and control values of the system. We wish to minimize the quantity
 $\cost$ over the set of control parameters $\control$, while constraining
@@ -25,8 +23,6 @@ We summarize this with the following optimization problem:
 	\underset{\control}{\min} & \cost\left(\state,\control\right)\nonumber \\
 	\text{subject to:} & \sys\left(\state,\control\right)=0\label{eq:op-problem}
 \end{eqnarray}
-
-
 Both the cost function and governing equations may be non-convex in
 this problem.
 
@@ -46,7 +42,7 @@ a cost function, by coupling the gradient, which, at a nominal point
 $\left(\nominal{\state},\nominal{\control}\right)$ is given by:
 
 \begin{equation}
-	d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\cost\text{\ensuremath{\left(\state,\control\right)}}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\cost\text{\ensuremath{\left(\state,\control\right)}}}{\control}}{\nominal{\state},\nominal{\control}}\label{eq:j-v}
+	d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\cost\text{\ensuremath{\left(\state,\control\right)}}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\cost\text{\ensuremath{\left(\state,\control\right)}}}{\control}}{\nominal{\state},\nominal{\control}}\label{eq:j-v}.
 \end{equation}
 
 
@@ -56,7 +52,7 @@ with respect to $\control$ is equal to zero along trajectories of
 the system:
 
 \begin{equation}
-	d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\sys\text{\ensuremath{\left(\state,\control\right)}}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\sys\text{\ensuremath{\left(\state,\control\right)}}}{\control}}{\nominal{\state},\nominal{\control}}=0\label{eq:h-v}
+	d_{\control}\sys\left(\nominal{\state},\nominal{\control}\right)=\evaluate{\pfrac{\sys\text{\ensuremath{\left(\state,\control\right)}}}{\state}}{\nominal{\state},\nominal{\control}}\Dfrac{\state}{\control}+\evaluate{\pfrac{\sys\text{\ensuremath{\left(\state,\control\right)}}}{\control}}{\nominal{\state},\nominal{\control}}=0\label{eq:h-v}.
 \end{equation}
 
 
@@ -67,7 +63,7 @@ details provided in Section~\ref{sub:Evaluating--and}) and then
 treated as constant matrices. Thus, in order to evaluate $d_{\control}\cost\left(\nominal{\state},\nominal{\control}\right)\in\mathbb{R}^{\ncontrols\ntime}$,
 we must solve a coupled system of matrix equations.
 \begin{note}
-	In~\eqref{eq:h-v}, $\Hx$ and $\Hu$ might not necessarily by defined,
+	In~\eqref{eq:h-v}, $\Hx$ and $\Hu$ might not necessarily be defined,
 	either because $f$ itself is not smooth (note that we took $f$ to
 	be $C^{2}$ to avoid this problem), and/or because $\god$ is not
 	smooth. The derivations below are valid when the partials $\Hx$ and
@@ -83,8 +79,6 @@ in~\eqref{eq:h-v}, which we call the \emph{forward system}:
 \[
 	\Hx\Dfrac{\state}{\control}=-\Hu,
 \]
-
-
 then we can substitute the solved value for $\Dfrac{\state}{\control}$
 into~\eqref{eq:j-v} to obtain the full expression for the gradient.
 Section~\ref{sub:Evaluating--and} below gives details on the invertibility
@@ -94,7 +88,7 @@ of $\Hx$, guaranteeing a solution for $\Dfrac{\state}{\control}$.
 \paragraph{Adjoint system.\label{par:Adjoint-system}}
 
 Instead of evaluating $\Dfrac{\state}{\control}$ directly, the adjoint
-method instead solves the following system, called the adjoint system,
+method solves the following system, called the adjoint system,
 for a new unknown variable $\lambda\in\mathbb{R}^{\nlinks\ntime}$
 (called the adjoint variable):
 
@@ -116,7 +110,7 @@ and also define $\degree{\control}$ to be the maximum number of constraints
 that a single control variable appears in, which is equivalent to:
 
 \begin{equation}
-	\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\left(\ninc_{\jn}+\nout_{\jn}\right)\label{eq:dv}
+	\degree{\control}=\max_{\condiscrete{}{}\in\control}\sum_{\jn\in\jns:\condiscrete{}{}\in\junccon{\jn}{\tind}}\left(\ninc_{\jn}+\nout_{\jn}\right)\label{eq:dv}.
 \end{equation}
 
 
@@ -196,9 +190,7 @@ in Figure~\ref{fig:Depicting--and}
 		\begin{align}
 			\pfrac{\syseq_{\link}^{\tind}}{\discrete jl}=\pfrac{\discrete{\link}{\tind}}{\discrete jl}-\pfrac{\discrete{\link}{\tind-1}}{\discrete jl} & +\frac{\Delta t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\discrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\label{eq:dhdufull} \\
 			                                                                                                                                           & -\frac{\Delta t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\discrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\nonumber                       
-		\end{align}
-				
-				
+		\end{align}				
 		or if we consider the composed Riemann flux solver $\god_{\jn}$ in~\eqref{eq:god-jn}:
 				
 		\begin{equation}
@@ -224,19 +216,17 @@ in Figure~\ref{fig:Depicting--and}
 										
 										
 				\end{figure}
-				Similarly for $H_{v}$, we take a control parameter $\condiscrete jl\in\control$,
+				Similarly for $\Hu$, we take a control parameter $\condiscrete jl\in\control$,
 				and derive the expression:
 								
 				\begin{align}
 					\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}= & +\frac{\Delta t}{L_{i}}f'\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\condiscrete jl}\left(\RS_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)_{\link}\right)\label{eq:dhdvfull} \\
 					                                                 & -\frac{\Delta t}{L_{i}}f'\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\pfrac{}{\condiscrete jl}\left(\RS_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)_{\link}\right)\nonumber                       
 				\end{align}
-								
-								
-				or for the composed Godunov junction flux solver $\god_{\jn}$:
+or for the composed Godunov junction flux solver $\god_{\jn}$:
 								
 				\begin{equation}
-					\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}=\frac{\Delta t}{L_{i}}\left(\pfrac{}{\condiscrete jl}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\pfrac{}{\condiscrete jl}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right)\label{eqdhdvgod}
+					\pfrac{\syseq_{\link}^{\tind}}{\condiscrete jl}=\frac{\Delta t}{L_{i}}\left(\pfrac{}{\condiscrete jl}\left(\god_{\jdown{\link}}\left(\juncstate{\jdown{\link}}{\tind-1},\junccon{\jdown{\link}}{\tind-1}\right)\right)_{\link}-\pfrac{}{\condiscrete jl}\left(\god_{\jup{\link}}\left(\juncstate{\jup{\link}}{\tind-1},\junccon{\jup{\link}}{\tind-1}\right)\right)_{\link}\right)\label{eqdhdvgod}.
 				\end{equation}
 								
 								
@@ -300,7 +290,7 @@ in Figure~\ref{fig:Depicting--and}
 				term comes from solving~\eqref{eq:j-v}, which requires the solution
 				of $\ncontrols\ntime$ separate $\nlinks\ntime\times\nlinks\ntime$
 				lower-triangular systems. The lower-triangular system allows for forward
-				substitution, we can be solved in $O(\left(\nlinks\ntime\right)^{2})$
+				substitution, which can be solved in $O(\left(\nlinks\ntime\right)^{2})$
 				steps, giving the overall complexity $O(\left(\nlinks\ntime\right)^{2}\ncontrols\ntime)$.
 				The complexity of computing the gradient via the adjoint method is
 				$O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$,
