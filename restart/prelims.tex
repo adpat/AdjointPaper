@@ -2,7 +2,7 @@
 \section{Preliminaries\label{sec:Preliminaries}}
 
 
-\subsection{Conservation law PDEs\label{sub:Hyperbolic-PDE's}}
+\subsection{Conservation Law PDEs\label{sub:Hyperbolic-PDE's}}
 
 In this paper we focus on scalar hyperbolic conservation laws. In particular, we consider the non-linear transport equation of the form:
 \begin{equation}
@@ -149,19 +149,12 @@ $x<0$ is given by the solution to the following Riemann problem:
 \end{cases}
 \end{cases}\label{eq:riemann-problem}
 \end{equation}
-%which is essentially a Riemann problem with a ``virtual'' outgoing
-%link, used to compute the solution of the junction problem in the
-%incoming link near the junction.
 
 The Riemann problem for an outgoing link is defined similarly, with
 the exception that $\cvar_{\link}\left(0,x>0\right)=\initstate_{\link}$
 and $\cvar_{\link}\left(0,x\le0\right)=\trace{\cvar}_{\link}$. Fig.~\ref{fig:Solution-of-boundary}
 gives a depiction of Riemann solution at the junction.%
-%\footnote{The assumption of an unbounded spatial domain is to eliminate the
-%need to explicitly consider boundary conditions away from the junction,
-%and for each link, the solution near the junction generalizes to the
-%case when the spatial domain is bounded.%
-%}. 
+
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.5\columnwidth]{presentation/figs-gen/junctions-riemann-rs} 

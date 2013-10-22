@@ -15,43 +15,23 @@
 
 \makeatletter
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
-%% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
 \floatstyle{ruled}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\input{theorems}
+
 \newfloat{algorithm}{tbp}{loa}
 \providecommand{\algorithmname}{Algorithm}
 \floatname{algorithm}{\protect\algorithmname}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
-\theoremstyle{plain}
-\newtheorem{thm}{\protect\theoremname}
-  \theoremstyle{definition}
-  \newtheorem{defn}[thm]{\protect\definitionname}
-  \theoremstyle{remark}
-  \newtheorem{rem}[thm]{\protect\remarkname}
-  \theoremstyle{remark}
-  \newtheorem{note}[thm]{\protect\notename}
-  \theoremstyle{plain}
-  \newtheorem{prop}[thm]{\protect\propositionname}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 \usepackage{fullpage}
-\let\originalleft\left
-\let\originalright\right
-\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
-\renewcommand{\right}{\aftergroup\egroup\originalright}
 
-\@ifundefined{showcaptionsetup}{}{%
- \PassOptionsToPackage{caption=false}{subfig}}
 \usepackage{subfig}
-\makeatother
 
-  \providecommand{\definitionname}{Definition}
-  \providecommand{\notename}{Note}
-  \providecommand{\propositionname}{Proposition}
-  \providecommand{\remarkname}{Remark}
-\providecommand{\theoremname}{Theorem}
+\makeatother
 
 \DeclareMathOperator{\sgn}{sgn}
 
@@ -67,6 +47,7 @@ law PDEs with applications to coordinated ramp metering}
 \maketitle
 \input{commands.tex}
 \input{abstract.tex}
+\input{keywords}
 \input{intro.tex}
 \input{prelims.tex}
 \input{system.tex}

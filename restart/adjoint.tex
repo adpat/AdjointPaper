@@ -1,8 +1,8 @@
 %!TEX root = restart.tex
-\section{Adjoint based flow optimization\label{sec:Adjoint-method}}
+\section{Adjoint Based Flow Optimization\label{sec:Adjoint-method}}
 
 
-\subsection{Optimal control problem formulation\label{par:Optimization-Problem}}
+\subsection{Optimal Control Problem Formulation\label{par:Optimization-Problem}}
 
 In addition to our governing equations $\sys\left(\state,\control\right)=0$,
 we also introduce a cost function $\cost$, which we assume to be
@@ -27,7 +27,7 @@ Both the cost function and governing equations may be non-convex in
 this problem.
 
 
-\subsection{Calculating the gradient\label{par:Calculating-the-gradient}}
+\subsection{Calculating the Gradient\label{par:Calculating-the-gradient}}
 
 We wish to use gradient information in order to find control values
 $\control^{*}$ that give locally optimal costs $\cost^{*}=\cost\left(\state\left(\control^{*}\right),\control^{*}\right)$.
@@ -65,7 +65,7 @@ we must solve a coupled system of matrix equations.
 \begin{note}
 	In~\eqref{eq:h-v}, $\Hx$ and $\Hu$ might not necessarily be defined,
 	either because $f$ itself is not smooth (note that we took $f$ to
-	be $C^{2}$ to avoid this problem), and/or because $\god$ is not
+	be $C^{2}$ to avoid this problem), or because $\god$ is not
 	smooth. The derivations below are valid when the partials $\Hx$ and
 	$\Hu$ can indeed be taken. There are several settings in which the
 	conditions for differentiability are satisfied, see in particular~\cite{Gugat2005,Flasskamp2012}.
@@ -124,8 +124,6 @@ how the complexity of computing the gradient is reduced from $O(\degree{\state}\
 to $O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$
 by considering the adjoint method over the forward method.
 
-A graphical depiction of $D_{\state}$ and $D_{\control}$ are given
-in Fig.~\ref{fig:Depicting--and}
 \begin{figure}
 	\begin{centering}
 		\subfloat[\label{fig:genneta}]{\begin{centering}
@@ -157,7 +155,9 @@ in Fig.~\ref{fig:Depicting--and}
 			$A$ to junction $B$ is counted twice: once as an outgoing link $\vec{AB}$
 			and once as in incoming link $\vec{BA}$.\label{fig:Depicting--and}}
 		\end{figure}
-		.Freeway networks are usually considered to have topologies that are
+
+A graphical depiction of $D_{\state}$ and $D_{\control}$ are given
+in Fig.~\ref{fig:Depicting--and}. Freeway networks are usually considered to have topologies that are
 		nearly planar, leading to junctions degrees which typically do not
 		exceed 3 or 4, regardless of the total number of links. Also, from
 		the locality argument for control variables in Section~(\ref{sec:State,-control,-and}),
@@ -169,7 +169,7 @@ in Fig.~\ref{fig:Depicting--and}
 		method.
 				
 				
-		\subsection{Evaluating the partial derivatives\label{sub:Evaluating--and}}
+		\subsection{Evaluating the Partial Derivatives\label{sub:Evaluating--and}}
 				
 		While no assumptions are made about the sparsity of the cost function
 		$\cost$, the networked-structure of the PDE system and the Godunov
@@ -248,10 +248,13 @@ or for the composed Godunov junction flux solver $\god_{\jn}$:
 				problem of optimal ramp metering in Section~(\ref{sec:Applications-to-Optimal}).
 								
 								
-				\subsection{Complexity of solving gradient via forward method vs. adjoint method\label{sub:Complexity-of-solving}}
-								
-								
-				\paragraph{Structure and sparsity.\label{par:Structure-and-sparsity}}
+				\subsection{Complexity of Solving Gradient via Forward Method vs. Adjoint Method\label{sub:Complexity-of-solving}}
+
+				This section demostrates the following proposition:
+
+				\begin{prop}
+					\textup{The total complexity for the adjoint method on a scalar hyperbolic
+						network of PDEs is }$O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$.\end{prop}
 								
 				We can show the lower-triangular structure and invertibility of $\Hx$
 				by examining~\eqref{eq:init-ge} and~\eqref{eq:main-ge}. For $\tind\in\intrange 1{\ntime-1}$,
@@ -259,11 +262,11 @@ or for the composed Godunov junction flux solver $\god_{\jn}$:
 				and of the state variables from the previous time-step $\tind-1$.
 				Thus, based on our ordering scheme in Section~\ref{sec:State,-control,-and}
 				of ordering variables by increasing time-step and ordering constraints
-				by corresponding variable, we know for $\Hx$, diagonal terms are
+				by corresponding variable, we know that the diagonal terms of $\Hx$ are
 				always $1$ and all upper-triangular terms must be zero (since those
 				terms correspond to constraints with a dependence of \emph{future}
 				values). These two conditions demonstrate both that $\Hx$ is lower-triangular
-				and is also invertible due to the identity matrix block-diagonal terms.
+				and is invertible due to the ones along the diagonal.
 								
 				Additionally, if we consider taking partial derivatives with respect
 				to the variable $\discrete jl$, then we can deduce from Equation~\eqref{eq:main-ge}
@@ -274,12 +277,12 @@ or for the composed Godunov junction flux solver $\god_{\jn}$:
 				in Section~\ref{sec:State,-control,-and} will be square, invertible,
 				lower-triangular and each column will have a maximum cardinality equal
 				to $\degree{\state}$ in~\eqref{eq:dx}. The sparsity structure of
-				$\Hx$ is depicted in Fig.~(\ref{fig:sparsity-diagram}).
+				$\Hx$ is depicted in Fig.~\ref{fig:sparsity-diagram}.
 								
-				Using the same line of argument for maximum cardinality in $\Hx$,
+				Using the same line of argument for the maximum cardinality of $\Hx$,
 				we can bound the maximum cardinality of each column of $\Hu$. Taking
 				a single control variable $\condiscrete jl$, the variable can only
-				appear in constraints at time-step $j+1$ that correspond to a link
+				appear in the constraints at time-step $j+1$ that correspond to a link
 				that connects to a junction $\jn$ such that $\condiscrete jl\in\junccon{\jn}{l+1}$.
 				These conditions give us the expression for $\degree{\control}$ in~\eqref{eq:dv},
 				or the maximum cardinality over all columns in $\Hu$.
@@ -303,15 +306,11 @@ or for the composed Godunov junction flux solver $\god_{\jn}$:
 				with a complexity of $O(\left(\nlinks\ntime\right)^{2}+\left(\nlinks\ntime\right)\left(\ncontrols\ntime\right))$.
 								
 				For the adjoint method, this complexity can be improved upon by considering
-				the sparsity of the $\Hx$ and $\Hu$ matrices, as detailed in Section~\ref{par:Structure-and-sparsity}.
+				the sparsity of the $\Hx$ and $\Hu$ matrices, as detailed in Section~\ref{sub:Complexity-of-solving}.
 				For the backward-substitution step, each entry in the $\lambda$ vector
 				is solved by \emph{at most} $\degree{\state}$ multiplications, and
 				thus the complexity of solving~\eqref{eq:adjoint} is reduced to
 				$O(\degree{\state}\nlinks\ntime)$. Similarly, for the matrix multiplication
 				of $\lambda^{T}H_{v}$, while $\lambda$ is not necessarily sparse,
 				we know that each entry in the resulting vector requires at most $\degree{\control}$
-				multiplications, giving a complexity of $O(\degree{\control}\ncontrols\ntime)$. 
-				\begin{prop}
-					\textup{The total complexity for the adjoint method on a scalar hyperbolic
-						network of PDEs is }$O(\ntime\left(\degree{\state}\nlinks+\degree{\control}\ncontrols\right))$.\end{prop}
-				
+				multiplications, giving a complexity of $O(\degree{\control}\ncontrols\ntime)$. 				

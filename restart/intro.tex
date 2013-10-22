@@ -14,9 +14,9 @@ techniques exist for the control of conservation laws, such as, for example,
 backstepping~\cite{Coron2013}, Lyapunov-based methods~\cite{Coron2013}, and
 optimal control methods~\cite{Jacquet2006,Blanchard2013,Keller2013}.
 
-One such approach, known as the \textit{adjoint method}, as applied to 
+One such approach, known as the \textit{adjoint method}, as used in 
 optimal
-control and estimation of  PDE-constrained systems, can be applied in various
+control and estimation of  PDE-constrained systems, can be derived in various
 ways depending on the  framework of interest (PDE, discretization of the PDE,
 or code implementing the  discretization of the PDE). The continuous adjoint
 method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on
@@ -34,17 +34,17 @@ While the continuous adjoint formulation results in a compact formulation,
 better intuition into the system's sensitivities with respect to the objective, 
 and well-posedness of the control's solution (when it can be proved), it is 
 often difficult to derive for systems of hyperbolic nonlinear PDEs controlled 
-by boundary condition, when these boundary conditions have to be written in the 
+by boundary conditions, when these boundary conditions have to be written in the 
 weak sense.
 Additionally, the continuous adjoint must eventually be discretized in order to 
 produce numerical solutions for the optimization problem. Finally, the 
 differentiation of the forward PDE is sometimes problematic due to the lack of 
-regularity of the solution~\cite{work2010traffic,garavello2006traffic} which 
+regularity of the solution~\cite{garavello2006traffic,work2010traffic} which 
 makes the formal definition of the adjoint problem more difficult.
 The discrete adjoint approach derives the gradient directly from the 
 discretized system, thus avoiding working directly with weak boundary 
 conditions in the continuous 
-system~\cite{work2010traffic,garavello2006traffic,strub2006weak}.
+system~\cite{garavello2006traffic,work2010traffic,strub2006weak}.
 Automatic differentiation techniques can simplify the repetitive 
 steps of the discrete adjoint derivation, but sometimes at the cost of 
 sub-optimal code implementations with respect to memory and CPU 
@@ -83,7 +83,7 @@ the control policies would be applied.
 Alternatively, nonlinear optimization techniques can be applied to the 
 discretized system without any modification to the underlying dynamics. This 
 approach leads to more expensive optimization algorithms, such as gradient 
-descent, and no guarantee of finding a global optimum. The difficulty in this 
+descent, and no guarantee of finding a global optimum. One difficulty in this 
 approach comes in the computation of the gradient, which, if using finite 
 differences, requires a full forward-simulation for each perturbation of a 
 control parameter. This approach is taken in~\cite{Ramon2013,Frejo2011} to 
@@ -108,7 +108,7 @@ finite time horizon. Predictive methods are often embedded within a model
 predictive control loop to handle uncertainties in the boundary data and 
 cumulative model errors~\cite{Muralidharana}.
 
-The present article develops a framework for efficient control of discretized 
+This article develops a framework for efficient control of discretized 
 conservation law PDE networks using the adjoint 
 method~\cite{Giles2000,Pironneau1974} via Godunov 
 discretization~\cite{godunov1959}, while detailing its application to 
@@ -118,7 +118,7 @@ used to discretize hyperbolic PDEs. We show how the complexity of
 the gradient computation in nonlinear optimal control problems can be greatly 
 decreased by using the discrete adjoint method and exploiting the decoupling 
 nature of the problem's network structure, leading to efficient gradient 
-descent methods. After giving a general framework for computing the gradient 
+computation methods. After giving a general framework for computing the gradient 
 over the class of scalar conservation law networks, we show that the system's 
 partial derivatives have a sparsity structure resulting in gradient computation 
 times linear in the number of state and control variables for networks of small 
