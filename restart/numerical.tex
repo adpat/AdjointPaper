@@ -27,7 +27,7 @@ networks. Running ramp metering on even a network of 4 links over
 6 time-steps for 5 gradient steps took well over 4 minutes,
 rendering the method useless for real-time applications. The comparison
 of running times of finite differences versus the adjoint method is given in
-Figure~\ref{fig:Running-time-of}. We do not consider the finite differences in further results, due to the impractically large running times, which only becomes worse as the problem scales to larger networks and time horizons.
+Fig.~\ref{fig:Running-time-of}. We do not consider the finite differences in further results, due to the impractically large running times, which only becomes worse as the problem scales to larger networks and time horizons.
 \begin{figure}[H]
 \begin{centering}
 \includegraphics[width=0.5\columnwidth]{images/itergrad}
@@ -49,7 +49,7 @@ a \input{fwLength} stretch of the I15 South freeway in San Diego,
 California between San Marcos and Mira Mesa.The network has $\nlinks=125$ links, $\ncontrols=9$ on-ramps,
 with boundary data specified for $\ntime=1800$ time-steps,
 for a time horizon of 120 minutes given $\Delta t=$4 seconds.
-The network is shown in Figure~\ref{fig:Model-of-section}.
+The network is shown in Fig.~\ref{fig:Model-of-section}.
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.7\columnwidth]{images/map}
@@ -71,7 +71,7 @@ was taken from PeMS sensor data~\cite{Chen2003} during a morning rush hour perio
 scaled to generate congested conditions. The input data was chosen
 to demonstrate the effectiveness of the adjoint ramp metering method
 in a real-world setting. A profile of the mainline and on-ramps during
-a forward-simulation of the network is shown in Figure~\ref{fig:Density-and-queue}
+a forward-simulation of the network is shown in Fig.~\ref{fig:Density-and-queue}
 under the described boundary conditions.
 \begin{figure}
 \subfloat[Density profile. The units are the ratio of a link's vehicle density
@@ -120,10 +120,10 @@ c\left(S,T\right) = \sum_{\left(s\in S, \tau\in T\right)} \max \left[\text{TTT}\
 \end{figure}
 						
 						
-Figure~\ref{fig:long-sim} shows a difference profile for both density and queue lengths between the
+Fig.~\ref{fig:long-sim} shows a difference profile for both density and queue lengths between the
 no control simulation and the simulation applying the ramp metering
 policy generated from the adjoint method. Negative differences in
-Figures~\ref{fig:long-sim-density} and~\ref{fig:long-sim-queue}
+Figs.~\ref{fig:long-sim-density} and~\ref{fig:long-sim-queue}
 indicate where the adjoint method resulted in fewer vehicles for the
 specific link and time-step. The adjoint method was successful in
 appropriately deciding which ramps should be metered in order to improve
@@ -139,7 +139,7 @@ throughput for the mainline.
 								
 								
 Running time analysis shows that the adjoint method can produce beneficial
-results in real-time applications. Figure~\ref{fig:running-time} details the improvement of the adjoint method as a function of the overall running time of the algorithm. After just a few gradient steps, the
+results in real-time applications. Fig.~\ref{fig:running-time} details the improvement of the adjoint method as a function of the overall running time of the algorithm. After just a few gradient steps, the
 adjoint method outperforms the Alinea method. Given that the time
 horizon of two hours is longer than the period of time one can expect
 reasonably accurate boundary flow estimates, more practical simulations
@@ -199,7 +199,7 @@ Two different experiments were conducted:
 								
 \subparagraph{Real-time I15 South.}
 								
-The results are summarized in Figure~\ref{fig:MPC-performance-on}.
+The results are summarized in Fig.~\ref{fig:MPC-performance-on}.
 The adjoint method applied once to the entire horizon with perfect
 boundary and initial condition information serves as a baseline performance
 for the other simulations, which had noisy input data and limited
@@ -220,7 +220,7 @@ such as Alinea.
 \subparagraph{Robustness to noise.}
 								
 Simulation results on the synthetic network with varying levels of
-noise are shown in Figure~\ref{fig:Ramp-metering-performance-1}.
+noise are shown in Fig.~\ref{fig:Ramp-metering-performance-1}.
 The adjoint method is able to outperform the Alinea method when the
 noise level is less than 80\%, a reasonable assumption for data provided
 by well-maintained loop detectors. As the initial and boundary condition

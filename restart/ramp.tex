@@ -28,7 +28,7 @@ has no downstream mainline or on-ramp ($\splitratio_{2\nlinks}^{\tind}=0$).
 Each link $\link\in\links$ has a discretized state value $\densitydiscrete{\link}{\tind}\in\mathbb{R}$
 at each time-step $\tind\in\intrange 0{\ntime-1}$, that represents
 the density of vehicles on the link. These values are depicted in
-Figure~\ref{fig:Freeway-network-junction}. Junctions that have no
+Fig.~\ref{fig:Freeway-network-junction}. Junctions that have no
 on-ramps can be effectively represented by adding an on-ramp with no
 demand while junctions with no off-ramps can be represented by setting
 the split ratio to 1.
@@ -56,7 +56,7 @@ the split ratio to 1.
 		has a bounded domain $\left[0,\density^{\max}\right]$ and a maximum
 		flux value $F^{\max}$ attained at a critical density $\density^{c}:f\left(\density^{c}\right)=F^{\max}$.
 		We assume that the fundamental diagram has a trapezoidal form as depicted
-		in Figure~\ref{fig:Fundamental-diagram-with}. For the remainder
+		in Fig.~\ref{fig:Fundamental-diagram-with}. For the remainder
 		of the article, we instantiate the conservation law in~\eqref{eq:cons}
 		with the LWR equation as it applies to traffic flow modeling.\begin{wrapfigure}{o}{0.5\columnwidth}%
 		\begin{centering}
@@ -166,7 +166,7 @@ the split ratio to 1.
 			of the ``demand'' from upstream links and ``supply'' of the downstream
 			link. See~\cite{Monache2013} for more details on the model for this
 			equation. The flux out of link $2(\link-1)$ is split into three cases
-			in~\eqref{eq:merge}. The solutions are depicted in Figure~\ref{fig:Godunov-junction-flux},
+			in~\eqref{eq:merge}. The solutions are depicted in Fig.~\ref{fig:Godunov-junction-flux},
 			which demonstrates how the flux solution depends upon the respective
 			demands and the merging parameter $p_{2\left(\link-1\right)}$. Finally,
 			Equation~\eqref{eq:last-ramp} gives the flux out of the on-ramp $2\link-1$,

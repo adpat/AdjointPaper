@@ -107,7 +107,7 @@ and $\Out\left(\jn\right)=\left(\ninc+1,\ldots,\ninc+\nout\right)$.
 \begin{rem}
 There is redundancy in the labeling of the junctions, if link
 $i$ is directly upstream of link $j$, then we have $\jdown{\link}=\jup j$.
-See Figure~\ref{fig:Space-discretization-for}.
+See Fig.~\ref{fig:Space-discretization-for}.
 \end{rem}
 While the dynamics on each link $\cvar_{\link}\left(t,x\right)$ is
 determined by~(\ref{eq:cauchy-i}), the dynamics at junctions
@@ -155,7 +155,7 @@ $x<0$ is given by the solution to the following Riemann problem:
 
 The Riemann problem for an outgoing link is defined similarly, with
 the exception that $\cvar_{\link}\left(0,x>0\right)=\initstate_{\link}$
-and $\cvar_{\link}\left(0,x\le0\right)=\trace{\cvar}_{\link}$. Figure~\ref{fig:Solution-of-boundary}
+and $\cvar_{\link}\left(0,x\le0\right)=\trace{\cvar}_{\link}$. Fig.~\ref{fig:Solution-of-boundary}
 gives a depiction of Riemann solution at the junction.%
 %\footnote{The assumption of an unbounded spatial domain is to eliminate the
 %need to explicitly consider boundary conditions away from the junction,
@@ -252,7 +252,7 @@ where $g^{G}$ is the Godunov numerical flux given by
 %For a function $\dvar$ defined at the grid we write $\discrete{\xind}{\tind}=\dvar(t^{\tind},\xdis{\xind})$
 %for $\tind,\xind$ varying on a subset of $\mathbb{N}$ and $\mathbb{Z}$.
 %The space discretization scheme is depicted for a link $\link\in\links$
-%in Figure~\ref{fig:Space-discretization-for}
+%in Fig.~\ref{fig:Space-discretization-for}
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.6\columnwidth]{figs-gen/dx}
@@ -287,7 +287,7 @@ the state between $x^{\xind-1}$ and $x^{\xind}$.\label{fig:Space-discretization-
 %\[
 %f(\cvar(t,\xdis{\xind}))=f(W_{R}(0;\discrete{\xind}{\tind},\discrete{\xind+1}{\tind})).
 %\]
-%This flux solution is depicted in Figure~\ref{fig:Self-similar-solution-for}
+%This flux solution is depicted in Fig.~\ref{fig:Self-similar-solution-for}
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.5\columnwidth]{figs-gen/dx-to-riemann}
@@ -328,7 +328,7 @@ we have:
 \begin{align*}
 \discrete{\length_{\link}^{\Delta}}{\tind+1}=\discrete{\length_{\link}^{\Delta}}{\tind}-\dfrac{\Delta t}{\Delta x}(f(\trace{\dvar}_{\length_{\link}^{\Delta}}^{\tind})-\god(\discrete{L_{i}^{\Delta}-1}{\tind},\discrete{L_{i}^{\Delta}}{\tind})), &  & \link\in\left\{ 1,\ldots,\ninc\right\} 
 \end{align*}
-where $L_i^{\Delta}$ are the number of cells for link $i$ (see Figure~\ref{fig:Space-discretization-for}) and $\hat{\dvar}_{i}^{\tind}$ is the solution of the Riemann solver
+where $L_i^{\Delta}$ are the number of cells for link $i$ (see Fig.~\ref{fig:Space-discretization-for}) and $\hat{\dvar}_{i}^{\tind}$ is the solution of the Riemann solver
 $\RS\tuple{\discrete 1{\tind}}{\discrete{\ninc+\nout}{\tind}}$ for
 link $\link$ at the junction. The same can be done for the outgoing
 links: 
