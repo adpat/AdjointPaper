@@ -131,7 +131,15 @@ indicate where the adjoint method resulted in fewer vehicles for the
 specific link and time-step. The adjoint method was successful in
 appropriately deciding which ramps should be metered in order to improve
 throughput for the mainline.
-								
+
+\begin{figure}
+\centering
+	\includegraphics[width=0.45\columnwidth]{images/longsim}
+	\caption{Reduced congestion versus simulation time for freeway network. The results
+		indicate that the algorithm can run with performance better than Alinea
+		if given an update time of less than a minute.}
+		\label{fig:running-time}
+\end{figure}
 								
 Running time analysis shows that the adjoint method can produce beneficial
 results in real-time applications. Fig.~\ref{fig:running-time} details the improvement of the adjoint method as a function of the overall running time of the algorithm. After just a few gradient steps, the
@@ -146,15 +154,6 @@ maximum queue length. The Alinea method tested for the I15 network
 had no prescribed maximum queue lengths as well, but was not able
 to produce significant improvements in total travel time reduction, while the adjoint method was
 more successful.
-
-\begin{wrapfigure}{o}{0.5\columnwidth}
-\begin{centering}
-	\includegraphics[width=0.45\columnwidth]{images/longsim}
-	\par\end{centering}
-	\caption{Reduced congestion versus simulation time for freeway network. The results
-		indicate that the algorithm can run with performance better than Alinea
-		if given an update time of less than a minute.}\label{fig:running-time}
-\end{wrapfigure}
 								
 								
 \subsection{Model Predictive Control\label{sub:Model-predictive-control}}
@@ -201,9 +200,8 @@ Two different experiments were conducted:
 								
 \paragraph{Results.}
 								
-\subparagraph{Real-Time I15 South.}
-								
-The results are summarized in Fig.~\ref{fig:MPC-performance-on}.
+% \subparagraph{Real-Time I15 South.}
+\textbf{Real-Time I15 South.} The results are summarized in Fig.~\ref{fig:MPC-performance-on}.
 The adjoint method applied once to the entire horizon with perfect
 boundary and initial condition information serves as a baseline performance
 for the other simulations, which had noisy input data and limited
@@ -220,10 +218,9 @@ such as Alinea.
 	}
 	\caption{Summary of model predictive control simulations. The results indicate that the adjoint method has superior performance for moderate noise levels on the initial and boundary conditions.}
 \end{figure}
-								
-\subparagraph{Robustness to Noise.}
-								
-Simulation results on the synthetic network with varying levels of
+
+% \subparagraph{Robustness to Noise.}																
+\textbf{Robustness to Noise.} Simulation results on the synthetic network with varying levels of
 noise are shown in Fig.~\ref{fig:Ramp-metering-performance-1}.
 The adjoint method is able to outperform the Alinea method when the
 noise level is less than 80\%, a reasonable assumption for data provided

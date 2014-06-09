@@ -9,7 +9,11 @@ ZIPFILE=paper.tar.gz
 
 all: $(PAPER)
 
+pullbib:
+	cp /Users/jdr/Documents/articles/AdjointPaper.bib .
+
 $(PAPER): figures presfigs $(SRC)
+	make pullbib
 	pdflatex $(NAME);
 	biber $(NAME)
 	pdflatex $(NAME);
@@ -22,7 +26,6 @@ clean:
 	rm -f *aux
 	rm -f *bbl
 	rm -f *blg
-	rm -rf *gz
 	rm -f *bak*
 
 auxclean: clean
@@ -35,7 +38,7 @@ auxclean: clean
 	rm -rf *blg
 
 zip: all
-	tar -czf $(ZIPFILE) .
+	tar -czpvf $(ZIPFILE) .
 
 
 dumpzip: zip
@@ -77,7 +80,7 @@ put:
 	rsync $(putswitches) $(switches) $(syncfileLocal) $(remoteuser)@$(remotehost):$(remotedir)$(sd)/
 	@echo
 
-.PHONY: put
+.PHONY: put all
 
 checkpoint: figures presfigs git
 
