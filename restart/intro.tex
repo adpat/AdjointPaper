@@ -2,6 +2,7 @@
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
+In  this paper, we propose a descrete adjoint approach to compute optimal ramp-metering stategies on road networks modeled by conservation laws.
 Networks of one-dimensional conservation laws,
 described by systems of nonlinear first-order hyperbolic \textit{partial
 differential equations}~(PDEs), are an efficient framework for modeling
@@ -13,12 +14,12 @@ research~\cite{Gugat2005,Bayen2006,Kotsialos2004}. More generally, numerous
 techniques exist for the control of conservation laws, such as, for example,
 backstepping~\cite{Coron2013,Glass2007}, Lyapunov-based methods~\cite{Coron2013}, and
 optimal control methods~\cite{Jacquet2006,Blanchard2013,Keller2013}.
+In particular, a common  approach is to compute the gradient of the cost functional via the \textit{adjoint method} [{\it some refs??}].
+Nevertheless, its implementation in the framework of nonlinear conservation laws presents several difficulties linked to the discontinuous  character of the solutions. In particular, the presence of shocks in the solutions requires a careful sensitivity analysis based on the use of shift-differentials, see [Bressan-Marson;  S. Ulbrich, A sensitivity and adjoint calculus for discontinuous solutions of hyperbolic
+conservation laws with source terms, SIAM J. Control Optim., 41 (2002), pp. 740-797; S. Ulbrich, Adjoint-based derivative computations for the optimal control of discontinuous
+solutions of hyperbolic conservation laws, Systems Control Lett., 48 (2003), pp. 313-328.]
 
-One such approach, known as the \textit{adjoint method}, as used in 
-optimal
-control and estimation of  PDE-constrained systems, can be derived in various
-ways depending on the  framework of interest (PDE, discretization of the PDE,
-or code implementing the  discretization of the PDE). The continuous adjoint
+Extensive study has also been conducted on the choice of the method for effectively computing the gradient. In particular, the continuous adjoint
 method~\cite{Jacquet2005,Gugat2005,Moin1994,Reuther1996} operates directly on
 the PDE and a so-called adjoint PDE system, which when solved can be used to
 obtain an explicit  expression of the gradient of the underlying optimization
@@ -30,26 +31,40 @@ uses  automatic differentiation techniques to automatically generate an
 adjoint  solver from the numerical representation of the forward
 system~\cite{Muller2005,Giering1998}.
 
-While the continuous adjoint formulation results in a compact formulation, 
-better intuition into the system's sensitivities with respect to the objective, 
-and well-posedness of the control's solution (when it can be proved), it is 
-often difficult to derive for systems of hyperbolic nonlinear PDEs controlled 
-by boundary conditions, when these boundary conditions have to be written in the 
-weak sense.
-Additionally, the continuous adjoint must eventually be discretized in order to 
-produce numerical solutions for the optimization problem. Finally, the 
-differentiation of the forward PDE is sometimes problematic due to the lack of 
-regularity of the solution~\cite{garavello2006traffic,work2010traffic} which 
-makes the formal definition of the adjoint problem more difficult.
-The discrete adjoint approach derives the gradient directly from the 
+It is well known that the numerical treatment of the adjoint method imposes a careful choice of the scheme to avoid the introduction of numerical errors  at discontinuities [Giles, Discrete adjoint approximations with shocks].
+Rigorous convergence results for optimization problems have been provided  for Lax-Friedichs type schemes [Giles-Ulbrich, SIAM 2012] and relaxation methods [Banda-Herty, COAP 2010].
+The case of road networks in free flow conditions is addressed in [MR2164806].
+In our more general setting, the presence of juction conditions modeling the onramp and offramp dynamics imposes the use of a modified Godunov scheme that precisely takes into account the flows at the network nodes. Moreover, general existence and stability results for the corresponding system of equations modeling traffic evolution on the network are still missing at the moment.
+Therefore, establishing rigorous convergence results for the gradient computation in this framework is out of the scope of this paper. Here we made the choice of the discrete adjoint approach, which derives the gradient directly from the 
 discretized system, thus avoiding working directly with weak boundary 
 conditions in the continuous 
 system~\cite{garavello2006traffic,work2010traffic,strub2006weak}.
-Automatic differentiation techniques can simplify the repetitive 
-steps of the discrete adjoint derivation, but sometimes at the cost of 
-sub-optimal code implementations with respect to memory and CPU 
-consumption~\cite{Giles}. A more-detailed analysis of the trade-offs associated 
-with each method is given in~\cite{Giles}.
+ 
+
+
+
+
+
+%While the continuous adjoint formulation results in a compact formulation, 
+%better intuition into the system's sensitivities with respect to the objective, 
+%and well-posedness of the control's solution (when it can be proved), it is 
+%often difficult to derive for systems of hyperbolic nonlinear PDEs controlled 
+%by boundary conditions, when these boundary conditions have to be written in the 
+%weak sense.
+%Additionally, the continuous adjoint must eventually be discretized in order to 
+%produce numerical solutions for the optimization problem. Finally, the 
+%differentiation of the forward PDE is sometimes problematic due to the lack of 
+%regularity of the solution~\cite{garavello2006traffic,work2010traffic} which 
+%makes the formal definition of the adjoint problem more difficult.
+%The discrete adjoint approach derives the gradient directly from the 
+%discretized system, thus avoiding working directly with weak boundary 
+%conditions in the continuous 
+%system~\cite{garavello2006traffic,work2010traffic,strub2006weak}.
+%Automatic differentiation techniques can simplify the repetitive 
+%steps of the discrete adjoint derivation, but sometimes at the cost of 
+%sub-optimal code implementations with respect to memory and CPU 
+%consumption~\cite{Giles}. A more-detailed analysis of the trade-offs associated 
+%with each method is given in~\cite{Giles}.
 
 There exist many applications of the adjoint method for control, optimization 
 and estimation of physical systems in engineering. Shape optimization of 
