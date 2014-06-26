@@ -1,0 +1,17 @@
+\frametitle{Hyperbolic PDE's}
+A conservation law in one space dimension can written in the form:
+
+
+\begin{equation}
+\pfrac{\cvar\left(t,x\right)}t+\pfrac{f\left(\cvar\left(t,x\right)\right)}x=0
+\end{equation}
+
+
+A Cauchy problem wants solution to:
+
+\begin{equation}
+\begin{cases}
+\cvar_{t}+f\left(\cvar\right)_{x} & =0\\
+\cvar\left(0,x\right) & =\cvar_{0}\left(x\right)
+\end{cases}
+\end{equation}
