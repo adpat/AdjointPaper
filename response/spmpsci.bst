@@ -381,12 +381,15 @@ FUNCTION {bibinfo.warn}
     }
   if$
 }
+FUNCTION {format.issn}
+{ }
 FUNCTION {format.url}
-{ url empty$
-    { "" }
-    { "\urlprefix\url{" url * "}" * }
-  if$
+{ 
 }
+FUNCTION {format.doi}
+{ 
+}
+
 
 STRINGS  { bibinfo}
 INTEGERS { nameptr namesleft numnames }
@@ -1460,8 +1463,6 @@ FUNCTION {presort}
   #1 entry.max$ substring$
   'sort.key$ :=
 }
-ITERATE {presort}
-SORT
 STRINGS { longest.label }
 INTEGERS { number.label longest.label.width }
 FUNCTION {initialize.longest.label}
